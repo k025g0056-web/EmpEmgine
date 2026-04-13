@@ -5,6 +5,9 @@ void EmpEngine::Initialize() {
 	instance_ = new EmpEngine();
 	instance_->WindowInitialize();
 	instance_->LogInitialize();
+	instance_->DXGIInitialize();
+	instance_->DecideAdapter();
+	instance_->GenerateDevice();
 }
 
 void EmpEngine::WindowInitialize() {
@@ -66,6 +69,52 @@ void EmpEngine::LogInitialize() {
 	Log(logStream, "Log start");
 }
 
+void EmpEngine::DXGIInitialize() {
+	hr_ = CreateDXGIFactory(IID_PPV_ARGS(&dxgiFactory_));
+	//初期化の根本的な部分でエラーが出た場合はプログラムが間違っているか、
+	// どうにも出来ない場合が多いのでassertにしておく
+	assert(SUCCEEDED(hr_));
+}
+
+void EmpEngine::DecideAdapter() {
+	//良い順にアダプタを組む
+	for (UINT i = 0; dxgiFactory_->EnumAdapterByGpuPreference(i,
+		DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, IID_PPV_ARGS(&useAdapter_)) !=
+		DXGI_ERROR_NOT_FOUND; ++i) {
+		//アダプターの情報を取得する
+		DXGI_ADAPTER_DESC3 adapterDesc{};
+		hr_ = useAdapter_->GetDesc3(&adapterDesc);
+		assert(SUCCEEDED(hr_));//取得できないのは一大事
+		//ソフトウェアアダプタでなければ採用‼
+		if (!(adapterDesc.Flags&DXGI_ADAPTER_FLAG3_SOFTWARE)) {
+			//採用したアダプタの情報をログに出力。wstringの方なので注意
+			Log(std::format(L"USE Adapter:{}\n", adapterDesc.Description));
+			break;
+		}
+
+		useAdapter_ = nullptr;//ソフトウェアの場合は見なかったことにする
+	}
+
+	//適切なアダプタがみつからなかったので起動できない
+	assert(useAdapter_ != nullptr);
+}
+
+void EmpEngine::GenerateDevice() {
+	//機能レベルとログ出力用の文字列
+	D3D_FEATURE_LEVEL featureLevels[] = {
+		D3D_FEATURE_LEVEL_12_2,D3D_FEATURE_LEVEL_12_1,D3D_FEATURE_LEVEL_12_0
+	};
+
+	const char* featureLevelStrings[] = { "12.2","12.1","12.0" };
+	//高い順に生成できるか試していく
+	for (size_t i = 0; i < _countof(featureLevels); ++i) {
+		//採用したアダプターでデバイスを生成
+		hr_ = D3D12CreateDevice(useAdapter_, featureLevels[i], IID_PPV_ARGS(&device_));
+
+	}
+
+}
+
 int EmpEngine::ProcessMessage() {
 	MSG msg{};
 	//Windowにメッセージが来ていたら最優先で処理させる
@@ -91,6 +140,10 @@ void EmpEngine::Log(const std::string& message) {
 void EmpEngine::Log(std::ofstream& os, const std::string& message) {
 	os << message << std::endl;
 	OutputDebugStringA(message.c_str());
+}
+
+void EmpEngine::Log(const std::wstring& message) {
+	OutputDebugStringW(message.c_str());
 }
 
 LRESULT CALLBACK EmpEngine::WindowProc(HWND hwnd,UINT msg,WPARAM wparam, LPARAM lparam) {
