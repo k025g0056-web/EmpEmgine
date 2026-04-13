@@ -60,6 +60,10 @@ void __stdcall EmpEngine::DebugPrint(LPCSTR lpOutputStrings) {
 	OutputDebugStringA(lpOutputStrings);
 }
 
+void EmpEngine::Log(const std::string& message) {
+	OutputDebugStringA(message.c_str());
+}
+
 LRESULT CALLBACK EmpEngine::WindowProc(HWND hwnd,UINT msg,WPARAM wparam, LPARAM lparam) {
 	//メッセージに応じてゲーム固有の処理を行う
 	switch (msg){
@@ -72,4 +76,9 @@ LRESULT CALLBACK EmpEngine::WindowProc(HWND hwnd,UINT msg,WPARAM wparam, LPARAM 
 
 	//標準のメッセージ
 	return DefWindowProc(hwnd, msg, wparam, lparam);
+}
+
+void EmpEngine::Finalize() {
+	delete instance_;
+	instance_ = nullptr;
 }

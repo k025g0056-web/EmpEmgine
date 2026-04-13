@@ -3,9 +3,11 @@
 //Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	EmpEngine::Initialize();
+	EmpEngine::Log("hjkl;");
 	while (EmpEngine::ProcessMessage()==0){
 
 	}
 
+	EmpEngine::Finalize();
 	return 0;
 }

@@ -2,6 +2,8 @@
 #define WIN32_LEAN_AND_MEAN
 #include<Windows.h>
 #include<cstdint>
+#include<string>
+#include<format>
 
 class EmpEngine {
 	void WindowInitialize();
@@ -15,6 +17,8 @@ class EmpEngine {
 public:
 	static void Initialize();
 	static int ProcessMessage();
+	static void Log(const std::string& message);
+	static void Finalize();
 
 private:
 	//クライアントの領域サイズ
