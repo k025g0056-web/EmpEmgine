@@ -1,7 +1,11 @@
-#include<Windows.h>
+#include"EmpEngine.h"
 
 //Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
-	OutputDebugStringA("Hello DirectX\n");
+	EmpEngine::Initialize();
+	while (EmpEngine::ProcessMessage()==0){
+
+	}
+
 	return 0;
 }

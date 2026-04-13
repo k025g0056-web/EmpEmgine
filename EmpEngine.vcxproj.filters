@@ -5,5 +5,27 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="EmpEngine.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="MyWindow.cpp">
+      <Filter>Engine\WIndpw</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{c6132ddf-411a-437c-8e37-17a531cba6ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\WIndpw">
+      <UniqueIdentifier>{025222b6-dd73-4d40-b851-9fcbc70b59d5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="EmpEngine.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="MyWindow.h">
+      <Filter>Engine\WIndpw</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

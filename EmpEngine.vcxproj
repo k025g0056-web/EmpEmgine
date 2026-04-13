@@ -82,7 +82,13 @@
     <None Include=".editorconfig" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EmpEngine.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MyWindow.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="EmpEngine.h" />
+    <ClInclude Include="MyWindow.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
