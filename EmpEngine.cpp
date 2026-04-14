@@ -137,7 +137,7 @@ int EmpEngine::ProcessMessage() {
 	return 0;
 }
 
-void __stdcall EmpEngine::DebugPrint(LPCSTR lpOutputStrings) {
+void CALLBACK EmpEngine::DebugPrint(LPCSTR lpOutputStrings) {
 	OutputDebugStringA(lpOutputStrings);
 }
 

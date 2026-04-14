@@ -20,7 +20,7 @@ class EmpEngine {
 	void DecideAdapter();
 	void GenerateDevice();
 	static LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
-	void __stdcall DebugPrint(LPCSTR lpOutputStrings);
+	void CALLBACK DebugPrint(LPCSTR lpOutputStrings);
 	void Log(std::ofstream& os,const std::string& message);
 
 	WNDCLASS wc_;
