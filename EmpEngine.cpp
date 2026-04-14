@@ -110,9 +110,17 @@ void EmpEngine::GenerateDevice() {
 	for (size_t i = 0; i < _countof(featureLevels); ++i) {
 		//採用したアダプターでデバイスを生成
 		hr_ = D3D12CreateDevice(useAdapter_, featureLevels[i], IID_PPV_ARGS(&device_));
-
+		//指定した機能レベルでデバイスが生成出来たかを確認
+		if (SUCCEEDED(hr_)) {
+			//生成出来たのでログ出力を行ってループを抜ける
+			Log(std::format("FeatureLevel:{}\n", featureLevelStrings[i]));
+			break;
+		}
 	}
 
+	//デバイスの生成が上手く行かなかったので起動できない
+	assert(device_ != nullptr);
+	Log("Complete create D3D12Device!!!\n");
 }
 
 int EmpEngine::ProcessMessage() {
