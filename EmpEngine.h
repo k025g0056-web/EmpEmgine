@@ -12,6 +12,10 @@
 #include<cassert>
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
+//Debug用のあれやこれやを使えるようにする
+#include<Dbghelp.h>
+#pragma comment(lib,"Dbghelp.lib")
+#include<strsafe.h>
 
 class EmpEngine {
 	void WindowInitialize();
@@ -20,6 +24,7 @@ class EmpEngine {
 	void DecideAdapter();
 	void GenerateDevice();
 	static LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
+	static LONG WINAPI ExportDump(EXCEPTION_POINTERS* exception);
 	void CALLBACK DebugPrint(LPCSTR lpOutputStrings);
 	void Log(std::ofstream& os,const std::string& message);
 
