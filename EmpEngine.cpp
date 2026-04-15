@@ -11,6 +11,8 @@ void EmpEngine::Initialize() {
 	instance_->DXGIInitialize();
 	instance_->DecideAdapter();
 	instance_->GenerateDevice();
+	instance_->GenerateCommandQueue();
+	instance_->GenerateCommandList();
 }
 
 void EmpEngine::WindowInitialize() {
@@ -146,6 +148,24 @@ LONG WINAPI EmpEngine::ExportDump(EXCEPTION_POINTERS* exception) {
 	MiniDumpWriteDump(GetCurrentProcess(), processId, dumpFileHandle, MiniDumpNormal, &minidumpInformation, nullptr, nullptr);
 	//他に関連づけられているSEH例外ハンドラがあれば実行。通常はプロセスを終了する
 	return EXCEPTION_EXECUTE_HANDLER;
+}
+
+void EmpEngine::GenerateCommandQueue() {
+	//コマンドキューの生成
+	commandQueueDesc_={};
+	hr_ = device_->CreateCommandQueue(&commandQueueDesc_, IID_PPV_ARGS(&commandQueue_));
+	//コマンドキューの生成が上手く行かなかったので実行出来ない
+	assert(SUCCEEDED(hr_));
+}
+
+void EmpEngine::GenerateCommandList() {
+	hr_ = device_->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&commandAllocator_));
+	//コマンドアロケーターの生成がうまくいかなかったので生成できない
+	assert(SUCCEEDED(hr_));
+
+	hr_ = device_->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, commandAllocator_, nullptr, IID_PPV_ARGS(&commandList_));
+	//コマンドリストの生成が上手く行かなかったので起動できない
+	assert(SUCCEEDED(hr_));
 }
 
 int EmpEngine::ProcessMessage() {

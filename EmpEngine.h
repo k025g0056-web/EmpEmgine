@@ -23,6 +23,8 @@ class EmpEngine {
 	void DXGIInitialize();
 	void DecideAdapter();
 	void GenerateDevice();
+	void GenerateCommandQueue();
+	void GenerateCommandList();
 	static LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 	static LONG WINAPI ExportDump(EXCEPTION_POINTERS* exception);
 	void CALLBACK DebugPrint(LPCSTR lpOutputStrings);
@@ -31,6 +33,7 @@ class EmpEngine {
 	WNDCLASS wc_;
 	RECT wrc_;
 	HWND hwnd_;
+	D3D12_COMMAND_QUEUE_DESC commandQueueDesc_;
 
 	//HRESULはWindows系のエラーコードであり、
 	//関数が成功したかどうかをSucceedマクロで判定できる
@@ -57,5 +60,15 @@ private:
 	//使用するアダプタ用の変数。最初にnullptrを入れておく
 	IDXGIAdapter4* useAdapter_ = nullptr;
 
+	//デバイスの生成
 	ID3D12Device* device_ = nullptr;
+
+	//コマンドキューの生成
+	ID3D12CommandQueue* commandQueue_ = nullptr;
+
+	//コマンドアロケータの生成
+	ID3D12CommandAllocator* commandAllocator_ = nullptr;
+
+	//コマンドリストの生成
+	ID3D12GraphicsCommandList* commandList_ = nullptr;
 };
