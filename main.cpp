@@ -1,7 +1,8 @@
 #include<Windows.h>
 
 //Windowsアプリでのエントリーポイント(main関数)
-int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
-	OutputDebugStringA("Hello DirectX\n");
+int WINAPI WinMain(_In_ HINSTANCE, _In_ HINSTANCE,_In_ LPSTR,_In_ int) {
+	//出力ウィンドウへの文字出力
+	OutputDebugStringA("Hello,DirectX!\n");
 	return 0;
 }
