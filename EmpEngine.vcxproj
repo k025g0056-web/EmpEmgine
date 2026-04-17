@@ -82,13 +82,26 @@
     <None Include=".editorconfig" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ClashHandler.cpp" />
     <ClCompile Include="EmpEngine.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MyWindow.cpp" />
+    <ClCompile Include="ManagementCommand.cpp" />
+    <ClCompile Include="ManagementDescriptorHeap.cpp" />
+    <ClCompile Include="ManagementDevice.cpp" />
+    <ClCompile Include="ManagementDXGIFactory.cpp" />
+    <ClCompile Include="ManagementLog.cpp" />
+    <ClCompile Include="ManagementSwapChain.cpp" />
+    <ClCompile Include="managementWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ClashHandler.h" />
     <ClInclude Include="EmpEngine.h" />
-    <ClInclude Include="MyWindow.h" />
+    <ClInclude Include="ManagementCommand.h" />
+    <ClInclude Include="ManagementDevice.h" />
+    <ClInclude Include="ManagementDXGIFactory.h" />
+    <ClInclude Include="ManagementSwapChain.h" />
+    <ClInclude Include="managementWindow.h" />
+    <ClInclude Include="ManagementLog.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
