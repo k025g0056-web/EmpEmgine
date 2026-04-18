@@ -97,6 +97,7 @@
     <ClInclude Include="ClashHandler.h" />
     <ClInclude Include="EmpEngine.h" />
     <ClInclude Include="ManagementCommand.h" />
+    <ClInclude Include="ManagementDescriptorHeap.h" />
     <ClInclude Include="ManagementDevice.h" />
     <ClInclude Include="ManagementDXGIFactory.h" />
     <ClInclude Include="ManagementSwapChain.h" />
