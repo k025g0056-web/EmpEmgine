@@ -18,7 +18,7 @@ class EmpEngine {
 	WNDCLASS wc_;
 	RECT wrc_;
 	HWND hwnd_;
-
+	std::ofstream logStream_;
 public:
 	static void Initialize();
 	static int ProcessMessage();

@@ -59,11 +59,11 @@ void EmpEngine::LogInitialize() {
 	//formatを使って年月日_時分秒の文字列に変換
 	std::string dateString = std::format("{:%Y%m%d_%H%M%S}", localTime);
 	//時刻を使ってファイル名を決定
-	std::string logFilePath = std::string("logs/") + dateString + "log";
+	std::string logFilePath = std::string("logs/") + dateString + ".log";
 	//ファイルを作って書き込み準備
-	std::ofstream logStream(logFilePath);
+	logStream_.open(logFilePath);
 
-	Log(logStream, "Log start");
+	Log(logStream_, "Log start");
 }
 
 int EmpEngine::ProcessMessage() {
@@ -85,6 +85,7 @@ void __stdcall EmpEngine::DebugPrint(LPCSTR lpOutputStrings) {
 }
 
 void EmpEngine::Log(const std::string& message) {
+	instance_->logStream_ << message << std::endl;
 	OutputDebugStringA(message.c_str());
 }
 
