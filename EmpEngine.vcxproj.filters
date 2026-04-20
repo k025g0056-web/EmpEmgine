@@ -12,7 +12,7 @@
       <Filter>Engine\Manegement\ManagementWindow</Filter>
     </ClCompile>
     <ClCompile Include="ManagementLog.cpp">
-      <Filter>Engine\Manegement\ManagementDXGIFactory\ManagementLog</Filter>
+      <Filter>Engine\Manegement\ManagementLog</Filter>
     </ClCompile>
     <ClCompile Include="ManagementDXGIFactory.cpp">
       <Filter>Engine\Manegement\ManagementDXGIFactory</Filter>
@@ -61,11 +61,11 @@
     <Filter Include="Engine\Manegement\ManagementSwapChain">
       <UniqueIdentifier>{da3a9dde-9169-4496-bada-fbcee120d9eb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Manegement\ManagementDXGIFactory\ManagementLog">
-      <UniqueIdentifier>{1d29e322-d123-469e-ba05-516163cc10ed}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Manegement\ManagementDescriptorHeap">
       <UniqueIdentifier>{62eb3e34-e72e-4b05-9657-61a50eb0d58f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\ManagementLog">
+      <UniqueIdentifier>{1d29e322-d123-469e-ba05-516163cc10ed}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -76,7 +76,7 @@
       <Filter>Engine\Manegement\ManagementWindow</Filter>
     </ClInclude>
     <ClInclude Include="ManagementLog.h">
-      <Filter>Engine\Manegement\ManagementDXGIFactory\ManagementLog</Filter>
+      <Filter>Engine\Manegement\ManagementLog</Filter>
     </ClInclude>
     <ClInclude Include="ManagementDXGIFactory.h">
       <Filter>Engine\Manegement\ManagementDXGIFactory</Filter>
@@ -92,6 +92,9 @@
     </ClInclude>
     <ClInclude Include="ManagementSwapChain.h">
       <Filter>Engine\Manegement\ManagementSwapChain</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagementDescriptorHeap.h">
+      <Filter>Engine\Manegement\ManagementDescriptorHeap</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -21,6 +21,8 @@ void EmpEngine::InitializeImpl(int kWindowWidth,int kWindowHeight) {
 	managementDXGIFactory_.DecideAdapter();
 	managementDevice_.CreateDevice(managementDXGIFactory_.GetUseAdapter());
 	managementCommand_.Initialize(managementDevice_.GetDevice());
+	managementSwapChain_.Initialize(kWindowWidth, kWindowHeight, managementCommand_.GetCommandQueue(), managementWindow_.GetHwnd(0), managementDXGIFactory_.GetDXGIFactory());
+	managementDescriptHeap_.Initialize(managementDevice_.GetDevice(),managementSwapChain_.GetSwapChain());
 }
 
 int EmpEngine::ProcessMessage() {
@@ -56,4 +58,14 @@ void EmpEngine::SetWindowSize(int index,int windowWidth,int windowHeight) {
 
 void EmpEngine::SetWindowSizeImpl(int index,int windowWidth,int windowHeight) {
 	managementWindow_.SetWindowSize(index, windowWidth, windowHeight);
+}
+
+void EmpEngine::BeginImpl() {
+
+	managementCommand_.LoadCommand(managementSwapChain_.GetSwapChain(), managementDescriptHeap_.GetRtvHandles());
+	managementCommand_.KickCommand(managementSwapChain_.GetSwapChain());
+}
+
+void EmpEngine::Begin() {
+	GetInstance().BeginImpl();
 }

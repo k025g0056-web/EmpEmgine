@@ -6,6 +6,8 @@
 #include"ManagementDXGIFactory.h"
 #include"ManagementDevice.h"
 #include"ManagementCommand.h"
+#include"ManagementSwapChain.h"
+#include"ManagementDescriptorHeap.h"
 
 class EmpEngine {
 public:
@@ -13,6 +15,7 @@ public:
 	static int ProcessMessage();
 	static void SetWindowSize(int index, int windowWidth, int windowHeight);
 	static void Finalize();
+	static void Begin();
 
 private:
 	static EmpEngine& GetInstance();
@@ -20,7 +23,7 @@ private:
 	int ProcessMessageImpl();
 	void SetWindowSizeImpl(int index, int windowWidth, int windowdHeight);
 	void FinalizeImpl();
-
+	void BeginImpl();
 private:
 	
 	//初期化用のインスタンス
@@ -30,4 +33,6 @@ private:
 	ManagementDXGIFactory managementDXGIFactory_;
 	ManagementDevice managementDevice_;
 	ManagementCommand managementCommand_;
+	ManagementSwapChain managementSwapChain_;
+	ManagementDescriptorHeap managementDescriptHeap_;
 };

@@ -12,4 +12,5 @@ class ManagementSwapChain {
 public:
 	void Initialize(int windowWidth,int windowHeight, ID3D12CommandQueue* comanndQueue,HWND hwnd, IDXGIFactory7* dxgiFactory);
 
+	IDXGISwapChain4* GetSwapChain() const{ return swapChain_; }
 };

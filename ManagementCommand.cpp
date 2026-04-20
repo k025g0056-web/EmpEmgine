@@ -15,3 +15,27 @@ void ManagementCommand::Initialize(ID3D12Device* device) {
 	//コマンドリストの生成が上手く行かなかったので起動できない
 	assert(SUCCEEDED(hr_));
 }
+
+void ManagementCommand::LoadCommand(IDXGISwapChain4* swapChain,D3D12_CPU_DESCRIPTOR_HANDLE* rtvHandles) {
+	//これから書き込むバックバッファのインデックスを取得
+	UINT backBufferIndex = swapChain->GetCurrentBackBufferIndex();
+	//描画先のRTVを設定する
+	commandList_->OMSetRenderTargets(1, &rtvHandles[backBufferIndex], false, nullptr);
+	//指定した色で画面全体をクリアする
+	commandList_->ClearRenderTargetView(rtvHandles[backBufferIndex], clearColor_, 0, nullptr);
+	//コマンドリストの内容を確定させる。全てのコマンドを積んでからCloseすること
+	HRESULT hr = commandList_->Close();
+	assert(SUCCEEDED(hr));
+}
+
+void ManagementCommand::KickCommand(IDXGISwapChain4* swapChain) {
+	ID3D12CommandList* commandLists[] = { commandList_.Get() };
+	commandQueue_->ExecuteCommandLists(1, commandLists);
+	//GPUとOSに画面の交換を行うように通知する
+	swapChain->Present(1, 0);
+	//次フレーム用のコマンドリストを準備
+	HRESULT hr = commandAllocator_->Reset();
+	assert(SUCCEEDED(hr));
+	hr = commandList_->Reset(commandAllocator_.Get(), nullptr);
+	assert(SUCCEEDED(hr));
+}

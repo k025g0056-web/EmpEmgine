@@ -7,6 +7,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	//ゲームのメインループ
 	while (EmpEngine::ProcessMessage()==0){
+		EmpEngine::Begin();
 
 	}
 
