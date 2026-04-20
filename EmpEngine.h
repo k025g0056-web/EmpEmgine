@@ -27,7 +27,6 @@ private:
 	static EmpEngine* instance_;
 
 	ManagementWindow managementWindow_;
-	ManagementLog managementLog_;
 	ManagementDXGIFactory managementDXGIFactory_;
 	ManagementDevice managementDevice_;
 	ManagementCommand managementCommand_;

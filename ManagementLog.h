@@ -8,10 +8,10 @@
 #include<chrono>
 
 class  ManagementLog{
-	std::ofstream logStream_;
-	void LogRock(const std::string& message);
+	static std::string ConvertToUTF8(const std::wstring& wstr);
+	static std::ofstream logStream_;
 public:
-	void Initialize();
+	static void Initialize();
 	static void Log(std::ofstream& os, const std::string& message);
 	static void Log(const std::string& message);
 	static void Log(const std::wstring& message);

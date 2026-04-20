@@ -16,7 +16,7 @@ void EmpEngine::InitializeImpl(int kWindowWidth,int kWindowHeight) {
 	//main関数が始まってすぐに登録すると良い
 	SetUnhandledExceptionFilter(ClashHandler::ExportDump);
 	managementWindow_.Initialize(kWindowWidth, kWindowHeight);
-	managementLog_.Initialize();
+	ManagementLog::Initialize();
 	managementDXGIFactory_.Initialize();
 	managementDXGIFactory_.DecideAdapter();
 	managementDevice_.CreateDevice(managementDXGIFactory_.GetUseAdapter());

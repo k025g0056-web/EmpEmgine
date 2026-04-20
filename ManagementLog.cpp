@@ -1,5 +1,8 @@
 #include"ManagementLog.h"
+#include <locale>
+#include <codecvt>
 
+std::ofstream ManagementLog::logStream_;
 void ManagementLog::Initialize() {
 	//もしディレクトリがないのであれば作成する
 	if (!std::filesystem::exists("logs")) {
@@ -16,11 +19,11 @@ void ManagementLog::Initialize() {
 	//formatを使って年月日_時分秒の文字列に変換
 	std::string dateString = std::format("{:%Y%m%d_%H%M%S}", localTime);
 	//時刻を使ってファイル名を決定
-	std::string logFilePath = std::string("logs/") + dateString + "log";
+	std::string logFilePath = std::string("logs/") + dateString + ".log";
 	//ファイルを作って書き込み準備
 	logStream_.open(logFilePath);
 
-	LogRock("Log start");
+	Log("Log start");
 }
 
 void ManagementLog::Log(std::ofstream& os, const std::string& message) {
@@ -28,15 +31,36 @@ void ManagementLog::Log(std::ofstream& os, const std::string& message) {
 	OutputDebugStringA(message.c_str());
 }
 
-void ManagementLog::LogRock(const std::string& message) {
-	logStream_<< message << std::endl;
-	OutputDebugStringA(message.c_str());
-}
-
 void ManagementLog::Log(const std::string& message) {
+	logStream_ << message << std::endl;
 	OutputDebugStringA(message.c_str());
 }
 
 void ManagementLog::Log(const std::wstring& message) {
+	logStream_ << ConvertToUTF8(message) << '\n';
 	OutputDebugStringW(message.c_str());
+}
+
+std::string ManagementLog::ConvertToUTF8(const std::wstring& wstr) {
+	if (wstr.empty()) { 
+		return {};
+	}
+
+	int size = WideCharToMultiByte(
+		CP_UTF8, 0,
+		wstr.c_str(), -1,
+		nullptr, 0,
+		nullptr, nullptr
+	);
+
+	std::string result(size - 1, 0);
+
+	WideCharToMultiByte(
+		CP_UTF8, 0,
+		wstr.c_str(), -1,
+		result.data(), size,
+		nullptr, nullptr
+	);
+
+	return result;
 }
