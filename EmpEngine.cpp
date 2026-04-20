@@ -138,7 +138,7 @@ LONG WINAPI EmpEngine::ExportDump(EXCEPTION_POINTERS* exception) {
 	DWORD processId = GetCurrentProcessId();
 	DWORD threadId = GetCurrentThreadId();
 	//設定情報を入力
-	_MINIDUMP_EXCEPTION_INFORMATION minidumpInformation{ 0 };
+	MINIDUMP_EXCEPTION_INFORMATION minidumpInformation{ 0 };
 	minidumpInformation.ThreadId = threadId;
 	minidumpInformation.ExceptionPointers = exception;
 	minidumpInformation.ClientPointers = TRUE;
