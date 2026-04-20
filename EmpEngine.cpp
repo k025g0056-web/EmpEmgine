@@ -17,6 +17,8 @@ void EmpEngine::WindowInitialize() {
 	//カーソル
 	wc_.hCursor = LoadCursor(nullptr, IDC_ARROW);
 
+	wc_.hbrBackground = (HBRUSH)GetStockObject(COLOR_WINDOW);
+
 	//ウィンドウクラスを登録する
 	RegisterClass(&wc_);
 
@@ -72,4 +74,9 @@ LRESULT CALLBACK EmpEngine::WindowProc(HWND hwnd,UINT msg,WPARAM wparam, LPARAM 
 
 	//標準のメッセージ
 	return DefWindowProc(hwnd, msg, wparam, lparam);
+}
+
+void EmpEngine::Finalize() {
+	delete instance_;
+	instance_ = nullptr;
 }

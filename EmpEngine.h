@@ -15,6 +15,7 @@ class EmpEngine {
 public:
 	static void Initialize();
 	static int ProcessMessage();
+	static void Finalize();
 
 private:
 	//クライアントの領域サイズ

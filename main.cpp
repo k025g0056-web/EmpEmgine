@@ -7,5 +7,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	}
 
+	EmpEngine::Finalize();
 	return 0;
 }
