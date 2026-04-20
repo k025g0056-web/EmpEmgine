@@ -1,4 +1,8 @@
 #include"EmpEngine.h"
+#pragma comment(lib,"d3d12.lib")
+#pragma comment(lib,"dxgi.lib")
+
+
 
 EmpEngine* EmpEngine::instance_ = nullptr;
 void EmpEngine::Initialize() {
@@ -62,11 +66,10 @@ void EmpEngine::LogInitialize() {
 	//formatを使って年月日_時分秒の文字列に変換
 	std::string dateString = std::format("{:%Y%m%d_%H%M%S}", localTime);
 	//時刻を使ってファイル名を決定
-	std::string logFilePath = std::string("logs/") + dateString + "log";
+	std::string logFilePath = std::string("logs/") + dateString + ".log";
 	//ファイルを作って書き込み準備
-	std::ofstream logStream(logFilePath);
-
-	Log(logStream, "Log start");
+	logStream_.open(logFilePath);
+	Log(logStream_, "Log start");
 }
 
 void EmpEngine::DXGIInitialize() {

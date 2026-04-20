@@ -10,9 +10,6 @@
 #include<d3d12.h>
 #include<dxgi1_6.h>
 #include<cassert>
-#pragma comment(lib,"d3d12.lib")
-#pragma comment(lib,"dxgi.lib")
-
 class EmpEngine {
 	void WindowInitialize();
 	void LogInitialize();
@@ -26,6 +23,7 @@ class EmpEngine {
 	WNDCLASS wc_;
 	RECT wrc_;
 	HWND hwnd_;
+	std::ofstream logStream_;
 
 	//HRESULはWindows系のエラーコードであり、
 	//関数が成功したかどうかをSucceedマクロで判定できる
