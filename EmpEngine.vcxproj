@@ -87,6 +87,7 @@
     <ClCompile Include="EmpEngine.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ManagementCommand.cpp" />
+    <ClCompile Include="ManagementDebug.cpp" />
     <ClCompile Include="ManagementDescriptorHeap.cpp" />
     <ClCompile Include="ManagementDevice.cpp" />
     <ClCompile Include="ManagementDXGIFactory.cpp" />
@@ -98,6 +99,7 @@
     <ClInclude Include="ClashHandler.h" />
     <ClInclude Include="EmpEngine.h" />
     <ClInclude Include="ManagementCommand.h" />
+    <ClInclude Include="ManagementDebug.h" />
     <ClInclude Include="ManagementDescriptorHeap.h" />
     <ClInclude Include="ManagementDevice.h" />
     <ClInclude Include="ManagementDXGIFactory.h" />

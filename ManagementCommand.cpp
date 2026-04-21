@@ -1,4 +1,6 @@
 #include"ManagementCommand.h"
+#pragma comment(lib,"d3d12.lib")
+#pragma comment(lib,"dxgi.lib")
 
 void ManagementCommand::Initialize(ID3D12Device* device) {
 	//コマンドキューの生成
