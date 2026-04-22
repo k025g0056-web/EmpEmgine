@@ -11,6 +11,9 @@ class EmpEngine {
 	void WindowInitialize();
 	static LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 	void __stdcall DebugPrint(LPCSTR lpOutputStrings);
+	void UpdateImpl();
+	static EmpEngine& GetInstance();
+	void InitializeImpl();
 
 	WNDCLASS wc_;
 	RECT wrc_;
@@ -21,13 +24,11 @@ public:
 	static int ProcessMessage();
 	static void Log(const std::string& message);
 	static void Finalize();
+	static void Update();
 
 private:
 	//クライアントの領域サイズ
 	const int32_t kClientWidth = 1280;
 	const int32_t kClientHeight = 720;
-
-	//初期化用のインスタンス
-	static EmpEngine* instance_;
 
 };

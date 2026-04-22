@@ -1,9 +1,16 @@
 #include"EmpEngine.h"
 
-EmpEngine* EmpEngine::instance_ = nullptr;
+EmpEngine& EmpEngine::GetInstance() {
+	static EmpEngine instance;
+	return instance;
+}
+
 void EmpEngine::Initialize() {
-	instance_ = new EmpEngine();
-	instance_->WindowInitialize();
+	GetInstance().InitializeImpl();
+}
+
+void EmpEngine::InitializeImpl() {
+	WindowInitialize();
 }
 
 void EmpEngine::WindowInitialize() {
@@ -79,6 +86,13 @@ LRESULT CALLBACK EmpEngine::WindowProc(HWND hwnd,UINT msg,WPARAM wparam, LPARAM 
 }
 
 void EmpEngine::Finalize() {
-	delete instance_;
-	instance_ = nullptr;
+	
+}
+
+void EmpEngine::UpdateImpl() {
+	Log(std::format("Let's go baby"));
+}
+
+void EmpEngine::Update() {
+	GetInstance().UpdateImpl();
 }
