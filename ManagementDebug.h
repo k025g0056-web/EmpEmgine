@@ -5,6 +5,9 @@
 #include<cassert>
 
 class ManagementDebug {
-	ID3D12Debug1* debugController;
+	ID3D12Debug1* debugController_ = nullptr;
+
+public:
+	void EnableDebugLayerWrapping();
 
 };

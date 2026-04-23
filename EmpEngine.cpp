@@ -16,6 +16,7 @@ void EmpEngine::InitializeImpl(int kWindowWidth,int kWindowHeight) {
 	SetUnhandledExceptionFilter(ClashHandler::ExportDump);
 	managementWindow_.Initialize(kWindowWidth, kWindowHeight);
 	//debug initializeの場所ん
+	managementDebug_.EnableDebugLayerWrapping();
 	ManagementLog::Initialize();
 	managementDXGIFactory_.Initialize();
 	managementDXGIFactory_.DecideAdapter();

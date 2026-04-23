@@ -8,6 +8,7 @@
 #include"ManagementCommand.h"
 #include"ManagementSwapChain.h"
 #include"ManagementDescriptorHeap.h"
+#include"ManagementDebug.h"
 
 class EmpEngine {
 public:
@@ -32,4 +33,5 @@ private:
 	ManagementCommand managementCommand_;
 	ManagementSwapChain managementSwapChain_;
 	ManagementDescriptorHeap managementDescriptHeap_;
+	ManagementDebug managementDebug_;
 };
