@@ -1,9 +1,20 @@
 #include"EmpEngine.h"
 
-EmpEngine* EmpEngine::instance_ = nullptr;
+EmpEngine::EmpEngine() {
+
+}
+
+EmpEngine& EmpEngine::GetInstance() {
+	static EmpEngine instance;
+	return instance;
+}
+
 void EmpEngine::Initialize() {
-	instance_ = new EmpEngine();
-	instance_->WindowInitialize();
+	GetInstance().InitializeImpl();
+}
+
+void EmpEngine::InitializeImpl() {
+	WindowInitialize();
 }
 
 void EmpEngine::WindowInitialize() {
@@ -16,8 +27,6 @@ void EmpEngine::WindowInitialize() {
 	wc_.hInstance = GetModuleHandle(nullptr);
 	//カーソル
 	wc_.hCursor = LoadCursor(nullptr, IDC_ARROW);
-
-	wc_.hbrBackground = (HBRUSH)GetStockObject(COLOR_WINDOW);
 
 	//ウィンドウクラスを登録する
 	RegisterClass(&wc_);
@@ -70,6 +79,8 @@ LRESULT CALLBACK EmpEngine::WindowProc(HWND hwnd,UINT msg,WPARAM wparam, LPARAM 
 		//OSに対してアプリの終了を伝える
 		PostQuitMessage(0);
 		return 0;
+	default:
+
 	}
 
 	//標準のメッセージ
@@ -77,6 +88,5 @@ LRESULT CALLBACK EmpEngine::WindowProc(HWND hwnd,UINT msg,WPARAM wparam, LPARAM 
 }
 
 void EmpEngine::Finalize() {
-	delete instance_;
-	instance_ = nullptr;
+
 }
