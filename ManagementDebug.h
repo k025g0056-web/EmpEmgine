@@ -5,5 +5,6 @@
 #include<cassert>
 
 class ManagementDebug {
-	ID3D12Debug1* debu
+	ID3D12Debug1* debugController;
+
 };

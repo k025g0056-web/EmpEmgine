@@ -25,9 +25,6 @@ private:
 	void FinalizeImpl();
 	void BeginImpl();
 private:
-	
-	//初期化用のインスタンス
-	static EmpEngine* instance_;
 
 	ManagementWindow managementWindow_;
 	ManagementDXGIFactory managementDXGIFactory_;

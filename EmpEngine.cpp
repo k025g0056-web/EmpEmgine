@@ -1,7 +1,6 @@
 #include"EmpEngine.h"
 #include"ClashHandler.h"
 
-EmpEngine* EmpEngine::instance_ = nullptr;
 void EmpEngine::Initialize(int kWindowWidth, int kWindowHeight) {
 	GetInstance().InitializeImpl(kWindowWidth, kWindowHeight);
 }
@@ -16,6 +15,7 @@ void EmpEngine::InitializeImpl(int kWindowWidth,int kWindowHeight) {
 	//main関数が始まってすぐに登録すると良い
 	SetUnhandledExceptionFilter(ClashHandler::ExportDump);
 	managementWindow_.Initialize(kWindowWidth, kWindowHeight);
+	//debug initializeの場所ん
 	ManagementLog::Initialize();
 	managementDXGIFactory_.Initialize();
 	managementDXGIFactory_.DecideAdapter();
@@ -48,8 +48,7 @@ void EmpEngine::Finalize() {
 }
 
 void EmpEngine::FinalizeImpl() {
-	delete instance_;
-	instance_ = nullptr;
+	
 }
 
 void EmpEngine::SetWindowSize(int index,int windowWidth,int windowHeight) {
