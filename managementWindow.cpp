@@ -63,7 +63,7 @@ void ManagementWindow::GenerateWindow(int windowWidth, int windowHeight) {
 	windows_.push_back(window);
 }
 
-void ManagementWindow::SetWindowSize(int index,int windowWidth,int windowHeight) {
+void ManagementWindow::SetWindowSize(unsigned int index,int windowWidth,int windowHeight) {
 	if (index>=windows_.size()) {
 		return;
 	}
@@ -85,7 +85,7 @@ void ManagementWindow::SetWindowSize(int index,int windowWidth,int windowHeight)
 
 }
 
-HWND ManagementWindow::GetHwnd(int index) {
+HWND ManagementWindow::GetHwnd(unsigned int index) {
 	 if (index>=windows_.size()) {
 		 return nullptr;
 	 }
@@ -94,7 +94,7 @@ HWND ManagementWindow::GetHwnd(int index) {
 	 
 }
 
-RECT ManagementWindow::GetRect(int index) {
+RECT ManagementWindow::GetRect(unsigned int index) {
 	if (index>=windows_.size()) {
 		return RECT{};
 	}

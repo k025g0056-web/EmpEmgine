@@ -14,7 +14,7 @@ class EmpEngine {
 public:
 	static void Initialize(int kWindowWidth, int kWindowHeight);
 	static int ProcessMessage();
-	static void SetWindowSize(int index, int windowWidth, int windowHeight);
+	static void SetWindowSize(unsigned int index, int windowWidth, int windowHeight);
 	static void Finalize();
 	static void Begin();
 
@@ -22,7 +22,7 @@ private:
 	static EmpEngine& GetInstance();
 	void InitializeImpl(int kWindowWidth, int kWindowHeight);
 	int ProcessMessageImpl();
-	void SetWindowSizeImpl(int index, int windowWidth, int windowdHeight);
+	void SetWindowSizeImpl(unsigned int index, int windowWidth, int windowdHeight);
 	void FinalizeImpl();
 	void BeginImpl();
 private:

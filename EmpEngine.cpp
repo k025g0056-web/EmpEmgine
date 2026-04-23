@@ -52,11 +52,11 @@ void EmpEngine::FinalizeImpl() {
 	
 }
 
-void EmpEngine::SetWindowSize(int index,int windowWidth,int windowHeight) {
+void EmpEngine::SetWindowSize(unsigned int index,int windowWidth,int windowHeight) {
 	GetInstance().SetWindowSizeImpl(index, windowWidth, windowHeight);
 }
 
-void EmpEngine::SetWindowSizeImpl(int index,int windowWidth,int windowHeight) {
+void EmpEngine::SetWindowSizeImpl(unsigned int index,int windowWidth,int windowHeight) {
 	managementWindow_.SetWindowSize(index, windowWidth, windowHeight);
 }
 
