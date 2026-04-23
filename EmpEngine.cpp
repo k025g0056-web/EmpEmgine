@@ -1,4 +1,7 @@
 #include"EmpEngine.h"
+#include<codecvt>
+#include<locale>
+
 
 EmpEngine& EmpEngine::GetInstance() {
 	static EmpEngine instance;
@@ -71,6 +74,14 @@ void EmpEngine::Log(const std::string& message) {
 	OutputDebugStringA(message.c_str());
 }
 
+void EmpEngine::LogImpl(const std::wstring& message) {
+	OutputDebugStringA(ConvertString(message).c_str());
+}
+
+void EmpEngine::Log(const std::wstring& message) {
+	GetInstance().LogImpl(message);
+}
+
 LRESULT CALLBACK EmpEngine::WindowProc(HWND hwnd,UINT msg,WPARAM wparam, LPARAM lparam) {
 	//メッセージに応じてゲーム固有の処理を行う
 	switch (msg){
@@ -95,4 +106,14 @@ void EmpEngine::UpdateImpl() {
 
 void EmpEngine::Update() {
 	GetInstance().UpdateImpl();
+}
+
+std::wstring EmpEngine::ConvertString(const std::string& str) {
+	std::wstring_convert<std::codecvt_utf8<wchar_t>>converter;
+	return converter.from_bytes(str);
+}
+
+std::string EmpEngine::ConvertString(const std::wstring& str) {
+	std::wstring_convert<std::codecvt_utf8<wchar_t>>converter;
+	return converter.to_bytes(str);
 }
