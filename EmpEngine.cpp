@@ -79,8 +79,6 @@ LRESULT CALLBACK EmpEngine::WindowProc(HWND hwnd,UINT msg,WPARAM wparam, LPARAM 
 		//OSに対してアプリの終了を伝える
 		PostQuitMessage(0);
 		return 0;
-	default:
-
 	}
 
 	//標準のメッセージ
