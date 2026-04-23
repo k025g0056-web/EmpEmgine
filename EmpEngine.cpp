@@ -67,10 +67,6 @@ int EmpEngine::ProcessMessage() {
 	return 0;
 }
 
-void __stdcall EmpEngine::DebugPrint(LPCSTR lpOutputStrings) {
-	OutputDebugStringA(lpOutputStrings);
-}
-
 LRESULT CALLBACK EmpEngine::WindowProc(HWND hwnd,UINT msg,WPARAM wparam, LPARAM lparam) {
 	//メッセージに応じてゲーム固有の処理を行う
 	switch (msg){

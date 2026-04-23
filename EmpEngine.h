@@ -6,7 +6,6 @@
 class EmpEngine {
 	void WindowInitialize();
 	static LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
-	void __stdcall DebugPrint(LPCSTR lpOutputStrings);
 	void InitializeImpl();
 	static EmpEngine& GetInstance();
 	EmpEngine(const EmpEngine&) = delete;
