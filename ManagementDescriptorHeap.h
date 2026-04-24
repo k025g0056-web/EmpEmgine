@@ -15,6 +15,7 @@ class ManagementDescriptorHeap {
 
 	ID3D12Resource* swapChainResources_[2] = { nullptr };
 
+	void GenerateDescriptHeap(ID3D12Device* device);
 	void PullTheSwapChain(IDXGISwapChain4* swapChain);
 	void GenerateRTV(ID3D12Device* device);
 public:
@@ -26,5 +27,5 @@ public:
 	D3D12_CPU_DESCRIPTOR_HANDLE GetRtvStartHandle()const { return rtvStartHandle_; }
 	D3D12_CPU_DESCRIPTOR_HANDLE GetRtvHandles(int i)const { if (i > 1 || 0 > i) { return {}; } return rtvHandles_[i]; }
 	D3D12_CPU_DESCRIPTOR_HANDLE* GetRtvHandles() {return rtvHandles_; }
-	ID3D12Resource* GetSwapChainResources(int i)const { if (i > 1 || 0 < i) { return {}; }return swapChainResources_[i]; }
+	ID3D12Resource* GetSwapChainResources(int i)const { if (i > 1 || 0 > i) { return {}; }return swapChainResources_[i]; }
 };

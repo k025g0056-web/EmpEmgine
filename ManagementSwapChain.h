@@ -7,7 +7,7 @@
 
 class ManagementSwapChain {
 	IDXGISwapChain4* swapChain_ = nullptr;
-	DXGI_SWAP_CHAIN_DESC1 swapChainDesc{};
+	DXGI_SWAP_CHAIN_DESC1 swapChainDesc_{};
 
 public:
 	void Initialize(int windowWidth,int windowHeight, ID3D12CommandQueue* comanndQueue,HWND hwnd, IDXGIFactory7* dxgiFactory);

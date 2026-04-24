@@ -10,8 +10,12 @@ class ManagementCommand {
 	Microsoft::WRL::ComPtr<ID3D12CommandQueue> commandQueue_;
 	Microsoft::WRL::ComPtr<ID3D12CommandAllocator> commandAllocator_;
 	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList_;
-
+	
 	float clearColor_[4] = { 0.1f,0.25f,0.5f,1.0f };
+
+	void GenerateCommandQueue(ID3D12Device* device);
+	void GenerateCommandAllocator(ID3D12Device* device);
+	void GenerateCommandList(ID3D12Device* device);
 public:
 
 	void Initialize(ID3D12Device* device);

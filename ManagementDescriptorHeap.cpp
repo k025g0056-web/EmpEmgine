@@ -4,13 +4,17 @@
 
 
 void ManagementDescriptorHeap::Initialize(ID3D12Device* device, IDXGISwapChain4* swapChain) {
+	GenerateDescriptHeap(device);
+	PullTheSwapChain(swapChain);
+	GenerateRTV(device);
+}
+
+void ManagementDescriptorHeap::GenerateDescriptHeap(ID3D12Device* device) {
 	rtvDescriptorHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;//レンダーターゲットビュー用
 	rtvDescriptorHeapDesc.NumDescriptors = 2;//ダブルバッファ用に二つ。多くても別にかまわない
 	HRESULT hr = device->CreateDescriptorHeap(&rtvDescriptorHeapDesc, IID_PPV_ARGS(&rtvDescriptorHeap));
 	//ディスクリプタヒープが作れなかったので起動できない
 	assert(SUCCEEDED(hr));
-	PullTheSwapChain(swapChain);
-	GenerateRTV(device);
 }
 
 void ManagementDescriptorHeap::PullTheSwapChain(IDXGISwapChain4* swapChain) {

@@ -9,5 +9,5 @@ class ManagementDebug {
 
 public:
 	void EnableDebugLayerWrapping();
-
+	void ErrorDetection(ID3D12Device* device);
 };
