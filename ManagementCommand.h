@@ -35,4 +35,6 @@ public:
 	ID3D12GraphicsCommandList* GetCommandList()const { return commandList_.Get(); }
 	void LoadCommand(IDXGISwapChain4* swapChain, D3D12_CPU_DESCRIPTOR_HANDLE*rtvHandles, ID3D12Resource** swapChainResources_);
 	void KickCommand(IDXGISwapChain4* swapChain);
+	void FenceRelease();
+	void CommandRelease();
 };

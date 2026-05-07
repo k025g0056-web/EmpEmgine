@@ -115,3 +115,10 @@ LRESULT CALLBACK ManagementWindow::WindowProc(HWND hwnd, UINT msg, WPARAM wparam
 	//標準のメッセージ
 	return DefWindowProc(hwnd, msg, wparam, lparam);
 }
+
+void ManagementWindow::Release() {
+	for (auto& window:windows_) {
+		CloseWindow(window.hwnd_);
+	}
+
+}

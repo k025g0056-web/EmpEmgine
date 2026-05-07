@@ -1,6 +1,8 @@
 #include"ManagementDebug.h"
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
+#include<dxgidebug.h>
+#pragma comment(lib,"dxguid.lib")
 
 void ManagementDebug::EnableDebugLayerWrapping() {
 #ifdef _DEBUG
@@ -24,7 +26,7 @@ void ManagementDebug::ErrorDetection(ID3D12Device* device) {
 		//エラー時に止まる
 		infoQueue_->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true);
 		//警告時に止まる
-		infoQueue_->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING, true);
+		//infoQueue_->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING, true);
 		//抑制するメッセージ
 		D3D12_MESSAGE_ID denyIds[] = {
 			//Windows11でのDXGIデバックレイヤーとDX12デバックレイヤーの相互作用バグによるエラーメッセージ
@@ -41,8 +43,33 @@ void ManagementDebug::ErrorDetection(ID3D12Device* device) {
 		filter.DenyList.pSeverityList = severities;
 		//指定したメッセージの表示を抑制する
 		infoQueue_->PushStorageFilter(&filter);
+
 		//解放
-		infoQueue_->Release();
+		if (infoQueue_) {
+			infoQueue_->Release();
+			infoQueue_ = nullptr;
+		}
+	}
+#endif // _DEBUG
+
+}
+
+void ManagementDebug::DebugReportLiveObject() {
+	IDXGIDebug1* debug;
+	if (SUCCEEDED(DXGIGetDebugInterface1(0,IID_PPV_ARGS(&debug)))) {
+		debug->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_ALL);
+		debug->ReportLiveObjects(DXGI_DEBUG_APP, DXGI_DEBUG_RLO_ALL);
+		debug->ReportLiveObjects(DXGI_DEBUG_D3D12, DXGI_DEBUG_RLO_ALL);
+		debug->Release();
+		debug = nullptr;
+	}
+}
+
+void ManagementDebug::Release() {
+#ifdef _DEBUG
+	if (debugController_) {
+		debugController_->Release();
+		debugController_ = nullptr;
 	}
 #endif // _DEBUG
 

@@ -19,6 +19,7 @@ public:
 	void GenerateWindow(int kWindowWidth, int kWindowHeight);
 	void SetWindowSize(unsigned int index, int windowWidth, int windowHeight);
 
+	void Release();
 	HWND GetHwnd(unsigned int i);
 	RECT GetRect(unsigned int i);
 };

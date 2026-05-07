@@ -15,3 +15,8 @@ void ManagementSwapChain::Initialize(int windowWidth, int windowHeight, ID3D12Co
 		nullptr, reinterpret_cast<IDXGISwapChain1**>(&swapChain_));
 	assert(SUCCEEDED(hr));
 }
+
+void ManagementSwapChain::Release() {
+	swapChain_->Release();
+	swapChain_ = nullptr;
+}

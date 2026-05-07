@@ -25,6 +25,7 @@ private:
 	void SetWindowSizeImpl(unsigned int index, int windowWidth, int windowdHeight);
 	void FinalizeImpl();
 	void BeginImpl();
+	void Release();
 private:
 
 	ManagementWindow managementWindow_;

@@ -117,3 +117,14 @@ void ManagementCommand::WaitingGPU() {
 		WaitForSingleObject(fenceEvent_, INFINITE);
 	}
 }
+
+void ManagementCommand::FenceRelease() {
+	CloseHandle(fenceEvent_);
+	fence_->Release();
+}
+
+void ManagementCommand::CommandRelease() {
+	commandList_.Reset();
+	commandAllocator_.Reset();
+	commandQueue_.Reset();
+}

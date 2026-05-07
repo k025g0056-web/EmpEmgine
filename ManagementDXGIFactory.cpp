@@ -30,3 +30,8 @@ void ManagementDXGIFactory::DecideAdapter() {
 	//適切なアダプタがみつからなかったので起動できない
 	assert(useAdapter_ != nullptr);
 }
+
+void ManagementDXGIFactory::Release() {
+	useAdapter_->Release();
+	dxgiFactory_->Release();
+}

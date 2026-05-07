@@ -6,8 +6,9 @@
 
 class ManagementDebug {
 	ID3D12Debug1* debugController_ = nullptr;
-
 public:
 	void EnableDebugLayerWrapping();
 	void ErrorDetection(ID3D12Device* device);
+	void DebugReportLiveObject();
+	void Release();
 };

@@ -39,3 +39,11 @@ void ManagementDescriptorHeap::GenerateRTV(ID3D12Device* device) {
 	device->CreateRenderTargetView(swapChainResources_[1], &rtvDesc, rtvHandles_[1]);
 	
 }
+
+void ManagementDescriptorHeap::Release() {
+	rtvDescriptorHeap->Release();
+	swapChainResources_[0]->Release();
+	swapChainResources_[0] = nullptr;
+	swapChainResources_[1]->Release();
+	swapChainResources_[1] = nullptr;
+}

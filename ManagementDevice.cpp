@@ -23,3 +23,8 @@ void ManagementDevice::CreateDevice(IDXGIAdapter4* useAdaptor) {
 	assert(device_ != nullptr);
 	ManagementLog::Log("Complete create D3D12Device!!!\n");
 }
+
+void ManagementDevice::Release() {
+	device_->Release();
+	device_ = nullptr;
+}

@@ -51,7 +51,11 @@ void EmpEngine::Finalize() {
 }
 
 void EmpEngine::FinalizeImpl() {
-	
+	Release();
+
+#ifdef _DEBUG
+	managementDebug_.DebugReportLiveObject();
+#endif
 }
 
 void EmpEngine::SetWindowSize(unsigned int index,int windowWidth,int windowHeight) {
@@ -70,4 +74,15 @@ void EmpEngine::BeginImpl() {
 
 void EmpEngine::Begin() {
 	GetInstance().BeginImpl();
+}
+
+void EmpEngine::Release() {
+	managementCommand_.FenceRelease();
+	managementDescriptHeap_.Release();
+	managementSwapChain_.Release();
+	managementCommand_.CommandRelease();
+	managementDevice_.Release();
+	managementDXGIFactory_.Release();
+	managementDebug_.Release();
+	managementWindow_.Release();
 }

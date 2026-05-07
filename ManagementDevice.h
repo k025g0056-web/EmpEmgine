@@ -13,5 +13,5 @@ class ManagementDevice {
 public:
 	void CreateDevice(IDXGIAdapter4* useAdaptor);
 	ID3D12Device* GetDevice()const { return device_.Get(); }
-
+	void Release();
 };

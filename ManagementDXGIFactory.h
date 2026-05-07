@@ -19,4 +19,5 @@ public:
 	IDXGIFactory7* GetDXGIFactory() const{ return dxgiFactory_.Get(); }
 	IDXGIAdapter4* GetUseAdapter() const{ return useAdapter_.Get(); }
 
+	void Release();
 };

@@ -25,4 +25,5 @@ public:
 	D3D12_CPU_DESCRIPTOR_HANDLE* GetRtvHandles() {return rtvHandles_; }
 	ID3D12Resource* GetSwapChainResources(int i)const { if (i > 1 || 0 > i) { return {}; }return swapChainResources_[i]; }
 	ID3D12Resource** GetSwapChainResources() { return swapChainResources_; }
+	void Release();
 };
