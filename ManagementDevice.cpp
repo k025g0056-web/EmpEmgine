@@ -25,6 +25,5 @@ void ManagementDevice::CreateDevice(IDXGIAdapter4* useAdaptor) {
 }
 
 void ManagementDevice::Release() {
-	device_->Release();
-	device_ = nullptr;
+	device_.Reset();
 }

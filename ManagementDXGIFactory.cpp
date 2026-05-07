@@ -32,6 +32,6 @@ void ManagementDXGIFactory::DecideAdapter() {
 }
 
 void ManagementDXGIFactory::Release() {
-	useAdapter_->Release();
-	dxgiFactory_->Release();
+	useAdapter_.Reset();
+	dxgiFactory_.Reset();
 }
