@@ -1,7 +1,7 @@
 #include"ManagementDescriptorHeap.h"
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
-
+#include<cassert>
 
 void ManagementDescriptorHeap::Initialize(ID3D12Device* device, IDXGISwapChain4* swapChain) {
 	GenerateDescriptHeap(device);

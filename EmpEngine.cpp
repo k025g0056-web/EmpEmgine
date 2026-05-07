@@ -64,7 +64,7 @@ void EmpEngine::SetWindowSizeImpl(unsigned int index,int windowWidth,int windowH
 
 void EmpEngine::BeginImpl() {
 
-	managementCommand_.LoadCommand(managementSwapChain_.GetSwapChain(), managementDescriptHeap_.GetRtvHandles());
+	managementCommand_.LoadCommand(managementSwapChain_.GetSwapChain(), managementDescriptHeap_.GetRtvHandles(),managementDescriptHeap_.GetSwapChainResources());
 	managementCommand_.KickCommand(managementSwapChain_.GetSwapChain());
 }
 

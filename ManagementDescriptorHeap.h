@@ -1,10 +1,6 @@
 #pragma once
-#include<Windows.h>
 #include<d3d12.h>
 #include<dxgi1_6.h>
-#include<cassert>
-#include <wrl.h>
-
 class ManagementDescriptorHeap {
 	ID3D12DescriptorHeap* rtvDescriptorHeap = nullptr;
 	D3D12_DESCRIPTOR_HEAP_DESC rtvDescriptorHeapDesc{};
@@ -28,4 +24,5 @@ public:
 	D3D12_CPU_DESCRIPTOR_HANDLE GetRtvHandles(int i)const { if (i > 1 || 0 > i) { return {}; } return rtvHandles_[i]; }
 	D3D12_CPU_DESCRIPTOR_HANDLE* GetRtvHandles() {return rtvHandles_; }
 	ID3D12Resource* GetSwapChainResources(int i)const { if (i > 1 || 0 > i) { return {}; }return swapChainResources_[i]; }
+	ID3D12Resource** GetSwapChainResources() { return swapChainResources_; }
 };
