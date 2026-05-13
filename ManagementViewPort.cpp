@@ -1,5 +1,6 @@
 #include"ManagementViewPort.h"
 #include<cassert>
+#include"MatrixFunction.h"
 
 void ManagementViewPort::Initialize(ID3D12Device* device, int kWindowWidth, int kWindowHeight) {
 	GenerateVertexResource(device);
@@ -8,6 +9,7 @@ void ManagementViewPort::Initialize(ID3D12Device* device, int kWindowWidth, int 
 	GenerateViewPort(kWindowWidth, kWindowHeight);
 	CorrectionScissorRect(kWindowWidth, kWindowHeight);
 	GenerateMaterial(device);
+	GenerateWvpResource(device);
 }
 
 void ManagementViewPort::GenerateVertexResource(ID3D12Device* device) {
@@ -69,6 +71,7 @@ void ManagementViewPort::CorrectionScissorRect(int kWindowWidth, int kWindowHeig
 void ManagementViewPort::Release() {
 	vertexResource->Release();
 	materialResource->Release();
+	wvpResource->Release();
 }
 
 ID3D12Resource* ManagementViewPort::CreateBufferResource(ID3D12Device* device, size_t sizeInBytes) {
@@ -76,7 +79,7 @@ ID3D12Resource* ManagementViewPort::CreateBufferResource(ID3D12Device* device, s
 	uploadHeapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;//UploadHeapを使う
 	//バッファリソース。テクスチャの場合はまた別の設定をする
 	vertexResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	vertexResourceDesc.Width = sizeInBytes;
+	vertexResourceDesc.Width = (sizeInBytes + 255) & ~255;
 	//バッファの場合これらは1にする決まり
 	vertexResourceDesc.Height = 1;
 	vertexResourceDesc.DepthOrArraySize = 1;
@@ -102,4 +105,19 @@ void ManagementViewPort::GenerateMaterial(ID3D12Device* device) {
 
 	//今回は赤を書き込んでみる
 	*materialData = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
+}
+
+void ManagementViewPort::GenerateWvpResource(ID3D12Device* device) {
+	wvpResource = CreateBufferResource(device, sizeof(Matrix4x4));
+	//書き込むためのアドレスを取得
+	wvpResource->Map(0, nullptr, reinterpret_cast<void**>(&wvpData));
+
+	//単位行列を書き込む
+	*wvpData = MakeIdentity4x4();
+}
+
+
+void ManagementViewPort::Update(Camera camera) {
+	transform.rotate.y += 0.03f;
+	*wvpData = camera.GetTransformationMatrixData();
 }

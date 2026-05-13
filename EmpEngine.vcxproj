@@ -95,6 +95,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <None Include=".editorconfig" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ClashHandler.cpp" />
     <ClCompile Include="EmpEngine.cpp" />
     <ClCompile Include="main.cpp" />
@@ -108,8 +109,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="ManagementSwapChain.cpp" />
     <ClCompile Include="ManagementViewPort.cpp" />
     <ClCompile Include="managementWindow.cpp" />
+    <ClCompile Include="MatrixFunction.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="ClashHandler.h" />
     <ClInclude Include="EmpEngine.h" />
     <ClInclude Include="ManagementCommand.h" />
@@ -122,6 +125,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="ManagementViewPort.h" />
     <ClInclude Include="managementWindow.h" />
     <ClInclude Include="ManagementLog.h" />
+    <ClInclude Include="Matrix4x4.h" />
+    <ClInclude Include="MatrixFunction.h" />
+    <ClInclude Include="TransForm3d.h" />
+    <ClInclude Include="Vector3.h" />
     <ClInclude Include="Vector4.h" />
   </ItemGroup>
   <ItemGroup>

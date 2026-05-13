@@ -21,7 +21,7 @@ class ManagementDXC {
 	IDxcBlob* pixelShaderBlob_;
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicspipelineStateDesc{};
 	ID3D12PipelineState* graphicsPipelineState = nullptr;
-	D3D12_ROOT_PARAMETER rootParameters[1] = {};
+	D3D12_ROOT_PARAMETER rootParameters[2] = {};
 
 	/// <summary>
 	/// 

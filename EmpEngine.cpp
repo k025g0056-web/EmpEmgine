@@ -27,6 +27,7 @@ void EmpEngine::InitializeImpl(int kWindowWidth,int kWindowHeight) {
 	managementDescriptHeap_.Initialize(managementDevice_.GetDevice(),managementSwapChain_.GetSwapChain());
 	managementDXC_.Initialize(managementDevice_.GetDevice());
 	managementViewPort_.Initialize(managementDevice_.GetDevice(), kWindowWidth, kWindowHeight);
+	camera.Initialize();
 	
 }
 
@@ -95,7 +96,8 @@ void EmpEngine::DrawTriangleImpl() {
 		managementViewPort_.GetVertexBufferView(), 
 		managementDXC_.GetGraphicPipeLineState(), 
 		managementDXC_.GetRootSignature(),
-		managementViewPort_.GetMaterialResource());
+		managementViewPort_.GetMaterialResource(),
+		managementViewPort_.GetWvpResource());
 }
 
 void EmpEngine::DrawTriangle() {
@@ -108,4 +110,13 @@ void EmpEngine::EndImpl() {
 
 void EmpEngine::End() {
 	GetInstance().EndImpl();
+}
+
+void EmpEngine::UpdateImpl(int kWindowWidth, int kWindowHeight) {
+	camera.Update(managementViewPort_.GetTransform(), kWindowWidth, kWindowHeight);
+	managementViewPort_.Update(camera);
+}
+
+void EmpEngine::Update(int kWindowWidth, int kWindowHeight) {
+	GetInstance().UpdateImpl(kWindowWidth,kWindowHeight);
 }

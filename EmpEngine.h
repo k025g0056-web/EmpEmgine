@@ -11,6 +11,7 @@
 #include"ManagementDebug.h"
 #include"ManagementDXC.h"
 #include"ManagementViewPort.h"
+#include"Camera.h"
 
 class EmpEngine {
 public:
@@ -21,6 +22,7 @@ public:
 	static void Begin();
 	static void DrawTriangle();
 	static void End();
+	static void Update(int kWindowWidth, int kWindowHeight);
 private:
 	static EmpEngine& GetInstance();
 	void InitializeImpl(int kWindowWidth, int kWindowHeight);
@@ -31,6 +33,7 @@ private:
 	void Release();
 	void DrawTriangleImpl();
 	void EndImpl();
+	void UpdateImpl(int kWindowWidth, int kWindowHeight);
 private:
 
 	ManagementWindow managementWindow_;
@@ -42,4 +45,5 @@ private:
 	ManagementDebug managementDebug_;
 	ManagementDXC managementDXC_;
 	ManagementViewPort managementViewPort_;
+	Camera camera;
 };

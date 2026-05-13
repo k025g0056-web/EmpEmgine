@@ -9,6 +9,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	while (EmpEngine::ProcessMessage()==0){
 		EmpEngine::Begin();
 
+		EmpEngine::Update(1280,720);
 		EmpEngine::DrawTriangle();
 
 
