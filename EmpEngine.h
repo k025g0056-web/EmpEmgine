@@ -9,6 +9,8 @@
 #include"ManagementSwapChain.h"
 #include"ManagementDescriptorHeap.h"
 #include"ManagementDebug.h"
+#include"ManagementDXC.h"
+#include"ManagementViewPort.h"
 
 class EmpEngine {
 public:
@@ -17,7 +19,8 @@ public:
 	static void SetWindowSize(unsigned int index, int windowWidth, int windowHeight);
 	static void Finalize();
 	static void Begin();
-
+	static void DrawTriangle();
+	static void End();
 private:
 	static EmpEngine& GetInstance();
 	void InitializeImpl(int kWindowWidth, int kWindowHeight);
@@ -26,6 +29,8 @@ private:
 	void FinalizeImpl();
 	void BeginImpl();
 	void Release();
+	void DrawTriangleImpl();
+	void EndImpl();
 private:
 
 	ManagementWindow managementWindow_;
@@ -35,4 +40,6 @@ private:
 	ManagementSwapChain managementSwapChain_;
 	ManagementDescriptorHeap managementDescriptHeap_;
 	ManagementDebug managementDebug_;
+	ManagementDXC managementDXC_;
+	ManagementViewPort managementViewPort_;
 };

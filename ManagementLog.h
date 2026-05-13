@@ -8,12 +8,11 @@
 #include<chrono>
 
 class  ManagementLog{
-	static std::string ConvertToUTF8(const std::wstring& wstr);
 	static std::ofstream logStream_;
 public:
 	static void Initialize();
 	static void Log(std::ofstream& os, const std::string& message);
 	static void Log(const std::string& message);
 	static void Log(const std::wstring& message);
-
+	static std::string ConvertToUTF8(const std::wstring& wstr);
 };

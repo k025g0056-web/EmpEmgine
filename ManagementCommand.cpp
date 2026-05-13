@@ -44,13 +44,15 @@ void ManagementCommand::LoadCommand(IDXGISwapChain4* swapChain,D3D12_CPU_DESCRIP
 	//指定した色で画面全体をクリアする
 	commandList_->ClearRenderTargetView(rtvHandles[backBufferIndex], clearColor_,
 		0, nullptr);
+	
+}
+
+void ManagementCommand::KickCommand(IDXGISwapChain4* swapChain) {
 	PutUpReBarrier();
 	//コマンドリストの内容を確定させる。全てのコマンドを積んでからCloseすること
 	HRESULT hr = commandList_->Close();
 	assert(SUCCEEDED(hr));
-}
 
-void ManagementCommand::KickCommand(IDXGISwapChain4* swapChain) {
 	ID3D12CommandList* commandLists[] = { commandList_.Get() };
 	commandQueue_->ExecuteCommandLists(1, commandLists);
 
@@ -61,7 +63,7 @@ void ManagementCommand::KickCommand(IDXGISwapChain4* swapChain) {
 	//GPUとOSに画面の交換を行うように通知する
 	swapChain->Present(1, 0);
 	//次フレーム用のコマンドリストを準備
-	HRESULT hr = commandAllocator_->Reset();
+	hr = commandAllocator_->Reset();
 	assert(SUCCEEDED(hr));
 	hr = commandList_->Reset(commandAllocator_.Get(), nullptr);
 	assert(SUCCEEDED(hr));
@@ -127,4 +129,17 @@ void ManagementCommand::CommandRelease() {
 	commandList_.Reset();
 	commandAllocator_.Reset();
 	commandQueue_.Reset();
+}
+
+void ManagementCommand::DrawCall(D3D12_VIEWPORT viewPort, D3D12_RECT scissorRect, D3D12_VERTEX_BUFFER_VIEW vertexBufferView, ID3D12PipelineState* graphicsPipelineState, ID3D12RootSignature* rootSignature) {
+	commandList_->RSSetViewports(1, &viewPort);//viewPortを設定
+	commandList_->RSSetScissorRects(1, &scissorRect);//Scissorを設定
+	//RootSignatureを設定。PSOに設定してるけど別途設定が必要
+	commandList_->SetGraphicsRootSignature(rootSignature);
+	commandList_->SetPipelineState(graphicsPipelineState);//PSOを設定
+	commandList_->IASetVertexBuffers(0, 1, &vertexBufferView);//VBVを設定
+	//形状を設定。PSOに設定しているものとはまた別。同じ物を設定すると考えて置けば良い
+	commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	//描画！（DrawCall/ドローコール）。3頂点で１つのインスタンス。インスタンスについては今後
+	commandList_->DrawInstanced(3, 1, 0, 0);
 }

@@ -35,6 +35,12 @@
     <ClCompile Include="ManagementDebug.cpp">
       <Filter>Engine\Manegement\ManagementDebug</Filter>
     </ClCompile>
+    <ClCompile Include="ManagementDXC.cpp">
+      <Filter>Engine\Manegement\MansgementDXC</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagementViewPort.cpp">
+      <Filter>Engine\Manegement\ManagementViewPort</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -73,6 +79,21 @@
     <Filter Include="Engine\Manegement\ManagementDebug">
       <UniqueIdentifier>{5150cfa3-a23b-4f26-9085-b38cd7fb4da6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Shader">
+      <UniqueIdentifier>{74b8016c-c9af-41ef-af37-bed799326a35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\MansgementDXC">
+      <UniqueIdentifier>{51a712bb-6dc4-4251-b9ce-d6dfd1313faa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\ManagementViewPort">
+      <UniqueIdentifier>{1d631f6f-4653-4c3e-ad42-ba357217ce93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\addMech">
+      <UniqueIdentifier>{64e8918b-6022-42d8-9260-be0d9c3537e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\addMech\Vector4">
+      <UniqueIdentifier>{cf731bf1-0721-4bc3-9258-5aa6dfe7f252}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EmpEngine.h">
@@ -105,5 +126,22 @@
     <ClInclude Include="ManagementDebug.h">
       <Filter>Engine\Manegement\ManagementDebug</Filter>
     </ClInclude>
+    <ClInclude Include="ManagementDXC.h">
+      <Filter>Engine\Manegement\MansgementDXC</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagementViewPort.h">
+      <Filter>Engine\Manegement\ManagementViewPort</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector4.h">
+      <Filter>Engine\addMech\Vector4</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Object3d.VS.hlsl">
+      <Filter>Engine\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Object3d.PS.hlsl">
+      <Filter>Engine\Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

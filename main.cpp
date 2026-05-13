@@ -9,6 +9,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	while (EmpEngine::ProcessMessage()==0){
 		EmpEngine::Begin();
 
+		EmpEngine::DrawTriangle();
+
+
+		EmpEngine::End();
 	}
 
 	//インスタンスの解放

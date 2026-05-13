@@ -63,6 +63,10 @@
     <Bscmake>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </Bscmake>
+    <PostBuildEvent>
+      <Command>copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxcompiler.dll" "$(TargetDir)dxcompiler.dll"
+copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dxil.dll"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -82,6 +86,10 @@
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
       <AdditionalOptions>/ignore:4049/ignore:4098/ %(AdditionalOptions)</AdditionalOptions>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxcompiler.dll" "$(TargetDir)dxcompiler.dll"
+copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dxil.dll"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
@@ -94,9 +102,11 @@
     <ClCompile Include="ManagementDebug.cpp" />
     <ClCompile Include="ManagementDescriptorHeap.cpp" />
     <ClCompile Include="ManagementDevice.cpp" />
+    <ClCompile Include="ManagementDXC.cpp" />
     <ClCompile Include="ManagementDXGIFactory.cpp" />
     <ClCompile Include="ManagementLog.cpp" />
     <ClCompile Include="ManagementSwapChain.cpp" />
+    <ClCompile Include="ManagementViewPort.cpp" />
     <ClCompile Include="managementWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -106,10 +116,25 @@
     <ClInclude Include="ManagementDebug.h" />
     <ClInclude Include="ManagementDescriptorHeap.h" />
     <ClInclude Include="ManagementDevice.h" />
+    <ClInclude Include="ManagementDXC.h" />
     <ClInclude Include="ManagementDXGIFactory.h" />
     <ClInclude Include="ManagementSwapChain.h" />
+    <ClInclude Include="ManagementViewPort.h" />
     <ClInclude Include="managementWindow.h" />
     <ClInclude Include="ManagementLog.h" />
+    <ClInclude Include="Vector4.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Object3d.VS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Object3d.PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

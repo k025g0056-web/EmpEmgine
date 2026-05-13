@@ -25,6 +25,8 @@ void EmpEngine::InitializeImpl(int kWindowWidth,int kWindowHeight) {
 	managementCommand_.Initialize(managementDevice_.GetDevice());
 	managementSwapChain_.Initialize(kWindowWidth, kWindowHeight, managementCommand_.GetCommandQueue(), managementWindow_.GetHwnd(0), managementDXGIFactory_.GetDXGIFactory());
 	managementDescriptHeap_.Initialize(managementDevice_.GetDevice(),managementSwapChain_.GetSwapChain());
+	managementDXC_.Initialize(managementDevice_.GetDevice());
+	managementViewPort_.Initialize(managementDevice_.GetDevice(), kWindowWidth, kWindowHeight);
 	
 }
 
@@ -67,9 +69,7 @@ void EmpEngine::SetWindowSizeImpl(unsigned int index,int windowWidth,int windowH
 }
 
 void EmpEngine::BeginImpl() {
-
 	managementCommand_.LoadCommand(managementSwapChain_.GetSwapChain(), managementDescriptHeap_.GetRtvHandles(),managementDescriptHeap_.GetSwapChainResources());
-	managementCommand_.KickCommand(managementSwapChain_.GetSwapChain());
 }
 
 void EmpEngine::Begin() {
@@ -78,6 +78,7 @@ void EmpEngine::Begin() {
 
 void EmpEngine::Release() {
 	managementCommand_.FenceRelease();
+
 	managementDescriptHeap_.Release();
 	managementSwapChain_.Release();
 	managementCommand_.CommandRelease();
@@ -85,4 +86,25 @@ void EmpEngine::Release() {
 	managementDXGIFactory_.Release();
 	managementDebug_.Release();
 	managementWindow_.Release();
+}
+
+void EmpEngine::DrawTriangleImpl() {
+	managementCommand_.DrawCall(
+		managementViewPort_.GetViewPort(),
+		managementViewPort_.GetScissorRect(),
+		managementViewPort_.GetVertexBufferView(), 
+		managementDXC_.GetGraphicPipeLineState(), 
+		managementDXC_.GetRootSignature());
+}
+
+void EmpEngine::DrawTriangle() {
+	GetInstance().DrawTriangleImpl();
+}
+
+void EmpEngine::EndImpl() {
+	managementCommand_.KickCommand(managementSwapChain_.GetSwapChain());
+}
+
+void EmpEngine::End() {
+	GetInstance().EndImpl();
 }
