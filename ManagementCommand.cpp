@@ -131,7 +131,7 @@ void ManagementCommand::CommandRelease() {
 	commandQueue_.Reset();
 }
 
-void ManagementCommand::DrawCall(D3D12_VIEWPORT viewPort, D3D12_RECT scissorRect, D3D12_VERTEX_BUFFER_VIEW vertexBufferView, ID3D12PipelineState* graphicsPipelineState, ID3D12RootSignature* rootSignature) {
+void ManagementCommand::DrawCall(D3D12_VIEWPORT viewPort, D3D12_RECT scissorRect, D3D12_VERTEX_BUFFER_VIEW vertexBufferView, ID3D12PipelineState* graphicsPipelineState, ID3D12RootSignature* rootSignature, ID3D12Resource* materialResource) {
 	commandList_->RSSetViewports(1, &viewPort);//viewPortを設定
 	commandList_->RSSetScissorRects(1, &scissorRect);//Scissorを設定
 	//RootSignatureを設定。PSOに設定してるけど別途設定が必要
@@ -140,6 +140,8 @@ void ManagementCommand::DrawCall(D3D12_VIEWPORT viewPort, D3D12_RECT scissorRect
 	commandList_->IASetVertexBuffers(0, 1, &vertexBufferView);//VBVを設定
 	//形状を設定。PSOに設定しているものとはまた別。同じ物を設定すると考えて置けば良い
 	commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	//マテリアルCBufferの場所を設定
+	commandList_->SetGraphicsRootConstantBufferView(0, materialResource->GetGPUVirtualAddress());
 	//描画！（DrawCall/ドローコール）。3頂点で１つのインスタンス。インスタンスについては今後
 	commandList_->DrawInstanced(3, 1, 0, 0);
 }

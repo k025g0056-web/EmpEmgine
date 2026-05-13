@@ -7,6 +7,7 @@ void ManagementViewPort::Initialize(ID3D12Device* device, int kWindowWidth, int 
 	Write2Resource();
 	GenerateViewPort(kWindowWidth, kWindowHeight);
 	CorrectionScissorRect(kWindowWidth, kWindowHeight);
+	GenerateMaterial(device);
 }
 
 void ManagementViewPort::GenerateVertexResource(ID3D12Device* device) {
@@ -67,4 +68,38 @@ void ManagementViewPort::CorrectionScissorRect(int kWindowWidth, int kWindowHeig
 
 void ManagementViewPort::Release() {
 	vertexResource->Release();
+	materialResource->Release();
+}
+
+ID3D12Resource* ManagementViewPort::CreateBufferResource(ID3D12Device* device, size_t sizeInBytes) {
+	ID3D12Resource* resource;
+	uploadHeapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;//UploadHeapを使う
+	//バッファリソース。テクスチャの場合はまた別の設定をする
+	vertexResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	vertexResourceDesc.Width = sizeInBytes;
+	//バッファの場合これらは1にする決まり
+	vertexResourceDesc.Height = 1;
+	vertexResourceDesc.DepthOrArraySize = 1;
+	vertexResourceDesc.MipLevels = 1;
+	vertexResourceDesc.SampleDesc.Count = 1;
+	//バッファの場合はこれにする決まり
+	vertexResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+	HRESULT hr = device->CreateCommittedResource(&uploadHeapProperties, D3D12_HEAP_FLAG_NONE,
+		&vertexResourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr,
+		IID_PPV_ARGS(&resource));
+	assert(SUCCEEDED(hr));
+
+
+	return resource;
+}
+
+void ManagementViewPort::GenerateMaterial(ID3D12Device* device) {
+	//マテリアル用のリソースを作る
+	materialResource = CreateBufferResource(device, sizeof(Vector4));
+
+	//書き込む溜めのアドレスを取得
+	materialResource->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
+
+	//今回は赤を書き込んでみる
+	*materialData = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
 }

@@ -94,7 +94,8 @@ void EmpEngine::DrawTriangleImpl() {
 		managementViewPort_.GetScissorRect(),
 		managementViewPort_.GetVertexBufferView(), 
 		managementDXC_.GetGraphicPipeLineState(), 
-		managementDXC_.GetRootSignature());
+		managementDXC_.GetRootSignature(),
+		managementViewPort_.GetMaterialResource());
 }
 
 void EmpEngine::DrawTriangle() {
