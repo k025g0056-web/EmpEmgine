@@ -6,16 +6,22 @@ class ManagementDescriptorHeap {
 	D3D12_DESCRIPTOR_HEAP_DESC rtvDescriptorHeapDesc{};
 	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvStartHandle_;
+	ID3D12DescriptorHeap* srvDescriptorHeap_;
+
 	//RTVを二つ作るのでディスクリプタを二つ用意
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles_[2];
 
 	ID3D12Resource* swapChainResources_[2] = { nullptr };
 
-	void GenerateDescriptHeap(ID3D12Device* device);
+	void GenerateRtvDescriptorHeap(ID3D12Device* device);
+	void GenerateSrvDescriptorHeap(ID3D12Device* device);
 	void PullTheSwapChain(IDXGISwapChain4* swapChain);
 	void GenerateRTV(ID3D12Device* device);
 public:
 	void Initialize(ID3D12Device* device, IDXGISwapChain4* swapChain);
+
+	static ID3D12DescriptorHeap* CreateDescriptorHeap(ID3D12Device* device, 
+		D3D12_DESCRIPTOR_HEAP_TYPE heapType, UINT numDescriptors, bool shaderVisible);
 
 	ID3D12DescriptorHeap* GetRtvDescriptorHeap()const { return rtvDescriptorHeap; }
 	D3D12_DESCRIPTOR_HEAP_DESC GetRtvDescriptorHeapDesc() const { return rtvDescriptorHeapDesc; }
@@ -25,5 +31,6 @@ public:
 	D3D12_CPU_DESCRIPTOR_HANDLE* GetRtvHandles() {return rtvHandles_; }
 	ID3D12Resource* GetSwapChainResources(int i)const { if (i > 1 || 0 > i) { return {}; }return swapChainResources_[i]; }
 	ID3D12Resource** GetSwapChainResources() { return swapChainResources_; }
+	ID3D12DescriptorHeap* GetSrvDescriptorHeap() { return srvDescriptorHeap_; }
 	void Release();
 };

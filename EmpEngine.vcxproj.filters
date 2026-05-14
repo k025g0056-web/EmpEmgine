@@ -47,6 +47,33 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Engine\Manegement\ManagementCamera</Filter>
     </ClCompile>
+    <ClCompile Include="externals\imgui\imgui_demo.cpp">
+      <Filter>Engine\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="externals\imgui\imgui_draw.cpp">
+      <Filter>Engine\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="externals\imgui\imgui_impl_dx12.cpp">
+      <Filter>Engine\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="externals\imgui\imgui_impl_win32.cpp">
+      <Filter>Engine\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="externals\imgui\imgui_tables.cpp">
+      <Filter>Engine\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="externals\imgui\imgui_widgets.cpp">
+      <Filter>Engine\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="externals\imgui\imgui.cpp">
+      <Filter>Engine\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="MymGui.cpp">
+      <Filter>Engine\Manegement\MymGui</Filter>
+    </ClCompile>
+    <ClCompile Include="EmpSystems.cpp">
+      <Filter>Engine\System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -115,6 +142,15 @@
     <Filter Include="Engine\Manegement\ManagementCamera">
       <UniqueIdentifier>{50e1ad78-b8d3-4c64-8a4a-3227df3f7f06}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\ImGui">
+      <UniqueIdentifier>{7569cdce-1b38-4832-8379-6802cbe82d34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\MymGui">
+      <UniqueIdentifier>{d4d376c6-84e2-43e4-b939-b48198b42b53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\System">
+      <UniqueIdentifier>{05ee5028-ba58-468d-adba-fdadf446a573}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EmpEngine.h">
@@ -171,6 +207,36 @@
     <ClInclude Include="Camera.h">
       <Filter>Engine\Manegement\ManagementCamera</Filter>
     </ClInclude>
+    <ClInclude Include="externals\imgui\imconfig.h">
+      <Filter>Engine\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="externals\imgui\imgui.h">
+      <Filter>Engine\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="externals\imgui\imgui_impl_dx12.h">
+      <Filter>Engine\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="externals\imgui\imgui_impl_win32.h">
+      <Filter>Engine\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="externals\imgui\imgui_internal.h">
+      <Filter>Engine\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="externals\imgui\imstb_rectpack.h">
+      <Filter>Engine\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="externals\imgui\imstb_textedit.h">
+      <Filter>Engine\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="externals\imgui\imstb_truetype.h">
+      <Filter>Engine\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="MymGui.h">
+      <Filter>Engine\Manegement\MymGui</Filter>
+    </ClInclude>
+    <ClInclude Include="EmpSysetms.h">
+      <Filter>Engine\System</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Object3d.VS.hlsl">
@@ -179,5 +245,10 @@
     <FxCompile Include="Object3d.PS.hlsl">
       <Filter>Engine\Shader</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="externals\imgui\LICENSE.txt">
+      <Filter>Engine\ImGui</Filter>
+    </Text>
   </ItemGroup>
 </Project>

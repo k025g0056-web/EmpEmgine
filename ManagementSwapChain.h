@@ -14,4 +14,6 @@ public:
 	void Release();
 
 	IDXGISwapChain4* GetSwapChain() const{ return swapChain_; }
+	DXGI_SWAP_CHAIN_DESC1 GetSwapChainDesc() { return swapChainDesc_; }
+
 };

@@ -4,17 +4,14 @@
 #include<cassert>
 
 void ManagementDescriptorHeap::Initialize(ID3D12Device* device, IDXGISwapChain4* swapChain) {
-	GenerateDescriptHeap(device);
+	GenerateRtvDescriptorHeap(device);
 	PullTheSwapChain(swapChain);
 	GenerateRTV(device);
+	GenerateSrvDescriptorHeap(device);
 }
 
-void ManagementDescriptorHeap::GenerateDescriptHeap(ID3D12Device* device) {
-	rtvDescriptorHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;//レンダーターゲットビュー用
-	rtvDescriptorHeapDesc.NumDescriptors = 2;//ダブルバッファ用に二つ。多くても別にかまわない
-	HRESULT hr = device->CreateDescriptorHeap(&rtvDescriptorHeapDesc, IID_PPV_ARGS(&rtvDescriptorHeap));
-	//ディスクリプタヒープが作れなかったので起動できない
-	assert(SUCCEEDED(hr));
+void ManagementDescriptorHeap::GenerateRtvDescriptorHeap(ID3D12Device* device) {
+	rtvDescriptorHeap = CreateDescriptorHeap(device, D3D12_DESCRIPTOR_HEAP_TYPE_RTV, 2, false);
 }
 
 void ManagementDescriptorHeap::PullTheSwapChain(IDXGISwapChain4* swapChain) {
@@ -46,4 +43,20 @@ void ManagementDescriptorHeap::Release() {
 	swapChainResources_[0] = nullptr;
 	swapChainResources_[1]->Release();
 	swapChainResources_[1] = nullptr;
+}
+
+ID3D12DescriptorHeap* ManagementDescriptorHeap::CreateDescriptorHeap(ID3D12Device* device, 
+	D3D12_DESCRIPTOR_HEAP_TYPE heapType, UINT numDescriptors, bool shaderVisible) {
+	ID3D12DescriptorHeap* descriptorHeap = nullptr;
+	D3D12_DESCRIPTOR_HEAP_DESC descriptorHeapDesc{};
+	descriptorHeapDesc.Type = heapType;
+	descriptorHeapDesc.NumDescriptors = numDescriptors;
+	descriptorHeapDesc.Flags = shaderVisible ? D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE : D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
+	HRESULT hr = device->CreateDescriptorHeap(&descriptorHeapDesc, IID_PPV_ARGS(&descriptorHeap));
+	assert(SUCCEEDED(hr));
+	return descriptorHeap;
+}
+
+void ManagementDescriptorHeap::GenerateSrvDescriptorHeap(ID3D12Device* device) {
+	srvDescriptorHeap_ = CreateDescriptorHeap(device, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 128, true);
 }
