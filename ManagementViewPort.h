@@ -5,14 +5,13 @@
 #include"Matrix4x4.h"
 #include"TransForm3d.h"
 #include"Camera.h"
-
+#include"VertexData.h"
 
 class ManagementViewPort {
 	D3D12_HEAP_PROPERTIES uploadHeapProperties{};
 	D3D12_RESOURCE_DESC vertexResourceDesc{};
 	ID3D12Resource* vertexResource = nullptr;
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView{};
-	Vector4* vertexData = nullptr;
 	D3D12_VIEWPORT viewport{};
 	D3D12_RECT scissorRect{};
 	ID3D12Resource* materialResource;
@@ -20,6 +19,7 @@ class ManagementViewPort {
 	ID3D12Resource* wvpResource;
 	Matrix4x4* wvpData = nullptr;
 	Transform3d transform{ {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
+	VertexData* vertexData_ = nullptr;
 
 	void GenerateVertexResource(ID3D12Device* device);
 	void GenerateVertexBufferView();

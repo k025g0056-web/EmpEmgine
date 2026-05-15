@@ -37,5 +37,9 @@ public:
 	void KickCommand(IDXGISwapChain4* swapChain);
 	void FenceRelease();
 	void CommandRelease();
-	void DrawCall(D3D12_VIEWPORT viewPort,D3D12_RECT scissorRect,D3D12_VERTEX_BUFFER_VIEW vertexBufferView, ID3D12PipelineState* graphicsPipelineState, ID3D12RootSignature* rootSignature,ID3D12Resource* materialResource, ID3D12Resource* wvpResource);
+	void DrawCall(D3D12_VIEWPORT viewPort,
+		D3D12_RECT scissorRect,D3D12_VERTEX_BUFFER_VIEW vertexBufferView, 
+		ID3D12PipelineState* graphicsPipelineState, ID3D12RootSignature* rootSignature,
+		ID3D12Resource* materialResource, ID3D12Resource* wvpResource,
+		D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU);
 };

@@ -138,7 +138,7 @@ void ManagementCommand::DrawCall(
 	ID3D12PipelineState* graphicsPipelineState, 
 	ID3D12RootSignature* rootSignature, 
 	ID3D12Resource* materialResource, 
-	ID3D12Resource* wvpResource) {
+	ID3D12Resource* wvpResource, D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU) {
 	commandList_->RSSetViewports(1, &viewPort);//viewPortを設定
 	commandList_->RSSetScissorRects(1, &scissorRect);//Scissorを設定
 	//RootSignatureを設定。PSOに設定してるけど別途設定が必要
@@ -150,6 +150,7 @@ void ManagementCommand::DrawCall(
 	//マテリアルCBufferの場所を設定
 	commandList_->SetGraphicsRootConstantBufferView(0, materialResource->GetGPUVirtualAddress());
 	commandList_->SetGraphicsRootConstantBufferView(1, wvpResource->GetGPUVirtualAddress());
+	commandList_->SetGraphicsRootDescriptorTable(2, textureSrvHandleGPU);
 	//描画！（DrawCall/ドローコール）。3頂点で１つのインスタンス。インスタンスについては今後
 	commandList_->DrawInstanced(3, 1, 0, 0);
 }

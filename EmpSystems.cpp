@@ -28,6 +28,7 @@ void EmpSystems::Initialize(int kWindowWidth, int kWindowHeight) {
 		managementSwapChain_.GetSwapChainDesc(), managementDescriptHeap_.GetRtvDesc(),
 		managementDescriptHeap_.GetSrvDescriptorHeap());
 #endif // USE_IMGUI
+	LoadTexture("resources/uvChecker.png");
 
 }
 
@@ -75,7 +76,8 @@ void EmpSystems::DrawTriangle() {
 		managementDXC_.GetGraphicPipeLineState(),
 		managementDXC_.GetRootSignature(),
 		managementViewPort_.GetMaterialResource(),
-		managementViewPort_.GetWvpResource());
+		managementViewPort_.GetWvpResource(),
+		managementTexture_.CreateSRV(managementDescriptHeap_.GetSrvDescriptorHeap(),managementDevice_.GetDevice()));
 }
 
 void EmpSystems::End() {
@@ -110,4 +112,8 @@ void EmpSystems::Release() {
 	managementDebug_.Release();
 	managementWindow_.Release();
 	mymGui_.Release();
+}
+
+ID3D12Resource* EmpSystems::LoadTexture(const std::string& filepath) {
+	return managementTexture_.LoadTexture(managementDevice_.GetDevice(), filepath);
 }

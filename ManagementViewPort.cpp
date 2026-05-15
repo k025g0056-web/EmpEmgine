@@ -16,7 +16,7 @@ void ManagementViewPort::GenerateVertexResource(ID3D12Device* device) {
 	uploadHeapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;//UploadHeapを使う
 	//バッファリソース。テクスチャの場合はまた別の設定をする
 	vertexResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	vertexResourceDesc.Width = sizeof(Vector4) * 3;//リソースのサイズ。今回はVector4を３頂点文
+	vertexResourceDesc.Width = sizeof(VertexData) * 3;//リソースのサイズ。今回はVector4を３頂点文
 	//バッファの場合これらは1にする決まり
 	vertexResourceDesc.Height = 1;
 	vertexResourceDesc.DepthOrArraySize = 1;
@@ -34,21 +34,23 @@ void ManagementViewPort::GenerateVertexBufferView() {
 	//リソースの先頭のアドレスから使う
 	vertexBufferView.BufferLocation = vertexResource->GetGPUVirtualAddress();
 	//使用するリソースのサイズは頂点3つ分のサイズ
-	vertexBufferView.SizeInBytes = sizeof(Vector4) * 3;
+	vertexBufferView.SizeInBytes = sizeof(VertexData) * 3;
 	//一個当たりの頂点サイズ
-	vertexBufferView.StrideInBytes = sizeof(Vector4);
+	vertexBufferView.StrideInBytes = sizeof(VertexData);
 }
 
 void ManagementViewPort::Write2Resource() {
 	//書き込むためのアドレス取得
-	vertexResource->Map(0, nullptr, reinterpret_cast<void**>(&vertexData));
+	vertexResource->Map(0, nullptr, reinterpret_cast<void**>(&vertexData_));
 	//左下
-	vertexData[0] = { -0.5f,-0.5f,0.0f,1.0f };
+	vertexData_[0].position = { -0.5f,-0.5f,0.0f,1.0f };
+	vertexData_[0].texcoord = { 0.0f,1.0f };
 	//上
-	vertexData[1] = { 0.0f,0.5f,0.0f,1.0f };
+	vertexData_[1].position = { 0.0f,0.5f,0.0f,1.0f };
+	vertexData_[1].texcoord = { 0.5f,0.0f };
 	//右下
-	vertexData[2] = { 0.5f,-0.5f,0.0f,1.0f };
-
+	vertexData_[2].position = { 0.5f,-0.5f,0.0f,1.0f };
+	vertexData_[2].texcoord = { 1.0f,1.0f };
 }
 
 void ManagementViewPort::GenerateViewPort(int kWindowWidth, int kWindowHeight) {
@@ -115,7 +117,6 @@ void ManagementViewPort::GenerateWvpResource(ID3D12Device* device) {
 	//単位行列を書き込む
 	*wvpData = MakeIdentity4x4();
 }
-
 
 void ManagementViewPort::Update(Camera camera) {
 	transform.rotate.y += 0.03f;

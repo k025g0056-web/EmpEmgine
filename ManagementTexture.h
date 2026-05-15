@@ -10,6 +10,7 @@
 class ManagementTexture {
 public:
 	ID3D12Resource* LoadTexture(ID3D12Device* device, const std::string& filePath);
+	D3D12_GPU_DESCRIPTOR_HANDLE CreateSRV(ID3D12DescriptorHeap* srvDescriptorHeap, ID3D12Device* device);
 private:
 	void SettingResourceByMetaData(D3D12_RESOURCE_DESC& resourceDesc,const DirectX::TexMetadata& metadata);
 	void SettingHeap(D3D12_HEAP_PROPERTIES& heapProperties);
@@ -18,4 +19,9 @@ private:
 	DirectX::ScratchImage LoadTextureFile(const std::string& filePath);
 	ID3D12Resource* CreateTextureResource(ID3D12Device* device, const DirectX::TexMetadata& metadata);
 	void UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages);
+
+	DirectX::ScratchImage mipImages;
+	DirectX::TexMetadata metadata;
+
+	ID3D12Resource* textureResource;
 };

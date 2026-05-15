@@ -11,6 +11,8 @@
 #include"ManagementViewPort.h"
 #include"Camera.h"
 #include"MymGui.h"
+#include"ManagementTexture.h"
+#include<string>
 
 class EmpEngine;
 class EmpSystems {
@@ -25,6 +27,7 @@ class EmpSystems {
 	void DrawTriangle();
 	void End();
 	void Update();
+	ID3D12Resource* LoadTexture(const std::string& str);
 
 	ManagementWindow managementWindow_;
 	ManagementDXGIFactory managementDXGIFactory_;
@@ -35,8 +38,10 @@ class EmpSystems {
 	ManagementDebug managementDebug_;
 	ManagementDXC managementDXC_;
 	ManagementViewPort managementViewPort_;
+	ManagementTexture managementTexture_;
 	Camera camera_;
 	MymGui mymGui_;
 	int windowWidth_;
 	int windowHeight_;
+
 };

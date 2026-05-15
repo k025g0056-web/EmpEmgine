@@ -2,6 +2,9 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <None Include=".editorconfig" />
+    <None Include="Object3d.hlsli">
+      <Filter>Engine\Shader</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -157,6 +160,12 @@
     <Filter Include="Engine\Manegement\ManagementTexture">
       <UniqueIdentifier>{76c4da23-2143-4def-b36e-c112971da40a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\addMech\VertexData">
+      <UniqueIdentifier>{4dd8569a-a0d1-468c-b470-b12601d5b1ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\addMech\Vector2">
+      <UniqueIdentifier>{7cfc481b-2a45-42c0-ac1a-678a42aa0ba5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EmpEngine.h">
@@ -245,6 +254,12 @@
     </ClInclude>
     <ClInclude Include="ManagementTexture.h">
       <Filter>Engine\Manegement\ManagementTexture</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexData.h">
+      <Filter>Engine\addMech\VertexData</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2.h">
+      <Filter>Engine\addMech\Vector2</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

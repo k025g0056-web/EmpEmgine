@@ -16,6 +16,7 @@ DirectX::ScratchImage ManagementTexture::LoadTextureFile(const std::string& file
 	hr = DirectX::GenerateMipMaps(image.GetImages(), image.GetImageCount(), image.GetMetadata(), DirectX::TEX_FILTER_SRGB, 0, mipImages);
 	assert(SUCCEEDED(hr));
 
+	
 	//ミニマップ付きのデータを返す
 	return mipImages;
 }
@@ -83,9 +84,27 @@ void ManagementTexture::UploadTextureData(ID3D12Resource* texture, const DirectX
 
 ID3D12Resource* ManagementTexture::LoadTexture(ID3D12Device* device, const std::string& filePath) {
 	//テクスチャを読んで転送する
-	DirectX::ScratchImage mipImages = LoadTextureFile(filePath);
-	const DirectX::TexMetadata& metadata = mipImages.GetMetadata();
-	ID3D12Resource* textureResource = CreateTextureResource(device, metadata);
+	mipImages = LoadTextureFile(filePath);
+	metadata = mipImages.GetMetadata();
+	textureResource = CreateTextureResource(device, metadata);
 	UploadTextureData(textureResource, mipImages);
 	return textureResource;
+}
+
+D3D12_GPU_DESCRIPTOR_HANDLE ManagementTexture::CreateSRV(ID3D12DescriptorHeap* srvDescriptorHeap,ID3D12Device* device) {
+	//metaDataを基にSRVの設定
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+	srvDesc.Format = metadata.format;
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2Dのテクスチャ
+	srvDesc.Texture2D.MipLevels = UINT(metadata.mipLevels);
+
+	//SRVを作成するDescriptorHeapの場所を決める
+	D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU = srvDescriptorHeap->GetCPUDescriptorHandleForHeapStart();
+	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU = srvDescriptorHeap->GetGPUDescriptorHandleForHeapStart();
+	textureSrvHandleCPU.ptr += device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	textureSrvHandleGPU.ptr += device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	//SRVの作成
+	device->CreateShaderResourceView(textureResource, &srvDesc, textureSrvHandleCPU);
+	return textureSrvHandleGPU;
 }
