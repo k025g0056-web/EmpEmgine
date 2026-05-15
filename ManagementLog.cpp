@@ -47,3 +47,14 @@ std::string ManagementLog::ConvertToUTF8(const std::wstring& wstr) {
 	WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, &result[0], size, nullptr, nullptr);
 	return result;
 }
+
+std::wstring ManagementLog::ConvertString(const std::string& str) {
+	if (str.empty()) return L"";
+
+	int size = MultiByteToWideChar(CP_ACP, 0, str.c_str(), -1, nullptr, 0);
+	if (size <= 0) return L"";
+
+	std::wstring result(size - 1, L'\0');
+	MultiByteToWideChar(CP_ACP, 0, str.c_str(), -1, result.data(), size);
+	return result;
+}

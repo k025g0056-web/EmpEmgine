@@ -74,6 +74,9 @@
     <ClCompile Include="EmpSystems.cpp">
       <Filter>Engine\System</Filter>
     </ClCompile>
+    <ClCompile Include="ManagementTexture.cpp">
+      <Filter>Engine\Manegement\ManagementTexture</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -150,6 +153,9 @@
     </Filter>
     <Filter Include="Engine\System">
       <UniqueIdentifier>{05ee5028-ba58-468d-adba-fdadf446a573}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\ManagementTexture">
+      <UniqueIdentifier>{76c4da23-2143-4def-b36e-c112971da40a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -236,6 +242,9 @@
     </ClInclude>
     <ClInclude Include="EmpSysetms.h">
       <Filter>Engine\System</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagementTexture.h">
+      <Filter>Engine\Manegement\ManagementTexture</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -5,6 +5,7 @@
 void EmpSystems::Initialize(int kWindowWidth, int kWindowHeight) {
 	//誰も捕捉しなかった場合に(Unhandled)、捕捉する関数を登録
 	//main関数が始まってすぐに登録すると良い
+	CoInitializeEx(0, COINIT_MULTITHREADED);
 	SetUnhandledExceptionFilter(ClashHandler::ExportDump);
 	managementWindow_.Initialize(kWindowWidth, kWindowHeight);
 	//debug initializeの場所ん
@@ -46,7 +47,7 @@ int EmpSystems::ProcessMessage() {
 
 void EmpSystems::Finalize() {
 	Release();
-
+	CoUninitialize();
 #ifdef _DEBUG
 	managementDebug_.DebugReportLiveObject();
 #endif
@@ -86,7 +87,13 @@ void EmpSystems::End() {
 }
 
 void EmpSystems::Update() {
-	mymGui_.DemoShowWindow();
+#ifdef USE_IMGUI
+	//GUIエリア☆（ECCジュニアのリズムで）
+
+
+#endif // USE_IMGUI
+
+
 	camera_.Update(managementViewPort_.GetTransform(), windowWidth_, windowHeight_);
 	managementViewPort_.Update(camera_);
 }
