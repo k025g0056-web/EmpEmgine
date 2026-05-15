@@ -86,7 +86,10 @@ void EmpSystems::End() {
 }
 
 void EmpSystems::Update() {
+#ifdef USE_IMGUI
 	mymGui_.DemoShowWindow();
+#endif // USE_IMGUI
+
 	camera_.Update(managementViewPort_.GetTransform(), windowWidth_, windowHeight_);
 	managementViewPort_.Update(camera_);
 }
