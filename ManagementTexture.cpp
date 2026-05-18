@@ -45,9 +45,9 @@ void ManagementTexture::SettingResourceByMetaData(D3D12_RESOURCE_DESC& resourceD
 }
 
 void ManagementTexture::SettingHeap(D3D12_HEAP_PROPERTIES& heapProperties) {
-	heapProperties.Type = D3D12_HEAP_TYPE_CUSTOM;
-	heapProperties.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;//WriteBackポリシーでCPUアクセス可能
-	heapProperties.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;//プロセッサの近くに配置
+	heapProperties.Type = D3D12_HEAP_TYPE_DEFAULT;
+	heapProperties.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
+	heapProperties.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
 }
 
 void ManagementTexture::GenerateResource(ID3D12Resource*& resource, D3D12_RESOURCE_DESC& resourceDesc,
@@ -56,39 +56,88 @@ void ManagementTexture::GenerateResource(ID3D12Resource*& resource, D3D12_RESOUR
 		&heapProperties,//Heapの設定
 		D3D12_HEAP_FLAG_NONE,//HEAPの特殊な設定。特になし
 		&resourceDesc,//Resourceの設定
-		D3D12_RESOURCE_STATE_GENERIC_READ,//初回のResourceState。Textureは基本的に読むだけ
+		D3D12_RESOURCE_STATE_COPY_DEST,//データ転送される設計
 		nullptr,//Clear最適値。使わないのでnullptr
 		IID_PPV_ARGS(&resource));//作成するResourceポインタへのポインタ
 	assert(SUCCEEDED(hr));
 }
 
-void ManagementTexture::UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages) {
-	//Meta情報を取得
-	const DirectX::TexMetadata& metadata = mipImages.GetMetadata();
-	//全MipMapについて
-	for (size_t mipLevel = 0; mipLevel < metadata.mipLevels;++mipLevel) {
-		//MipMapLevelを指定して各Imageを取得
-		const DirectX::Image* img = mipImages.GetImage(mipLevel, 0, 0);
-		//Textureに転送
-		HRESULT hr = texture->WriteToSubresource(
-			UINT(mipLevel),
-			nullptr,//全領域にコピー
-			img->pixels,//元データアドレス
-			UINT(img->rowPitch),//1ラインサイズ
-			UINT(img->slicePitch)//1マイサイズ
-		);
-		assert(SUCCEEDED(hr));
-
-	}
+[[nodiscard]]
+ID3D12Resource* ManagementTexture::UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages,
+	ID3D12Device* device,ID3D12GraphicsCommandList*commandList) {
+	std::vector<D3D12_SUBRESOURCE_DATA>subResources;
+	DirectX::PrepareUpload(device, mipImages.GetImages(), mipImages.GetImageCount(), mipImages.GetMetadata(), subResources);
+	uint64_t intermediateSize = GetRequiredIntermediateSize(texture, 0, UINT(subResources.size()));
+	ID3D12Resource* intermediateResource = CreateBufferResource(device, intermediateSize);
+	UpdateSubresources(commandList, texture, intermediateResource, 0, 0, UINT(subResources.size()), subResources.data());
+	//Textureへの転送後は利用できるよう、D3D12_RESOURCE_STATE_COPYから
+	//D3D12_RESOURCE_STATE_GENERIC_READへResourceStateを変更する
+	D3D12_RESOURCE_BARRIER barrier{};
+	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+	barrier.Transition.pResource = texture;
+	barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
+	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_COPY_DEST;
+	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_GENERIC_READ;
+	commandList->ResourceBarrier(1, &barrier);
+	return intermediateResource;
 }
 
-ID3D12Resource* ManagementTexture::LoadTexture(ID3D12Device* device, const std::string& filePath) {
+ID3D12Resource* ManagementTexture::LoadTexture(ID3D12Device* device, const std::string& filePath, 
+	ID3D12GraphicsCommandList* commandList,ID3D12CommandQueue* commandQueue,
+	ID3D12CommandAllocator* commandAllocator, HANDLE fenceEvent, uint64_t fenceValue, ID3D12Fence*fence) {
 	//テクスチャを読んで転送する
 	mipImages = LoadTextureFile(filePath);
 	metadata = mipImages.GetMetadata();
 	textureResource = CreateTextureResource(device, metadata);
-	UploadTextureData(textureResource, mipImages);
+	ID3D12Resource* intermediateResource=UploadTextureData(textureResource, mipImages,device,commandList);
+	commandList->Close();
+
+	ID3D12CommandList* commandLists[] = { commandList};
+	commandQueue->ExecuteCommandLists(1, commandLists);
+
+	commandQueue->Signal(fence, fenceValue);
+
+	if (fence->GetCompletedValue() < fenceValue) {
+		//指定したSignalにたどりついていないので、たどりつくまで待つようにイベントを設定する
+		fence->SetEventOnCompletion(fenceValue, fenceEvent);
+		//イベントを待つ
+		WaitForSingleObject(fenceEvent, INFINITE);
+	}
+
+	commandAllocator->Reset();
+	commandList->Reset(commandAllocator, nullptr);
 	return textureResource;
+}
+
+//今回だけの臨時入場、次ファイル整理するとき片づける
+ID3D12Resource* ManagementTexture::CreateBufferResource(ID3D12Device* device, size_t sizeInBytes) {
+	ID3D12Resource* resource = nullptr;
+
+	// ローカル変数にするなの！メンバ変数を汚さないなの！
+	D3D12_HEAP_PROPERTIES heapProps{};
+	heapProps.Type = D3D12_HEAP_TYPE_UPLOAD;
+
+	D3D12_RESOURCE_DESC desc{};
+	desc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	desc.Width = (sizeInBytes + 255) & ~255;
+	desc.Height = 1;
+	desc.DepthOrArraySize = 1;
+	desc.MipLevels = 1;
+	desc.SampleDesc.Count = 1;
+	desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+	HRESULT hr = device->CreateCommittedResource(
+		&heapProps,
+		D3D12_HEAP_FLAG_NONE,
+		&desc,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&resource)
+	);
+	assert(SUCCEEDED(hr));
+
+	return resource;
 }
 
 D3D12_GPU_DESCRIPTOR_HANDLE ManagementTexture::CreateSRV(ID3D12DescriptorHeap* srvDescriptorHeap,ID3D12Device* device) {

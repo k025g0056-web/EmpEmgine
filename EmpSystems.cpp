@@ -116,5 +116,7 @@ void EmpSystems::Release() {
 }
 
 ID3D12Resource* EmpSystems::LoadTexture(const std::string& filepath) {
-	return managementTexture_.LoadTexture(managementDevice_.GetDevice(), filepath);
+	return managementTexture_.LoadTexture(managementDevice_.GetDevice(), filepath,managementCommand_.GetCommandList()
+	,managementCommand_.GetCommandQueue(),managementCommand_.GetCommandAllocator(),managementCommand_.GetFenceEvent()
+	,managementCommand_.GetFenceValue(),managementCommand_.GetFence());
 }

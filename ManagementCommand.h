@@ -33,6 +33,9 @@ public:
 	ID3D12CommandQueue* GetCommandQueue() const{ return commandQueue_.Get(); }
 	ID3D12CommandAllocator* GetCommandAllocator()const { return commandAllocator_.Get(); }
 	ID3D12GraphicsCommandList* GetCommandList()const { return commandList_.Get(); }
+	HANDLE GetFenceEvent() { return fenceEvent_; }
+	uint64_t GetFenceValue() { return fenceValue_; }
+	ID3D12Fence* GetFence() { return fence_; }
 	void LoadCommand(IDXGISwapChain4* swapChain, D3D12_CPU_DESCRIPTOR_HANDLE*rtvHandles, ID3D12Resource** swapChainResources_);
 	void KickCommand(IDXGISwapChain4* swapChain);
 	void FenceRelease();
