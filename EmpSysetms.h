@@ -43,5 +43,5 @@ class EmpSystems {
 	MymGui mymGui_;
 	int windowWidth_;
 	int windowHeight_;
-
+	D3D12_GPU_DESCRIPTOR_HANDLE SRV;
 };

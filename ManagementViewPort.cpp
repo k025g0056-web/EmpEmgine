@@ -106,7 +106,7 @@ void ManagementViewPort::GenerateMaterial(ID3D12Device* device) {
 	materialResource->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
 
 	//今回は赤を書き込んでみる
-	*materialData = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
+	*materialData = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 void ManagementViewPort::GenerateWvpResource(ID3D12Device* device) {

@@ -39,7 +39,7 @@
       <Filter>Engine\Manegement\ManagementDebug</Filter>
     </ClCompile>
     <ClCompile Include="ManagementDXC.cpp">
-      <Filter>Engine\Manegement\MansgementDXC</Filter>
+      <Filter>Engine\Manegement\ManagementDXC</Filter>
     </ClCompile>
     <ClCompile Include="ManagementViewPort.cpp">
       <Filter>Engine\Manegement\ManagementViewPort</Filter>
@@ -121,9 +121,6 @@
     <Filter Include="Engine\Shader">
       <UniqueIdentifier>{74b8016c-c9af-41ef-af37-bed799326a35}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Manegement\MansgementDXC">
-      <UniqueIdentifier>{51a712bb-6dc4-4251-b9ce-d6dfd1313faa}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Manegement\ManagementViewPort">
       <UniqueIdentifier>{1d631f6f-4653-4c3e-ad42-ba357217ce93}</UniqueIdentifier>
     </Filter>
@@ -166,6 +163,9 @@
     <Filter Include="Engine\addMech\Vector2">
       <UniqueIdentifier>{7cfc481b-2a45-42c0-ac1a-678a42aa0ba5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Manegement\ManagementDXC">
+      <UniqueIdentifier>{51a712bb-6dc4-4251-b9ce-d6dfd1313faa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EmpEngine.h">
@@ -199,7 +199,7 @@
       <Filter>Engine\Manegement\ManagementDebug</Filter>
     </ClInclude>
     <ClInclude Include="ManagementDXC.h">
-      <Filter>Engine\Manegement\MansgementDXC</Filter>
+      <Filter>Engine\Manegement\ManagementDXC</Filter>
     </ClInclude>
     <ClInclude Include="ManagementViewPort.h">
       <Filter>Engine\Manegement\ManagementViewPort</Filter>

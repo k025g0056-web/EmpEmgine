@@ -41,5 +41,6 @@ public:
 		D3D12_RECT scissorRect,D3D12_VERTEX_BUFFER_VIEW vertexBufferView, 
 		ID3D12PipelineState* graphicsPipelineState, ID3D12RootSignature* rootSignature,
 		ID3D12Resource* materialResource, ID3D12Resource* wvpResource,
+		ID3D12DescriptorHeap* srvDescriptorHeap,
 		D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU);
 };

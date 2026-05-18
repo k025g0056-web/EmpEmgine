@@ -29,7 +29,7 @@ void EmpSystems::Initialize(int kWindowWidth, int kWindowHeight) {
 		managementDescriptHeap_.GetSrvDescriptorHeap());
 #endif // USE_IMGUI
 	LoadTexture("resources/uvChecker.png");
-
+	SRV = managementTexture_.CreateSRV(managementDescriptHeap_.GetSrvDescriptorHeap(), managementDevice_.GetDevice());
 }
 
 int EmpSystems::ProcessMessage() {
@@ -77,7 +77,8 @@ void EmpSystems::DrawTriangle() {
 		managementDXC_.GetRootSignature(),
 		managementViewPort_.GetMaterialResource(),
 		managementViewPort_.GetWvpResource(),
-		managementTexture_.CreateSRV(managementDescriptHeap_.GetSrvDescriptorHeap(),managementDevice_.GetDevice()));
+		managementDescriptHeap_.GetSrvDescriptorHeap(),
+		SRV);
 }
 
 void EmpSystems::End() {

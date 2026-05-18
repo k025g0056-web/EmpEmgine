@@ -1,7 +1,7 @@
 #pragma once
 #include <Windows.h>
 #include<dxcapi.h>
-#include<string.>
+#include<string>
 #include <d3d12.h>
 #include <dxgi1_6.h>
 

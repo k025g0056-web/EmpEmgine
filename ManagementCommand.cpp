@@ -138,12 +138,16 @@ void ManagementCommand::DrawCall(
 	ID3D12PipelineState* graphicsPipelineState, 
 	ID3D12RootSignature* rootSignature, 
 	ID3D12Resource* materialResource, 
-	ID3D12Resource* wvpResource, D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU) {
+	ID3D12Resource* wvpResource, ID3D12DescriptorHeap* srvDescriptorHeap,
+	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU) {
 	commandList_->RSSetViewports(1, &viewPort);//viewPortを設定
 	commandList_->RSSetScissorRects(1, &scissorRect);//Scissorを設定
 	//RootSignatureを設定。PSOに設定してるけど別途設定が必要
 	commandList_->SetGraphicsRootSignature(rootSignature);
 	commandList_->SetPipelineState(graphicsPipelineState);//PSOを設定
+	ID3D12DescriptorHeap* descriptorHeaps[] = { srvDescriptorHeap };
+	commandList_->SetDescriptorHeaps(1, descriptorHeaps); // ← これがないとエラー！
+
 	commandList_->IASetVertexBuffers(0, 1, &vertexBufferView);//VBVを設定
 	//形状を設定。PSOに設定しているものとはまた別。同じ物を設定すると考えて置けば良い
 	commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
