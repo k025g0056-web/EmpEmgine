@@ -17,9 +17,9 @@ void EmpSystems::Initialize(int kWindowWidth, int kWindowHeight) {
 	managementDebug_.ErrorDetection(managementDevice_.GetDevice());
 	managementCommand_.Initialize(managementDevice_.GetDevice());
 	managementSwapChain_.Initialize(kWindowWidth, kWindowHeight, managementCommand_.GetCommandQueue(), managementWindow_.GetHwnd(0), managementDXGIFactory_.GetDXGIFactory());
-	managementDescriptHeap_.Initialize(managementDevice_.GetDevice(), managementSwapChain_.GetSwapChain());
-	managementDXC_.Initialize(managementDevice_.GetDevice());
 	managementViewPort_.Initialize(managementDevice_.GetDevice(), kWindowWidth, kWindowHeight);
+	managementDescriptHeap_.Initialize(managementDevice_.GetDevice(), managementSwapChain_.GetSwapChain(),managementViewPort_.GetDepthStencilResource());
+	managementDXC_.Initialize(managementDevice_.GetDevice());
 	camera_.Initialize();
 	windowHeight_ = kWindowHeight;
 	windowWidth_ = kWindowWidth;
@@ -62,7 +62,8 @@ void EmpSystems::Begin() {
 	managementCommand_.LoadCommand(
 		managementSwapChain_.GetSwapChain(), 
 		managementDescriptHeap_.GetRtvHandles(),
-		managementDescriptHeap_.GetSwapChainResources());
+		managementDescriptHeap_.GetSwapChainResources(),
+		managementDescriptHeap_.GetDsvDescriptorHeap());
 #ifdef USE_IMGUI
 	mymGui_.Begin();
 #endif // USE_IMGUI

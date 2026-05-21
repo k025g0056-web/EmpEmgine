@@ -33,14 +33,17 @@ void ManagementCommand::GenerateCommandList(ID3D12Device* device) {
 	assert(SUCCEEDED(hr_));
 }
 
-void ManagementCommand::LoadCommand(IDXGISwapChain4* swapChain,D3D12_CPU_DESCRIPTOR_HANDLE* rtvHandles, ID3D12Resource** swapChainResources_) {
+void ManagementCommand::LoadCommand(IDXGISwapChain4* swapChain,D3D12_CPU_DESCRIPTOR_HANDLE* rtvHandles, ID3D12Resource** swapChainResources_, ID3D12DescriptorHeap* dsvDescriptorHeap) {
+	
 	//これから書き込むバックバッファのインデックスを取得
 	UINT backBufferIndex = swapChain->GetCurrentBackBufferIndex();
 	//バリアを張る
 	PutUpABarrier(swapChainResources_, backBufferIndex);
-	//描画先のRTVを設定する
-	commandList_->OMSetRenderTargets(1, &rtvHandles[backBufferIndex],
-	false, nullptr);
+
+	SettingDsvHandle(dsvDescriptorHeap, rtvHandles, backBufferIndex);
+
+	commandList_->ClearDepthStencilView(dsvHandle_, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+
 	//指定した色で画面全体をクリアする
 	commandList_->ClearRenderTargetView(rtvHandles[backBufferIndex], clearColor_,
 		0, nullptr);
@@ -157,4 +160,9 @@ void ManagementCommand::DrawCall(
 	commandList_->SetGraphicsRootDescriptorTable(2, textureSrvHandleGPU);
 	//描画！（DrawCall/ドローコール）。3頂点で１つのインスタンス。インスタンスについては今後
 	commandList_->DrawInstanced(6, 1, 0, 0);
+}
+
+void ManagementCommand::SettingDsvHandle(ID3D12DescriptorHeap* dsvDescriptorHeap, D3D12_CPU_DESCRIPTOR_HANDLE* rtvHandle,UINT backBufferIndex) {
+	dsvHandle_ = dsvDescriptorHeap->GetCPUDescriptorHandleForHeapStart();
+	commandList_->OMSetRenderTargets(1, &rtvHandle[backBufferIndex], false, &dsvHandle_);
 }

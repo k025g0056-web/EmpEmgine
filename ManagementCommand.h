@@ -8,6 +8,7 @@
 class ManagementCommand {
 	D3D12_COMMAND_QUEUE_DESC commandQueueDesc_{};
 	D3D12_RESOURCE_BARRIER barrier_{};
+	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle_;
 
 	Microsoft::WRL::ComPtr<ID3D12CommandQueue> commandQueue_;
 	Microsoft::WRL::ComPtr<ID3D12CommandAllocator> commandAllocator_;
@@ -27,6 +28,7 @@ class ManagementCommand {
 	void GenerateFence(ID3D12Device* device);
 	void SendSignal();
 	void WaitingGPU();
+	void SettingDsvHandle(ID3D12DescriptorHeap* dsvDescriptorHeap, D3D12_CPU_DESCRIPTOR_HANDLE* rtvHandle, UINT backBufferIndex);
 public:
 
 	void Initialize(ID3D12Device* device);
@@ -36,7 +38,7 @@ public:
 	HANDLE GetFenceEvent() { return fenceEvent_; }
 	uint64_t GetFenceValue() { return fenceValue_; }
 	ID3D12Fence* GetFence() { return fence_; }
-	void LoadCommand(IDXGISwapChain4* swapChain, D3D12_CPU_DESCRIPTOR_HANDLE*rtvHandles, ID3D12Resource** swapChainResources_);
+	void LoadCommand(IDXGISwapChain4* swapChain, D3D12_CPU_DESCRIPTOR_HANDLE*rtvHandles, ID3D12Resource** swapChainResources_,ID3D12DescriptorHeap* dsvDescriptorHeap);
 	void KickCommand(IDXGISwapChain4* swapChain);
 	void FenceRelease();
 	void CommandRelease();

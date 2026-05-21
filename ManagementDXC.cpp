@@ -133,6 +133,19 @@ void ManagementDXC::GenerateRootSignature(ID3D12Device* device) {
 		signatureBlob_->GetBufferPointer(), signatureBlob_->GetBufferSize(),
 		IID_PPV_ARGS(&rootSignature_));
 	assert(SUCCEEDED(hr));
+
+	//Depthの機能を有効化する
+	depthStencilDesc_.DepthEnable = true;
+
+	//書き込みします
+	depthStencilDesc_.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+
+	//比較関数はLessEqual。つまり、近ければ描画される
+	depthStencilDesc_.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
+
+	//DepthStencilの設定
+	graphicspipelineStateDesc.DepthStencilState = depthStencilDesc_;
+	graphicspipelineStateDesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
 }
 
 void ManagementDXC::SettingInputLayout() {
