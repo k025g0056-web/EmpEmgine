@@ -25,7 +25,7 @@ private:
 	static EmpEngine& GetInstance();
 	void InitializeImpl(int kWindowWidth, int kWindowHeight);
 	int ProcessMessageImpl();
-	void SetWindowSizeImpl(unsigned int index, int windowWidth, int windowdHeight);
+	void SetWindowSizeImpl(unsigned int index, int windowWidth, int windowHeight);
 	void FinalizeImpl();
 	void BeginImpl();
 	void Release();
