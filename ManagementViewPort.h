@@ -6,6 +6,7 @@
 #include"TransForm3d.h"
 #include"Camera.h"
 #include"VertexData.h"
+#include<cstdint>
 
 class ManagementViewPort {
 	D3D12_HEAP_PROPERTIES uploadHeapProperties{};
@@ -29,6 +30,7 @@ class ManagementViewPort {
 	ID3D12Resource* CreateBufferResource(ID3D12Device* device, size_t sizeInBytes);
 	void GenerateMaterial(ID3D12Device* device);
 	void GenerateWvpResource(ID3D12Device* device);
+	ID3D12Resource* CreateDepthStencilTextureResource(ID3D12Device* device, int32_t width, int32_t height);
 public:
 	void Initialize(ID3D12Device* device, int kWindowWidth, int kWindowHeight);
 	D3D12_VIEWPORT GetViewPort() { return viewport; }
