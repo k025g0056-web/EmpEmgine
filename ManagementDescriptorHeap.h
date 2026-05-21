@@ -7,6 +7,9 @@ class ManagementDescriptorHeap {
 	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvStartHandle_;
 	ID3D12DescriptorHeap* srvDescriptorHeap_;
+	ID3D12DescriptorHeap* dsvDescriptorHeap_;
+	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc_{};
+
 
 	//RTVを二つ作るのでディスクリプタを二つ用意
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles_[2];
@@ -15,10 +18,12 @@ class ManagementDescriptorHeap {
 
 	void GenerateRtvDescriptorHeap(ID3D12Device* device);
 	void GenerateSrvDescriptorHeap(ID3D12Device* device);
+	void GenerateDsvDescriptorHeap(ID3D12Device* device);
 	void PullTheSwapChain(IDXGISwapChain4* swapChain);
 	void GenerateRTV(ID3D12Device* device);
+	void GenerateDsvDesc(ID3D12Device* device,ID3D12Resource* depthStencilResource);
 public:
-	void Initialize(ID3D12Device* device, IDXGISwapChain4* swapChain);
+	void Initialize(ID3D12Device* device, IDXGISwapChain4* swapChain, ID3D12Resource* depthStencilResource);
 
 	static ID3D12DescriptorHeap* CreateDescriptorHeap(ID3D12Device* device, 
 		D3D12_DESCRIPTOR_HEAP_TYPE heapType, UINT numDescriptors, bool shaderVisible);

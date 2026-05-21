@@ -10,7 +10,7 @@ void ManagementViewPort::Initialize(ID3D12Device* device, int kWindowWidth, int 
 	CorrectionScissorRect(kWindowWidth, kWindowHeight);
 	GenerateMaterial(device);
 	GenerateWvpResource(device);
-	C
+	depthStencilResource_=CreateDepthStencilTextureResource(device, kWindowWidth, kWindowHeight);
 }
 
 void ManagementViewPort::GenerateVertexResource(ID3D12Device* device) {
@@ -171,4 +171,5 @@ ID3D12Resource* ManagementViewPort::CreateDepthStencilTextureResource(ID3D12Devi
 		&depthClearValue,//Clear最適値
 		IID_PPV_ARGS(&resource));//作成するResourceポインタへのポインタ
 	assert(SUCCEEDED(hr));
+	return resource;
 }

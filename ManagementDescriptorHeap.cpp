@@ -3,11 +3,13 @@
 #pragma comment(lib,"dxgi.lib")
 #include<cassert>
 
-void ManagementDescriptorHeap::Initialize(ID3D12Device* device, IDXGISwapChain4* swapChain) {
+void ManagementDescriptorHeap::Initialize(ID3D12Device* device, IDXGISwapChain4* swapChain, ID3D12Resource* depthStencilResource) {
 	GenerateRtvDescriptorHeap(device);
 	PullTheSwapChain(swapChain);
 	GenerateRTV(device);
 	GenerateSrvDescriptorHeap(device);
+	GenerateDsvDescriptorHeap(device);
+	GenerateDsvDesc(device, depthStencilResource);
 }
 
 void ManagementDescriptorHeap::GenerateRtvDescriptorHeap(ID3D12Device* device) {
@@ -59,4 +61,15 @@ ID3D12DescriptorHeap* ManagementDescriptorHeap::CreateDescriptorHeap(ID3D12Devic
 
 void ManagementDescriptorHeap::GenerateSrvDescriptorHeap(ID3D12Device* device) {
 	srvDescriptorHeap_ = CreateDescriptorHeap(device, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 128, true);
+}
+
+void ManagementDescriptorHeap::GenerateDsvDescriptorHeap(ID3D12Device* device) {
+	dsvDescriptorHeap_ = CreateDescriptorHeap(device, D3D12_DESCRIPTOR_HEAP_TYPE_DSV, 1, false);
+}
+
+void ManagementDescriptorHeap::GenerateDsvDesc(ID3D12Device*device,ID3D12Resource* depthStencilResource) {
+	dsvDesc_.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;//Format。基本的にはResourceに合わせる
+	dsvDesc_.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;//2dTexture
+	//DSVHEAPの先頭にDSVを作る
+	device->CreateDepthStencilView(depthStencilResource, &dsvDesc_, dsvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart());
 }

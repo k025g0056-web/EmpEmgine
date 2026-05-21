@@ -21,6 +21,7 @@ class ManagementViewPort {
 	Matrix4x4* wvpData = nullptr;
 	Transform3d transform{ {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 	VertexData* vertexData_ = nullptr;
+	ID3D12Resource* depthStencilResource_;
 
 	void GenerateVertexResource(ID3D12Device* device);
 	void GenerateVertexBufferView();
@@ -39,6 +40,7 @@ public:
 	ID3D12Resource* GetMaterialResource() { return materialResource; }
 	ID3D12Resource* GetWvpResource() { return wvpResource; }
 	Transform3d GetTransform() { return transform; }
+	ID3D12Resource* GetDepthStencilResource() { return depthStencilResource_; }
 	void Update(Camera camera);
 	void Release();
 };
