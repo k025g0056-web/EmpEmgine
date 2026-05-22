@@ -2,8 +2,304 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <None Include=".editorconfig" />
+    <None Include="Object3d.hlsli">
+      <Filter>Engine\Shader</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="EmpEngine.cpp">
+      <Filter>Engine\main</Filter>
+    </ClCompile>
+    <ClCompile Include="managementWindow.cpp">
+      <Filter>Engine\Manegement\ManagementWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagementLog.cpp">
+      <Filter>Engine\Manegement\ManagementLog</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagementDXGIFactory.cpp">
+      <Filter>Engine\Manegement\ManagementDXGIFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagementDevice.cpp">
+      <Filter>Engine\Manegement\ManagementDevice</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagementCommand.cpp">
+      <Filter>Engine\Manegement\ManagementCommand</Filter>
+    </ClCompile>
+    <ClCompile Include="ClashHandler.cpp">
+      <Filter>Engine\Manegement\ClashHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagementSwapChain.cpp">
+      <Filter>Engine\Manegement\ManagementSwapChain</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagementDescriptorHeap.cpp">
+      <Filter>Engine\Manegement\ManagementDescriptorHeap</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagementDebug.cpp">
+      <Filter>Engine\Manegement\ManagementDebug</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagementDXC.cpp">
+      <Filter>Engine\Manegement\ManagementDXC</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagementViewPort.cpp">
+      <Filter>Engine\Manegement\ManagementViewPort</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera3d.cpp">
+      <Filter>Engine\Manegement\ManagementCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="externals\imgui\imgui_demo.cpp">
+      <Filter>Engine\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="externals\imgui\imgui_draw.cpp">
+      <Filter>Engine\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="externals\imgui\imgui_impl_dx12.cpp">
+      <Filter>Engine\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="externals\imgui\imgui_impl_win32.cpp">
+      <Filter>Engine\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="externals\imgui\imgui_tables.cpp">
+      <Filter>Engine\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="externals\imgui\imgui_widgets.cpp">
+      <Filter>Engine\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="externals\imgui\imgui.cpp">
+      <Filter>Engine\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="MymGui.cpp">
+      <Filter>Engine\Manegement\MymGui</Filter>
+    </ClCompile>
+    <ClCompile Include="EmpSystems.cpp">
+      <Filter>Engine\System</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagementTexture.cpp">
+      <Filter>Engine\Manegement\ManagementTexture</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix4x4.cpp">
+      <Filter>Engine\addMech\Matrix4x4</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix3x3.cpp">
+      <Filter>Engine\addMech\Matrix3x3</Filter>
+    </ClCompile>
+    <ClCompile Include="Vertex42d.cpp">
+      <Filter>Engine\addMech\Vertex42d</Filter>
+    </ClCompile>
+    <ClCompile Include="DX12Mechanics.cpp">
+      <Filter>Engine\addMech\DX12Mechanics</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{c6132ddf-411a-437c-8e37-17a531cba6ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\main">
+      <UniqueIdentifier>{058bdaa5-5f80-4cac-a737-e09acf2f0cb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement">
+      <UniqueIdentifier>{a0bdcbc2-ef19-4c07-9d18-42b247042419}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\ManagementWindow">
+      <UniqueIdentifier>{3670a508-ab7b-45f3-9ae8-19136bdb354b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\ManagementDXGIFactory">
+      <UniqueIdentifier>{397d872c-aa94-48e5-b20a-73773869a004}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\ManagementDevice">
+      <UniqueIdentifier>{6dabed80-002f-4db1-b952-5d386cc9d86f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\ManagementCommand">
+      <UniqueIdentifier>{f3cd21d1-0afd-4899-b3eb-301d5939ac62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\ClashHandler">
+      <UniqueIdentifier>{bebb7178-47a8-4de7-97eb-fa30dee9b0a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\ManagementSwapChain">
+      <UniqueIdentifier>{da3a9dde-9169-4496-bada-fbcee120d9eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\ManagementDescriptorHeap">
+      <UniqueIdentifier>{62eb3e34-e72e-4b05-9657-61a50eb0d58f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\ManagementLog">
+      <UniqueIdentifier>{1d29e322-d123-469e-ba05-516163cc10ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\ManagementDebug">
+      <UniqueIdentifier>{5150cfa3-a23b-4f26-9085-b38cd7fb4da6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Shader">
+      <UniqueIdentifier>{74b8016c-c9af-41ef-af37-bed799326a35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\ManagementViewPort">
+      <UniqueIdentifier>{1d631f6f-4653-4c3e-ad42-ba357217ce93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\addMech">
+      <UniqueIdentifier>{64e8918b-6022-42d8-9260-be0d9c3537e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\addMech\Vector4">
+      <UniqueIdentifier>{cf731bf1-0721-4bc3-9258-5aa6dfe7f252}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\addMech\Matrix4x4">
+      <UniqueIdentifier>{e5a4ffd2-28b9-45fa-9597-e16a011f1898}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\addMech\Verctor3">
+      <UniqueIdentifier>{e9efc3d4-b374-4335-9816-6702e62c6805}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\addMech\TransForm3d">
+      <UniqueIdentifier>{b95025f2-7998-49ee-9074-901b9a0f4110}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\ManagementCamera">
+      <UniqueIdentifier>{50e1ad78-b8d3-4c64-8a4a-3227df3f7f06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\ImGui">
+      <UniqueIdentifier>{7569cdce-1b38-4832-8379-6802cbe82d34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\MymGui">
+      <UniqueIdentifier>{d4d376c6-84e2-43e4-b939-b48198b42b53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\System">
+      <UniqueIdentifier>{05ee5028-ba58-468d-adba-fdadf446a573}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\ManagementTexture">
+      <UniqueIdentifier>{76c4da23-2143-4def-b36e-c112971da40a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\addMech\VertexData">
+      <UniqueIdentifier>{4dd8569a-a0d1-468c-b470-b12601d5b1ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\addMech\Vector2">
+      <UniqueIdentifier>{7cfc481b-2a45-42c0-ac1a-678a42aa0ba5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\ManagementDXC">
+      <UniqueIdentifier>{51a712bb-6dc4-4251-b9ce-d6dfd1313faa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\addMech\Matrix2x2">
+      <UniqueIdentifier>{fcd575f8-e10e-4d69-8f2f-12ef198c9874}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\addMech\Matrix3x3">
+      <UniqueIdentifier>{20926e2a-baae-4cbe-afb5-b72cc90586b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\addMech\Vertex42d">
+      <UniqueIdentifier>{5969a2ae-62e3-4034-9408-a4370196b64f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\addMech\DX12Mechanics">
+      <UniqueIdentifier>{a5ebc2c4-36ee-47d6-b81e-ae2f2d84b48b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="EmpEngine.h">
+      <Filter>Engine\main</Filter>
+    </ClInclude>
+    <ClInclude Include="managementWindow.h">
+      <Filter>Engine\Manegement\ManagementWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagementLog.h">
+      <Filter>Engine\Manegement\ManagementLog</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagementDXGIFactory.h">
+      <Filter>Engine\Manegement\ManagementDXGIFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagementDevice.h">
+      <Filter>Engine\Manegement\ManagementDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagementCommand.h">
+      <Filter>Engine\Manegement\ManagementCommand</Filter>
+    </ClInclude>
+    <ClInclude Include="ClashHandler.h">
+      <Filter>Engine\Manegement\ClashHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagementSwapChain.h">
+      <Filter>Engine\Manegement\ManagementSwapChain</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagementDescriptorHeap.h">
+      <Filter>Engine\Manegement\ManagementDescriptorHeap</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagementDebug.h">
+      <Filter>Engine\Manegement\ManagementDebug</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagementDXC.h">
+      <Filter>Engine\Manegement\ManagementDXC</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagementViewPort.h">
+      <Filter>Engine\Manegement\ManagementViewPort</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector4.h">
+      <Filter>Engine\addMech\Vector4</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix4x4.h">
+      <Filter>Engine\addMech\Matrix4x4</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3.h">
+      <Filter>Engine\addMech\Verctor3</Filter>
+    </ClInclude>
+    <ClInclude Include="TransForm3d.h">
+      <Filter>Engine\addMech\TransForm3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera3d.h">
+      <Filter>Engine\Manegement\ManagementCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="externals\imgui\imconfig.h">
+      <Filter>Engine\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="externals\imgui\imgui.h">
+      <Filter>Engine\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="externals\imgui\imgui_impl_dx12.h">
+      <Filter>Engine\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="externals\imgui\imgui_impl_win32.h">
+      <Filter>Engine\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="externals\imgui\imgui_internal.h">
+      <Filter>Engine\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="externals\imgui\imstb_rectpack.h">
+      <Filter>Engine\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="externals\imgui\imstb_textedit.h">
+      <Filter>Engine\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="externals\imgui\imstb_truetype.h">
+      <Filter>Engine\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="MymGui.h">
+      <Filter>Engine\Manegement\MymGui</Filter>
+    </ClInclude>
+    <ClInclude Include="EmpSysetms.h">
+      <Filter>Engine\System</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagementTexture.h">
+      <Filter>Engine\Manegement\ManagementTexture</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexData.h">
+      <Filter>Engine\addMech\VertexData</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2.h">
+      <Filter>Engine\addMech\Vector2</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix2x2.h">
+      <Filter>Engine\addMech\Matrix2x2</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix3x3.h">
+      <Filter>Engine\addMech\Matrix3x3</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex42d.h">
+      <Filter>Engine\addMech\Vertex42d</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12Mechanics.h">
+      <Filter>Engine\addMech\DX12Mechanics</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Object3d.VS.hlsl">
+      <Filter>Engine\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Object3d.PS.hlsl">
+      <Filter>Engine\Shader</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="externals\imgui\LICENSE.txt">
+      <Filter>Engine\ImGui</Filter>
+    </Text>
   </ItemGroup>
 </Project>

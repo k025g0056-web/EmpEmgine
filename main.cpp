@@ -1,8 +1,24 @@
-#include<Windows.h>
+#include"EmpEngine.h"
 
 //Windowsアプリでのエントリーポイント(main関数)
-int WINAPI WinMain(_In_ HINSTANCE, _In_ HINSTANCE,_In_ LPSTR,_In_ int) {
-	//出力ウィンドウへの文字出力
-	OutputDebugStringA("Hello,DirectX!\n");
+
+int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
+	//必ず最初に初期化する
+	EmpEngine::Initialize(1280,720);
+
+	//ゲームのメインループ
+	while (EmpEngine::ProcessMessage()==0){
+		EmpEngine::Begin();
+
+		EmpEngine::Update();
+		EmpEngine::DrawTriangle();
+
+
+		EmpEngine::End();
+	}
+
+	//インスタンスの解放
+	EmpEngine::Finalize();
+
 	return 0;
 }
