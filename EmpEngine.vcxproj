@@ -96,8 +96,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <None Include="Object3d.hlsli" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Camera3d.cpp" />
     <ClCompile Include="ClashHandler.cpp" />
+    <ClCompile Include="DX12Mechanics.cpp" />
     <ClCompile Include="EmpEngine.cpp" />
     <ClCompile Include="EmpSystems.cpp" />
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -133,12 +134,15 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="ManagementTexture.cpp" />
     <ClCompile Include="ManagementViewPort.cpp" />
     <ClCompile Include="managementWindow.cpp" />
-    <ClCompile Include="MatrixFunction.cpp" />
+    <ClCompile Include="Matrix3x3.cpp" />
+    <ClCompile Include="Matrix4x4.cpp" />
     <ClCompile Include="MymGui.cpp" />
+    <ClCompile Include="Vertex42d.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Camera3d.h" />
     <ClInclude Include="ClashHandler.h" />
+    <ClInclude Include="DX12Mechanics.h" />
     <ClInclude Include="EmpEngine.h" />
     <ClInclude Include="EmpSysetms.h" />
     <ClInclude Include="externals\imgui\imconfig.h" />
@@ -160,13 +164,15 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="ManagementViewPort.h" />
     <ClInclude Include="managementWindow.h" />
     <ClInclude Include="ManagementLog.h" />
+    <ClInclude Include="Matrix2x2.h" />
+    <ClInclude Include="Matrix3x3.h" />
     <ClInclude Include="Matrix4x4.h" />
-    <ClInclude Include="MatrixFunction.h" />
     <ClInclude Include="MymGui.h" />
     <ClInclude Include="TransForm3d.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="Vector4.h" />
+    <ClInclude Include="Vertex42d.h" />
     <ClInclude Include="VertexData.h" />
   </ItemGroup>
   <ItemGroup>

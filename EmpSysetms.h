@@ -9,7 +9,7 @@
 #include"ManagementDebug.h"
 #include"ManagementDXC.h"
 #include"ManagementViewPort.h"
-#include"Camera.h"
+#include"Camera3d.h"
 #include"MymGui.h"
 #include"ManagementTexture.h"
 #include<string>
@@ -39,7 +39,7 @@ class EmpSystems {
 	ManagementDXC managementDXC_;
 	ManagementViewPort managementViewPort_;
 	ManagementTexture managementTexture_;
-	Camera camera_;
+	Camera3d camera_;
 	MymGui mymGui_;
 	int windowWidth_;
 	int windowHeight_;

@@ -1,4 +1,4 @@
-#include"MatrixFunction.h"
+#include"Matrix4x4.h"
 #include<assert.h>
 #include<cmath>
 
@@ -137,7 +137,8 @@ Matrix4x4 MakeIdentity4x4() {
 		for (int j = 0; j < 4; j++) {
 			if (i == j) {
 				Ans.m[i][j] = 1.0f;
-			} else {
+			}
+			else {
 				Ans.m[i][j] = 0.0f;
 			}
 		}

@@ -1,9 +1,8 @@
 #include"ManagementViewPort.h"
 #include<cassert>
-#include"MatrixFunction.h"
 
 void ManagementViewPort::Initialize(ID3D12Device* device, int kWindowWidth, int kWindowHeight) {
-	GenerateVertexResource(device);
+	vertexResource = DX12Mechanics::CreateBufferResource(device, sizeof(VertexData) * 6, WhichResource::Vertex);
 	GenerateVertexBufferView();
 	Write2Resource();
 	GenerateViewPort(kWindowWidth, kWindowHeight);
@@ -11,24 +10,6 @@ void ManagementViewPort::Initialize(ID3D12Device* device, int kWindowWidth, int 
 	GenerateMaterial(device);
 	GenerateWvpResource(device);
 	depthStencilResource_=CreateDepthStencilTextureResource(device, kWindowWidth, kWindowHeight);
-}
-
-void ManagementViewPort::GenerateVertexResource(ID3D12Device* device) {
-	uploadHeapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;//UploadHeapを使う
-	//バッファリソース。テクスチャの場合はまた別の設定をする
-	vertexResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	vertexResourceDesc.Width = sizeof(VertexData) * 6;//リソースのサイズ。今回はVector4を３頂点文
-	//バッファの場合これらは1にする決まり
-	vertexResourceDesc.Height = 1;
-	vertexResourceDesc.DepthOrArraySize = 1;
-	vertexResourceDesc.MipLevels = 1;
-	vertexResourceDesc.SampleDesc.Count = 1;
-	//バッファの場合はこれにする決まり
-	vertexResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-	HRESULT hr = device->CreateCommittedResource(&uploadHeapProperties, D3D12_HEAP_FLAG_NONE,
-		&vertexResourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr,
-		IID_PPV_ARGS(&vertexResource));
-	assert(SUCCEEDED(hr));
 }
 
 void ManagementViewPort::GenerateVertexBufferView() {
@@ -87,37 +68,9 @@ void ManagementViewPort::Release() {
 	wvpResource->Release();
 }
 
-ID3D12Resource* ManagementViewPort::CreateBufferResource(ID3D12Device* device, size_t sizeInBytes) {
-	ID3D12Resource* resource = nullptr;
-
-	// ローカル変数にするなの！メンバ変数を汚さないなの！
-	D3D12_HEAP_PROPERTIES heapProps{};
-	heapProps.Type = D3D12_HEAP_TYPE_UPLOAD;
-
-	D3D12_RESOURCE_DESC desc{};
-	desc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	desc.Width = (sizeInBytes + 255) & ~255;
-	desc.Height = 1;
-	desc.DepthOrArraySize = 1;
-	desc.MipLevels = 1;
-	desc.SampleDesc.Count = 1;
-	desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-
-	HRESULT hr = device->CreateCommittedResource(
-		&heapProps,
-		D3D12_HEAP_FLAG_NONE,
-		&desc,
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&resource)
-	);
-	assert(SUCCEEDED(hr));
-
-	return resource;
-}
 void ManagementViewPort::GenerateMaterial(ID3D12Device* device) {
 	//マテリアル用のリソースを作る
-	materialResource = CreateBufferResource(device, sizeof(Vector4));
+	materialResource = DX12Mechanics::CreateBufferResource(device, sizeof(Vector4),WhichResource::Constant);
 
 	//書き込む溜めのアドレスを取得
 	materialResource->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
@@ -127,7 +80,7 @@ void ManagementViewPort::GenerateMaterial(ID3D12Device* device) {
 }
 
 void ManagementViewPort::GenerateWvpResource(ID3D12Device* device) {
-	wvpResource = CreateBufferResource(device, sizeof(Matrix4x4));
+	wvpResource = DX12Mechanics::CreateBufferResource(device, sizeof(Matrix4x4),WhichResource::Constant);
 	//書き込むためのアドレスを取得
 	wvpResource->Map(0, nullptr, reinterpret_cast<void**>(&wvpData));
 
@@ -135,7 +88,7 @@ void ManagementViewPort::GenerateWvpResource(ID3D12Device* device) {
 	*wvpData = MakeIdentity4x4();
 }
 
-void ManagementViewPort::Update(Camera camera) {
+void ManagementViewPort::Update(Camera3d camera) {
 	transform.rotate.y += 0.03f;
 	*wvpData = camera.GetTransformationMatrixData();
 }

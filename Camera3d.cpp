@@ -1,11 +1,11 @@
-#include"Camera.h"
+#include"Camera3d.h"
 
-void Camera::Initialize() {
+void Camera3d::Initialize() {
 	cameraTransform ={ {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-5.0f} };
 	transformationMatrixData = {};
 }
 
-void Camera::Update(Transform3d transform, int kWindowWidth, int kWindowHeight) {
+void Camera3d::Update(Transform3d transform, int kWindowWidth, int kWindowHeight) {
 	Matrix4x4 worldMatrix = Affine(transform.scale, transform.rotate, transform.translate);
 	Matrix4x4 cameraMatrix = Affine(cameraTransform.scale, cameraTransform.rotate, cameraTransform.translate);
 	Matrix4x4 viewMatrix = Inverse(cameraMatrix);

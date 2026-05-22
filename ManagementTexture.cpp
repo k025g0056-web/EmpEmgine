@@ -3,6 +3,7 @@
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib,"d3d12.lib")
 #include"ManagementLog.h"
+#include"DX12Mechanics.h"
 
 DirectX::ScratchImage ManagementTexture::LoadTextureFile(const std::string& filepath) {
 	//テクスチャを呼んでプログラムを扱えるようにする
@@ -68,7 +69,7 @@ ID3D12Resource* ManagementTexture::UploadTextureData(ID3D12Resource* texture, co
 	std::vector<D3D12_SUBRESOURCE_DATA>subResources;
 	DirectX::PrepareUpload(device, mipImages.GetImages(), mipImages.GetImageCount(), mipImages.GetMetadata(), subResources);
 	uint64_t intermediateSize = GetRequiredIntermediateSize(texture, 0, UINT(subResources.size()));
-	ID3D12Resource* intermediateResource = CreateBufferResource(device, intermediateSize);
+	ID3D12Resource* intermediateResource = DX12Mechanics::CreateBufferResource(device, intermediateSize,WhichResource::Constant);
 	UpdateSubresources(commandList, texture, intermediateResource, 0, 0, UINT(subResources.size()), subResources.data());
 	//Textureへの転送後は利用できるよう、D3D12_RESOURCE_STATE_COPYから
 	//D3D12_RESOURCE_STATE_GENERIC_READへResourceStateを変更する
@@ -110,35 +111,6 @@ ID3D12Resource* ManagementTexture::LoadTexture(ID3D12Device* device, const std::
 	return textureResource;
 }
 
-//今回だけの臨時入場、次ファイル整理するとき片づける
-ID3D12Resource* ManagementTexture::CreateBufferResource(ID3D12Device* device, size_t sizeInBytes) {
-	ID3D12Resource* resource = nullptr;
-
-	// ローカル変数にするなの！メンバ変数を汚さないなの！
-	D3D12_HEAP_PROPERTIES heapProps{};
-	heapProps.Type = D3D12_HEAP_TYPE_UPLOAD;
-
-	D3D12_RESOURCE_DESC desc{};
-	desc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	desc.Width = (sizeInBytes + 255) & ~255;
-	desc.Height = 1;
-	desc.DepthOrArraySize = 1;
-	desc.MipLevels = 1;
-	desc.SampleDesc.Count = 1;
-	desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-
-	HRESULT hr = device->CreateCommittedResource(
-		&heapProps,
-		D3D12_HEAP_FLAG_NONE,
-		&desc,
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&resource)
-	);
-	assert(SUCCEEDED(hr));
-
-	return resource;
-}
 
 D3D12_GPU_DESCRIPTOR_HANDLE ManagementTexture::CreateSRV(ID3D12DescriptorHeap* srvDescriptorHeap,ID3D12Device* device) {
 	//metaDataを基にSRVの設定

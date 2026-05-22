@@ -44,10 +44,7 @@
     <ClCompile Include="ManagementViewPort.cpp">
       <Filter>Engine\Manegement\ManagementViewPort</Filter>
     </ClCompile>
-    <ClCompile Include="MatrixFunction.cpp">
-      <Filter>Engine\addMech\MatrixFunction</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
+    <ClCompile Include="Camera3d.cpp">
       <Filter>Engine\Manegement\ManagementCamera</Filter>
     </ClCompile>
     <ClCompile Include="externals\imgui\imgui_demo.cpp">
@@ -79,6 +76,18 @@
     </ClCompile>
     <ClCompile Include="ManagementTexture.cpp">
       <Filter>Engine\Manegement\ManagementTexture</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix4x4.cpp">
+      <Filter>Engine\addMech\Matrix4x4</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix3x3.cpp">
+      <Filter>Engine\addMech\Matrix3x3</Filter>
+    </ClCompile>
+    <ClCompile Include="Vertex42d.cpp">
+      <Filter>Engine\addMech\Vertex42d</Filter>
+    </ClCompile>
+    <ClCompile Include="DX12Mechanics.cpp">
+      <Filter>Engine\addMech\DX12Mechanics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -133,9 +142,6 @@
     <Filter Include="Engine\addMech\Matrix4x4">
       <UniqueIdentifier>{e5a4ffd2-28b9-45fa-9597-e16a011f1898}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\addMech\MatrixFunction">
-      <UniqueIdentifier>{a71dca4b-058c-4211-a815-43f4943194da}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\addMech\Verctor3">
       <UniqueIdentifier>{e9efc3d4-b374-4335-9816-6702e62c6805}</UniqueIdentifier>
     </Filter>
@@ -165,6 +171,18 @@
     </Filter>
     <Filter Include="Engine\Manegement\ManagementDXC">
       <UniqueIdentifier>{51a712bb-6dc4-4251-b9ce-d6dfd1313faa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\addMech\Matrix2x2">
+      <UniqueIdentifier>{fcd575f8-e10e-4d69-8f2f-12ef198c9874}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\addMech\Matrix3x3">
+      <UniqueIdentifier>{20926e2a-baae-4cbe-afb5-b72cc90586b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\addMech\Vertex42d">
+      <UniqueIdentifier>{5969a2ae-62e3-4034-9408-a4370196b64f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\addMech\DX12Mechanics">
+      <UniqueIdentifier>{a5ebc2c4-36ee-47d6-b81e-ae2f2d84b48b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -210,16 +228,13 @@
     <ClInclude Include="Matrix4x4.h">
       <Filter>Engine\addMech\Matrix4x4</Filter>
     </ClInclude>
-    <ClInclude Include="MatrixFunction.h">
-      <Filter>Engine\addMech\MatrixFunction</Filter>
-    </ClInclude>
     <ClInclude Include="Vector3.h">
       <Filter>Engine\addMech\Verctor3</Filter>
     </ClInclude>
     <ClInclude Include="TransForm3d.h">
       <Filter>Engine\addMech\TransForm3d</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
+    <ClInclude Include="Camera3d.h">
       <Filter>Engine\Manegement\ManagementCamera</Filter>
     </ClInclude>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -260,6 +275,18 @@
     </ClInclude>
     <ClInclude Include="Vector2.h">
       <Filter>Engine\addMech\Vector2</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix2x2.h">
+      <Filter>Engine\addMech\Matrix2x2</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix3x3.h">
+      <Filter>Engine\addMech\Matrix3x3</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex42d.h">
+      <Filter>Engine\addMech\Vertex42d</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12Mechanics.h">
+      <Filter>Engine\addMech\DX12Mechanics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

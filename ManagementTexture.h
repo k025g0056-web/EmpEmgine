@@ -25,7 +25,6 @@ private:
 	[[nodiscard]]
 	ID3D12Resource* UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages,
 		ID3D12Device* device, ID3D12GraphicsCommandList* commandList);
-	ID3D12Resource* CreateBufferResource(ID3D12Device* device, size_t sizeInBytes);
 	ID3D12Resource* intermediateResource = nullptr;
 	DirectX::ScratchImage mipImages;
 	DirectX::TexMetadata metadata;
