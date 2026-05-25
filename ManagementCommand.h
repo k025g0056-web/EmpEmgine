@@ -32,6 +32,10 @@ class ManagementCommand {
 public:
 
 	void Initialize(ID3D12Device* device);
+	void PostDraw(D3D12_VIEWPORT viewPort,
+		D3D12_RECT scissorRect,
+		ID3D12PipelineState* graphicsPipelineState,
+		ID3D12RootSignature* rootSignature, ID3D12DescriptorHeap* srvDescriptorHeap);
 	ID3D12CommandQueue* GetCommandQueue() const{ return commandQueue_.Get(); }
 	ID3D12CommandAllocator* GetCommandAllocator()const { return commandAllocator_.Get(); }
 	ID3D12GraphicsCommandList* GetCommandList()const { return commandList_.Get(); }

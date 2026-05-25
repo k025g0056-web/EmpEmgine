@@ -13,7 +13,7 @@
 #include"MymGui.h"
 #include"ManagementTexture.h"
 #include<string>
-
+#include"DrawManager.h"
 class EmpEngine;
 class EmpSystems {
 
@@ -24,11 +24,15 @@ class EmpSystems {
 	void Finalize();
 	void Begin();
 	void Release();
-	void DrawTriangle();
+	void DrawTriangleViewport();
+	void DrawTriangle(const Vector3& v0, const Vector3& v1, const Vector3& v2, const Vector4 color);
+	void DrawTriangleTrans(const Transform3d& transform, const Vector3& v0, const Vector3& v1, const Vector3& v2, const Vector4 color);
+	void PostDraw();
 	void End();
 	void Update();
 	ID3D12Resource* LoadTexture(const std::string& str);
 
+	Transform3d transform{ {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 	ManagementWindow managementWindow_;
 	ManagementDXGIFactory managementDXGIFactory_;
 	ManagementDevice managementDevice_;
@@ -44,4 +48,5 @@ class EmpSystems {
 	int windowWidth_;
 	int windowHeight_;
 	D3D12_GPU_DESCRIPTOR_HANDLE SRV;
+	DrawManager drawManager_;
 };

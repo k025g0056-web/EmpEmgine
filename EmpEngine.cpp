@@ -22,8 +22,8 @@ void EmpEngine::Begin() {
 	empSystems.Begin();
 }
 
-void EmpEngine::DrawTriangle() {
-	empSystems.DrawTriangle();
+void EmpEngine::DrawTriangleViewPort() {
+	empSystems.DrawTriangleViewport();
 }
 
 void EmpEngine::End() {
@@ -32,4 +32,12 @@ void EmpEngine::End() {
 
 void EmpEngine::Update() {
 	empSystems.Update();
+}
+
+void EmpEngine::DrawTriangle(Vector3 v0, Vector3 v1, Vector3 v2, Vector4 color) {
+	empSystems.DrawTriangle(v0, v1, v2, color);
+}
+
+void EmpEngine::DrawTriangle(Transform3d transform, Vector3 v0, Vector3 v1, Vector3 v2, Vector4 color) {
+	empSystems.DrawTriangleTrans(transform, v0, v1, v2, color);
 }

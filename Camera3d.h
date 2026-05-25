@@ -4,10 +4,10 @@
 
 class Camera3d {
 	Transform3d cameraTransform;
-	Matrix4x4 worldViewProjection;
-	Matrix4x4 transformationMatrixData;
+	Matrix4x4 ViewProjection;
 public:
 	void Initialize();
-	void Update(Transform3d transform, int kWindowWidth, int kWindowHeight);
-	Matrix4x4 GetTransformationMatrixData() { return transformationMatrixData; }
+	void Update(int kWindowWidth, int kWindowHeight);
+	
+	Matrix4x4 GetWvp(const Transform3d& transform) const ;
 };

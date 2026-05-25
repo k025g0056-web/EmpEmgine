@@ -2,7 +2,9 @@
 #include<assert.h>
 #include<cmath>
 
-
+Matrix4x4 Affine(const Transform3d& transform) {
+	return Affine(transform.scale, transform.rotate, transform.translate);
+}
 
 Matrix4x4 Add(const Matrix4x4& m1, const Matrix4x4& m2) {
 	Matrix4x4 Ans;

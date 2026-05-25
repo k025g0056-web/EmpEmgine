@@ -5,15 +5,14 @@
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//必ず最初に初期化する
 	EmpEngine::Initialize(1280,720);
-
+	
 	//ゲームのメインループ
 	while (EmpEngine::ProcessMessage()==0){
 		EmpEngine::Begin();
-
+		
 		EmpEngine::Update();
-		EmpEngine::DrawTriangle();
-
-
+		
+		EmpEngine::DrawTriangleViewPort();
 		EmpEngine::End();
 	}
 

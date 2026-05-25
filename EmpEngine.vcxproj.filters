@@ -89,6 +89,21 @@
     <ClCompile Include="DX12Mechanics.cpp">
       <Filter>Engine\addMech\DX12Mechanics</Filter>
     </ClCompile>
+    <ClCompile Include="Shape.cpp">
+      <Filter>Engine\Manegement\Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="Triangle.cpp">
+      <Filter>Engine\Manegement\Triangle</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector3.cpp">
+      <Filter>Engine\addMech\Verctor3</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawManager.cpp">
+      <Filter>Engine\Manegement\DrawManager</Filter>
+    </ClCompile>
+    <ClCompile Include="DoubleTriangle.cpp">
+      <Filter>Engine\Manegement\DoubleTriangle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -183,6 +198,18 @@
     </Filter>
     <Filter Include="Engine\addMech\DX12Mechanics">
       <UniqueIdentifier>{a5ebc2c4-36ee-47d6-b81e-ae2f2d84b48b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\Shape">
+      <UniqueIdentifier>{90bcd661-0e92-4844-992a-afc24ceacf60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\Triangle">
+      <UniqueIdentifier>{48646779-1057-4b2f-9526-539d207a6e1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\DrawManager">
+      <UniqueIdentifier>{33d67813-d7b5-4ecc-8604-f33f8cb68e4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\DoubleTriangle">
+      <UniqueIdentifier>{922ed482-d69c-4822-91ca-37c834150fe9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -287,6 +314,18 @@
     </ClInclude>
     <ClInclude Include="DX12Mechanics.h">
       <Filter>Engine\addMech\DX12Mechanics</Filter>
+    </ClInclude>
+    <ClInclude Include="Shape.h">
+      <Filter>Engine\Manegement\Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="Triangle.h">
+      <Filter>Engine\Manegement\Triangle</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawManager.h">
+      <Filter>Engine\Manegement\DrawManager</Filter>
+    </ClInclude>
+    <ClInclude Include="DoubleTriangle.h">
+      <Filter>Engine\Manegement\DoubleTriangle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

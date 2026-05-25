@@ -14,7 +14,8 @@ DirectX::ScratchImage ManagementTexture::LoadTextureFile(const std::string& file
 
 	//ミニマップの作成
 	DirectX::ScratchImage mipImages{};
-	hr = DirectX::GenerateMipMaps(image.GetImages(), image.GetImageCount(), image.GetMetadata(), DirectX::TEX_FILTER_SRGB, 0, mipImages);
+	hr = DirectX::GenerateMipMaps(image.GetImages(), image.GetImageCount(), 
+		image.GetMetadata(), DirectX::TEX_FILTER_SRGB, 0, mipImages);
 	assert(SUCCEEDED(hr));
 
 	
@@ -69,7 +70,7 @@ ID3D12Resource* ManagementTexture::UploadTextureData(ID3D12Resource* texture, co
 	std::vector<D3D12_SUBRESOURCE_DATA>subResources;
 	DirectX::PrepareUpload(device, mipImages.GetImages(), mipImages.GetImageCount(), mipImages.GetMetadata(), subResources);
 	uint64_t intermediateSize = GetRequiredIntermediateSize(texture, 0, UINT(subResources.size()));
-	ID3D12Resource* intermediateResource = DX12Mechanics::CreateBufferResource(device, intermediateSize,WhichResource::Constant);
+	ID3D12Resource* intermediateResource = DX12Mechanics::CreateBufferResource(device, intermediateSize);
 	UpdateSubresources(commandList, texture, intermediateResource, 0, 0, UINT(subResources.size()), subResources.data());
 	//Textureへの転送後は利用できるよう、D3D12_RESOURCE_STATE_COPYから
 	//D3D12_RESOURCE_STATE_GENERIC_READへResourceStateを変更する
@@ -92,11 +93,14 @@ ID3D12Resource* ManagementTexture::LoadTexture(ID3D12Device* device, const std::
 	metadata = mipImages.GetMetadata();
 	textureResource = CreateTextureResource(device, metadata);
 	ID3D12Resource* intermediateResource=UploadTextureData(textureResource, mipImages,device,commandList);
+	
+	//リストを閉じる
 	commandList->Close();
 
 	ID3D12CommandList* commandLists[] = { commandList};
 	commandQueue->ExecuteCommandLists(1, commandLists);
 
+	//シグナルを送る
 	commandQueue->Signal(fence, fenceValue);
 
 	if (fence->GetCompletedValue() < fenceValue) {
@@ -106,8 +110,13 @@ ID3D12Resource* ManagementTexture::LoadTexture(ID3D12Device* device, const std::
 		WaitForSingleObject(fenceEvent, INFINITE);
 	}
 
+	//解放したり、コマンド積めるようにしたり
+	//----------------------------------------------//
+	intermediateResource->Release();
 	commandAllocator->Reset();
 	commandList->Reset(commandAllocator, nullptr);
+	//----------------------------------------------//
+
 	return textureResource;
 }
 
@@ -119,7 +128,6 @@ D3D12_GPU_DESCRIPTOR_HANDLE ManagementTexture::CreateSRV(ID3D12DescriptorHeap* s
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2Dのテクスチャ
 	srvDesc.Texture2D.MipLevels = UINT(metadata.mipLevels);
-
 	//SRVを作成するDescriptorHeapの場所を決める
 	D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU = srvDescriptorHeap->GetCPUDescriptorHandleForHeapStart();
 	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU = srvDescriptorHeap->GetGPUDescriptorHandleForHeapStart();

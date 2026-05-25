@@ -2,6 +2,9 @@
 #include"ClashHandler.h"
 #include"ManagementLog.h"
 
+static int idx = 0;
+static int douInd = 0;
+
 void EmpSystems::Initialize(int kWindowWidth, int kWindowHeight) {
 	//誰も捕捉しなかった場合に(Unhandled)、捕捉する関数を登録
 	//main関数が始まってすぐに登録すると良い
@@ -59,6 +62,7 @@ void EmpSystems::SetWindowSize(unsigned int index, int windowWidth, int windowHe
 }
 
 void EmpSystems::Begin() {
+	drawManager_.Release();
 	managementCommand_.LoadCommand(
 		managementSwapChain_.GetSwapChain(), 
 		managementDescriptHeap_.GetRtvHandles(),
@@ -69,17 +73,11 @@ void EmpSystems::Begin() {
 #endif // USE_IMGUI
 }
 
-void EmpSystems::DrawTriangle() {
-	managementCommand_.DrawCall(
-		managementViewPort_.GetViewPort(),
-		managementViewPort_.GetScissorRect(),
-		managementViewPort_.GetVertexBufferView(),
-		managementDXC_.GetGraphicPipeLineState(),
-		managementDXC_.GetRootSignature(),
-		managementViewPort_.GetMaterialResource(),
-		managementViewPort_.GetWvpResource(),
-		managementDescriptHeap_.GetSrvDescriptorHeap(),
-		SRV);
+void EmpSystems::DrawTriangleViewport() {
+	douInd = drawManager_.AddDoubleTriangle(managementDevice_.GetDevice());
+	PostDraw();
+	drawManager_.GetDoubleTriangle(douInd).
+		DrawDoubleTriangle(transform, managementCommand_.GetCommandList(), SRV, camera_);
 }
 
 void EmpSystems::End() {
@@ -96,10 +94,9 @@ void EmpSystems::Update() {
 
 
 #endif // USE_IMGUI
+	transform.rotate.y += 0.03f;
 
-
-	camera_.Update(managementViewPort_.GetTransform(), windowWidth_, windowHeight_);
-	managementViewPort_.Update(camera_);
+	camera_.Update(windowWidth_, windowHeight_);
 }
 
 void EmpSystems::Release() {
@@ -114,10 +111,33 @@ void EmpSystems::Release() {
 	managementDebug_.Release();
 	managementWindow_.Release();
 	mymGui_.Release();
+	drawManager_.Release();
 }
 
 ID3D12Resource* EmpSystems::LoadTexture(const std::string& filepath) {
 	return managementTexture_.LoadTexture(managementDevice_.GetDevice(), filepath,managementCommand_.GetCommandList()
 	,managementCommand_.GetCommandQueue(),managementCommand_.GetCommandAllocator(),managementCommand_.GetFenceEvent()
 	,managementCommand_.GetFenceValue(),managementCommand_.GetFence());
+}
+
+void EmpSystems::PostDraw() {
+	managementCommand_.PostDraw(managementViewPort_.GetViewPort(),
+		managementViewPort_.GetScissorRect(),
+		managementDXC_.GetGraphicPipeLineState(),
+		managementDXC_.GetRootSignature(), managementDescriptHeap_.GetSrvDescriptorHeap());
+}
+
+void EmpSystems::DrawTriangle(const Vector3& v0, const Vector3& v1, const Vector3& v2, const Vector4 color) {
+	idx = drawManager_.AddTriangle(managementDevice_.GetDevice());
+	PostDraw();
+	drawManager_.GetTriangle(idx).DrawTriangle(v0, v1, v2, managementCommand_.GetCommandList(),
+		SRV, color);
+}
+
+void EmpSystems::DrawTriangleTrans(const Transform3d& transform, const Vector3& v0, const Vector3& v1, const Vector3& v2, const Vector4 color) {
+	idx = drawManager_.AddTriangle(managementDevice_.GetDevice());;
+	PostDraw();
+	drawManager_.GetTriangle(idx).DrawTriangle(transform,v0, v1, v2, managementCommand_.GetCommandList(), 
+		SRV, color,camera_);
+
 }
