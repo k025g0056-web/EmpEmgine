@@ -12,9 +12,16 @@ int DrawManager::AddDoubleTriangle(ID3D12Device* device) {
 	return static_cast<int>(doubleTriangle_.size() - 1);
 }
 
+int DrawManager::AddSprite(ID3D12Device* device) {
+	sprite_.emplace_back();
+	sprite_.back().Initialize(device);
+	return static_cast<int>(sprite_.size() - 1);
+}
+
 void DrawManager::Clear() {
 	triangles_.clear();
 	doubleTriangle_.clear();
+	sprite_.clear();
 }
 
 void DrawManager::Release() {
@@ -26,6 +33,11 @@ void DrawManager::Release() {
 		dou.Release();
 	}
 
+	for (auto& spr:sprite_) {
+		spr.Release();
+	}
+
 	triangles_.clear();
 	doubleTriangle_.clear();
+	sprite_.clear();
 }

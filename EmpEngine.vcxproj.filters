@@ -104,6 +104,9 @@
     <ClCompile Include="DoubleTriangle.cpp">
       <Filter>Engine\Manegement\DoubleTriangle</Filter>
     </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Engine\Manegement\Sprite</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -210,6 +213,9 @@
     </Filter>
     <Filter Include="Engine\Manegement\DoubleTriangle">
       <UniqueIdentifier>{922ed482-d69c-4822-91ca-37c834150fe9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\Sprite">
+      <UniqueIdentifier>{deb1f616-60b7-44dc-b80d-175a9191d3fe}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -326,6 +332,9 @@
     </ClInclude>
     <ClInclude Include="DoubleTriangle.h">
       <Filter>Engine\Manegement\DoubleTriangle</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>Engine\Manegement\Sprite</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

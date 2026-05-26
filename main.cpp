@@ -9,9 +9,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//ゲームのメインループ
 	while (EmpEngine::ProcessMessage()==0){
 		EmpEngine::Begin();
-		
 		EmpEngine::Update();
 		
+		EmpEngine::DrawSpriteHomework();
 		EmpEngine::DrawTriangleViewPort();
 		EmpEngine::End();
 	}

@@ -4,7 +4,7 @@
 
 static int idx = 0;
 static int douInd = 0;
-
+static int sprInd = 0;
 void EmpSystems::Initialize(int kWindowWidth, int kWindowHeight) {
 	//誰も捕捉しなかった場合に(Unhandled)、捕捉する関数を登録
 	//main関数が始まってすぐに登録すると良い
@@ -89,13 +89,15 @@ void EmpSystems::End() {
 }
 
 void EmpSystems::Update() {
+	Vector4 color = SprColor * 255.0f;
+
 #ifdef USE_IMGUI
 	//GUIエリア☆（ECCジュニアのリズムで）
-
-
+	ImGui::SliderFloat4("Material", &color.x, 0.0f, 255.0f, "%3f", 0);
+	ImGui::SliderFloat3("Transform", &transformSpr.translate.x, 0.0f, 1280.0f, "%3f", 0);
 #endif // USE_IMGUI
 	transform.rotate.y += 0.03f;
-
+	SprColor = color / 255.0f;
 	camera_.Update(windowWidth_, windowHeight_);
 }
 
@@ -140,4 +142,16 @@ void EmpSystems::DrawTriangleTrans(const Transform3d& transform, const Vector3& 
 	drawManager_.GetTriangle(idx).DrawTriangle(transform,v0, v1, v2, managementCommand_.GetCommandList(), 
 		SRV, color,camera_);
 
+}
+
+void EmpSystems::DrawSprite(const Transform3d& transform, const Vector2& v0,
+	const Vector2& v1, const Vector2& v2, const Vector2& v3,const Vector4& color) {
+	sprInd = drawManager_.AddSprite(managementDevice_.GetDevice());
+	PostDraw();
+	drawManager_.GetSprite(sprInd).DrawSprite(transform,v0,v1,v2,v3,managementCommand_.GetCommandList(),
+		SRV,color,camera_);
+}
+
+void EmpSystems::DrawSpriteHomework() {
+	DrawSprite(transformSpr, { 0.0f,360.0f }, { 0.0f,0.0f }, { 640.0f,360.0f }, { 640.0f,0.0f },SprColor);
 }

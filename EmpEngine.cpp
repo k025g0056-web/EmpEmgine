@@ -41,3 +41,7 @@ void EmpEngine::DrawTriangle(Vector3 v0, Vector3 v1, Vector3 v2, Vector4 color) 
 void EmpEngine::DrawTriangle(Transform3d transform, Vector3 v0, Vector3 v1, Vector3 v2, Vector4 color) {
 	empSystems.DrawTriangleTrans(transform, v0, v1, v2, color);
 }
+
+void EmpEngine::DrawSpriteHomework() {
+	empSystems.DrawSpriteHomework();
+}
