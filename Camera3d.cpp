@@ -1,7 +1,7 @@
 #include"Camera3d.h"
 
 void Camera3d::Initialize() {
-	cameraTransform ={ {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-5.0f} };
+	cameraTransform ={ {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-10.0f} };
 }
 
 void Camera3d::Update(int kWindowWidth, int kWindowHeight) {

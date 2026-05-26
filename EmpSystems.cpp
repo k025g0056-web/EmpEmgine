@@ -5,6 +5,7 @@
 static int idx = 0;
 static int douInd = 0;
 static int sprInd = 0;
+static int sphInd = 0;
 void EmpSystems::Initialize(int kWindowWidth, int kWindowHeight) {
 	//誰も捕捉しなかった場合に(Unhandled)、捕捉する関数を登録
 	//main関数が始まってすぐに登録すると良い
@@ -154,4 +155,15 @@ void EmpSystems::DrawSprite(const Transform3d& transform, const Vector2& v0,
 
 void EmpSystems::DrawSpriteHomework() {
 	DrawSprite(transformSpr, { 0.0f,360.0f }, { 0.0f,0.0f }, { 640.0f,360.0f }, { 640.0f,0.0f },SprColor);
+}
+
+void EmpSystems::DrawSphere(const Transform3d& transform, const Vector4& color) {
+	sphInd = drawManager_.AddSphere(managementDevice_.GetDevice());
+	PostDraw();
+	drawManager_.GetSphere(sphInd).DrawSphere(transform, color, 
+		managementCommand_.GetCommandList(), SRV,camera_);
+}
+
+void EmpSystems::DrawSphereHomeWork() {
+	DrawSphere(transform, { 1.0f,1.0f,1.0f,1.0f });
 }

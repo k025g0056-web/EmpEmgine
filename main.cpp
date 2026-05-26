@@ -10,9 +10,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	while (EmpEngine::ProcessMessage()==0){
 		EmpEngine::Begin();
 		EmpEngine::Update();
-		
 		EmpEngine::DrawSpriteHomework();
-		EmpEngine::DrawTriangleViewPort();
+
+		EmpEngine::DrawSphereHomework();
 		EmpEngine::End();
 	}
 

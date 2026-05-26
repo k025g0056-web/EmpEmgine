@@ -18,6 +18,7 @@ public:
 	static void DrawTriangle(Vector3 v0,Vector3 v1,Vector3 v2,Vector4 color);
 	static void DrawTriangle(Transform3d transform, Vector3 v0, Vector3 v1, Vector3 v2, Vector4 color);
 	static void DrawSpriteHomework();
+	static void DrawSphereHomework();
 	static void End();
 	static void Update();
 

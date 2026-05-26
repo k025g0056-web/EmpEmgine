@@ -18,10 +18,17 @@ int DrawManager::AddSprite(ID3D12Device* device) {
 	return static_cast<int>(sprite_.size() - 1);
 }
 
+int DrawManager::AddSphere(ID3D12Device* device) {
+	sphere_.emplace_back();
+	sphere_.back().Initialize(device);
+	return static_cast<int>(sphere_.size() - 1);
+}
+
 void DrawManager::Clear() {
 	triangles_.clear();
 	doubleTriangle_.clear();
 	sprite_.clear();
+	sphere_.clear();
 }
 
 void DrawManager::Release() {
@@ -37,7 +44,12 @@ void DrawManager::Release() {
 		spr.Release();
 	}
 
+	for (auto& sph : sphere_){
+		sph.Release();
+	}
+
 	triangles_.clear();
 	doubleTriangle_.clear();
 	sprite_.clear();
+	sphere_.clear();
 }

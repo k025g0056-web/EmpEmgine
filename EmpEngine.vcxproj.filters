@@ -71,9 +71,6 @@
     <ClCompile Include="MymGui.cpp">
       <Filter>Engine\Manegement\MymGui</Filter>
     </ClCompile>
-    <ClCompile Include="EmpSystems.cpp">
-      <Filter>Engine\System</Filter>
-    </ClCompile>
     <ClCompile Include="ManagementTexture.cpp">
       <Filter>Engine\Manegement\ManagementTexture</Filter>
     </ClCompile>
@@ -106,6 +103,12 @@
     </ClCompile>
     <ClCompile Include="Sprite.cpp">
       <Filter>Engine\Manegement\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="Sphere.cpp">
+      <Filter>Engine\Manegement\Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="EmpSystems.cpp">
+      <Filter>Engine\System</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -216,6 +219,9 @@
     </Filter>
     <Filter Include="Engine\Manegement\Sprite">
       <UniqueIdentifier>{deb1f616-60b7-44dc-b80d-175a9191d3fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\Sphere">
+      <UniqueIdentifier>{cf85c25c-e659-4d66-b836-6877c4ecec28}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -335,6 +341,9 @@
     </ClInclude>
     <ClInclude Include="Sprite.h">
       <Filter>Engine\Manegement\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="Sphere.h">
+      <Filter>Engine\Manegement\Sphere</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

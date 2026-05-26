@@ -31,6 +31,8 @@ class EmpSystems {
 	void DrawSprite(const Transform3d& transform, const Vector2& v0, 
 		const Vector2& v1, const Vector2& v2, const Vector2& v3,const Vector4& color);
 	void DrawSpriteHomework();
+	void DrawSphere(const Transform3d& transform, const Vector4& color);
+	void DrawSphereHomeWork();
 	void PostDraw();
 	void End();
 	void Update();

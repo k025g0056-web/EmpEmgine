@@ -45,3 +45,7 @@ void EmpEngine::DrawTriangle(Transform3d transform, Vector3 v0, Vector3 v1, Vect
 void EmpEngine::DrawSpriteHomework() {
 	empSystems.DrawSpriteHomework();
 }
+
+void EmpEngine::DrawSphereHomework() {
+	empSystems.DrawSphereHomeWork();
+}
