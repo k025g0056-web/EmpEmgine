@@ -32,8 +32,10 @@ void EmpSystems::Initialize(int kWindowWidth, int kWindowHeight) {
 		managementSwapChain_.GetSwapChainDesc(), managementDescriptHeap_.GetRtvDesc(),
 		managementDescriptHeap_.GetSrvDescriptorHeap());
 #endif // USE_IMGUI
-	LoadTexture("resources/uvChecker.png");
-	SRV = managementTexture_.CreateSRV(managementDescriptHeap_.GetSrvDescriptorHeap(), managementDevice_.GetDevice());
+	uvChecker = LoadTexture("resources/uvChecker.png");
+	monsterBall = LoadTexture("resources/monsterBall.png");
+
+	sphereHandle = uvChecker;
 }
 
 int EmpSystems::ProcessMessage() {
@@ -78,7 +80,7 @@ void EmpSystems::DrawTriangleViewport() {
 	douInd = drawManager_.AddDoubleTriangle(managementDevice_.GetDevice());
 	PostDraw();
 	drawManager_.GetDoubleTriangle(douInd).
-		DrawDoubleTriangle(transform, managementCommand_.GetCommandList(), SRV, camera_);
+		DrawDoubleTriangle(transform, managementCommand_.GetCommandList(), uvChecker, camera_);
 }
 
 void EmpSystems::End() {
@@ -96,7 +98,15 @@ void EmpSystems::Update() {
 	//GUIエリア☆（ECCジュニアのリズムで）
 	ImGui::SliderFloat4("Material", &color.x, 0.0f, 255.0f, "%3f", 0);
 	ImGui::SliderFloat3("Transform", &transformSpr.translate.x, 0.0f, 1280.0f, "%3f", 0);
-#endif // USE_IMGUI
+	ImGui::Checkbox("useMonsterBall", &useMonsterBall);
+#endif // USE_IMGUI{
+	if (useMonsterBall) {
+		sphereHandle = monsterBall;
+	}
+	else {
+		sphereHandle = uvChecker;
+	}
+
 	transform.rotate.y += 0.03f;
 	SprColor = color / 255.0f;
 	camera_.Update(windowWidth_, windowHeight_);
@@ -117,10 +127,10 @@ void EmpSystems::Release() {
 	drawManager_.Release();
 }
 
-ID3D12Resource* EmpSystems::LoadTexture(const std::string& filepath) {
+D3D12_GPU_DESCRIPTOR_HANDLE EmpSystems::LoadTexture(const std::string& filepath) {
 	return managementTexture_.LoadTexture(managementDevice_.GetDevice(), filepath,managementCommand_.GetCommandList()
 	,managementCommand_.GetCommandQueue(),managementCommand_.GetCommandAllocator(),managementCommand_.GetFenceEvent()
-	,managementCommand_.GetFenceValue(),managementCommand_.GetFence());
+	,managementCommand_.GetFenceValue(),managementCommand_.GetFence(),managementDescriptHeap_.GetSrvDescriptorHeap());
 }
 
 void EmpSystems::PostDraw() {
@@ -134,14 +144,14 @@ void EmpSystems::DrawTriangle(const Vector3& v0, const Vector3& v1, const Vector
 	idx = drawManager_.AddTriangle(managementDevice_.GetDevice());
 	PostDraw();
 	drawManager_.GetTriangle(idx).DrawTriangle(v0, v1, v2, managementCommand_.GetCommandList(),
-		SRV, color);
+		uvChecker, color);
 }
 
 void EmpSystems::DrawTriangleTrans(const Transform3d& transform, const Vector3& v0, const Vector3& v1, const Vector3& v2, const Vector4 color) {
 	idx = drawManager_.AddTriangle(managementDevice_.GetDevice());;
 	PostDraw();
 	drawManager_.GetTriangle(idx).DrawTriangle(transform,v0, v1, v2, managementCommand_.GetCommandList(), 
-		SRV, color,camera_);
+		uvChecker, color,camera_);
 
 }
 
@@ -150,7 +160,7 @@ void EmpSystems::DrawSprite(const Transform3d& transform, const Vector2& v0,
 	sprInd = drawManager_.AddSprite(managementDevice_.GetDevice());
 	PostDraw();
 	drawManager_.GetSprite(sprInd).DrawSprite(transform,v0,v1,v2,v3,managementCommand_.GetCommandList(),
-		SRV,color,camera_);
+		uvChecker,color,camera_);
 }
 
 void EmpSystems::DrawSpriteHomework() {
@@ -161,7 +171,7 @@ void EmpSystems::DrawSphere(const Transform3d& transform, const Vector4& color) 
 	sphInd = drawManager_.AddSphere(managementDevice_.GetDevice());
 	PostDraw();
 	drawManager_.GetSphere(sphInd).DrawSphere(transform, color, 
-		managementCommand_.GetCommandList(), SRV,camera_);
+		managementCommand_.GetCommandList(), sphereHandle,camera_);
 }
 
 void EmpSystems::DrawSphereHomeWork() {

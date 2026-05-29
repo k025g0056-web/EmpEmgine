@@ -1,9 +1,8 @@
 #include"ManagementTexture.h"
-#pragma comment(lib, "d3d11.lib")
-#pragma comment(lib, "dxgi.lib")
 #pragma comment(lib,"d3d12.lib")
 #include"ManagementLog.h"
 #include"DX12Mechanics.h"
+#include"externals//DirectXTex/d3dx12.h"
 
 DirectX::ScratchImage ManagementTexture::LoadTextureFile(const std::string& filepath) {
 	//テクスチャを呼んでプログラムを扱えるようにする
@@ -26,17 +25,17 @@ DirectX::ScratchImage ManagementTexture::LoadTextureFile(const std::string& file
 ID3D12Resource* ManagementTexture::CreateTextureResource(ID3D12Device* device, const DirectX::TexMetadata& metadata) {
 	//1.metadetaを基にResourceの設定
 	D3D12_RESOURCE_DESC resourceDesc{};
-	SettingResourceByMetaData(resourceDesc, metadata);
+	BuildResourceDesc(resourceDesc, metadata);
 	//2.利用するheapの設定
 	D3D12_HEAP_PROPERTIES heapProperties{};
 	SettingHeap(heapProperties);
 	//3.Resourceの精製
 	ID3D12Resource* resource = nullptr;
-	GenerateResource(resource, resourceDesc, heapProperties, device);
+	CreateCommittedResource(resource, resourceDesc, heapProperties, device);
 	return resource;
 }
 
-void ManagementTexture::SettingResourceByMetaData(D3D12_RESOURCE_DESC& resourceDesc,const DirectX::TexMetadata& metadata) {
+void ManagementTexture::BuildResourceDesc(D3D12_RESOURCE_DESC& resourceDesc,const DirectX::TexMetadata& metadata) {
 	resourceDesc.Width = UINT(metadata.width);//Textureの幅
 	resourceDesc.Height = UINT(metadata.height);//Textureの高さ
 	resourceDesc.MipLevels = UINT16(metadata.mipLevels);//mipMapの数
@@ -52,7 +51,7 @@ void ManagementTexture::SettingHeap(D3D12_HEAP_PROPERTIES& heapProperties) {
 	heapProperties.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
 }
 
-void ManagementTexture::GenerateResource(ID3D12Resource*& resource, D3D12_RESOURCE_DESC& resourceDesc,
+void ManagementTexture::CreateCommittedResource(ID3D12Resource*& resource, D3D12_RESOURCE_DESC& resourceDesc,
 	D3D12_HEAP_PROPERTIES& heapProperties, ID3D12Device* device) {
 	HRESULT hr = device->CreateCommittedResource(
 		&heapProperties,//Heapの設定
@@ -85,15 +84,27 @@ ID3D12Resource* ManagementTexture::UploadTextureData(ID3D12Resource* texture, co
 	return intermediateResource;
 }
 
-ID3D12Resource* ManagementTexture::LoadTexture(ID3D12Device* device, const std::string& filePath, 
+D3D12_GPU_DESCRIPTOR_HANDLE ManagementTexture::LoadTexture(ID3D12Device* device, const std::string& filePath,
 	ID3D12GraphicsCommandList* commandList,ID3D12CommandQueue* commandQueue,
-	ID3D12CommandAllocator* commandAllocator, HANDLE fenceEvent, uint64_t fenceValue, ID3D12Fence*fence) {
+	ID3D12CommandAllocator* commandAllocator, HANDLE fenceEvent, uint64_t fenceValue, ID3D12Fence*fence, ID3D12DescriptorHeap* srvDescriptorHeap) {
+	DirectX::ScratchImage mipImages;
+	DirectX::TexMetadata metadata;
+	ID3D12Resource* textureResource = nullptr;
 	//テクスチャを読んで転送する
 	mipImages = LoadTextureFile(filePath);
 	metadata = mipImages.GetMetadata();
 	textureResource = CreateTextureResource(device, metadata);
 	ID3D12Resource* intermediateResource=UploadTextureData(textureResource, mipImages,device,commandList);
 	
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = BuildSrvDesc(metadata);
+	const uint32_t descriptorSizeSRV = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	const uint32_t descriptorSizeRTV = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+	const uint32_t descriptorSizeDSV = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
+	D3D12_CPU_DESCRIPTOR_HANDLE handleCPU = GetCPUDescriptorHandle(srvDescriptorHeap, descriptorSizeSRV, nextTextureIndex_);
+	D3D12_GPU_DESCRIPTOR_HANDLE handleGPU = GetGPUDescriptorHandle(srvDescriptorHeap, descriptorSizeSRV, nextTextureIndex_);
+	device->CreateShaderResourceView(textureResource, &srvDesc, handleCPU);
+	nextTextureIndex_++;
+
 	//リストを閉じる
 	commandList->Close();
 
@@ -117,23 +128,33 @@ ID3D12Resource* ManagementTexture::LoadTexture(ID3D12Device* device, const std::
 	commandList->Reset(commandAllocator, nullptr);
 	//----------------------------------------------//
 
-	return textureResource;
+	TextureData textureData{};
+	textureData.resource = textureResource;
+	textureData.metadata = metadata;
+	textureData.srvHandleCPU = handleCPU;
+	textureData.srvHandleGPU = handleGPU;
+	textures_.push_back(textureData);
+	return handleGPU;
 }
 
+D3D12_CPU_DESCRIPTOR_HANDLE ManagementTexture::GetCPUDescriptorHandle(ID3D12DescriptorHeap* descriptorheap, uint32_t descriptorSize, uint32_t index) {
+	D3D12_CPU_DESCRIPTOR_HANDLE handleCPU = descriptorheap->GetCPUDescriptorHandleForHeapStart();
+	handleCPU.ptr += (descriptorSize * index);
+	return handleCPU;
+}
 
-D3D12_GPU_DESCRIPTOR_HANDLE ManagementTexture::CreateSRV(ID3D12DescriptorHeap* srvDescriptorHeap,ID3D12Device* device) {
+D3D12_GPU_DESCRIPTOR_HANDLE ManagementTexture::GetGPUDescriptorHandle(ID3D12DescriptorHeap* descriptorheap, uint32_t descriptorSize, uint32_t index) {
+	D3D12_GPU_DESCRIPTOR_HANDLE handleGPU = descriptorheap->GetGPUDescriptorHandleForHeapStart();
+	handleGPU.ptr += (descriptorSize * index);
+	return handleGPU;
+}
+
+D3D12_SHADER_RESOURCE_VIEW_DESC ManagementTexture::BuildSrvDesc(DirectX::TexMetadata metadata) {
 	//metaDataを基にSRVの設定
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
 	srvDesc.Format = metadata.format;
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2Dのテクスチャ
 	srvDesc.Texture2D.MipLevels = UINT(metadata.mipLevels);
-	//SRVを作成するDescriptorHeapの場所を決める
-	D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU = srvDescriptorHeap->GetCPUDescriptorHandleForHeapStart();
-	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU = srvDescriptorHeap->GetGPUDescriptorHandleForHeapStart();
-	textureSrvHandleCPU.ptr += device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-	textureSrvHandleGPU.ptr += device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-	//SRVの作成
-	device->CreateShaderResourceView(textureResource, &srvDesc, textureSrvHandleCPU);
-	return textureSrvHandleGPU;
+	return srvDesc;
 }

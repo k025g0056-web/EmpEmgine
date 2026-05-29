@@ -36,7 +36,7 @@ class EmpSystems {
 	void PostDraw();
 	void End();
 	void Update();
-	ID3D12Resource* LoadTexture(const std::string& str);
+	D3D12_GPU_DESCRIPTOR_HANDLE LoadTexture(const std::string& str);
 
 	//課題用の変数
 	//----------------------------------------------------------------------------//
@@ -61,7 +61,10 @@ class EmpSystems {
 	MymGui mymGui_;
 	int windowWidth_;
 	int windowHeight_;
-	D3D12_GPU_DESCRIPTOR_HANDLE SRV;
+	D3D12_GPU_DESCRIPTOR_HANDLE uvChecker;
+	D3D12_GPU_DESCRIPTOR_HANDLE monsterBall;
+	D3D12_GPU_DESCRIPTOR_HANDLE sphereHandle;
 	DrawManager drawManager_;
+	bool useMonsterBall = true;
 	//------------------------------------------------------//
 };
