@@ -37,7 +37,7 @@ void EmpSystems::Initialize(int kWindowWidth, int kWindowHeight) {
 
 	sphereHandle = uvChecker;
 
-	managementLighting_.Initialize();
+	managementLighting_.Initialize(managementDevice_.GetDevice());
 }
 
 int EmpSystems::ProcessMessage() {
@@ -128,6 +128,7 @@ void EmpSystems::Release() {
 	managementWindow_.Release();
 	mymGui_.Release();
 	drawManager_.Release();
+	managementLighting_.Release();
 }
 
 D3D12_GPU_DESCRIPTOR_HANDLE EmpSystems::LoadTexture(const std::string& filepath) {
@@ -141,6 +142,7 @@ void EmpSystems::PostDraw() {
 		managementViewPort_.GetScissorRect(),
 		managementDXC_.GetGraphicPipeLineState(),
 		managementDXC_.GetRootSignature(), managementDescriptHeap_.GetSrvDescriptorHeap());
+	managementLighting_.DrawCall(managementCommand_.GetCommandList());
 }
 
 void EmpSystems::DrawTriangle(const Vector3& v0, const Vector3& v1, const Vector3& v2, const Vector4 color) {

@@ -1,13 +1,14 @@
 #pragma once
 #include"DirectionalLight.h"
+#include<d3d12.h>
 
 class ManagementLighting {
-	DirectionalLight* directionalLightData;
+	ID3D12Resource* directionalLightResource_=nullptr;
+	DirectionalLight* directionalLightData=nullptr;
 
 public:
-	void Initialize();
-
+	void Initialize(ID3D12Device* device);
+	void DrawCall(ID3D12GraphicsCommandList* commandList);
 	void GUI();
-
-
+	void Release();
 };

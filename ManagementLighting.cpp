@@ -1,7 +1,10 @@
 #include"ManagementLighting.h"
 #include"externals/imgui/imgui.h"
+#include"DX12Mechanics.h"
 
-void ManagementLighting::Initialize() {
+void ManagementLighting::Initialize(ID3D12Device* device) {
+	directionalLightResource_ = DX12Mechanics::CreateBufferResource(device, sizeof(DirectionalLight), 256);
+	directionalLightResource_->Map(0, nullptr, reinterpret_cast<void**>(&directionalLightData));
 	directionalLightData->color = { 1.0f,1.0f,1.0f,1.0f };
 	directionalLightData->direction = { 0.0f,-1.0f,0.0f };
 	directionalLightData->intensity = 1.0f;
@@ -15,4 +18,16 @@ void ManagementLighting::GUI() {
 
 #endif // USE_IMGUI
 
+}
+
+void ManagementLighting::DrawCall(ID3D12GraphicsCommandList* commandList) {
+	commandList->SetGraphicsRootConstantBufferView(3, directionalLightResource_->GetGPUVirtualAddress());
+}
+
+void ManagementLighting::Release() {
+	if (directionalLightResource_) {
+		directionalLightResource_->Release();
+		directionalLightResource_ = nullptr;
+		directionalLightData = nullptr;
+	}
 }
