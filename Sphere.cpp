@@ -5,7 +5,7 @@
 #include<cmath>
 
 void Sphere::Initialize(ID3D12Device* device) {
-	Shape::Initialize(device);//親が先やでん
+	Shape::Initialize(device,true);//親が先やでん
 	const uint32_t vertexCount = kSubdivision * kSubdivision * 6;
 	vertexResource = DX12Mechanics::CreateBufferResource(device, sizeof(VertexData) * vertexCount);
 	vertexBufferView_ = DX12Mechanics::GenerateVertexBufferView<VertexData>(vertexResource, vertexCount);
@@ -46,6 +46,7 @@ void Sphere::DrawSphere(const Transform3d& transform, const Vector4& color, ID3D
 			vertexData[start].position.z = std::cos(lat) * std::sin(lon);
 			vertexData[start].position.w = 1.0f;
 			vertexData[start].texcoord = { u0,v0 };
+			vertexData[start].normal = ToVec3(vertexData[start].position);
 
 			//左上
 			vertexData[start + 1].position.x = std::cos(lat + kLatEvery) * std::cos(lon);
@@ -53,6 +54,7 @@ void Sphere::DrawSphere(const Transform3d& transform, const Vector4& color, ID3D
 			vertexData[start + 1].position.z = std::cos(lat + kLatEvery) * std::sin(lon);
 			vertexData[start + 1].position.w = 1.0f;
 			vertexData[start+1].texcoord = { u0,v1 };
+			vertexData[start + 1].normal = ToVec3(vertexData[start + 1].position);
 
 			//右下
 			vertexData[start + 2].position.x = std::cos(lat) * std::cos(lon + kLonEvery);
@@ -60,6 +62,7 @@ void Sphere::DrawSphere(const Transform3d& transform, const Vector4& color, ID3D
 			vertexData[start + 2].position.z = std::cos(lat) * std::sin(lon + kLonEvery);
 			vertexData[start + 2].position.w = 1.0f;
 			vertexData[start + 2].texcoord = { u1,v0 };
+			vertexData[start + 2].normal = ToVec3(vertexData[start + 2].position);
 
 			//左上
 			vertexData[start + 3].position.x = std::cos(lat + kLatEvery) * std::cos(lon);
@@ -67,6 +70,7 @@ void Sphere::DrawSphere(const Transform3d& transform, const Vector4& color, ID3D
 			vertexData[start + 3].position.z = std::cos(lat + kLatEvery) * std::sin(lon);
 			vertexData[start + 3].position.w = 1.0f;
 			vertexData[start + 3].texcoord = { u0,v1 };
+			vertexData[start + 3].normal = ToVec3(vertexData[start + 3].position);
 
 			//右上
 			vertexData[start + 4].position.x = std::cos(lat + kLatEvery) * std::cos(lon + kLonEvery);
@@ -74,6 +78,7 @@ void Sphere::DrawSphere(const Transform3d& transform, const Vector4& color, ID3D
 			vertexData[start + 4].position.z = std::cos(lat + kLatEvery) * std::sin(lon + kLonEvery);
 			vertexData[start + 4].position.w = 1.0f;
 			vertexData[start + 4].texcoord = { u1,v1 };
+			vertexData[start + 4].normal = ToVec3(vertexData[start + 4].position);
 
 			//右下
 			vertexData[start + 5].position.x = std::cos(lat) * std::cos(lon + kLonEvery);
@@ -81,6 +86,7 @@ void Sphere::DrawSphere(const Transform3d& transform, const Vector4& color, ID3D
 			vertexData[start + 5].position.z = std::cos(lat) * std::sin(lon + kLonEvery);
 			vertexData[start + 5].position.w = 1.0f;
 			vertexData[start + 5].texcoord = { u1,v0 };
+			vertexData[start + 5].normal = ToVec3(vertexData[start + 5].position);
 
 		}
 	}

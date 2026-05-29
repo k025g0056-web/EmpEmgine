@@ -145,6 +145,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="ManagementDevice.cpp" />
     <ClCompile Include="ManagementDXC.cpp" />
     <ClCompile Include="ManagementDXGIFactory.cpp" />
+    <ClCompile Include="ManagementLighting.cpp" />
     <ClCompile Include="ManagementLog.cpp" />
     <ClCompile Include="ManagementSwapChain.cpp" />
     <ClCompile Include="ManagementTexture.cpp" />
@@ -163,6 +164,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   <ItemGroup>
     <ClInclude Include="Camera3d.h" />
     <ClInclude Include="ClashHandler.h" />
+    <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="DoubleTriangle.h" />
     <ClInclude Include="DrawManager.h" />
     <ClInclude Include="DX12Mechanics.h" />
@@ -182,11 +184,13 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="ManagementDevice.h" />
     <ClInclude Include="ManagementDXC.h" />
     <ClInclude Include="ManagementDXGIFactory.h" />
+    <ClInclude Include="ManagementLighting.h" />
     <ClInclude Include="ManagementSwapChain.h" />
     <ClInclude Include="ManagementTexture.h" />
     <ClInclude Include="ManagementViewPort.h" />
     <ClInclude Include="managementWindow.h" />
     <ClInclude Include="ManagementLog.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="Matrix2x2.h" />
     <ClInclude Include="Matrix3x3.h" />
     <ClInclude Include="Matrix4x4.h" />
@@ -195,6 +199,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="TransForm3d.h" />
+    <ClInclude Include="TransformationMatrix.h" />
     <ClInclude Include="Triangle.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="Vector3.h" />

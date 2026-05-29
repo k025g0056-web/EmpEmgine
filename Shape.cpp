@@ -3,20 +3,22 @@
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
 
-void Shape::Initialize(ID3D12Device* device) {
+void Shape::Initialize(ID3D12Device* device,bool enableLighting) {
 	GenerateWvpResource(device);
-	GenerateMaterial(device, Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+	GenerateMaterial(device, Vector4(1.0f, 1.0f, 1.0f, 1.0f),enableLighting);
 }
 
-void Shape::GenerateMaterial(ID3D12Device* device,const Vector4& color) {
+void Shape::GenerateMaterial(ID3D12Device* device,const Vector4& color,bool enableLighting) {
 	//マテリアル用のリソースを作る
-	materialResource = DX12Mechanics::CreateBufferResource(device, sizeof(Vector4), 256);
+	materialResource = DX12Mechanics::CreateBufferResource(device, sizeof(Material), 256);
 
 	//書き込む溜めのアドレスを取得
 	materialResource->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
 
-	//今回は赤を書き込んでみる
-	*materialData = color;
+	materialData->color = color;
+
+	materialData->enableLighting = enableLighting;
+
 }
 
 void Shape::GenerateWvpResource(ID3D12Device * device) {
@@ -42,7 +44,7 @@ void Shape::DrawCall(ID3D12GraphicsCommandList* commandList,
 }
 
 void Shape::SetColor(const Vector4& color) {
-	*materialData = color;
+	materialData->color = color;
 }
 
 void Shape::Release() {

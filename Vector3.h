@@ -1,4 +1,6 @@
 #pragma once
+#include"Vector4.h"
+
 struct Vector3 {
 	float x;
 	float y;
@@ -36,6 +38,13 @@ struct Vector3 {
 		};
 	}
 
+	Vector3& operator=(const Vector3& other){
+		x = other.x;
+		y = other.y;
+		z = other.z;
+		return *this;
+	}
+
 	Vector3 operator*(const float& other) const {
 		return {
 			x * other,
@@ -61,6 +70,8 @@ struct Vector3 {
 	bool operator&&(const Vector3& other) const {
 		return {(x&& other.x)&&(y&&other.y)&&(z&&other.z)};
 	}
+
+	
 };
 
 float Dot(const Vector3& v1, const Vector3& v2);
@@ -83,3 +94,11 @@ inline Vector3 operator/(float scalar, const Vector3& v) {
 	};
 }
 Vector3 Clamp(const Vector3& vec, float min,float max);
+
+inline Vector3 ToVec3(const Vector4& vec) {
+	return { vec.x,vec.y,vec.z };
+}
+
+inline Vector3 ToVec3Sprite(const Vector4& vec) {
+	return { vec.x,vec.y,-1.0f };
+}

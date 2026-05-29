@@ -15,6 +15,8 @@
 #include<string>
 #include"DrawManager.h"
 #include"Vector2.h"
+#include"ManagementLighting.h"
+
 class EmpEngine;
 class EmpSystems {
 
@@ -66,5 +68,6 @@ class EmpSystems {
 	D3D12_GPU_DESCRIPTOR_HANDLE sphereHandle;
 	DrawManager drawManager_;
 	bool useMonsterBall = true;
+	ManagementLighting managementLighting_;
 	//------------------------------------------------------//
 };

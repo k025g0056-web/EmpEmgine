@@ -87,28 +87,31 @@
       <Filter>Engine\addMech\DX12Mechanics</Filter>
     </ClCompile>
     <ClCompile Include="Shape.cpp">
-      <Filter>Engine\Manegement\Shape</Filter>
+      <Filter>Engine\Shapes\Shape</Filter>
     </ClCompile>
     <ClCompile Include="Triangle.cpp">
-      <Filter>Engine\Manegement\Triangle</Filter>
+      <Filter>Engine\Shapes\Triangle</Filter>
     </ClCompile>
     <ClCompile Include="Vector3.cpp">
       <Filter>Engine\addMech\Verctor3</Filter>
     </ClCompile>
     <ClCompile Include="DrawManager.cpp">
-      <Filter>Engine\Manegement\DrawManager</Filter>
+      <Filter>Engine\Shapes\DrawManager</Filter>
     </ClCompile>
     <ClCompile Include="DoubleTriangle.cpp">
-      <Filter>Engine\Manegement\DoubleTriangle</Filter>
+      <Filter>Engine\Shapes\DoubleTriangle</Filter>
     </ClCompile>
     <ClCompile Include="Sprite.cpp">
-      <Filter>Engine\Manegement\Sprite</Filter>
+      <Filter>Engine\Shapes\Sprite</Filter>
     </ClCompile>
     <ClCompile Include="Sphere.cpp">
-      <Filter>Engine\Manegement\Sphere</Filter>
+      <Filter>Engine\Shapes\Sphere</Filter>
     </ClCompile>
     <ClCompile Include="EmpSystems.cpp">
       <Filter>Engine\System</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagementLighting.cpp">
+      <Filter>Engine\Manegement\ManagementLighting</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -205,23 +208,38 @@
     <Filter Include="Engine\addMech\DX12Mechanics">
       <UniqueIdentifier>{a5ebc2c4-36ee-47d6-b81e-ae2f2d84b48b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Manegement\Shape">
+    <Filter Include="Engine\Shapes">
+      <UniqueIdentifier>{302b45f2-f09b-4d20-a5cd-ba6c77196f7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Shapes\Shape">
       <UniqueIdentifier>{90bcd661-0e92-4844-992a-afc24ceacf60}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Manegement\Triangle">
-      <UniqueIdentifier>{48646779-1057-4b2f-9526-539d207a6e1b}</UniqueIdentifier>
+    <Filter Include="Engine\Shapes\Sphere">
+      <UniqueIdentifier>{cf85c25c-e659-4d66-b836-6877c4ecec28}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Manegement\DrawManager">
-      <UniqueIdentifier>{33d67813-d7b5-4ecc-8604-f33f8cb68e4c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Manegement\DoubleTriangle">
-      <UniqueIdentifier>{922ed482-d69c-4822-91ca-37c834150fe9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Manegement\Sprite">
+    <Filter Include="Engine\Shapes\Sprite">
       <UniqueIdentifier>{deb1f616-60b7-44dc-b80d-175a9191d3fe}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Manegement\Sphere">
-      <UniqueIdentifier>{cf85c25c-e659-4d66-b836-6877c4ecec28}</UniqueIdentifier>
+    <Filter Include="Engine\Shapes\Triangle">
+      <UniqueIdentifier>{48646779-1057-4b2f-9526-539d207a6e1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\addMech\Material">
+      <UniqueIdentifier>{36228a6e-33c7-4adc-837c-40e4e26e3317}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\addMech\TransformationMatrix">
+      <UniqueIdentifier>{8f22b273-a651-4b50-b8ad-7ad4fcf1e9e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\addMech\DirectionalLight">
+      <UniqueIdentifier>{8a22c9f0-ddb2-4bc1-b758-9d1cd752d9d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Shapes\DoubleTriangle">
+      <UniqueIdentifier>{922ed482-d69c-4822-91ca-37c834150fe9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Shapes\DrawManager">
+      <UniqueIdentifier>{33d67813-d7b5-4ecc-8604-f33f8cb68e4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\ManagementLighting">
+      <UniqueIdentifier>{3345e457-c0a9-49ff-b31b-e35abb2915b3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -328,22 +346,34 @@
       <Filter>Engine\addMech\DX12Mechanics</Filter>
     </ClInclude>
     <ClInclude Include="Shape.h">
-      <Filter>Engine\Manegement\Shape</Filter>
+      <Filter>Engine\Shapes\Shape</Filter>
     </ClInclude>
     <ClInclude Include="Triangle.h">
-      <Filter>Engine\Manegement\Triangle</Filter>
+      <Filter>Engine\Shapes\Triangle</Filter>
     </ClInclude>
     <ClInclude Include="DrawManager.h">
-      <Filter>Engine\Manegement\DrawManager</Filter>
+      <Filter>Engine\Shapes\DrawManager</Filter>
     </ClInclude>
     <ClInclude Include="DoubleTriangle.h">
-      <Filter>Engine\Manegement\DoubleTriangle</Filter>
+      <Filter>Engine\Shapes\DoubleTriangle</Filter>
     </ClInclude>
     <ClInclude Include="Sprite.h">
-      <Filter>Engine\Manegement\Sprite</Filter>
+      <Filter>Engine\Shapes\Sprite</Filter>
     </ClInclude>
     <ClInclude Include="Sphere.h">
-      <Filter>Engine\Manegement\Sphere</Filter>
+      <Filter>Engine\Shapes\Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Engine\addMech\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformationMatrix.h">
+      <Filter>Engine\addMech\TransformationMatrix</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectionalLight.h">
+      <Filter>Engine\addMech\DirectionalLight</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagementLighting.h">
+      <Filter>Engine\Manegement\ManagementLighting</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

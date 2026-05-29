@@ -4,13 +4,14 @@
 #include"Matrix4x4.h"
 #include"VertexData.h"
 #include"TransForm3d.h"
+#include"Material.h"
 
 //図形のクラス。いい感じに作りたい
 class Shape {
 protected:
 	ID3D12Resource* vertexResource = nullptr;
 	ID3D12Resource* materialResource = nullptr;
-	Vector4* materialData = nullptr;
+	Material* materialData = nullptr;
 	ID3D12Resource* wvpResource = nullptr;
 	Matrix4x4* wvpData = nullptr;
 	Transform3d transform3d_;
@@ -19,7 +20,7 @@ protected:
 	bool isVertexDirty_ = true;
 	bool isTransformDirty_ = true;
 
-	void GenerateMaterial(ID3D12Device* device,const Vector4& color);
+	void GenerateMaterial(ID3D12Device* device,const Vector4& color,bool enableLighting);
 	void GenerateWvpResource(ID3D12Device* device);
 	void DrawCall(ID3D12GraphicsCommandList* commandList,
 		D3D12_VERTEX_BUFFER_VIEW vetexBufferView, 
@@ -28,6 +29,6 @@ protected:
 	void SetColor(const Vector4& color);
 	void ChangeTransform(const Transform3d& transform);
 public:
-	void Initialize(ID3D12Device* device);
+	void Initialize(ID3D12Device* device,bool enableLighting);
 	void Release();
 };

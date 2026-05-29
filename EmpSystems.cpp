@@ -36,6 +36,8 @@ void EmpSystems::Initialize(int kWindowWidth, int kWindowHeight) {
 	monsterBall = LoadTexture("resources/monsterBall.png");
 
 	sphereHandle = uvChecker;
+
+	managementLighting_.Initialize();
 }
 
 int EmpSystems::ProcessMessage() {
@@ -99,6 +101,7 @@ void EmpSystems::Update() {
 	ImGui::SliderFloat4("Material", &color.x, 0.0f, 255.0f, "%3f", 0);
 	ImGui::SliderFloat3("Transform", &transformSpr.translate.x, 0.0f, 1280.0f, "%3f", 0);
 	ImGui::Checkbox("useMonsterBall", &useMonsterBall);
+	managementLighting_.GUI();
 #endif // USE_IMGUI{
 	if (useMonsterBall) {
 		sphereHandle = monsterBall;
