@@ -5,7 +5,8 @@ void DoubleTriangle::DrawDoubleTriangle(const Transform3d&transform, ID3D12Graph
 	ChangeTransform(transform);
 	if (isTransformDirty_) {
 		transform3d_ = transform;
-		*wvpData = camera.GetWvp(transform3d_);
+		wvpData->WVP = camera.GetWvp(transform3d_);
+		wvpData->world = Affine(transform3d_);
 		isTransformDirty_ = false;
 	}
 

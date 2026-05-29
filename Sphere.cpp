@@ -14,7 +14,8 @@ void Sphere::Initialize(ID3D12Device* device) {
 void Sphere::DrawSphere(const Transform3d& transform, const Vector4& color, ID3D12GraphicsCommandList* commandList,
 	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU, const Camera3d& camera) {
 	transform3d_ = transform;
-	*wvpData = camera.GetWvp(transform3d_);
+	wvpData->WVP = camera.GetWvp(transform3d_);
+	wvpData->world = Affine(transform3d_);
 	SetColor(color);
 	VertexData* vertexData = nullptr;
 	//書き込むためのアドレス取得

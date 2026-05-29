@@ -11,7 +11,8 @@ void Sprite::DrawSprite(const Transform3d& transform, const Vector2& v0, const V
 	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU, const Vector4& color, const Camera3d& camera) {
 	
 	transform3d_ = transform;
-	*wvpData = camera.GetWvpSprite(transform3d_);
+	wvpData->WVP = camera.GetWvpSprite(transform3d_);
+	wvpData->world = Affine(transform3d_);
 
 	VertexData* vertexData = nullptr;
 	vertexResource->Map(0, nullptr, reinterpret_cast<void**>(&vertexData));

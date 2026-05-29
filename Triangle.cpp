@@ -38,7 +38,8 @@ void Triangle::DrawTriangle(const Transform3d& transform, const Vector3& v0, con
 	ChangeTransform(transform);
 	if (isTransformDirty_) {
 		transform3d_ = transform;
-		*wvpData = camera.GetWvp(transform3d_);
+		wvpData->WVP = camera.GetWvp(transform3d_);
+		wvpData->world = Affine(transform3d_);
 		isTransformDirty_ = false;
 	}
 

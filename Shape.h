@@ -5,6 +5,7 @@
 #include"VertexData.h"
 #include"TransForm3d.h"
 #include"Material.h"
+#include"TransformationMatrix.h"
 
 //図形のクラス。いい感じに作りたい
 class Shape {
@@ -13,7 +14,7 @@ protected:
 	ID3D12Resource* materialResource = nullptr;
 	Material* materialData = nullptr;
 	ID3D12Resource* wvpResource = nullptr;
-	Matrix4x4* wvpData = nullptr;
+	TransformationMatrix* wvpData = nullptr;
 	Transform3d transform3d_;
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_{};
 

@@ -22,12 +22,14 @@ void Shape::GenerateMaterial(ID3D12Device* device,const Vector4& color,bool enab
 }
 
 void Shape::GenerateWvpResource(ID3D12Device * device) {
-	wvpResource = DX12Mechanics::CreateBufferResource(device, sizeof(Matrix4x4), 256);
+	wvpResource = DX12Mechanics::CreateBufferResource(device, sizeof(TransformationMatrix), 256);
 	//書き込むためのアドレスを取得
 	wvpResource->Map(0, nullptr, reinterpret_cast<void**>(&wvpData));
 
 	//単位行列を書き込む
-	*wvpData = MakeIdentity4x4();
+	wvpData->WVP = MakeIdentity4x4();
+	wvpData->world = MakeIdentity4x4();
+
 }
 
 void Shape::DrawCall(ID3D12GraphicsCommandList* commandList,
