@@ -1,19 +1,27 @@
 #include"EmpEngine.h"
+#include"SceneManager.h"
 
 //Windowsアプリでのエントリーポイント(main関数)
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE,LPSTR,int){
-	EmpEngine::Initialize(1280,720);
-	
+	//必ず最初に初期化する
+	EmpEngine::Initialize(1280,720,SceneName::Play);
 	//ゲームのメインループ
 	while (EmpEngine::ProcessMessage()==0){
+		//フレームの開始
 		EmpEngine::Begin();
-	//必ず最初に初期化する
-		EmpEngine::Update();
-		EmpEngine::DrawSpriteHomework();
+		
+		//ゲームのプロセス
+		EmpEngine::Process();
 
-		EmpEngine::DrawSphereHomework();
+		//フレームの終了
 		EmpEngine::End();
+
+		//Escを押して終了
+		if (EmpEngine::EndManagement()) {
+			break;
+		}
+
 	}
 
 	//インスタンスの解放

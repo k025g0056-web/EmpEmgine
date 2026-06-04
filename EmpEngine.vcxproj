@@ -60,6 +60,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalOptions>/ignore:4049 /ignore:4098 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>dinput8.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Bscmake>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -94,6 +95,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
       <AdditionalOptions>/ignore:4049 /ignore:4098 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>dinput8.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -112,6 +114,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   <ItemGroup>
     <ClCompile Include="Camera3d.cpp" />
     <ClCompile Include="ClashHandler.cpp" />
+    <ClCompile Include="Clear.cpp" />
     <ClCompile Include="DoubleTriangle.cpp" />
     <ClCompile Include="DrawManager.cpp" />
     <ClCompile Include="DX12Mechanics.cpp" />
@@ -138,6 +141,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="externals\imgui\imgui_widgets.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ManagementCommand.cpp" />
     <ClCompile Include="ManagementDebug.cpp" />
@@ -154,9 +159,14 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Matrix3x3.cpp" />
     <ClCompile Include="Matrix4x4.cpp" />
     <ClCompile Include="MymGui.cpp" />
+    <ClCompile Include="Over.cpp" />
+    <ClCompile Include="SceneBase.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SceneSystem.cpp" />
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="TItle.cpp" />
     <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="Vertex42d.cpp" />
@@ -164,6 +174,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   <ItemGroup>
     <ClInclude Include="Camera3d.h" />
     <ClInclude Include="ClashHandler.h" />
+    <ClInclude Include="Clear.h" />
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="DoubleTriangle.h" />
     <ClInclude Include="DrawManager.h" />
@@ -178,6 +189,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="externals\imgui\imstb_rectpack.h" />
     <ClInclude Include="externals\imgui\imstb_textedit.h" />
     <ClInclude Include="externals\imgui\imstb_truetype.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="Input.h" />
+    <ClInclude Include="KeyDiffine.h" />
     <ClInclude Include="ManagementCommand.h" />
     <ClInclude Include="ManagementDebug.h" />
     <ClInclude Include="ManagementDescriptorHeap.h" />
@@ -195,9 +209,14 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Matrix3x3.h" />
     <ClInclude Include="Matrix4x4.h" />
     <ClInclude Include="MymGui.h" />
+    <ClInclude Include="Over.h" />
+    <ClInclude Include="SceneBase.h" />
+    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SceneSystem.h" />
     <ClInclude Include="Shape.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Sprite.h" />
+    <ClInclude Include="Title.h" />
     <ClInclude Include="TransForm3d.h" />
     <ClInclude Include="TransformationMatrix.h" />
     <ClInclude Include="Triangle.h" />

@@ -113,6 +113,30 @@
     <ClCompile Include="ManagementLighting.cpp">
       <Filter>Engine\Manegement\ManagementLighting</Filter>
     </ClCompile>
+    <ClCompile Include="SceneBase.cpp">
+      <Filter>Engine\Manegement\SceneManager\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="TItle.cpp">
+      <Filter>Engine\Manegement\SceneManager\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="Over.cpp">
+      <Filter>Engine\Manegement\SceneManager\Over</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Engine\Manegement\SceneManager\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Clear.cpp">
+      <Filter>Engine\Manegement\SceneManager\Clear</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Engine\Manegement\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Engine\Manegement\InputManager</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneSystem.cpp">
+      <Filter>Engine\System\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -240,6 +264,30 @@
     </Filter>
     <Filter Include="Engine\Manegement\ManagementLighting">
       <UniqueIdentifier>{3345e457-c0a9-49ff-b31b-e35abb2915b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\SceneManager">
+      <UniqueIdentifier>{48718cab-1599-488a-a5da-96df9afc60e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\SceneManager\Title">
+      <UniqueIdentifier>{e21f081c-4e22-4f77-9856-709c1cdb043d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\SceneManager\Game">
+      <UniqueIdentifier>{b7cf6ba8-7469-434d-972a-ac719f39aa79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\SceneManager\Clear">
+      <UniqueIdentifier>{67b66682-a29b-4403-8849-0c71704bc411}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\SceneManager\Over">
+      <UniqueIdentifier>{6e663fec-bca7-4b9b-9d9e-03203b195c97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\SceneManager\Base">
+      <UniqueIdentifier>{e6041e80-5d0c-4ce3-a0dd-92f1b5f86a65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\InputManager">
+      <UniqueIdentifier>{de53772b-bcfb-47f3-9134-d207767a2e89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\System\Scene">
+      <UniqueIdentifier>{c0ae35e1-94eb-41c4-8bf8-99bf2980b7bf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -374,6 +422,33 @@
     </ClInclude>
     <ClInclude Include="ManagementLighting.h">
       <Filter>Engine\Manegement\ManagementLighting</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneBase.h">
+      <Filter>Engine\Manegement\SceneManager\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Title.h">
+      <Filter>Engine\Manegement\SceneManager\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="Over.h">
+      <Filter>Engine\Manegement\SceneManager\Over</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Engine\Manegement\SceneManager\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Clear.h">
+      <Filter>Engine\Manegement\SceneManager\Clear</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Engine\Manegement\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Engine\Manegement\InputManager</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyDiffine.h">
+      <Filter>Engine\Manegement\InputManager</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneSystem.h">
+      <Filter>Engine\System\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

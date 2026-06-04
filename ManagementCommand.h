@@ -8,7 +8,7 @@
 class ManagementCommand {
 	D3D12_COMMAND_QUEUE_DESC commandQueueDesc_{};
 	D3D12_RESOURCE_BARRIER barrier_{};
-	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle_;
+	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle_{};
 
 	Microsoft::WRL::ComPtr<ID3D12CommandQueue> commandQueue_;
 	Microsoft::WRL::ComPtr<ID3D12CommandAllocator> commandAllocator_;

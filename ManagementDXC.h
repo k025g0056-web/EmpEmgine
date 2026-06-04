@@ -9,7 +9,7 @@ class ManagementDXC {
 	IDxcUtils* dxcUtils_ = nullptr;
 	IDxcCompiler3* dxcCompiler_ = nullptr;
 	IDxcIncludeHandler* includeHandler_ = nullptr;
-	ID3D12RootSignature* rootSignature_;
+	ID3D12RootSignature* rootSignature_ = nullptr;
 	ID3D12PipelineState* graphicsPipelineState = nullptr;
 	
 	/// <summary>

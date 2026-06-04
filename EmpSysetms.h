@@ -27,25 +27,25 @@ class EmpSystems {
 	void Finalize();
 	void Begin();
 	void Release();
-	void DrawTriangleViewport();
-	void DrawTriangle(const Vector3& v0, const Vector3& v1, const Vector3& v2, const Vector4 color);
-	void DrawTriangleTrans(const Transform3d& transform, const Vector3& v0, const Vector3& v1, const Vector3& v2, const Vector4 color);
+
+	void DrawTriangle(const Vector3& v0, const Vector3& v1, 
+		const Vector3& v2, const Vector4 color, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle);
+
+	void DrawTriangleTrans(const Transform3d& transform, const Vector3& v0,
+		const Vector3& v1, const Vector3& v2, const Vector4 color, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle);
+
 	void DrawSprite(const Transform3d& transform, const Vector2& v0, 
-		const Vector2& v1, const Vector2& v2, const Vector2& v3,const Vector4& color);
-	void DrawSpriteHomework();
-	void DrawSphere(const Transform3d& transform, const Vector4& color);
-	void DrawSphereHomeWork();
+		const Vector2& v1, const Vector2& v2, const Vector2& v3,const Vector4& color, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle);
+	void DrawSphere(const Transform3d& transform, const Vector4& color, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle);
+	void DrawColorSphere(const Transform3d& transform, const Vector4& color);
+	void DrawQuad(const Transform3d& transform, const Vector2& v0,
+		const Vector2& v1, const Vector2& v2, const Vector2& v3, const Vector4& color);
+	void DrawDoubleTriangle(const Transform3d& transform, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle);
+	void LightGUI();
 	void PostDraw();
 	void End();
-	void Update();
 	D3D12_GPU_DESCRIPTOR_HANDLE LoadTexture(const std::string& str);
 
-	//課題用の変数
-	//----------------------------------------------------------------------------//
-	Transform3d transform{ {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
-	Transform3d transformSpr{ {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
-	Vector4 SprColor{ 1.0f,1.0f,1.0f,1.0f };
-	//---------------------------------------------------------------------------//
 
 	//エンジンの変数
 	//-----------------------------------------------------//
@@ -59,15 +59,9 @@ class EmpSystems {
 	ManagementDXC managementDXC_;
 	ManagementViewPort managementViewPort_;
 	ManagementTexture managementTexture_;
-	Camera3d camera_;
 	MymGui mymGui_;
-	int windowWidth_;
-	int windowHeight_;
-	D3D12_GPU_DESCRIPTOR_HANDLE uvChecker;
-	D3D12_GPU_DESCRIPTOR_HANDLE monsterBall;
-	D3D12_GPU_DESCRIPTOR_HANDLE sphereHandle;
+	D3D12_GPU_DESCRIPTOR_HANDLE white1x1{};
 	DrawManager drawManager_;
-	bool useMonsterBall = true;
 	ManagementLighting managementLighting_;
 	//------------------------------------------------------//
 };
