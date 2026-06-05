@@ -71,7 +71,20 @@ struct Vector3 {
 		return {(x&& other.x)&&(y&&other.y)&&(z&&other.z)};
 	}
 
-	
+	Vector3& operator+=(const Vector3& other) {
+		x += other.x;
+		y += other.y;
+		z += other.z;
+		return *this;
+	}
+
+	Vector3& operator-=(const Vector3& other) {
+		x -= other.x;
+		y -= other.y;
+		z -= other.z;
+		return *this;
+	}
+
 };
 
 float Dot(const Vector3& v1, const Vector3& v2);

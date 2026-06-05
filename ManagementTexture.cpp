@@ -5,27 +5,55 @@
 #include"externals//DirectXTex/d3dx12.h"
 
 DirectX::ScratchImage ManagementTexture::LoadTextureFile(const std::string& filepath) {
-	//テクスチャを呼んでプログラムを扱えるようにする
+
+	// 落ちた時にファイルの名前を出力する
+	wchar_t currentDir[MAX_PATH];
+	GetCurrentDirectoryW(MAX_PATH, currentDir);
+	OutputDebugStringW(L"=== LoadTextureFile ===\n");
+	OutputDebugStringW(L"カレントディレクトリ: ");
+	OutputDebugStringW(currentDir);
+	OutputDebugStringW(L"\n読もうとしてるファイル: ");
+	OutputDebugStringW(ManagementLog::ConvertString(filepath).c_str());
+	OutputDebugStringW(L"\n");
+
+
 	DirectX::ScratchImage image{};
 	std::wstring filePathW = ManagementLog::ConvertString(filepath);
-	HRESULT hr = DirectX::LoadFromWICFile(filePathW.c_str(), DirectX::WIC_FLAGS_FORCE_SRGB, nullptr, image);
+
+	// 拡張子を取得する
+	std::wstring ext = filePathW.substr(filePathW.find_last_of(L'.'));
+	// 小文字に変換する
+	std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
+
+	HRESULT hr;
+
+	if (ext == L".hdr" || ext == L".exr") {
+		// HDR系はWICじゃなくてこっち
+		hr = DirectX::LoadFromHDRFile(filePathW.c_str(), nullptr, image);
+	}
+	else {
+		// jpgのときはFORCE_SRGBを外す！
+		DirectX::WIC_FLAGS flag = (ext == L".jpg" || ext == L".jpeg")
+			? DirectX::WIC_FLAGS_NONE
+			: DirectX::WIC_FLAGS_FORCE_SRGB;
+
+		hr = DirectX::LoadFromWICFile(filePathW.c_str(), flag, nullptr, image);
+	}
+
 	assert(SUCCEEDED(hr));
 
+	//サイズが1の時はこれ以上小さくしない
 	const DirectX::TexMetadata& metadata = image.GetMetadata();
-
 	if (metadata.width == 1 && metadata.height == 1) {
 		return image;
 	}
 
-
-	//ミニマップの作成
 	DirectX::ScratchImage mipImages{};
-	hr = DirectX::GenerateMipMaps(image.GetImages(), image.GetImageCount(), 
+	hr = DirectX::GenerateMipMaps(
+		image.GetImages(), image.GetImageCount(),
 		image.GetMetadata(), DirectX::TEX_FILTER_SRGB, 0, mipImages);
 	assert(SUCCEEDED(hr));
 
-	
-	//ミニマップ付きのデータを返す
 	return mipImages;
 }
 
@@ -164,4 +192,16 @@ D3D12_SHADER_RESOURCE_VIEW_DESC ManagementTexture::BuildSrvDesc(DirectX::TexMeta
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2Dのテクスチャ
 	srvDesc.Texture2D.MipLevels = UINT(metadata.mipLevels);
 	return srvDesc;
+}
+
+void ManagementTexture::Release() {
+	for (TextureData& texture : textures_) {
+		if (texture.resource) {
+			texture.resource->Release();
+			texture.resource = nullptr;
+		}
+	}
+
+	textures_.clear();
+	nextTextureIndex_ = 1;
 }

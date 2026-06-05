@@ -18,6 +18,7 @@ public:
 		ID3D12GraphicsCommandList* commandList, ID3D12CommandQueue* commandQueue,
 		ID3D12CommandAllocator* commandAllocator,
 		HANDLE fenceEvent,uint64_t fenceValue, ID3D12Fence*fence, ID3D12DescriptorHeap* srvDescriptorHeap);
+	void Release();
 private:
 	void BuildResourceDesc(D3D12_RESOURCE_DESC& resourceDesc,const DirectX::TexMetadata& metadata);
 	void SettingHeap(D3D12_HEAP_PROPERTIES& heapProperties);

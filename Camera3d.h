@@ -12,4 +12,8 @@ public:
 	
 	Matrix4x4 GetWvp(const Transform3d& transform) const ;
 	Matrix4x4 GetWvpSprite(const Transform3d& transform) const;
+	Vector3& GetCameraPosition() { return cameraTransform.translate; }
+	Vector3& GetCameraRotate() { return cameraTransform.rotate; }
+	void SetCameraPosition(Vector3 position) { cameraTransform.translate = position; }
+	void SetCameraRotate(Vector3 rotate) { cameraTransform.rotate = rotate; }
 };

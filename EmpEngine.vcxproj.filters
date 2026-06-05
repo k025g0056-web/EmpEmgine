@@ -137,6 +137,18 @@
     <ClCompile Include="SceneSystem.cpp">
       <Filter>Engine\System\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="ColorTriangle.cpp">
+      <Filter>課題\ColorTriangle</Filter>
+    </ClCompile>
+    <ClCompile Include="DoubleTrigle.cpp">
+      <Filter>課題\DoubleTriangle</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>課題\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraController.cpp">
+      <Filter>Engine\addMech\CameraController</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -288,6 +300,24 @@
     </Filter>
     <Filter Include="Engine\System\Scene">
       <UniqueIdentifier>{c0ae35e1-94eb-41c4-8bf8-99bf2980b7bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\addMech\GameScene">
+      <UniqueIdentifier>{683b2ed0-6e79-41ae-86d6-60a61c41ffd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="課題">
+      <UniqueIdentifier>{3c794344-a66e-4df1-9af6-7dcf4ecd003f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="課題\ColorTriangle">
+      <UniqueIdentifier>{27ae56e3-0fb3-4515-a7ea-3c331b1c0f01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="課題\DoubleTriangle">
+      <UniqueIdentifier>{536b9d48-9a4f-4774-a0a5-62b7fae6fa12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="課題\Particle">
+      <UniqueIdentifier>{3ec40d9b-aaf5-4951-9db0-f42f56f15f82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\addMech\CameraController">
+      <UniqueIdentifier>{b79eb08b-e9cd-4483-b391-b7f63bb5ab0a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -449,6 +479,21 @@
     </ClInclude>
     <ClInclude Include="SceneSystem.h">
       <Filter>Engine\System\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>Engine\addMech\GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorTriangle.h">
+      <Filter>課題\ColorTriangle</Filter>
+    </ClInclude>
+    <ClInclude Include="DoubleTrigle.h">
+      <Filter>課題\DoubleTriangle</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>課題\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraController.h">
+      <Filter>Engine\addMech\CameraController</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

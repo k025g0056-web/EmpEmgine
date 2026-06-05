@@ -41,7 +41,7 @@ void DoubleTriangle::DrawDoubleTriangle(const Transform3d&transform, ID3D12Graph
 	//右下
 	vertexData[5].position = { 0.5f,-0.5f,-0.5f,1.0f };
 	vertexData[5].texcoord = { 1.0f,1.0f };
-	vertexData[4].normal = ToVec3(vertexData[4].position);
+	vertexData[5].normal = ToVec3(vertexData[4].position);
 
 	vertexResource->Unmap(0, nullptr);
 

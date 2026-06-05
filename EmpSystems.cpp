@@ -92,19 +92,20 @@ void EmpSystems::End() {
 }
 
 void EmpSystems::Release() {
-	managementCommand_.FenceRelease();
+	mymGui_.Release();
+	drawManager_.Release();
+	managementLighting_.Release();
+	managementTexture_.Release();
 	managementViewPort_.Release();
 	managementDXC_.Release();
 	managementDescriptHeap_.Release();
 	managementSwapChain_.Release();
+	managementCommand_.FenceRelease();
 	managementCommand_.CommandRelease();
 	managementDevice_.Release();
 	managementDXGIFactory_.Release();
 	managementDebug_.Release();
 	managementWindow_.Release();
-	mymGui_.Release();
-	drawManager_.Release();
-	managementLighting_.Release();
 }
 
 D3D12_GPU_DESCRIPTOR_HANDLE EmpSystems::LoadTexture(const std::string& filepath) {
@@ -166,4 +167,18 @@ void EmpSystems::DrawQuad(const Transform3d& transform, const Vector2& v0,
 
 void EmpSystems::LightGUI() {
 	managementLighting_.GUI();
+}
+
+void EmpSystems::DrawTriangleColor(const Vector3& v0, const Vector3& v1,
+	const Vector3& v2, const Vector4 color) {
+	DrawTriangle(v0, v1, v2, color, white1x1);
+}
+
+void EmpSystems::DrawTriangleColor(const Transform3d& transform, const Vector3& v0, const Vector3& v1,
+	const Vector3& v2, const Vector4 color) {
+	DrawTriangleTrans(transform,v0, v1, v2, color, white1x1);
+}
+
+void EmpSystems::SetWindowColor(Vector4 color) {
+	managementCommand_.SetClearColor(color);
 }

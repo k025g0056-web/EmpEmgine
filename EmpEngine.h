@@ -23,10 +23,15 @@ public:
 		const Vector2& v1, const Vector2& v2, const Vector2& v3, const Vector4& color, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle);
 	static void DrawSphere(const Transform3d& transform, const Vector4& color
 		, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle);
+	static void DrawTriangleColor(const Vector3& v0, const Vector3& v1,
+		const Vector3& v2, const Vector4 color);
+	static void DrawTriangleColor(const Transform3d& transform, const Vector3& v0, const Vector3& v1,
+		const Vector3& v2, const Vector4 color);
 	static void End();
 	static bool EndManagement();
 	static void Process();
 	static void LightGUI();
 	static D3D12_GPU_DESCRIPTOR_HANDLE LoadTexture(const std::string& str);
+	static void SetWindowColor(Vector4 color);
 
 };

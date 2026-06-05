@@ -4,6 +4,7 @@
 #include<dxgi1_6.h>
 #include<cassert>
 #include<wrl.h>
+#include"Vector4.h"
 
 class ManagementCommand {
 	D3D12_COMMAND_QUEUE_DESC commandQueueDesc_{};
@@ -40,7 +41,7 @@ public:
 	ID3D12CommandAllocator* GetCommandAllocator()const { return commandAllocator_.Get(); }
 	ID3D12GraphicsCommandList* GetCommandList()const { return commandList_.Get(); }
 	HANDLE GetFenceEvent() { return fenceEvent_; }
-	uint64_t GetFenceValue() { return fenceValue_; }
+	uint64_t& GetFenceValue() { return fenceValue_; }
 	ID3D12Fence* GetFence() { return fence_; }
 	void LoadCommand(IDXGISwapChain4* swapChain, D3D12_CPU_DESCRIPTOR_HANDLE*rtvHandles, ID3D12Resource** swapChainResources_,ID3D12DescriptorHeap* dsvDescriptorHeap);
 	void KickCommand(IDXGISwapChain4* swapChain);
@@ -52,4 +53,10 @@ public:
 		ID3D12Resource* materialResource, ID3D12Resource* wvpResource,
 		ID3D12DescriptorHeap* srvDescriptorHeap,
 		D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU);
+	void SetClearColor(Vector4 color) {
+		clearColor_[0] = color.x;
+		clearColor_[1] = color.y;
+		clearColor_[2] = color.z;
+		clearColor_[3] = color.w;
+	}
 };

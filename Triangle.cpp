@@ -56,7 +56,7 @@ void Triangle::ChangeVertex(const Vector3& v0, const Vector3& v1, const Vector3&
 }
 
 void Triangle::Initialize(ID3D12Device* device) {
-	Shape::Initialize(device,true);//親が先やでん
+	Shape::Initialize(device,false);//親が先やでん
 	vertexResource = DX12Mechanics::CreateBufferResource(device, sizeof(VertexData) * 3);
 	vertexBufferView_ = DX12Mechanics::GenerateVertexBufferView<VertexData>(vertexResource, 3);
 }

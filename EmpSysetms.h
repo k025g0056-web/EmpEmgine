@@ -31,6 +31,11 @@ class EmpSystems {
 	void DrawTriangle(const Vector3& v0, const Vector3& v1, 
 		const Vector3& v2, const Vector4 color, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle);
 
+	void DrawTriangleColor(const Vector3& v0, const Vector3& v1,
+		const Vector3& v2, const Vector4 color);
+	void DrawTriangleColor(const Transform3d& transform, const Vector3& v0, const Vector3& v1,
+		const Vector3& v2, const Vector4 color);
+
 	void DrawTriangleTrans(const Transform3d& transform, const Vector3& v0,
 		const Vector3& v1, const Vector3& v2, const Vector4 color, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle);
 
@@ -45,7 +50,7 @@ class EmpSystems {
 	void PostDraw();
 	void End();
 	D3D12_GPU_DESCRIPTOR_HANDLE LoadTexture(const std::string& str);
-
+	void SetWindowColor(Vector4 color);
 
 	//エンジンの変数
 	//-----------------------------------------------------//

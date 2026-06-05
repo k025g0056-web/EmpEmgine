@@ -64,3 +64,17 @@ void EmpEngine::Process() {
 void EmpEngine::LightGUI() {
 	empSystems.LightGUI();
 }
+
+void EmpEngine::DrawTriangleColor(const Vector3& v0, const Vector3& v1,
+	const Vector3& v2, const Vector4 color) {
+	empSystems.DrawTriangleColor(v0, v1, v2, color);
+}
+
+void EmpEngine::DrawTriangleColor(const Transform3d& transform, const Vector3& v0, const Vector3& v1,
+	const Vector3& v2, const Vector4 color) {
+	empSystems.DrawTriangleColor(transform, v0, v1, v2, color);
+}
+
+void EmpEngine::SetWindowColor(Vector4 color) {
+	empSystems.SetWindowColor(color);
+}
