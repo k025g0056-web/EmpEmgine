@@ -71,9 +71,6 @@
     <ClCompile Include="MymGui.cpp">
       <Filter>Engine\Manegement\MymGui</Filter>
     </ClCompile>
-    <ClCompile Include="EmpSystems.cpp">
-      <Filter>Engine\System</Filter>
-    </ClCompile>
     <ClCompile Include="ManagementTexture.cpp">
       <Filter>Engine\Manegement\ManagementTexture</Filter>
     </ClCompile>
@@ -88,6 +85,69 @@
     </ClCompile>
     <ClCompile Include="DX12Mechanics.cpp">
       <Filter>Engine\addMech\DX12Mechanics</Filter>
+    </ClCompile>
+    <ClCompile Include="Shape.cpp">
+      <Filter>Engine\Shapes\Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="Triangle.cpp">
+      <Filter>Engine\Shapes\Triangle</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector3.cpp">
+      <Filter>Engine\addMech\Verctor3</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawManager.cpp">
+      <Filter>Engine\Shapes\DrawManager</Filter>
+    </ClCompile>
+    <ClCompile Include="DoubleTriangle.cpp">
+      <Filter>Engine\Shapes\DoubleTriangle</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Engine\Shapes\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="Sphere.cpp">
+      <Filter>Engine\Shapes\Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="EmpSystems.cpp">
+      <Filter>Engine\System</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagementLighting.cpp">
+      <Filter>Engine\Manegement\ManagementLighting</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneBase.cpp">
+      <Filter>Engine\Manegement\SceneManager\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="TItle.cpp">
+      <Filter>Engine\Manegement\SceneManager\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="Over.cpp">
+      <Filter>Engine\Manegement\SceneManager\Over</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Engine\Manegement\SceneManager\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Clear.cpp">
+      <Filter>Engine\Manegement\SceneManager\Clear</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Engine\Manegement\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Engine\Manegement\InputManager</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneSystem.cpp">
+      <Filter>Engine\System\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorTriangle.cpp">
+      <Filter>課題\ColorTriangle</Filter>
+    </ClCompile>
+    <ClCompile Include="DoubleTrigle.cpp">
+      <Filter>課題\DoubleTriangle</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>課題\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraController.cpp">
+      <Filter>Engine\addMech\CameraController</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -183,6 +243,81 @@
     </Filter>
     <Filter Include="Engine\addMech\DX12Mechanics">
       <UniqueIdentifier>{a5ebc2c4-36ee-47d6-b81e-ae2f2d84b48b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Shapes">
+      <UniqueIdentifier>{302b45f2-f09b-4d20-a5cd-ba6c77196f7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Shapes\Shape">
+      <UniqueIdentifier>{90bcd661-0e92-4844-992a-afc24ceacf60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Shapes\Sphere">
+      <UniqueIdentifier>{cf85c25c-e659-4d66-b836-6877c4ecec28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Shapes\Sprite">
+      <UniqueIdentifier>{deb1f616-60b7-44dc-b80d-175a9191d3fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Shapes\Triangle">
+      <UniqueIdentifier>{48646779-1057-4b2f-9526-539d207a6e1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\addMech\Material">
+      <UniqueIdentifier>{36228a6e-33c7-4adc-837c-40e4e26e3317}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\addMech\TransformationMatrix">
+      <UniqueIdentifier>{8f22b273-a651-4b50-b8ad-7ad4fcf1e9e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\addMech\DirectionalLight">
+      <UniqueIdentifier>{8a22c9f0-ddb2-4bc1-b758-9d1cd752d9d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Shapes\DoubleTriangle">
+      <UniqueIdentifier>{922ed482-d69c-4822-91ca-37c834150fe9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Shapes\DrawManager">
+      <UniqueIdentifier>{33d67813-d7b5-4ecc-8604-f33f8cb68e4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\ManagementLighting">
+      <UniqueIdentifier>{3345e457-c0a9-49ff-b31b-e35abb2915b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\SceneManager">
+      <UniqueIdentifier>{48718cab-1599-488a-a5da-96df9afc60e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\SceneManager\Title">
+      <UniqueIdentifier>{e21f081c-4e22-4f77-9856-709c1cdb043d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\SceneManager\Game">
+      <UniqueIdentifier>{b7cf6ba8-7469-434d-972a-ac719f39aa79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\SceneManager\Clear">
+      <UniqueIdentifier>{67b66682-a29b-4403-8849-0c71704bc411}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\SceneManager\Over">
+      <UniqueIdentifier>{6e663fec-bca7-4b9b-9d9e-03203b195c97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\SceneManager\Base">
+      <UniqueIdentifier>{e6041e80-5d0c-4ce3-a0dd-92f1b5f86a65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\InputManager">
+      <UniqueIdentifier>{de53772b-bcfb-47f3-9134-d207767a2e89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\System\Scene">
+      <UniqueIdentifier>{c0ae35e1-94eb-41c4-8bf8-99bf2980b7bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\addMech\GameScene">
+      <UniqueIdentifier>{683b2ed0-6e79-41ae-86d6-60a61c41ffd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="課題">
+      <UniqueIdentifier>{3c794344-a66e-4df1-9af6-7dcf4ecd003f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="課題\ColorTriangle">
+      <UniqueIdentifier>{27ae56e3-0fb3-4515-a7ea-3c331b1c0f01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="課題\DoubleTriangle">
+      <UniqueIdentifier>{536b9d48-9a4f-4774-a0a5-62b7fae6fa12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="課題\Particle">
+      <UniqueIdentifier>{3ec40d9b-aaf5-4951-9db0-f42f56f15f82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\addMech\CameraController">
+      <UniqueIdentifier>{b79eb08b-e9cd-4483-b391-b7f63bb5ab0a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -287,6 +422,78 @@
     </ClInclude>
     <ClInclude Include="DX12Mechanics.h">
       <Filter>Engine\addMech\DX12Mechanics</Filter>
+    </ClInclude>
+    <ClInclude Include="Shape.h">
+      <Filter>Engine\Shapes\Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="Triangle.h">
+      <Filter>Engine\Shapes\Triangle</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawManager.h">
+      <Filter>Engine\Shapes\DrawManager</Filter>
+    </ClInclude>
+    <ClInclude Include="DoubleTriangle.h">
+      <Filter>Engine\Shapes\DoubleTriangle</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>Engine\Shapes\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="Sphere.h">
+      <Filter>Engine\Shapes\Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Engine\addMech\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformationMatrix.h">
+      <Filter>Engine\addMech\TransformationMatrix</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectionalLight.h">
+      <Filter>Engine\addMech\DirectionalLight</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagementLighting.h">
+      <Filter>Engine\Manegement\ManagementLighting</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneBase.h">
+      <Filter>Engine\Manegement\SceneManager\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Title.h">
+      <Filter>Engine\Manegement\SceneManager\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="Over.h">
+      <Filter>Engine\Manegement\SceneManager\Over</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Engine\Manegement\SceneManager\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Clear.h">
+      <Filter>Engine\Manegement\SceneManager\Clear</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Engine\Manegement\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Engine\Manegement\InputManager</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyDiffine.h">
+      <Filter>Engine\Manegement\InputManager</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneSystem.h">
+      <Filter>Engine\System\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>Engine\addMech\GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorTriangle.h">
+      <Filter>課題\ColorTriangle</Filter>
+    </ClInclude>
+    <ClInclude Include="DoubleTrigle.h">
+      <Filter>課題\DoubleTriangle</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>課題\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraController.h">
+      <Filter>Engine\addMech\CameraController</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

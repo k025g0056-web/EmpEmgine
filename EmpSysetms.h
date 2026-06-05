@@ -13,6 +13,9 @@
 #include"MymGui.h"
 #include"ManagementTexture.h"
 #include<string>
+#include"DrawManager.h"
+#include"Vector2.h"
+#include"ManagementLighting.h"
 
 class EmpEngine;
 class EmpSystems {
@@ -24,11 +27,33 @@ class EmpSystems {
 	void Finalize();
 	void Begin();
 	void Release();
-	void DrawTriangle();
-	void End();
-	void Update();
-	ID3D12Resource* LoadTexture(const std::string& str);
 
+	void DrawTriangle(const Vector3& v0, const Vector3& v1, 
+		const Vector3& v2, const Vector4 color, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle);
+
+	void DrawTriangleColor(const Vector3& v0, const Vector3& v1,
+		const Vector3& v2, const Vector4 color);
+	void DrawTriangleColor(const Transform3d& transform, const Vector3& v0, const Vector3& v1,
+		const Vector3& v2, const Vector4 color);
+
+	void DrawTriangleTrans(const Transform3d& transform, const Vector3& v0,
+		const Vector3& v1, const Vector3& v2, const Vector4 color, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle);
+
+	void DrawSprite(const Transform3d& transform, const Vector2& v0, 
+		const Vector2& v1, const Vector2& v2, const Vector2& v3,const Vector4& color, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle);
+	void DrawSphere(const Transform3d& transform, const Vector4& color, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle);
+	void DrawColorSphere(const Transform3d& transform, const Vector4& color);
+	void DrawQuad(const Transform3d& transform, const Vector2& v0,
+		const Vector2& v1, const Vector2& v2, const Vector2& v3, const Vector4& color);
+	void DrawDoubleTriangle(const Transform3d& transform, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle);
+	void LightGUI();
+	void PostDraw();
+	void End();
+	D3D12_GPU_DESCRIPTOR_HANDLE LoadTexture(const std::string& str);
+	void SetWindowColor(Vector4 color);
+
+	//エンジンの変数
+	//-----------------------------------------------------//
 	ManagementWindow managementWindow_;
 	ManagementDXGIFactory managementDXGIFactory_;
 	ManagementDevice managementDevice_;
@@ -39,9 +64,9 @@ class EmpSystems {
 	ManagementDXC managementDXC_;
 	ManagementViewPort managementViewPort_;
 	ManagementTexture managementTexture_;
-	Camera3d camera_;
 	MymGui mymGui_;
-	int windowWidth_;
-	int windowHeight_;
-	D3D12_GPU_DESCRIPTOR_HANDLE SRV;
+	D3D12_GPU_DESCRIPTOR_HANDLE white1x1{};
+	DrawManager drawManager_;
+	ManagementLighting managementLighting_;
+	//------------------------------------------------------//
 };

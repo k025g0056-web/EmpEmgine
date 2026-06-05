@@ -4,11 +4,12 @@
 #include<dxgi1_6.h>
 #include<cassert>
 #include<wrl.h>
+#include"Vector4.h"
 
 class ManagementCommand {
 	D3D12_COMMAND_QUEUE_DESC commandQueueDesc_{};
 	D3D12_RESOURCE_BARRIER barrier_{};
-	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle_;
+	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle_{};
 
 	Microsoft::WRL::ComPtr<ID3D12CommandQueue> commandQueue_;
 	Microsoft::WRL::ComPtr<ID3D12CommandAllocator> commandAllocator_;
@@ -32,11 +33,15 @@ class ManagementCommand {
 public:
 
 	void Initialize(ID3D12Device* device);
+	void PostDraw(D3D12_VIEWPORT viewPort,
+		D3D12_RECT scissorRect,
+		ID3D12PipelineState* graphicsPipelineState,
+		ID3D12RootSignature* rootSignature, ID3D12DescriptorHeap* srvDescriptorHeap);
 	ID3D12CommandQueue* GetCommandQueue() const{ return commandQueue_.Get(); }
 	ID3D12CommandAllocator* GetCommandAllocator()const { return commandAllocator_.Get(); }
 	ID3D12GraphicsCommandList* GetCommandList()const { return commandList_.Get(); }
 	HANDLE GetFenceEvent() { return fenceEvent_; }
-	uint64_t GetFenceValue() { return fenceValue_; }
+	uint64_t& GetFenceValue() { return fenceValue_; }
 	ID3D12Fence* GetFence() { return fence_; }
 	void LoadCommand(IDXGISwapChain4* swapChain, D3D12_CPU_DESCRIPTOR_HANDLE*rtvHandles, ID3D12Resource** swapChainResources_,ID3D12DescriptorHeap* dsvDescriptorHeap);
 	void KickCommand(IDXGISwapChain4* swapChain);
@@ -48,4 +53,10 @@ public:
 		ID3D12Resource* materialResource, ID3D12Resource* wvpResource,
 		ID3D12DescriptorHeap* srvDescriptorHeap,
 		D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU);
+	void SetClearColor(Vector4 color) {
+		clearColor_[0] = color.x;
+		clearColor_[1] = color.y;
+		clearColor_[2] = color.z;
+		clearColor_[3] = color.w;
+	}
 };

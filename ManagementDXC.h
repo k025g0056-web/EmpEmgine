@@ -9,23 +9,9 @@ class ManagementDXC {
 	IDxcUtils* dxcUtils_ = nullptr;
 	IDxcCompiler3* dxcCompiler_ = nullptr;
 	IDxcIncludeHandler* includeHandler_ = nullptr;
-	D3D12_ROOT_SIGNATURE_DESC descriptionRootSignature_{};
-	ID3DBlob* signatureBlob_ = nullptr;
-	ID3DBlob* errorBlob_ = nullptr;
-	ID3D12RootSignature* rootSignature_;
-	D3D12_INPUT_ELEMENT_DESC inputElementDescs_[2] = {};
-	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc_{};
-	D3D12_BLEND_DESC blendDesc_{};
-	D3D12_RASTERIZER_DESC rasterizerDesc{};
-	IDxcBlob* vertexShaderBlob_;
-	IDxcBlob* pixelShaderBlob_;
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicspipelineStateDesc{};
+	ID3D12RootSignature* rootSignature_ = nullptr;
 	ID3D12PipelineState* graphicsPipelineState = nullptr;
-	D3D12_ROOT_PARAMETER rootParameters[3] = {};
-	D3D12_DESCRIPTOR_RANGE descriptorRange[1] = {};
-	D3D12_STATIC_SAMPLER_DESC staticSamplers[1] = {};
-	D3D12_DEPTH_STENCIL_DESC depthStencilDesc_{};
-
+	
 	/// <summary>
 	/// 
 	/// </summary>
@@ -44,12 +30,8 @@ class ManagementDXC {
 	void GenerateInstance();
 	void SettingHandler();
 	void GenerateRootSignature(ID3D12Device* device);
-	void SettingInputLayout();
-	void SettingBlendState();
-	void SettingRasterizerState();
-	void CompilingShader();
 	void GeneratePSO(ID3D12Device* device);
-	void SettingSampler();
+	
 public:
 	void Initialize(ID3D12Device* device);
 	ID3D12PipelineState* GetGraphicPipeLineState() { return graphicsPipelineState; }
