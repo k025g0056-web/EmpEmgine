@@ -3,7 +3,7 @@
 #include"Vector4.h"
 class Particle {
 	bool isPlayBack ;
-	float time ;　
+	float time ;
 	static const int maxAmount = 100;
 	float fallSpeed[maxAmount]{};
 	float swaySpeed[maxAmount]{};
