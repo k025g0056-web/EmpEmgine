@@ -116,9 +116,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="CameraController.cpp" />
     <ClCompile Include="ClashHandler.cpp" />
     <ClCompile Include="Clear.cpp" />
-    <ClCompile Include="ColorTriangle.cpp" />
     <ClCompile Include="DoubleTriangle.cpp" />
-    <ClCompile Include="DoubleTrigle.cpp" />
     <ClCompile Include="DrawManager.cpp" />
     <ClCompile Include="DX12Mechanics.cpp" />
     <ClCompile Include="EmpEngine.cpp" />
@@ -163,7 +161,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Matrix4x4.cpp" />
     <ClCompile Include="MymGui.cpp" />
     <ClCompile Include="Over.cpp" />
-    <ClCompile Include="Particle.cpp" />
     <ClCompile Include="SceneBase.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SceneSystem.cpp" />
@@ -180,10 +177,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="CameraController.h" />
     <ClInclude Include="ClashHandler.h" />
     <ClInclude Include="Clear.h" />
-    <ClInclude Include="ColorTriangle.h" />
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="DoubleTriangle.h" />
-    <ClInclude Include="DoubleTrigle.h" />
     <ClInclude Include="DrawManager.h" />
     <ClInclude Include="DX12Mechanics.h" />
     <ClInclude Include="EmpEngine.h" />
@@ -218,7 +213,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Matrix4x4.h" />
     <ClInclude Include="MymGui.h" />
     <ClInclude Include="Over.h" />
-    <ClInclude Include="Particle.h" />
     <ClInclude Include="SceneBase.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SceneSystem.h" />

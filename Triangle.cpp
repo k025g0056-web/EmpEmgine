@@ -29,7 +29,7 @@ void Triangle::DrawTriangle(const Vector3& v0, const Vector3& v1, const Vector3&
 
 	}
 
-	DrawCall(commandList, vertexBufferView_, textureSrvHandleGPU,3);
+	DrawCallVertex(commandList, vertexBufferView_, textureSrvHandleGPU,3);
 
 }
 

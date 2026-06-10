@@ -32,17 +32,19 @@ void Shape::GenerateWvpResource(ID3D12Device * device) {
 
 }
 
-void Shape::DrawCall(ID3D12GraphicsCommandList* commandList,
+void Shape::DrawCallVertex(ID3D12GraphicsCommandList* commandList,
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView, D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU,int vertex) {
-	commandList->IASetVertexBuffers(0, 1, &vertexBufferView);//VBVを設定
-	//形状を設定。PSOに設定しているものとはまた別。同じ物を設定すると考えて置けば良い
-	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	//マテリアルCBufferの場所を設定
-	commandList->SetGraphicsRootConstantBufferView(0, materialResource->GetGPUVirtualAddress());
-	commandList->SetGraphicsRootConstantBufferView(1, wvpResource->GetGPUVirtualAddress());
-	commandList->SetGraphicsRootDescriptorTable(2, textureSrvHandleGPU);
+	SetUpDrawCall(commandList, vertexBufferView, textureSrvHandleGPU);
 	//描画！（DrawCall/ドローコール）。3頂点で１つのインスタンス。インスタンスについては今後
 	commandList->DrawInstanced(vertex, 1, 0, 0);
+}
+
+void Shape::DrawCallIndex(ID3D12GraphicsCommandList* commandList,
+	D3D12_INDEX_BUFFER_VIEW indexBufferView, D3D12_VERTEX_BUFFER_VIEW vertexBufferView,
+	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU, int index) {
+	commandList->IASetIndexBuffer(&indexBufferView);//IBVを設定
+	SetUpDrawCall(commandList, vertexBufferView, textureSrvHandleGPU);
+	commandList->DrawIndexedInstanced(index, 1, 0, 0,0);
 }
 
 void Shape::SetColor(const Vector4& color) {
@@ -63,4 +65,15 @@ void Shape::ChangeTransform(const Transform3d& transform) {
 		isTransformDirty_ = true;
 		transform3d_ = transform;
 	}
+}
+
+void Shape::SetUpDrawCall(ID3D12GraphicsCommandList* commandList,
+	D3D12_VERTEX_BUFFER_VIEW vertexBufferView, D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU) {
+	commandList->IASetVertexBuffers(0, 1, &vertexBufferView);//VBVを設定
+	//形状を設定。PSOに設定しているものとはまた別。同じ物を設定すると考えて置けば良い
+	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	//マテリアルCBufferの場所を設定
+	commandList->SetGraphicsRootConstantBufferView(0, materialResource->GetGPUVirtualAddress());
+	commandList->SetGraphicsRootConstantBufferView(1, wvpResource->GetGPUVirtualAddress());
+	commandList->SetGraphicsRootDescriptorTable(2, textureSrvHandleGPU);
 }

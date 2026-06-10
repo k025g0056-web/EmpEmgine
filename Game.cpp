@@ -12,66 +12,56 @@ GameManager::GameManager() {
 }
 
 void GameManager::Initialize() {
-    color_.initialize();
-    dTri_.Initialize();
-    particle_.Initialize();
     camecon_.Initialize(SceneSystem::GetCamera()->GetCameraPosition(),SceneSystem::GetCamera()->GetCameraRotate());
+	uvChecker = EmpEngine::LoadTexture("resources/uvChecker.png");
+	monsterBall = EmpEngine::LoadTexture("resources/monsterBall.png");
 }
 
 void GameManager::Update() {
-    GUI();
-    if (scene==GameScene::PARTIClE) {
-        EmpEngine::SetWindowColor({ 0.0f,0.0f,0.0f,1.0f });
-    } else {
-        EmpEngine::SetWindowColor({ 0.1f,0.25f,0.5f,1.0f });
-    }
+  
 
-    camecon_.Update();
-    SceneSystem::GetCamera()->SetCameraPosition(camecon_.GetTranslate());
-    SceneSystem::GetCamera()->SetCameraRotate(camecon_.GetRotate());
-	SceneSystem::GetCamera()->Update(windowWidth_, windowHeight_);
+	GUI();
 }
 
 void GameManager::Draw() {
-    switch (scene){
-    case GameScene::COLORTRIANGLE:
-        color_.Draw();
-        break;
-    case GameScene::DOUBLETRIANGLE:
-        dTri_.Draw();
-        break;
-    case GameScene::PARTIClE:
-        particle_.Draw();
-        break;
-    }
+	DrawHomeWork();
 }
 
 void GameManager::GUI() {
-#ifdef USE_IMGUI
-    if (ImGui::BeginTabBar("MyTabs")){
-        if (ImGui::BeginTabItem("ChangeTriangleColor")){
-            scene = GameScene::COLORTRIANGLE;
-            color_.GUI();
-            ImGui::EndTabItem();
-        }
-
-        if (ImGui::BeginTabItem("DoubleTriangle")){
-            scene = GameScene::DOUBLETRIANGLE;
-            dTri_.GUI();
-            ImGui::EndTabItem();
-        }
-
-        if (ImGui::BeginTabItem("Particle")){
-            scene = GameScene::PARTIClE;
-            particle_.GUI();
-            ImGui::EndTabItem();
-        }
-
-        ImGui::EndTabBar();
-    }
+#ifdef USE_IMGUI//GUIエリア☆（ECCジュニアのリズムで）
+	Vector4 color = SprColor * 255.0f;
 	
-    EmpEngine::LightGUI();
+	ImGui::SliderFloat4("Material", &color.x, 0.0f, 255.0f, "%3f", 0);
+	ImGui::SliderFloat3("Transform", &transformSpr.translate.x, 0.0f, 1280.0f, "%3f", 0);
+	ImGui::Checkbox("useMonsterBall", &useMonsterBall);
+	EmpEngine::LightGUI();
+
+	if (Input::GetInstance()->IsReleaseVk(MDK_SPACE)) {
+
+		if (useMonsterBall) {
+			useMonsterBall = false;
+		}
+		else {
+			useMonsterBall = true;
+		}
+	}
+
+	if (useMonsterBall) {
+		sphereHandle = monsterBall;
+	}
+	else {
+		sphereHandle = uvChecker;
+	}
+
+	transform.rotate.y += 0.03f;
+	SprColor = color / 255.0f;
+	SceneSystem::GetCamera()->Update(windowWidth_, windowHeight_);
 
 #endif 
 
+}
+
+void GameManager::DrawHomeWork() {
+	EmpEngine::DrawSprite(transformSpr, { 0.0f,360.0f }, { 0.0f,0.0f }, { 640.0f,360.0f }, { 640.0f,0.0f }, SprColor, uvChecker);
+	EmpEngine::DrawSphere(transform, { 1.0f,1.0f,1.0f,1.0f }, sphereHandle);
 }
