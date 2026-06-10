@@ -40,7 +40,8 @@ class EmpSystems {
 		const Vector3& v1, const Vector3& v2, const Vector4 color, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle);
 
 	void DrawSprite(const Transform3d& transform, const Vector2& v0, 
-		const Vector2& v1, const Vector2& v2, const Vector2& v3,const Vector4& color, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle);
+		const Vector2& v1, const Vector2& v2, const Vector2& v3,const Vector4& color,
+		D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle, const Transform3d& uvTransform);
 	void DrawSphere(const Transform3d& transform, const Vector4& color, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle);
 	void DrawColorSphere(const Transform3d& transform, const Vector4& color);
 	void DrawQuad(const Transform3d& transform, const Vector2& v0,

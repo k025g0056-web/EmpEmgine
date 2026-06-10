@@ -20,7 +20,8 @@ public:
 	static void DrawTriangle(Vector3 v0,Vector3 v1,Vector3 v2,Vector4 color, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle);
 	static void DrawTriangle(Transform3d transform, Vector3 v0, Vector3 v1, Vector3 v2, Vector4 color, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle);
 	static void DrawSprite(const Transform3d& transform, const Vector2& v0,
-		const Vector2& v1, const Vector2& v2, const Vector2& v3, const Vector4& color, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle);
+		const Vector2& v1, const Vector2& v2, const Vector2& v3, const Vector4& color,
+		D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle, const Transform3d& uvTransform);
 	static void DrawSphere(const Transform3d& transform, const Vector4& color
 		, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle);
 	static void DrawTriangleColor(const Vector3& v0, const Vector3& v1,

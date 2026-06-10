@@ -294,3 +294,10 @@ Matrix4x4 MakePerspectiveFov(float fovY, float aspectRatio, float nearClip, floa
 	matrix.m[3][3] = 0.0f;
 	return matrix;
 }
+
+Matrix4x4 Affine3D22D(const Transform3d& transform) {
+	Matrix4x4 matrix = MakeScale(transform.scale);
+	matrix = Multiply(matrix, RollRotate(transform.rotate.z));
+	matrix = Multiply(matrix, MakeTranslate(transform.translate));
+	return matrix;
+}

@@ -141,11 +141,11 @@ void EmpSystems::DrawTriangleTrans(const Transform3d& transform, const Vector3& 
 
 void EmpSystems::DrawSprite(const Transform3d& transform, const Vector2& v0,
 	const Vector2& v1, const Vector2& v2, const Vector2& v3,const Vector4& color,
-	D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle) {
+	D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle, const Transform3d& uvTransform) {
 	sprInd = drawManager_.AddSprite(managementDevice_.GetDevice());
 	PostDraw();
 	drawManager_.GetSprite(sprInd).DrawSprite(transform,v0,v1,v2,v3,managementCommand_.GetCommandList(),
-		GraphHandle,color,*SceneSystem::GetCamera());
+		GraphHandle,color,*SceneSystem::GetCamera(),uvTransform);
 }
 
 void EmpSystems::DrawSphere(const Transform3d& transform, const Vector4& color
@@ -162,7 +162,7 @@ void EmpSystems::DrawColorSphere(const Transform3d& transform, const Vector4& co
 
 void EmpSystems::DrawQuad(const Transform3d& transform, const Vector2& v0,
 	const Vector2& v1, const Vector2& v2, const Vector2& v3, const Vector4& color) {
-	DrawSprite(transform, v0, v1, v2, v3, color,white1x1);
+	DrawSprite(transform, v0, v1, v2, v3, color, white1x1,{ReturnAllOne(),{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f}});
 }
 
 void EmpSystems::LightGUI() {

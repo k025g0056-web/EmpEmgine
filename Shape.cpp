@@ -19,6 +19,8 @@ void Shape::GenerateMaterial(ID3D12Device* device,const Vector4& color,bool enab
 
 	materialData->enableLighting = enableLighting;
 
+	materialData->uvTransform = MakeIdentity4x4();
+
 }
 
 void Shape::GenerateWvpResource(ID3D12Device * device) {

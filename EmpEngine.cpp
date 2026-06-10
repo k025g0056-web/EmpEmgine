@@ -44,8 +44,9 @@ D3D12_GPU_DESCRIPTOR_HANDLE EmpEngine::LoadTexture(const std::string& str) {
 }
 
 void EmpEngine::DrawSprite(const Transform3d& transform, const Vector2& v0,
-	const Vector2& v1, const Vector2& v2, const Vector2& v3, const Vector4& color, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle) {
-	empSystems.DrawSprite(transform, v0, v1, v2, v3, color, GraphHandle);
+	const Vector2& v1, const Vector2& v2, const Vector2& v3, const Vector4& color,
+	D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle, const Transform3d& uvTransform) {
+	empSystems.DrawSprite(transform, v0, v1, v2, v3, color, GraphHandle,uvTransform);
 }
 
 void EmpEngine::DrawSphere(const Transform3d& transform, const Vector4& color

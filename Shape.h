@@ -6,6 +6,7 @@
 #include"TransForm3d.h"
 #include"Material.h"
 #include"TransformationMatrix.h"
+#include"Matrix3x3.h"
 
 //図形のクラス。いい感じに作りたい
 class Shape {
@@ -41,6 +42,9 @@ protected:
 
 	void SetColor(const Vector4& color);
 	void ChangeTransform(const Transform3d& transform);
+	void SetUvTransForm(const Transform3d& uvTransform) { 
+		Matrix4x4 uvTransformMatrix = Affine3D22D(uvTransform);
+		materialData->uvTransform = uvTransformMatrix; }
 public:
 	void Initialize(ID3D12Device* device,bool enableLighting);
 	void Release();

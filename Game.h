@@ -16,10 +16,14 @@ class GameManager :public Scene {
 	bool useMonsterBall = true;
 	Transform3d transform{ {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 	Transform3d transformSpr{ {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
+	Transform3d uvTransformSpr{ {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 	Vector4 SprColor{ 1.0f,1.0f,1.0f,1.0f };
+	Vector4 colorBuff = {};
 	//---------------------------------------------------------------------------//
 
 	void DrawHomeWork();
+	void UpdateHomeWork();
+	void GuiHomeWork();
 public:
 
 	void Initialize() override;

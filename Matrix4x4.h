@@ -24,6 +24,7 @@ Matrix4x4 Rotate(float theta);
 Vector3 Transform(const Vector3& vector, const Matrix4x4& matrix);
 Matrix4x4 Affine(const Vector3& scale, const Vector3& rotate, const Vector3& translate);
 Matrix4x4 Affine(const Transform3d& transform);
+Matrix4x4 Affine3D22D(const Transform3d& transform);
 Matrix4x4 MakeViewPort(float left, float top, float width, float height, float minDepth, float maxDepth);
 Matrix4x4 MakeOrthographic(float left, float top, float right, float bottom, float nearClip, float farClip);
 Matrix4x4 MakeIdentity4x4();
