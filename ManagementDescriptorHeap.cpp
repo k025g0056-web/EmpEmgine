@@ -13,7 +13,7 @@ void ManagementDescriptorHeap::Initialize(ID3D12Device* device, IDXGISwapChain4*
 }
 
 void ManagementDescriptorHeap::GenerateRtvDescriptorHeap(ID3D12Device* device) {
-	rtvDescriptorHeap = CreateDescriptorHeap(device, D3D12_DESCRIPTOR_HEAP_TYPE_RTV, 2, false);
+	rtvDescriptorHeap_ = CreateDescriptorHeap(device, D3D12_DESCRIPTOR_HEAP_TYPE_RTV, 2, false);
 }
 
 void ManagementDescriptorHeap::PullTheSwapChain(IDXGISwapChain4* swapChain) {
@@ -25,22 +25,22 @@ void ManagementDescriptorHeap::PullTheSwapChain(IDXGISwapChain4* swapChain) {
 }
 
 void ManagementDescriptorHeap::GenerateRTV(ID3D12Device* device) {
-	rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;//出力結果をSRGBに書き込む
-	rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;//2dテクスチャとして書き込む
+	rtvDesc_.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;//出力結果をSRGBに書き込む
+	rtvDesc_.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;//2dテクスチャとして書き込む
 	//ディスクリプタを取得する
-	rtvStartHandle_ = rtvDescriptorHeap->GetCPUDescriptorHandleForHeapStart();
+	rtvStartHandle_ = rtvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart();
 	//まず一つ目を作る。一つ目は最初のところに作る。作る場所を指定してあげる必要がある
 	rtvHandles_[0] = rtvStartHandle_;
-	device->CreateRenderTargetView(swapChainResources_[0], &rtvDesc, rtvHandles_[0]);
+	device->CreateRenderTargetView(swapChainResources_[0], &rtvDesc_, rtvHandles_[0]);
 	//二つ目のディスクリプタハンドルを得る（自力で）
 	rtvHandles_[1].ptr = rtvHandles_[0].ptr + device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 	//二つ目を作る
-	device->CreateRenderTargetView(swapChainResources_[1], &rtvDesc, rtvHandles_[1]);
+	device->CreateRenderTargetView(swapChainResources_[1], &rtvDesc_, rtvHandles_[1]);
 	
 }
 
 void ManagementDescriptorHeap::Release() {
-	rtvDescriptorHeap->Release();
+	rtvDescriptorHeap_.Reset();
 	swapChainResources_[0]->Release();
 	swapChainResources_[0] = nullptr;
 	swapChainResources_[1]->Release();

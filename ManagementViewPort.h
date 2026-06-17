@@ -7,9 +7,10 @@
 #include"Camera3d.h"
 #include"VertexData.h"
 #include<cstdint>
+#include<wrl.h>
 class ManagementViewPort {
 
-	ID3D12Resource* depthStencilResource_ = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12Resource> depthStencilResource_;
 	D3D12_VIEWPORT viewport{};
 	D3D12_RECT scissorRect{};
 	
@@ -23,6 +24,6 @@ public:
 	//-----------------------------------------------------------------------------//
 	D3D12_VIEWPORT GetViewPort() { return viewport; }
 	D3D12_RECT GetScissorRect() { return scissorRect; }
-	ID3D12Resource* GetDepthStencilResource() { return depthStencilResource_; }
+	ID3D12Resource* GetDepthStencilResource() { return depthStencilResource_.Get(); }
 	//----------------------------------------------------------------------------//
 };

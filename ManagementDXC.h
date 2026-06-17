@@ -4,13 +4,14 @@
 #include<string>
 #include <d3d12.h>
 #include <dxgi1_6.h>
+#include<wrl.h>
 
 class ManagementDXC {
-	IDxcUtils* dxcUtils_ = nullptr;
-	IDxcCompiler3* dxcCompiler_ = nullptr;
-	IDxcIncludeHandler* includeHandler_ = nullptr;
-	ID3D12RootSignature* rootSignature_ = nullptr;
-	ID3D12PipelineState* graphicsPipelineState = nullptr;
+	Microsoft::WRL::ComPtr<IDxcUtils> dxcUtils_;
+	Microsoft::WRL::ComPtr<IDxcCompiler3> dxcCompiler_;
+	Microsoft::WRL::ComPtr<IDxcIncludeHandler> includeHandler_;
+	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature_;
+	Microsoft::WRL::ComPtr<ID3D12PipelineState> graphicsPipelineState_;
 	
 	/// <summary>
 	/// 
@@ -34,7 +35,7 @@ class ManagementDXC {
 	
 public:
 	void Initialize(ID3D12Device* device);
-	ID3D12PipelineState* GetGraphicPipeLineState() { return graphicsPipelineState; }
-	ID3D12RootSignature* GetRootSignature() { return rootSignature_; }
+	ID3D12PipelineState* GetGraphicPipeLineState() { return graphicsPipelineState_.Get(); }
+	ID3D12RootSignature* GetRootSignature() { return rootSignature_.Get(); }
 	void Release();
 };

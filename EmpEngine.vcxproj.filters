@@ -319,6 +319,9 @@
     <Filter Include="Engine\addMech\MaterialData">
       <UniqueIdentifier>{f15ef1d6-d91b-4953-bdc7-8e32ab261a11}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Manegement\ReleaseManager">
+      <UniqueIdentifier>{121a4f47-7fb4-4fbc-8fbc-848994cf9a19}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EmpEngine.h">
@@ -497,6 +500,9 @@
     </ClInclude>
     <ClInclude Include="MaterialData.h">
       <Filter>Engine\addMech\MaterialData</Filter>
+    </ClInclude>
+    <ClInclude Include="ReleaseManager.h">
+      <Filter>Engine\Manegement\ReleaseManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

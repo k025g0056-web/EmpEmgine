@@ -6,14 +6,15 @@
 #include<cassert>
 
 class ManagementSwapChain {
-	IDXGISwapChain4* swapChain_ = nullptr;
+	Microsoft::WRL::ComPtr<IDXGISwapChain4> swapChain_;
 	DXGI_SWAP_CHAIN_DESC1 swapChainDesc_{};
 
 public:
 	void Initialize(int windowWidth,int windowHeight, ID3D12CommandQueue* comanndQueue,HWND hwnd, IDXGIFactory7* dxgiFactory);
 	void Release();
 
-	IDXGISwapChain4* GetSwapChain() const{ return swapChain_; }
+	IDXGISwapChain4* GetSwapChain() const{ return swapChain_.Get(); }
+	Microsoft::WRL::ComPtr<IDXGISwapChain4>GetSwapChainComPtr() { return swapChain_; }
 	DXGI_SWAP_CHAIN_DESC1 GetSwapChainDesc() { return swapChainDesc_; }
 
 };

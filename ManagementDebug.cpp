@@ -68,7 +68,7 @@ void ManagementDebug::DebugReportLiveObject() {
 void ManagementDebug::Release() {
 #ifdef _DEBUG
 	if (debugController_) {
-		debugController_->Release();
+		debugController_.Reset();
 		debugController_ = nullptr;
 	}
 #endif // _DEBUG

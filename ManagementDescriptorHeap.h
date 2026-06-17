@@ -1,13 +1,14 @@
 #pragma once
 #include<d3d12.h>
 #include<dxgi1_6.h>
+#include<wrl.h>
 class ManagementDescriptorHeap {
-	ID3D12DescriptorHeap* rtvDescriptorHeap = nullptr;
-	D3D12_DESCRIPTOR_HEAP_DESC rtvDescriptorHeapDesc{};
-	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
+	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> rtvDescriptorHeap_;
+	D3D12_DESCRIPTOR_HEAP_DESC rtvDescriptorHeapDesc_{};
+	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc_{};
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvStartHandle_;
-	ID3D12DescriptorHeap* srvDescriptorHeap_;
-	ID3D12DescriptorHeap* dsvDescriptorHeap_;
+	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> srvDescriptorHeap_;
+	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> dsvDescriptorHeap_;
 	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc_{};
 
 
@@ -28,15 +29,15 @@ public:
 	static ID3D12DescriptorHeap* CreateDescriptorHeap(ID3D12Device* device,
 		D3D12_DESCRIPTOR_HEAP_TYPE heapType, UINT numDescriptors, bool shaderVisible);
 
-	ID3D12DescriptorHeap* GetRtvDescriptorHeap()const { return rtvDescriptorHeap; }
-	D3D12_DESCRIPTOR_HEAP_DESC GetRtvDescriptorHeapDesc() const { return rtvDescriptorHeapDesc; }
-	D3D12_RENDER_TARGET_VIEW_DESC GetRtvDesc()const { return rtvDesc; }
+	ID3D12DescriptorHeap* GetRtvDescriptorHeap()const { return rtvDescriptorHeap_.Get(); }
+	D3D12_DESCRIPTOR_HEAP_DESC GetRtvDescriptorHeapDesc() const { return rtvDescriptorHeapDesc_; }
+	D3D12_RENDER_TARGET_VIEW_DESC GetRtvDesc()const { return rtvDesc_; }
 	D3D12_CPU_DESCRIPTOR_HANDLE GetRtvStartHandle()const { return rtvStartHandle_; }
 	D3D12_CPU_DESCRIPTOR_HANDLE GetRtvHandles(int i)const { if (i > 1 || 0 > i) { return {}; } return rtvHandles_[i]; }
 	D3D12_CPU_DESCRIPTOR_HANDLE* GetRtvHandles() { return rtvHandles_; }
 	ID3D12Resource* GetSwapChainResources(int i)const { if (i > 1 || 0 > i) { return {}; }return swapChainResources_[i]; }
 	ID3D12Resource** GetSwapChainResources() { return swapChainResources_; }
-	ID3D12DescriptorHeap* GetSrvDescriptorHeap() { return srvDescriptorHeap_; }
-	ID3D12DescriptorHeap* GetDsvDescriptorHeap() { return dsvDescriptorHeap_; }
+	ID3D12DescriptorHeap* GetSrvDescriptorHeap() { return srvDescriptorHeap_.Get(); }
+	ID3D12DescriptorHeap* GetDsvDescriptorHeap() { return dsvDescriptorHeap_.Get(); }
 	void Release();
 };

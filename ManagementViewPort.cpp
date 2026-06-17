@@ -6,7 +6,7 @@
 void ManagementViewPort::Initialize(ID3D12Device* device, int kWindowWidth, int kWindowHeight) {
 	GenerateViewPort(kWindowWidth, kWindowHeight);
 	CorrectionScissorRect(kWindowWidth, kWindowHeight);
-	depthStencilResource_=DX12Mechanics::CreateDepthStencilTextureResource(device, kWindowWidth, kWindowHeight);
+	depthStencilResource_ = DX12Mechanics::CreateDepthStencilTextureResource(device, kWindowWidth, kWindowHeight);
 }
 
 //固有の関数
@@ -30,6 +30,6 @@ void ManagementViewPort::CorrectionScissorRect(int kWindowWidth, int kWindowHeig
 
 //解放
 void ManagementViewPort::Release() {
-	depthStencilResource_->Release();
+	depthStencilResource_.Reset();
 }
 

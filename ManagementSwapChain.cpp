@@ -12,11 +12,11 @@ void ManagementSwapChain::Initialize(int windowWidth, int windowHeight, ID3D12Co
 	//コマンドキュー、ウィンドウハンドル、設定を渡して生成する
 	HRESULT hr = dxgiFactory->CreateSwapChainForHwnd(
 		commandQueue, hwnd, &swapChainDesc_, nullptr,
-		nullptr, reinterpret_cast<IDXGISwapChain1**>(&swapChain_));
+		nullptr, reinterpret_cast<IDXGISwapChain1**>(swapChain_.GetAddressOf()));
 	assert(SUCCEEDED(hr));
 }
 
 void ManagementSwapChain::Release() {
-	swapChain_->Release();
+	swapChain_.Reset();
 	swapChain_ = nullptr;
 }

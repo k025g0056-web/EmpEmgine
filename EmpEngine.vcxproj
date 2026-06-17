@@ -219,6 +219,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="ModelData.h" />
     <ClInclude Include="MymGui.h" />
     <ClInclude Include="Over.h" />
+    <ClInclude Include="ReleaseManager.h" />
     <ClInclude Include="SceneBase.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SceneSystem.h" />

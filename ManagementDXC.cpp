@@ -70,7 +70,7 @@ void ManagementDXC::Compiling(const std::wstring& filePath, const wchar_t* profi
 		&shaderSourceBuffer,//読み込んだファイル
 		arguments,//コンパイルオプション
 		_countof(arguments),//コンパイルオプションの数
-		includeHandler_,//インクルードが含まれた諸々
+		includeHandler_.Get(),//インクルードが含まれた諸々
 		IID_PPV_ARGS(&shaderResult)//コンパイル結果
 	);
 
@@ -278,7 +278,7 @@ void ManagementDXC::GeneratePSO(ID3D12Device* device) {
 	assert(pixelShaderBlob_ != nullptr);
 	//----------------------------------------------------------//
 
-	graphicspipelineStateDesc.pRootSignature = rootSignature_;//RootSignature
+	graphicspipelineStateDesc.pRootSignature = rootSignature_.Get();//RootSignature
 	graphicspipelineStateDesc.InputLayout = inputLayoutDesc_;//InputLayout
 	graphicspipelineStateDesc.VS = { vertexShaderBlob_->GetBufferPointer(),
 	vertexShaderBlob_->GetBufferSize() };//vertexShader
@@ -297,7 +297,7 @@ void ManagementDXC::GeneratePSO(ID3D12Device* device) {
 	graphicspipelineStateDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
 
 	HRESULT hr = device->CreateGraphicsPipelineState(&graphicspipelineStateDesc,
-		IID_PPV_ARGS(&graphicsPipelineState));
+		IID_PPV_ARGS(&graphicsPipelineState_));
 	assert(SUCCEEDED(hr));
 
 	vertexShaderBlob_->Release();
@@ -305,7 +305,7 @@ void ManagementDXC::GeneratePSO(ID3D12Device* device) {
 }
 
 void ManagementDXC::Release() {
-	rootSignature_->Release();
-	graphicsPipelineState->Release();
+	rootSignature_.Reset();
+	graphicsPipelineState_.Reset();
 }
 

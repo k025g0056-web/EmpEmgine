@@ -109,7 +109,7 @@ void ManagementCommand::SendSignal() {
 	//Fenceの値を更新
 	fenceValue_++;
 	//GPUがここまでたどりついたときにFenceの値を指定した値に代入するようにSignalを送る
-	commandQueue_->Signal(fence_, fenceValue_);
+	commandQueue_->Signal(fence_.Get(), fenceValue_);
 }
 
 void ManagementCommand::WaitingGPU() {
@@ -125,7 +125,7 @@ void ManagementCommand::WaitingGPU() {
 
 void ManagementCommand::FenceRelease() {
 	CloseHandle(fenceEvent_);
-	fence_->Release();
+	fence_.Reset();
 }
 
 void ManagementCommand::CommandRelease() {
