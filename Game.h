@@ -6,6 +6,7 @@
 #include"CameraController.h"
 #include"TransForm3d.h"
 #include"Vector4.h"
+#include"ModelData.h"
 //クラスで関数を作ってから入れるのだ
 class GameManager :public Scene {
 	//課題用の変数
@@ -13,6 +14,7 @@ class GameManager :public Scene {
 	D3D12_GPU_DESCRIPTOR_HANDLE uvChecker{};
 	D3D12_GPU_DESCRIPTOR_HANDLE monsterBall{};
 	D3D12_GPU_DESCRIPTOR_HANDLE sphereHandle{};
+	ModelData modelData_;
 	bool useMonsterBall = true;
 	Transform3d transform{ {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 	Transform3d transformSpr{ {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };

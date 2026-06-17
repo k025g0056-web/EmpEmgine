@@ -15,6 +15,7 @@ void GameManager::Initialize() {
     camecon_.Initialize(SceneSystem::GetCamera()->GetCameraPosition(),SceneSystem::GetCamera()->GetCameraRotate());
 	uvChecker = EmpEngine::LoadTexture("resources/uvChecker.png");
 	monsterBall = EmpEngine::LoadTexture("resources/monsterBall.png");
+	modelData_ = EmpEngine::LoadObjFile("resources", "axis.obj");
 }
 
 void GameManager::Update() {
@@ -35,21 +36,21 @@ void GameManager::GUI() {
 }
 
 void GameManager::DrawHomeWork() {
-	EmpEngine::DrawSprite(transformSpr, 
+	/*EmpEngine::DrawSprite(transformSpr,
 		{ 0.0f,360.0f }, { 0.0f,0.0f }, { 640.0f,360.0f }, { 640.0f,0.0f },
-		SprColor, uvChecker,uvTransformSpr);
-	EmpEngine::DrawSphere(transform, { 1.0f,1.0f,1.0f,1.0f }, sphereHandle);
+		SprColor, uvChecker,uvTransformSpr);*/
+	//EmpEngine::DrawSphere(transform, { 1.0f,1.0f,1.0f,1.0f }, sphereHandle);
+
+	EmpEngine::DrawPreModel(transform, sphereHandle, modelData_);
 }
 
 void GameManager::GuiHomeWork() {
 #ifdef USE_IMGUI//GUIエリア☆（ECCジュニアのリズムで）
 
-	ImGui::SliderFloat4("Material", &colorBuff.x, 0.0f, 255.0f, "%3f", 0);
-	ImGui::SliderFloat3("Transform", &transformSpr.translate.x, 0.0f, 1280.0f, "%3f", 0);
+	ImGui::SliderAngle("Rotatex", &transform.rotate.x);
+	ImGui::SliderAngle("Rotatey", &transform.rotate.y);
+	ImGui::SliderAngle("Rotatez", &transform.rotate.z);
 	ImGui::Checkbox("useMonsterBall", &useMonsterBall);
-	ImGui::DragFloat2("UVTranslate", &uvTransformSpr.translate.x, 0.01f, -10.0f, 10.0f);
-	ImGui::DragFloat2("UVScale", &uvTransformSpr.scale.x, 0.01f, -10.0f, 10.0f);
-	ImGui::SliderAngle("UVRotate", &uvTransformSpr.rotate.z);
 	EmpEngine::LightGUI();
 
 
@@ -76,7 +77,7 @@ void GameManager::UpdateHomeWork() {
 		sphereHandle = uvChecker;
 	}
 
-	transform.rotate.y += 0.03f;
+	//transform.rotate.y += 0.03f;
 	SprColor = colorBuff / 255.0f;
 	SceneSystem::GetCamera()->Update(windowWidth_, windowHeight_);
 }

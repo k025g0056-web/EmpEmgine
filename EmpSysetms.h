@@ -16,6 +16,7 @@
 #include"DrawManager.h"
 #include"Vector2.h"
 #include"ManagementLighting.h"
+#include"ManagementModel.h"
 
 class EmpEngine;
 class EmpSystems {
@@ -52,6 +53,8 @@ class EmpSystems {
 	void End();
 	D3D12_GPU_DESCRIPTOR_HANDLE LoadTexture(const std::string& str);
 	void SetWindowColor(Vector4 color);
+	ModelData LoadObjFile(const std::string& directoryPath, const std::string& filename);
+	void DrawPreModel(const Transform3d& transform, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle, const ModelData& modelData_);
 
 	//エンジンの変数
 	//-----------------------------------------------------//
@@ -69,5 +72,6 @@ class EmpSystems {
 	D3D12_GPU_DESCRIPTOR_HANDLE white1x1{};
 	DrawManager drawManager_;
 	ManagementLighting managementLighting_;
+	ManagementModel managementModel_;
 	//------------------------------------------------------//
 };

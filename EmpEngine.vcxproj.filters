@@ -316,6 +316,9 @@
     <Filter Include="Engine\Shapes\Model">
       <UniqueIdentifier>{06e9c60f-7387-4999-adc6-bca26e9d3247}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\addMech\MaterialData">
+      <UniqueIdentifier>{f15ef1d6-d91b-4953-bdc7-8e32ab261a11}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EmpEngine.h">
@@ -491,6 +494,9 @@
     </ClInclude>
     <ClInclude Include="Model.h">
       <Filter>Engine\Shapes\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialData.h">
+      <Filter>Engine\addMech\MaterialData</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

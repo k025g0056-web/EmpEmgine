@@ -4,6 +4,7 @@
 #include"Vector3.h"
 #include"Vector4.h"
 #include"SceneManager.h"
+#include"ModelData.h"
 
 extern EmpSystems empSystems; // グローバル変数の宣言なの！
 
@@ -34,5 +35,6 @@ public:
 	static void LightGUI();
 	static D3D12_GPU_DESCRIPTOR_HANDLE LoadTexture(const std::string& str);
 	static void SetWindowColor(Vector4 color);
-
+	static ModelData LoadObjFile(const std::string& directoryPath, const std::string& filename);
+	static void DrawPreModel(const Transform3d& transform, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle, const ModelData& modelData_);
 };

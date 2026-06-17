@@ -24,6 +24,12 @@ int DrawManager::AddSphere(ID3D12Device* device) {
 	return static_cast<int>(sphere_.size() - 1);
 }
 
+int DrawManager::AddModel(ID3D12Device* device,const ModelData& modelData) {
+	model_.emplace_back();
+	model_.back().Initialize(device,modelData);
+	return static_cast<int>(model_.size() - 1);
+}
+
 void DrawManager::Clear() {
 	triangles_.clear();
 	doubleTriangle_.clear();

@@ -79,3 +79,11 @@ void EmpEngine::DrawTriangleColor(const Transform3d& transform, const Vector3& v
 void EmpEngine::SetWindowColor(Vector4 color) {
 	empSystems.SetWindowColor(color);
 }
+
+ModelData EmpEngine::LoadObjFile(const std::string& directoryPath, const std::string& filename) {
+	return empSystems.LoadObjFile(directoryPath, filename);
+}
+
+void EmpEngine::DrawPreModel(const Transform3d& transform, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle, const ModelData& modelData_) {
+	empSystems.DrawPreModel(transform, GraphHandle, modelData_);
+}

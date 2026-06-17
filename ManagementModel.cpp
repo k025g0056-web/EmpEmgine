@@ -9,6 +9,7 @@ ModelData ManagementModel::LoadObjFile(const std::string& directoryPath, const s
 	std::vector<Vector3> normals;//法線
 	std::vector<Vector2> texcoords;//テクスチャ座標
 	std::string line;//ファイルから読み込んだ1行を格納する変数
+	VertexData triangle[3]{};
 
 	std::ifstream file(directoryPath + "/" + filename);
 	assert(file.is_open());//とりあえず開けなかったら止める
@@ -27,6 +28,7 @@ ModelData ManagementModel::LoadObjFile(const std::string& directoryPath, const s
 		else if (identifier=="vt"){
 			Vector2 texCoord;
 			s >> texCoord.x >> texCoord.y;
+			texCoord.y = 1.0f - texCoord.y;
 			texcoords.push_back(texCoord);
 		}
 		else if (identifier == "vn") {
@@ -52,13 +54,49 @@ ModelData ManagementModel::LoadObjFile(const std::string& directoryPath, const s
 				Vector4 position = positions[elementIndices[0] - 1];
 				Vector2 texcoord = texcoords[elementIndices[1] - 1];
 				Vector3 normal = normals[elementIndices[2] - 1];
+				position.x *= -1.0f;
+				normal.x *= -1.0f;
 				VertexData vertex = { position,texcoord,normal };
 				modelData.vertices.push_back(vertex);
+				triangle[faceVertex] = { position,texcoord,normal };
 			}
+
+			//By registering the vertices in reverse order, the rotation order is reversed.
+			modelData.vertices.push_back(triangle[2]);
+			modelData.vertices.push_back(triangle[1]);
+			modelData.vertices.push_back(triangle[0]);
+		}else if (identifier == "mtllib") {
+			std::string materialFilename;
+			s >> materialFilename;
+
+			modelData.material = LoadMaterialTemplateFile(directoryPath, materialFilename);
 		}
 	}
 
 
 
 	return modelData;
+}
+
+MaterialData ManagementModel::LoadMaterialTemplateFile(const std::string& directoryPath, const std::string& filename) {
+	MaterialData materialData;//構築するマテリアルデータ
+	std::string line;//ファイルから呼んだ1行を格納するもの
+	std::ifstream file(directoryPath + "/" + filename);
+	assert(file.is_open());//とりあえず開けなかったら止める
+
+	while (std::getline(file,line)) {
+		std::string identifier;
+		std::istringstream s(line);
+		s >> identifier;//行の先頭の識別子を取得
+
+		if (identifier=="map_Kd") {
+			std::string texturefilename;
+			s >> texturefilename;
+
+			materialData.textureFile = directoryPath + "/" + texturefilename;
+		}
+
+	}
+
+	return materialData;
 }

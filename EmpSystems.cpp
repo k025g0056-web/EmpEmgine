@@ -8,6 +8,7 @@ static int idx = 0;
 static int douInd = 0;
 static int sprInd = 0;
 static int sphInd = 0;
+static int modInd = 0;
 void EmpSystems::Initialize(int kWindowWidth, int kWindowHeight) {
 	//誰も捕捉しなかった場合に(Unhandled)、捕捉する関数を登録
 	//main関数が始まってすぐに登録すると良い
@@ -181,4 +182,16 @@ void EmpSystems::DrawTriangleColor(const Transform3d& transform, const Vector3& 
 
 void EmpSystems::SetWindowColor(Vector4 color) {
 	managementCommand_.SetClearColor(color);
+}
+
+ModelData EmpSystems::LoadObjFile(const std::string& directoryPath, const std::string& filename) {
+	return managementModel_.LoadObjFile(directoryPath, filename);
+}
+
+void EmpSystems::DrawPreModel(const Transform3d& transform, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle,const ModelData& modelData) {
+	modInd = drawManager_.AddModel(managementDevice_.GetDevice(), modelData);
+	PostDraw();
+	drawManager_.GetModel(modInd).DrawModel(transform, managementCommand_.GetCommandList(), GraphHandle,
+		{ 1.0f,1.0f,1.0f,1.0f }, *SceneSystem::GetCamera());
+
 }
