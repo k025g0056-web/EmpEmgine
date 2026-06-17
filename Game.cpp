@@ -16,7 +16,7 @@ void GameManager::Initialize() {
 	uvChecker = EmpEngine::LoadTexture("resources/uvChecker.png");
 	monsterBall = EmpEngine::LoadTexture("resources/monsterBall.png");
 	modelData_ = EmpEngine::LoadObjFile("resources", "axis.obj");
-	Alarm01_ = EmpEngine::SoundLoadWave("resources/fanfare.wav");
+	Alarm01_ = EmpEngine::SoundLoadWave("C:/Windows/Media/Alarm01.wav");
 }
 
 void GameManager::Update() {
