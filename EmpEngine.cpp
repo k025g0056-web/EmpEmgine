@@ -87,3 +87,15 @@ ModelData EmpEngine::LoadObjFile(const std::string& directoryPath, const std::st
 void EmpEngine::DrawPreModel(const Transform3d& transform, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle, const ModelData& modelData_) {
 	empSystems.DrawPreModel(transform, GraphHandle, modelData_);
 }
+
+SoundData EmpEngine::SoundLoadWave(const char* filename) {
+	return empSystems.SoundLoadWave(filename);
+}
+
+void EmpEngine::PlayAudio(const SoundData& soundData) {
+	empSystems.PlayAudio(soundData);
+}
+
+void EmpEngine::UnLoadAudio(SoundData* soundData) {
+	empSystems.UnLoadAudio(soundData);
+}

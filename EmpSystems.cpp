@@ -36,6 +36,7 @@ void EmpSystems::Initialize(int kWindowWidth, int kWindowHeight) {
 	white1x1 = LoadTexture("resources/white1x1.png");
 
 	managementLighting_.Initialize(managementDevice_.GetDevice());
+	managementAudio_.Initialize();
 }
 
 int EmpSystems::ProcessMessage() {
@@ -194,4 +195,16 @@ void EmpSystems::DrawPreModel(const Transform3d& transform, D3D12_GPU_DESCRIPTOR
 	drawManager_.GetModel(modInd).DrawModel(transform, managementCommand_.GetCommandList(), GraphHandle,
 		{ 1.0f,1.0f,1.0f,1.0f }, *SceneSystem::GetCamera());
 
+}
+
+SoundData EmpSystems::SoundLoadWave(const char* filename) {
+	return managementAudio_.SoundLoadWave(filename);
+}
+
+void EmpSystems::PlayAudio(const SoundData& soundData) {
+	managementAudio_.SoundPlayWave(soundData);
+}
+
+void EmpSystems::UnLoadAudio(SoundData* soundData) {
+	managementAudio_.SoundUnload(soundData);
 }

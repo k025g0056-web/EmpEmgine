@@ -16,10 +16,15 @@ void GameManager::Initialize() {
 	uvChecker = EmpEngine::LoadTexture("resources/uvChecker.png");
 	monsterBall = EmpEngine::LoadTexture("resources/monsterBall.png");
 	modelData_ = EmpEngine::LoadObjFile("resources", "axis.obj");
+	Alarm01_ = EmpEngine::SoundLoadWave("resources/fanfare.wav");
 }
 
 void GameManager::Update() {
 	colorBuff = SprColor * 255.0f;
+	if (Input::GetInstance()->IsTriggerVk(MDK_ENTER)) {
+		EmpEngine::PlayAudio(Alarm01_);
+	}
+
 	GuiHomeWork();
 	UpdateHomeWork();
 }

@@ -37,4 +37,7 @@ public:
 	static void SetWindowColor(Vector4 color);
 	static ModelData LoadObjFile(const std::string& directoryPath, const std::string& filename);
 	static void DrawPreModel(const Transform3d& transform, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle, const ModelData& modelData_);
+	static SoundData SoundLoadWave(const char* filename);
+	static void PlayAudio(const SoundData& soundData);
+	static void UnLoadAudio(SoundData* soundData);
 };

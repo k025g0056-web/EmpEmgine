@@ -17,6 +17,8 @@
 #include"Vector2.h"
 #include"ManagementLighting.h"
 #include"ManagementModel.h"
+#include"ManagementAudio.h"
+
 
 class EmpEngine;
 class EmpSystems {
@@ -55,7 +57,9 @@ class EmpSystems {
 	void SetWindowColor(Vector4 color);
 	ModelData LoadObjFile(const std::string& directoryPath, const std::string& filename);
 	void DrawPreModel(const Transform3d& transform, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle, const ModelData& modelData_);
-
+	SoundData SoundLoadWave(const char* filename);
+	void PlayAudio(const SoundData& soundData);
+	void UnLoadAudio(SoundData* soundData);
 	//エンジンの変数
 	//-----------------------------------------------------//
 	ManagementWindow managementWindow_;
@@ -73,5 +77,6 @@ class EmpSystems {
 	DrawManager drawManager_;
 	ManagementLighting managementLighting_;
 	ManagementModel managementModel_;
+	ManagementAudio managementAudio_;
 	//------------------------------------------------------//
 };

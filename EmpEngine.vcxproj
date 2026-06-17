@@ -145,6 +145,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ManagementAudio.cpp" />
     <ClCompile Include="ManagementCommand.cpp" />
     <ClCompile Include="ManagementDebug.cpp" />
     <ClCompile Include="ManagementDescriptorHeap.cpp" />
@@ -197,6 +198,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="KeyDiffine.h" />
+    <ClInclude Include="ManagementAudio.h" />
     <ClInclude Include="ManagementCommand.h" />
     <ClInclude Include="ManagementDebug.h" />
     <ClInclude Include="ManagementDescriptorHeap.h" />
@@ -224,6 +226,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SceneSystem.h" />
     <ClInclude Include="Shape.h" />
+    <ClInclude Include="SoundData.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Title.h" />

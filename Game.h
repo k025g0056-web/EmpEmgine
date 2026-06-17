@@ -7,6 +7,8 @@
 #include"TransForm3d.h"
 #include"Vector4.h"
 #include"ModelData.h"
+#include"SoundData.h"
+
 //クラスで関数を作ってから入れるのだ
 class GameManager :public Scene {
 	//課題用の変数
@@ -21,6 +23,7 @@ class GameManager :public Scene {
 	Transform3d uvTransformSpr{ {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 	Vector4 SprColor{ 1.0f,1.0f,1.0f,1.0f };
 	Vector4 colorBuff = {};
+	SoundData Alarm01_;
 	//---------------------------------------------------------------------------//
 
 	void DrawHomeWork();

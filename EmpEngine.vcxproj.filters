@@ -146,6 +146,9 @@
     <ClCompile Include="Model.cpp">
       <Filter>Engine\Shapes\Model</Filter>
     </ClCompile>
+    <ClCompile Include="ManagementAudio.cpp">
+      <Filter>Engine\Manegement\ManagementAudio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -321,6 +324,12 @@
     </Filter>
     <Filter Include="Engine\Manegement\ReleaseManager">
       <UniqueIdentifier>{121a4f47-7fb4-4fbc-8fbc-848994cf9a19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\ManagementAudio">
+      <UniqueIdentifier>{b47ccc40-4d4b-4e43-a68c-2a99234a9ca1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\addMech\SoundData">
+      <UniqueIdentifier>{67780be9-6841-446b-a1e1-faa65f012d96}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -503,6 +512,12 @@
     </ClInclude>
     <ClInclude Include="ReleaseManager.h">
       <Filter>Engine\Manegement\ReleaseManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagementAudio.h">
+      <Filter>Engine\Manegement\ManagementAudio</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundData.h">
+      <Filter>Engine\addMech\SoundData</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
