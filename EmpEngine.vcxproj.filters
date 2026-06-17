@@ -140,6 +140,12 @@
     <ClCompile Include="CameraController.cpp">
       <Filter>Engine\addMech\CameraController</Filter>
     </ClCompile>
+    <ClCompile Include="ManagementModel.cpp">
+      <Filter>Engine\Manegement\ManagementModel</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Engine\Shapes\Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -300,6 +306,15 @@
     </Filter>
     <Filter Include="Engine\addMech\CameraController">
       <UniqueIdentifier>{b79eb08b-e9cd-4483-b391-b7f63bb5ab0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\ManagementModel">
+      <UniqueIdentifier>{9dd401c2-7913-4a0d-888b-2b5d46f05d8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\addMech\ModelData">
+      <UniqueIdentifier>{5cd0a5d7-8848-4bde-a179-0391c902e297}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Shapes\Model">
+      <UniqueIdentifier>{06e9c60f-7387-4999-adc6-bca26e9d3247}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -467,6 +482,15 @@
     </ClInclude>
     <ClInclude Include="CameraController.h">
       <Filter>Engine\addMech\CameraController</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagementModel.h">
+      <Filter>Engine\Manegement\ManagementModel</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelData.h">
+      <Filter>Engine\addMech\ModelData</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Engine\Shapes\Model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

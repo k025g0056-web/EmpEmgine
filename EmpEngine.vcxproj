@@ -153,12 +153,14 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="ManagementDXGIFactory.cpp" />
     <ClCompile Include="ManagementLighting.cpp" />
     <ClCompile Include="ManagementLog.cpp" />
+    <ClCompile Include="ManagementModel.cpp" />
     <ClCompile Include="ManagementSwapChain.cpp" />
     <ClCompile Include="ManagementTexture.cpp" />
     <ClCompile Include="ManagementViewPort.cpp" />
     <ClCompile Include="managementWindow.cpp" />
     <ClCompile Include="Matrix3x3.cpp" />
     <ClCompile Include="Matrix4x4.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="MymGui.cpp" />
     <ClCompile Include="Over.cpp" />
     <ClCompile Include="SceneBase.cpp" />
@@ -202,6 +204,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="ManagementDXC.h" />
     <ClInclude Include="ManagementDXGIFactory.h" />
     <ClInclude Include="ManagementLighting.h" />
+    <ClInclude Include="ManagementModel.h" />
     <ClInclude Include="ManagementSwapChain.h" />
     <ClInclude Include="ManagementTexture.h" />
     <ClInclude Include="ManagementViewPort.h" />
@@ -211,6 +214,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Matrix2x2.h" />
     <ClInclude Include="Matrix3x3.h" />
     <ClInclude Include="Matrix4x4.h" />
+    <ClInclude Include="Model.h" />
+    <ClInclude Include="ModelData.h" />
     <ClInclude Include="MymGui.h" />
     <ClInclude Include="Over.h" />
     <ClInclude Include="SceneBase.h" />
