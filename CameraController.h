@@ -1,7 +1,7 @@
 #pragma once
 #include"Vector3.h"
 
-class CameraController {
+class DebugCamera {
 	Vector3 translate_;
 	Vector3 rotate_;
 

@@ -4,7 +4,7 @@
 #include"externals/imgui/imgui.h"
 
 
-void CameraController::Initialize(Vector3 translate, Vector3 rotate) {
+void DebugCamera::Initialize(Vector3 translate, Vector3 rotate) {
 	translate_ = translate;
 	rotate_ = rotate;
 
@@ -14,7 +14,7 @@ void CameraController::Initialize(Vector3 translate, Vector3 rotate) {
 	preMouseY = 0;
 }
 
-void CameraController::Update() {
+void DebugCamera::Update() {
 	ImGui::DragFloat3("cameraRotate", &rotate_.x, 0.01f, -1.0f, 10.0f, "%.3f", 0);
 
 	RotateToMat();
@@ -49,7 +49,7 @@ void CameraController::Update() {
 
 }
 
-void CameraController::RotateToMat() {
+void DebugCamera::RotateToMat() {
 	Matrix4x4 rotateMatrix = Rotate(rotate_);
 
 	right = {

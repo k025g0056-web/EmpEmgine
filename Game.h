@@ -42,6 +42,6 @@ public:
 	GameManager(const GameManager&) = delete;
 	GameManager& operator=(const GameManager&) = delete;
 private:
-	CameraController camecon_;
+	DebugCamera debugCamera_;
 	void GUI();
 };
