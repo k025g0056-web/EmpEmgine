@@ -3,6 +3,7 @@
 #include"ManagementLog.h"
 #include"SceneSystem.h"
 #include<cassert>
+#include"Input.h"
 
 static int idx = 0;
 static int douInd = 0;
@@ -21,6 +22,7 @@ void EmpSystems::Initialize(int kWindowWidth, int kWindowHeight) {
 	ManagementLog::Initialize();
 	managementDXGIFactory_.Initialize();
 	managementDXGIFactory_.DecideAdapter();
+	Input::GetInstance()->Initialize(managementWindow_.GetHwnd(0));
 	managementDevice_.CreateDevice(managementDXGIFactory_.GetUseAdapter());
 	managementDebug_.ErrorDetection(managementDevice_.GetDevice());
 	managementCommand_.Initialize(managementDevice_.GetDevice());
@@ -66,6 +68,7 @@ void EmpSystems::SetWindowSize(unsigned int index, int windowWidth, int windowHe
 }
 
 void EmpSystems::Begin() {
+	Input::GetInstance()->InputAllUpdate();
 	drawManager_.Release();
 	managementCommand_.LoadCommand(
 		managementSwapChain_.GetSwapChain(), 

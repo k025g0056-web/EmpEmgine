@@ -84,5 +84,8 @@ void GameManager::UpdateHomeWork() {
 
 	//transform.rotate.y += 0.03f;
 	SprColor = colorBuff / 255.0f;
+	camecon_.Update();
+	SceneSystem::GetCamera()->SetCameraRotate(camecon_.GetRotate());
+	SceneSystem::GetCamera()->SetCameraPosition(camecon_.GetTranslate());
 	SceneSystem::GetCamera()->Update(windowWidth_, windowHeight_);
 }

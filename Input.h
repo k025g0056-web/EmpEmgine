@@ -1,9 +1,8 @@
-﻿#pragma once
+#pragma once
 
 #include <array>
 #include <cstdint>
 
-#define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 
 #include"KeyDiffine.h"
@@ -42,6 +41,28 @@ public:
 	/// <param name="key"></param>
 	/// <returns></returns>
 	bool IsReleaseVk(int key);
+
+	/// <summary>
+	/// 押した瞬間(VK,MDK)
+	/// </summary>
+	/// <param name="key"></param>
+	/// <returns></returns>
+	bool IsTrigger(int key);
+
+	/// <summary>
+	///押してる間はon(VK,MDK)
+	/// </summary>
+	/// <param name="key"></param>
+	/// <returns></returns>
+	bool IsPress(int key);
+
+	/// <summary>
+	/// 離した瞬間のみon(VK,MDK)
+	/// </summary>
+	/// <param name="key"></param>
+	/// <returns></returns>
+	bool IsRelease(int key);
+
 
 	/// <summary>
 	/// インプットの状態更新
@@ -131,4 +152,7 @@ private:
 	/// ホイールの動きを測定します
 	/// </summary>
 	void WheelReset() { wheelDelta_ = 0; }
+
+	BYTE key_[KEY_MAX]{};
+	BYTE prekey[KEY_MAX]{};
 };

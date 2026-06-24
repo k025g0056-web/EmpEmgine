@@ -18,8 +18,6 @@ void SceneManager::Initialize(int windowWidth, int windowHeight, SceneName scene
 }
 
 void SceneManager::Update() {
-	// キー入力を受け取る
-	Input::GetInstance()->InputAllUpdate();
 	scene_->Update();
 }
 
