@@ -17,7 +17,8 @@ void MymGui::Initialize(HWND hWnd, ID3D12Device* device,
 		srvDescriptorHeap->GetCPUDescriptorHandleForHeapStart(),
 		srvDescriptorHeap->GetGPUDescriptorHandleForHeapStart());
 	ImGuiIO& io = ImGui::GetIO();
-
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 	io.Fonts->AddFontFromFileTTF(
 		"C:/Windows/Fonts/msgothic.ttc",
 		18.0f,
@@ -60,10 +61,16 @@ void MymGui::SettingHeap(ID3D12DescriptorHeap* srvDescriptorHeap,
 	ID3D12DescriptorHeap* descriptorHeaps[] = { srvDescriptorHeap };
 	commnadList->SetDescriptorHeaps(1, descriptorHeaps);
 }
+
 void MymGui::Release() {
 #ifdef USE_IMGUI
 	ImGui_ImplDX12_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
 #endif // USE_IMGUI
+}
+
+
+void MymGui::MakeDockSpace() {
+	ImGui::DockSpaceOverViewport();
 }

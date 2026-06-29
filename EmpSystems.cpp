@@ -77,6 +77,10 @@ void EmpSystems::Begin() {
 		managementDescriptHeap_.GetDsvDescriptorHeap());
 #ifdef USE_IMGUI
 	mymGui_.Begin();
+	mymGui_.MakeDockSpace();
+	ImGui::Begin("Test");
+	ImGui::Text("Hello");
+	ImGui::End();
 #endif // USE_IMGUI
 }
 

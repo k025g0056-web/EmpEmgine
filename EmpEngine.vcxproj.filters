@@ -149,6 +149,9 @@
     <ClCompile Include="ManagementAudio.cpp">
       <Filter>Engine\Manegement\ManagementAudio</Filter>
     </ClCompile>
+    <ClCompile Include="RenderTexture.cpp">
+      <Filter>Engine\Manegement\RenderTexture</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -274,9 +277,6 @@
     <Filter Include="Engine\Shapes\DrawManager">
       <UniqueIdentifier>{33d67813-d7b5-4ecc-8604-f33f8cb68e4c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Manegement\ManagementLighting">
-      <UniqueIdentifier>{3345e457-c0a9-49ff-b31b-e35abb2915b3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Manegement\SceneManager">
       <UniqueIdentifier>{48718cab-1599-488a-a5da-96df9afc60e6}</UniqueIdentifier>
     </Filter>
@@ -330,6 +330,12 @@
     </Filter>
     <Filter Include="Engine\addMech\SoundData">
       <UniqueIdentifier>{67780be9-6841-446b-a1e1-faa65f012d96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\ManagementLighting">
+      <UniqueIdentifier>{3345e457-c0a9-49ff-b31b-e35abb2915b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manegement\RenderTexture">
+      <UniqueIdentifier>{c1169976-7f06-47d2-8962-9f9e7529d3d3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -518,6 +524,9 @@
     </ClInclude>
     <ClInclude Include="SoundData.h">
       <Filter>Engine\addMech\SoundData</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTexture.h">
+      <Filter>Engine\Manegement\RenderTexture</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

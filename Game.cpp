@@ -51,13 +51,13 @@ void GameManager::DrawHomeWork() {
 
 void GameManager::GuiHomeWork() {
 #ifdef USE_IMGUI//GUIエリア☆（ECCジュニアのリズムで）
-
+	ImGui::Begin("Homework");
 	ImGui::SliderAngle("Rotatex", &transform.rotate.x);
 	ImGui::SliderAngle("Rotatey", &transform.rotate.y);
 	ImGui::SliderAngle("Rotatez", &transform.rotate.z);
 	ImGui::Checkbox("useMonsterBall", &useMonsterBall);
 	EmpEngine::LightGUI();
-
+	ImGui::End();
 
 
 #endif 

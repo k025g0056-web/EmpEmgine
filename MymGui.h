@@ -20,6 +20,7 @@ public:
 		ID3D12DescriptorHeap* srvDescriptorHeap);
 	void Begin();
 	void DemoShowWindow();
+	void MakeDockSpace();
 	void End(ID3D12DescriptorHeap* srvDescriptorHeap,ID3D12GraphicsCommandList* commnadList);
 	void Release();
 };

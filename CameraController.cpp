@@ -15,7 +15,9 @@ void DebugCamera::Initialize(Vector3 translate, Vector3 rotate) {
 }
 
 void DebugCamera::Update() {
+	ImGui::Begin("Camera");
 	ImGui::DragFloat3("cameraRotate", &rotate_.x, 0.01f, -1.0f, 10.0f, "%.3f", 0);
+	ImGui::End();
 
 	RotateToMat();
 
