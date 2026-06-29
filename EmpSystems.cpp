@@ -81,7 +81,9 @@ void EmpSystems::Begin() {
 	ImGui::Begin("Test");
 	ImGui::Text("Hello");
 	ImGui::End();
+	rendertex_.Begin(managementCommand_.GetCommandList(),)
 #endif // USE_IMGUI
+
 }
 
 
@@ -94,6 +96,14 @@ void EmpSystems::DrawDoubleTriangle(const Transform3d& transform, D3D12_GPU_DESC
 
 void EmpSystems::End() {
 #ifdef USE_IMGUI
+	rendertex_.End(managementCommand_.GetCommandList());
+	ImGui::Begin("Scene");
+
+	ImGui::Image(
+		(ImTextureID)rendertex_.GetSRV().ptr,
+		ImGui::GetContentRegionAvail());
+
+	ImGui::End();
 	mymGui_.End(managementDescriptHeap_.GetSrvDescriptorHeap(), managementCommand_.GetCommandList());
 #endif // USE_IMGUI
 

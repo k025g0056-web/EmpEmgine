@@ -18,7 +18,7 @@
 #include"ManagementLighting.h"
 #include"ManagementModel.h"
 #include"ManagementAudio.h"
-
+#include"RenderTexture.h"
 
 class EmpEngine;
 class EmpSystems {
@@ -78,5 +78,6 @@ class EmpSystems {
 	ManagementLighting managementLighting_;
 	ManagementModel managementModel_;
 	ManagementAudio managementAudio_;
+	RenderTexture rendertex_;
 	//------------------------------------------------------//
 };
