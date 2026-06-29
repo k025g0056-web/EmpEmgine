@@ -40,4 +40,5 @@ public:
 	static SoundData SoundLoadWave(const char* filename);
 	static void PlayAudio(const SoundData& soundData);
 	static void UnLoadAudio(SoundData* soundData);
+	static void DrawLight();
 };

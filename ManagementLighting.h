@@ -11,4 +11,6 @@ public:
 	void DrawCall(ID3D12GraphicsCommandList* commandList);
 	void GUI();
 	void Release();
+
+	Vector3 GetDirection() { return directionalLightData->direction; }
 };

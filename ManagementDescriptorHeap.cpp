@@ -13,7 +13,7 @@ void ManagementDescriptorHeap::Initialize(ID3D12Device* device, IDXGISwapChain4*
 }
 
 void ManagementDescriptorHeap::GenerateRtvDescriptorHeap(ID3D12Device* device) {
-	rtvDescriptorHeap_ = CreateDescriptorHeap(device, D3D12_DESCRIPTOR_HEAP_TYPE_RTV, 2, false);
+	rtvDescriptorHeap_ = CreateDescriptorHeap(device, D3D12_DESCRIPTOR_HEAP_TYPE_RTV, 3, false);
 }
 
 void ManagementDescriptorHeap::PullTheSwapChain(IDXGISwapChain4* swapChain) {
@@ -36,6 +36,7 @@ void ManagementDescriptorHeap::GenerateRTV(ID3D12Device* device) {
 	rtvHandles_[1].ptr = rtvHandles_[0].ptr + device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 	//二つ目を作る
 	device->CreateRenderTargetView(swapChainResources_[1], &rtvDesc_, rtvHandles_[1]);
+	renderTextureRtvHandle_.ptr = rtvHandles_[1].ptr + device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 	
 }
 
@@ -61,6 +62,7 @@ ID3D12DescriptorHeap* ManagementDescriptorHeap::CreateDescriptorHeap(ID3D12Devic
 
 void ManagementDescriptorHeap::GenerateSrvDescriptorHeap(ID3D12Device* device) {
 	srvDescriptorHeap_ = CreateDescriptorHeap(device, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 128, true);
+	srvDescriptorSize_ = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 }
 
 void ManagementDescriptorHeap::GenerateDsvDescriptorHeap(ID3D12Device* device) {
@@ -72,4 +74,21 @@ void ManagementDescriptorHeap::GenerateDsvDesc(ID3D12Device*device,ID3D12Resourc
 	dsvDesc_.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;//2dTexture
 	//DSVHEAPの先頭にDSVを作る
 	device->CreateDepthStencilView(depthStencilResource, &dsvDesc_, dsvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart());
+}
+
+
+D3D12_CPU_DESCRIPTOR_HANDLE ManagementDescriptorHeap::GetRenderTextureSrvHandleCPU() const {
+	D3D12_CPU_DESCRIPTOR_HANDLE handle = srvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart();
+	handle.ptr += srvDescriptorSize_ * 127;
+	return handle;
+}
+
+D3D12_GPU_DESCRIPTOR_HANDLE ManagementDescriptorHeap::GetRenderTextureSrvHandleGPU() const {
+	D3D12_GPU_DESCRIPTOR_HANDLE handle = srvDescriptorHeap_->GetGPUDescriptorHandleForHeapStart();
+	handle.ptr += srvDescriptorSize_ * 127;
+	return handle;
+}
+
+D3D12_CPU_DESCRIPTOR_HANDLE ManagementDescriptorHeap::GetDsvHandle() const {
+	return dsvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart();
 }

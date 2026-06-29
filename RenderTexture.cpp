@@ -22,7 +22,7 @@ void RenderTexture::Initialize(
     desc.Height = height;
     desc.DepthOrArraySize = 1;
     desc.MipLevels = 1;
-    desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+    desc.Format = DXGI_FORMAT_R8G8B8A8_TYPELESS;
     desc.SampleDesc.Count = 1;
     desc.Layout = D3D12_TEXTURE_LAYOUT_UNKNOWN;
     desc.Flags = D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET;
@@ -31,17 +31,13 @@ void RenderTexture::Initialize(
 
     heap.Type = D3D12_HEAP_TYPE_DEFAULT;
 
-    FLOAT clearColor[4] =
-    {
-        0.3f,
-        0.3f,
-        0.3f,
-        1.0f
+    FLOAT clearColor[4] = {
+    0.1f,0.25f,0.5f,1.0f
     };
 
     D3D12_CLEAR_VALUE clear{};
 
-    clear.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+    clear.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 
     memcpy(clear.Color, clearColor, sizeof(clearColor));
 
@@ -60,10 +56,16 @@ void RenderTexture::Initialize(
 
 
 
+    D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
+
+    rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+
+    rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
+
     device->CreateRenderTargetView(
         texture_.Get(),
 
-        nullptr,
+        &rtvDesc,
 
         rtv_);
 
@@ -72,7 +74,7 @@ void RenderTexture::Initialize(
 
     D3D12_SHADER_RESOURCE_VIEW_DESC srv{};
 
-    srv.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+    srv.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 
     srv.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 
@@ -118,13 +120,7 @@ void RenderTexture::Begin(
 
         &dsv);
 
-    FLOAT clear[4] =
-    {
-        0.2f,
-        0.2f,
-        0.2f,
-        1.0f
-    };
+    FLOAT clear[4] = { 0.1f,0.25f,0.5f,1.0f };
 
     cmd->ClearRenderTargetView(
         rtv_,

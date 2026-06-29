@@ -99,3 +99,7 @@ void EmpEngine::PlayAudio(const SoundData& soundData) {
 void EmpEngine::UnLoadAudio(SoundData* soundData) {
 	empSystems.UnLoadAudio(soundData);
 }
+
+void EmpEngine::DrawLight() {
+	empSystems.DrawLight();
+}

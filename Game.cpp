@@ -31,6 +31,9 @@ void GameManager::Update() {
 
 void GameManager::Draw() {
 	DrawHomeWork();
+
+	//最後
+	EmpEngine::DrawLight();
 }
 
 void GameManager::GUI() {

@@ -14,6 +14,8 @@ class ManagementDescriptorHeap {
 
 	//RTVを二つ作るのでディスクリプタを二つ用意
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles_[2];
+	D3D12_CPU_DESCRIPTOR_HANDLE renderTextureRtvHandle_{};
+	UINT srvDescriptorSize_ = 0;
 
 	ID3D12Resource* swapChainResources_[2] = { nullptr };
 
@@ -35,6 +37,10 @@ public:
 	D3D12_CPU_DESCRIPTOR_HANDLE GetRtvStartHandle()const { return rtvStartHandle_; }
 	D3D12_CPU_DESCRIPTOR_HANDLE GetRtvHandles(int i)const { if (i > 1 || 0 > i) { return {}; } return rtvHandles_[i]; }
 	D3D12_CPU_DESCRIPTOR_HANDLE* GetRtvHandles() { return rtvHandles_; }
+	D3D12_CPU_DESCRIPTOR_HANDLE GetRenderTextureRtvHandle() const { return renderTextureRtvHandle_; }
+	D3D12_CPU_DESCRIPTOR_HANDLE GetRenderTextureSrvHandleCPU() const;
+	D3D12_GPU_DESCRIPTOR_HANDLE GetRenderTextureSrvHandleGPU() const;
+	D3D12_CPU_DESCRIPTOR_HANDLE GetDsvHandle() const;
 	ID3D12Resource* GetSwapChainResources(int i)const { if (i > 1 || 0 > i) { return {}; }return swapChainResources_[i]; }
 	ID3D12Resource** GetSwapChainResources() { return swapChainResources_; }
 	ID3D12DescriptorHeap* GetSrvDescriptorHeap() { return srvDescriptorHeap_.Get(); }

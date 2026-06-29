@@ -43,6 +43,7 @@ public:
 	uint64_t& GetFenceValue() { return fenceValue_; }
 	ID3D12Fence* GetFence() { return fence_.Get(); }
 	void LoadCommand(IDXGISwapChain4* swapChain, D3D12_CPU_DESCRIPTOR_HANDLE*rtvHandles, ID3D12Resource** swapChainResources_,ID3D12DescriptorHeap* dsvDescriptorHeap);
+	void SetRenderTarget(D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle, D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle);
 	void KickCommand(IDXGISwapChain4* swapChain);
 	void FenceRelease();
 	void CommandRelease();

@@ -50,6 +50,10 @@ void ManagementCommand::LoadCommand(IDXGISwapChain4* swapChain,D3D12_CPU_DESCRIP
 	
 }
 
+void ManagementCommand::SetRenderTarget(D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle, D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle) {
+	commandList_->OMSetRenderTargets(1, &rtvHandle, false, &dsvHandle);
+}
+
 void ManagementCommand::KickCommand(IDXGISwapChain4* swapChain) {
 	PutUpReBarrier();
 	//コマンドリストの内容を確定させる。全てのコマンドを積んでからCloseすること

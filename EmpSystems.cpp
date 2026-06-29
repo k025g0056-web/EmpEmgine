@@ -35,6 +35,13 @@ void EmpSystems::Initialize(int kWindowWidth, int kWindowHeight) {
 		managementSwapChain_.GetSwapChainDesc(), managementDescriptHeap_.GetRtvDesc(),
 		managementDescriptHeap_.GetSrvDescriptorHeap());
 #endif // USE_IMGUI
+	rendertex_.Initialize(
+		managementDevice_.GetDevice(),
+		kWindowWidth,
+		kWindowHeight,
+		managementDescriptHeap_.GetRenderTextureRtvHandle(),
+		managementDescriptHeap_.GetRenderTextureSrvHandleCPU(),
+		managementDescriptHeap_.GetRenderTextureSrvHandleGPU());
 	white1x1 = LoadTexture("resources/white1x1.png");
 
 	managementLighting_.Initialize(managementDevice_.GetDevice());
@@ -81,7 +88,7 @@ void EmpSystems::Begin() {
 	ImGui::Begin("Test");
 	ImGui::Text("Hello");
 	ImGui::End();
-	rendertex_.Begin(managementCommand_.GetCommandList(),)
+	rendertex_.Begin(managementCommand_.GetCommandList(), managementDescriptHeap_.GetDsvHandle());
 #endif // USE_IMGUI
 
 }
@@ -96,14 +103,30 @@ void EmpSystems::DrawDoubleTriangle(const Transform3d& transform, D3D12_GPU_DESC
 
 void EmpSystems::End() {
 #ifdef USE_IMGUI
+	OutputDebugStringA("before RenderTex End\n");
+
 	rendertex_.End(managementCommand_.GetCommandList());
+
+	OutputDebugStringA("after RenderTex End\n");
+
+	UINT backBufferIndex = managementSwapChain_.GetSwapChain()->GetCurrentBackBufferIndex();
+	managementCommand_.SetRenderTarget(
+		managementDescriptHeap_.GetRtvHandles(backBufferIndex),
+		managementDescriptHeap_.GetDsvHandle());
+	ImGuiViewport* viewport = ImGui::GetMainViewport();
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+	OutputDebugStringA("before Begin\n");
 	ImGui::Begin("Scene");
 
-	ImGui::Image(
-		(ImTextureID)rendertex_.GetSRV().ptr,
-		ImGui::GetContentRegionAvail());
+	ImVec2 sceneSize = ImGui::GetContentRegionAvail();
+	if (sceneSize.x > 0.0f && sceneSize.y > 0.0f) {
+		ImGui::Image(
+			(ImTextureID)rendertex_.GetSRV().ptr,
+			sceneSize);
+	}
 
 	ImGui::End();
+	ImGui::PopStyleVar();
 	mymGui_.End(managementDescriptHeap_.GetSrvDescriptorHeap(), managementCommand_.GetCommandList());
 #endif // USE_IMGUI
 
@@ -224,4 +247,8 @@ void EmpSystems::PlayAudio(const SoundData& soundData) {
 
 void EmpSystems::UnLoadAudio(SoundData* soundData) {
 	managementAudio_.SoundUnload(soundData);
+}
+
+void EmpSystems::DrawLight() {
+	DrawSphere({ {0.05f,0.05f,0.05f},{0.0f,0.0f,0.0f},managementLighting_.GetDirection() }, { 1.0f,1.0f,1.0f,1.0f }, white1x1);
 }

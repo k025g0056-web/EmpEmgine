@@ -60,6 +60,7 @@ class EmpSystems {
 	SoundData SoundLoadWave(const char* filename);
 	void PlayAudio(const SoundData& soundData);
 	void UnLoadAudio(SoundData* soundData);
+	void DrawLight();
 	//エンジンの変数
 	//-----------------------------------------------------//
 	ManagementWindow managementWindow_;
