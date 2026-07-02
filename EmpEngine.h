@@ -41,4 +41,10 @@ public:
 	static void PlayAudio(const SoundData& soundData);
 	static void UnLoadAudio(SoundData* soundData);
 	static void DrawLight();
+	// EmpEngine 経由で呼べるようにするなの
+	static ID3D12Device* GetDevice();
+	static void DrawCompressModel(
+		const Transform3d& transform,
+		D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle,
+		Model& model);
 };

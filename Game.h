@@ -8,6 +8,7 @@
 #include"Vector4.h"
 #include"ModelData.h"
 #include"SoundData.h"
+#include"Model.h"
 
 //クラスで関数を作ってから入れるのだ
 class GameManager :public Scene {
@@ -24,6 +25,11 @@ class GameManager :public Scene {
 	Vector4 SprColor{ 1.0f,1.0f,1.0f,1.0f };
 	Vector4 colorBuff = {};
 	SoundData Alarm01_;
+
+	Model  model_;
+	bool   compressStarted_ = false;
+	// deltaTime_ を追加なの
+	float deltaTime_ = 0.0f;
 	//---------------------------------------------------------------------------//
 
 	void DrawHomeWork();

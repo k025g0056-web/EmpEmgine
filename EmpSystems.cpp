@@ -252,3 +252,18 @@ void EmpSystems::UnLoadAudio(SoundData* soundData) {
 void EmpSystems::DrawLight() {
 	DrawSphere({ {0.05f,0.05f,0.05f},{0.0f,0.0f,0.0f},managementLighting_.GetDirection() }, { 1.0f,1.0f,1.0f,1.0f }, white1x1);
 }
+
+// ファイルの一番下に追加
+void EmpSystems::DrawCompressModel(
+	const Transform3d& transform,
+	D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle,
+	Model& model)
+{
+	PostDraw();
+	model.DrawModel(
+		transform,
+		managementCommand_.GetCommandList(),
+		GraphHandle,
+		{ 1.0f, 1.0f, 1.0f, 1.0f },
+		*SceneSystem::GetCamera());
+}

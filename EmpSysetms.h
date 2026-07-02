@@ -57,10 +57,17 @@ class EmpSystems {
 	void SetWindowColor(Vector4 color);
 	ModelData LoadObjFile(const std::string& directoryPath, const std::string& filename);
 	void DrawPreModel(const Transform3d& transform, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle, const ModelData& modelData_);
+	// 既存の DrawPreModel の下に追加
+	void DrawCompressModel(
+		const Transform3d& transform,
+		D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle,
+		Model& model);
 	SoundData SoundLoadWave(const char* filename);
 	void PlayAudio(const SoundData& soundData);
 	void UnLoadAudio(SoundData* soundData);
 	void DrawLight();
+	// GetDevice を公開するなの
+	ID3D12Device* GetDevice() { return managementDevice_.GetDevice(); }
 	//エンジンの変数
 	//-----------------------------------------------------//
 	ManagementWindow managementWindow_;

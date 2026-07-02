@@ -103,3 +103,12 @@ void EmpEngine::UnLoadAudio(SoundData* soundData) {
 void EmpEngine::DrawLight() {
 	empSystems.DrawLight();
 }
+
+ID3D12Device* EmpEngine::GetDevice() { return empSystems.GetDevice(); }
+
+void EmpEngine::DrawCompressModel(
+	const Transform3d& transform,
+	D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle,
+	Model& model) {
+	empSystems.DrawCompressModel(transform, GraphHandle, model);
+}
