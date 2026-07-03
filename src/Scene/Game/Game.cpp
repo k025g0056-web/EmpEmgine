@@ -17,7 +17,7 @@ void GameManager::Initialize() {
 
     uvChecker = EmpEngine::LoadTexture("uvChecker.png");
     monsterBall = EmpEngine::LoadTexture("monsterBall.png");
-    modelData_ = EmpEngine::LoadObjFile("resources/3dObject/axis", "axis.obj");
+    modelData_ = EmpEngine::LoadObjFile("resources/3dObject/bunny", "bunny.obj");
     Alarm01_ = EmpEngine::SoundLoadWave("fanfare.wav");
 
     // ↓ 追加なの
@@ -54,6 +54,7 @@ void GameManager::GUI() {
 void GameManager::DrawHomeWork() {
     // ↓ DrawPreModel → DrawCompressModel に変更なの
     EmpEngine::DrawCompressModel(transform, sphereHandle, model_);
+    EmpEngine::DrawSphere(transform, { 1.0f,1.0f,1.0f,1.0f });
 }
 
 void GameManager::GuiHomeWork() {

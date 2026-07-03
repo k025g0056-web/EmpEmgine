@@ -85,9 +85,6 @@ void EmpSystems::Begin() {
 #ifdef USE_IMGUI
 	mymGui_.Begin();
 	mymGui_.MakeDockSpace();
-	ImGui::Begin("Test");
-	ImGui::Text("Hello");
-	ImGui::End();
 	rendertex_.Begin(managementCommand_.GetCommandList(), managementDescriptHeap_.GetDsvHandle());
 #endif // USE_IMGUI
 
@@ -103,11 +100,8 @@ void EmpSystems::DrawDoubleTriangle(const Transform3d& transform, D3D12_GPU_DESC
 
 void EmpSystems::End() {
 #ifdef USE_IMGUI
-	OutputDebugStringA("before RenderTex End\n");
-
+	
 	rendertex_.End(managementCommand_.GetCommandList());
-
-	OutputDebugStringA("after RenderTex End\n");
 
 	UINT backBufferIndex = managementSwapChain_.GetSwapChain()->GetCurrentBackBufferIndex();
 	managementCommand_.SetRenderTarget(
@@ -190,7 +184,7 @@ void EmpSystems::DrawSprite(const Transform3d& transform, const Vector2& v0,
 		GraphHandle,color,*SceneSystem::GetCamera(),uvTransform);
 }
 
-void EmpSystems::DrawSphere(const Transform3d& transform, const Vector4& color
+void EmpSystems::DrawTextureSphere(const Transform3d& transform, const Vector4& color
 	, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle) {
 	sphInd = drawManager_.AddSphere(managementDevice_.GetDevice());
 	PostDraw();
@@ -198,8 +192,8 @@ void EmpSystems::DrawSphere(const Transform3d& transform, const Vector4& color
 		managementCommand_.GetCommandList(), GraphHandle,*SceneSystem::GetCamera());
 }
 
-void EmpSystems::DrawColorSphere(const Transform3d& transform, const Vector4& color) {
-	DrawSphere(transform, color, white1x1);
+void EmpSystems::DrawSphere(const Transform3d& transform, const Vector4& color) {
+	DrawTextureSphere(transform, color, white1x1);
 }
 
 void EmpSystems::DrawQuad(const Transform3d& transform, const Vector2& v0,
@@ -250,7 +244,7 @@ void EmpSystems::UnLoadAudio(SoundData* soundData) {
 }
 
 void EmpSystems::DrawLight() {
-	DrawSphere({ {0.05f,0.05f,0.05f},{0.0f,0.0f,0.0f},managementLighting_.GetDirection() }, { 1.0f,1.0f,1.0f,1.0f }, white1x1);
+	DrawTextureSphere({ {0.05f,0.05f,0.05f},{0.0f,0.0f,0.0f},managementLighting_.GetDirection() }, { 1.0f,1.0f,1.0f,1.0f }, white1x1);
 }
 
 // ファイルの一番下に追加

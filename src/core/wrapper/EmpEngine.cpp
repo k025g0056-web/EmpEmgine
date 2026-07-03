@@ -49,9 +49,9 @@ void EmpEngine::DrawSprite(const Transform3d& transform, const Vector2& v0,
 	empSystems.DrawSprite(transform, v0, v1, v2, v3, color, GraphHandle,uvTransform);
 }
 
-void EmpEngine::DrawSphere(const Transform3d& transform, const Vector4& color
+void EmpEngine::DrawTextureSphere(const Transform3d& transform, const Vector4& color
 	, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle) {
-	empSystems.DrawSphere(transform, color, GraphHandle);
+	empSystems.DrawTextureSphere(transform, color, GraphHandle);
 }
 
 bool EmpEngine::EndManagement() {
@@ -111,4 +111,8 @@ void EmpEngine::DrawCompressModel(
 	D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle,
 	Model& model) {
 	empSystems.DrawCompressModel(transform, GraphHandle, model);
+}
+
+void EmpEngine::DrawSphere(const Transform3d& transform, const Vector4& color) {
+	empSystems.DrawSphere(transform, color);
 }

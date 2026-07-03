@@ -6,6 +6,7 @@
 void MymGui::Initialize(HWND hWnd, ID3D12Device* device,
 	DXGI_SWAP_CHAIN_DESC1 swapChainDesc, D3D12_RENDER_TARGET_VIEW_DESC rtvDesc,
 	ID3D12DescriptorHeap* srvDescriptorHeap) {
+#ifdef USE_IMGUI
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGui::StyleColorsDark();
@@ -29,21 +30,30 @@ void MymGui::Initialize(HWND hWnd, ID3D12Device* device,
 
 	//こいつは最後♪
 	io.Fonts->Build();
+#endif // USE_IMGUI
 }
 
 void MymGui::NewFrame() {
+#ifdef USE_IMGUI
 	ImGui_ImplDX12_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
+#endif // USE_IMGUI
 }
 
 void MymGui::DemoShowWindow() {
+#ifdef USE_IMGUI
+
 	//開発用の処理ここを固有に切り替えるも良し
 	ImGui::ShowDemoWindow();
+
+#endif // USE_IMGUI
 }
 
 void MymGui::Render() {
+#ifdef USE_IMGUI
 	ImGui::Render();
+#endif // USE_IMGUI
 }
 
 void MymGui::Begin() {
@@ -51,9 +61,11 @@ void MymGui::Begin() {
 }
 
 void MymGui::End(ID3D12DescriptorHeap* srvDescriptorHeap,ID3D12GraphicsCommandList* commnadList) {
+#ifdef USE_IMGUI
 	Render();
 	SettingHeap(srvDescriptorHeap, commnadList);
 	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), commnadList);
+#endif // USE_IMGUI
 }
 
 void MymGui::SettingHeap(ID3D12DescriptorHeap* srvDescriptorHeap, 
@@ -72,5 +84,8 @@ void MymGui::Release() {
 
 
 void MymGui::MakeDockSpace() {
+#ifdef USE_IMGUI
 	ImGui::DockSpaceOverViewport();
+#endif // USE_IMGUI
+
 }
