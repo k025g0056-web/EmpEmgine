@@ -2,50 +2,137 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <None Include=".editorconfig" />
-    <None Include="Object3d.hlsli">
+    <None Include="resources\shader\Object3d.hlsli">
       <Filter>Engine\Shader</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\core\internal\EmpSystems.cpp">
+      <Filter>Engine\Emp\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\wrapper\EmpEngine.cpp">
+      <Filter>Engine\Emp\wrapper</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scene\Manager\SceneManager.cpp">
+      <Filter>Engine\Scene\Manager</Filter>
+    </ClCompile>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="EmpEngine.cpp">
-      <Filter>Engine\main</Filter>
+    <ClCompile Include="src\Scene\Base\SceneBase.cpp">
+      <Filter>Engine\Scene\Base</Filter>
     </ClCompile>
-    <ClCompile Include="managementWindow.cpp">
-      <Filter>Engine\Manegement\ManagementWindow</Filter>
+    <ClCompile Include="src\Scene\Title\TItle.cpp">
+      <Filter>Engine\Scene\Title</Filter>
     </ClCompile>
-    <ClCompile Include="ManagementLog.cpp">
-      <Filter>Engine\Manegement\ManagementLog</Filter>
+    <ClCompile Include="src\Scene\wrapper\SceneSystem.cpp">
+      <Filter>Engine\Scene\wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="ManagementDXGIFactory.cpp">
-      <Filter>Engine\Manegement\ManagementDXGIFactory</Filter>
+    <ClCompile Include="src\Scene\Clear\Clear.cpp">
+      <Filter>Engine\Scene\Clear</Filter>
     </ClCompile>
-    <ClCompile Include="ManagementDevice.cpp">
-      <Filter>Engine\Manegement\ManagementDevice</Filter>
+    <ClCompile Include="src\Scene\Game\Game.cpp">
+      <Filter>Engine\Scene\Game</Filter>
     </ClCompile>
-    <ClCompile Include="ManagementCommand.cpp">
-      <Filter>Engine\Manegement\ManagementCommand</Filter>
+    <ClCompile Include="src\Scene\Over\Over.cpp">
+      <Filter>Engine\Scene\over</Filter>
     </ClCompile>
-    <ClCompile Include="ClashHandler.cpp">
-      <Filter>Engine\Manegement\ClashHandler</Filter>
+    <ClCompile Include="src\Internal\Loader\Audio\ManagementAudio.cpp">
+      <Filter>Engine\Management\Loader\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="ManagementSwapChain.cpp">
-      <Filter>Engine\Manegement\ManagementSwapChain</Filter>
+    <ClCompile Include="src\DataModel\Matrix3x3.cpp">
+      <Filter>Engine\DataModel\Matrix\3x3</Filter>
     </ClCompile>
-    <ClCompile Include="ManagementDescriptorHeap.cpp">
-      <Filter>Engine\Manegement\ManagementDescriptorHeap</Filter>
+    <ClCompile Include="src\DataModel\Matrix4x4.cpp">
+      <Filter>Engine\DataModel\Matrix\4x4</Filter>
     </ClCompile>
-    <ClCompile Include="ManagementDebug.cpp">
-      <Filter>Engine\Manegement\ManagementDebug</Filter>
+    <ClCompile Include="src\DataModel\Vector3.cpp">
+      <Filter>Engine\DataModel\Vector\3</Filter>
     </ClCompile>
-    <ClCompile Include="ManagementDXC.cpp">
-      <Filter>Engine\Manegement\ManagementDXC</Filter>
+    <ClCompile Include="src\DataModel\Vertex42d.cpp">
+      <Filter>Engine\DataModel\Vertex4\2d</Filter>
     </ClCompile>
-    <ClCompile Include="ManagementViewPort.cpp">
-      <Filter>Engine\Manegement\ManagementViewPort</Filter>
+    <ClCompile Include="src\Internal\Loader\Texture\ManagementTexture.cpp">
+      <Filter>Engine\Management\Loader\Texture</Filter>
     </ClCompile>
-    <ClCompile Include="Camera3d.cpp">
-      <Filter>Engine\Manegement\ManagementCamera</Filter>
+    <ClCompile Include="src\Internal\Loader\Model\ManagementModel.cpp">
+      <Filter>Engine\Management\Loader\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Internal\command\ManagementCommand.cpp">
+      <Filter>Engine\Management\command</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Internal\debug\ManagementDebug.cpp">
+      <Filter>Engine\Management\debug</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Internal\DescriptorHeap\ManagementDescriptorHeap.cpp">
+      <Filter>Engine\Management\DescriptorHeap</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Internal\Device\ManagementDevice.cpp">
+      <Filter>Engine\Management\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Internal\DX12Mechanics\DX12Mechanics.cpp">
+      <Filter>Engine\Management\DX12Mech</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Internal\DXC\ManagementDXC.cpp">
+      <Filter>Engine\Management\DXC</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Internal\DXGI\ManagementDXGIFactory.cpp">
+      <Filter>Engine\Management\DXGI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Internal\ImGui\mine\MymGui.cpp">
+      <Filter>Engine\Management\ImGui\mine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Internal\ImGui\render\RenderTexture.cpp">
+      <Filter>Engine\Management\ImGui\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Internal\SwapChain\ManagementSwapChain.cpp">
+      <Filter>Engine\Management\SwapChain</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Internal\Window\managementWindow.cpp">
+      <Filter>Engine\Management\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Internal\viewport\ManagementViewPort.cpp">
+      <Filter>Engine\Management\viewport</Filter>
+    </ClCompile>
+    <ClCompile Include="src\appObj\Camera\Camera3d\Camera3d.cpp">
+      <Filter>Engine\AppObj\Camera\Camera3d</Filter>
+    </ClCompile>
+    <ClCompile Include="src\appObj\Camera\Controller\CameraController.cpp">
+      <Filter>Engine\AppObj\Camera\controller</Filter>
+    </ClCompile>
+    <ClCompile Include="src\appObj\Light\ManagementLighting.cpp">
+      <Filter>Engine\AppObj\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="src\intraction\Input\Input.cpp">
+      <Filter>Engine\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\intraction\Draw\Manager\DrawManager.cpp">
+      <Filter>Engine\Draw\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Log\ManagementLog.cpp">
+      <Filter>Engine\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ClashHandler\ClashHandler.cpp">
+      <Filter>Engine\ClashHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="src\intraction\Draw\DoubleTriangle\DoubleTriangle.cpp">
+      <Filter>Engine\Draw\DoubleTriangle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\intraction\Draw\Model\Model.cpp">
+      <Filter>Engine\Draw\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="src\intraction\Draw\Sphere\Sphere.cpp">
+      <Filter>Engine\Draw\Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="src\intraction\Draw\shape\Shape.cpp">
+      <Filter>Engine\Draw\Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="src\intraction\Draw\Sprite\Sprite.cpp">
+      <Filter>Engine\Draw\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="src\intraction\Draw\Triangle\Triangle.cpp">
+      <Filter>Engine\Draw\Triangle</Filter>
+    </ClCompile>
+    <ClCompile Include="externals\imgui\imgui.cpp">
+      <Filter>Engine\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="externals\imgui\imgui_demo.cpp">
       <Filter>Engine\ImGui</Filter>
@@ -65,330 +152,339 @@
     <ClCompile Include="externals\imgui\imgui_widgets.cpp">
       <Filter>Engine\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="externals\imgui\imgui.cpp">
-      <Filter>Engine\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="MymGui.cpp">
-      <Filter>Engine\Manegement\MymGui</Filter>
-    </ClCompile>
-    <ClCompile Include="ManagementTexture.cpp">
-      <Filter>Engine\Manegement\ManagementTexture</Filter>
-    </ClCompile>
-    <ClCompile Include="Matrix4x4.cpp">
-      <Filter>Engine\addMech\Matrix4x4</Filter>
-    </ClCompile>
-    <ClCompile Include="Matrix3x3.cpp">
-      <Filter>Engine\addMech\Matrix3x3</Filter>
-    </ClCompile>
-    <ClCompile Include="Vertex42d.cpp">
-      <Filter>Engine\addMech\Vertex42d</Filter>
-    </ClCompile>
-    <ClCompile Include="DX12Mechanics.cpp">
-      <Filter>Engine\addMech\DX12Mechanics</Filter>
-    </ClCompile>
-    <ClCompile Include="Shape.cpp">
-      <Filter>Engine\Shapes\Shape</Filter>
-    </ClCompile>
-    <ClCompile Include="Triangle.cpp">
-      <Filter>Engine\Shapes\Triangle</Filter>
-    </ClCompile>
-    <ClCompile Include="Vector3.cpp">
-      <Filter>Engine\addMech\Verctor3</Filter>
-    </ClCompile>
-    <ClCompile Include="DrawManager.cpp">
-      <Filter>Engine\Shapes\DrawManager</Filter>
-    </ClCompile>
-    <ClCompile Include="DoubleTriangle.cpp">
-      <Filter>Engine\Shapes\DoubleTriangle</Filter>
-    </ClCompile>
-    <ClCompile Include="Sprite.cpp">
-      <Filter>Engine\Shapes\Sprite</Filter>
-    </ClCompile>
-    <ClCompile Include="Sphere.cpp">
-      <Filter>Engine\Shapes\Sphere</Filter>
-    </ClCompile>
-    <ClCompile Include="EmpSystems.cpp">
-      <Filter>Engine\System</Filter>
-    </ClCompile>
-    <ClCompile Include="ManagementLighting.cpp">
-      <Filter>Engine\Manegement\ManagementLighting</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneBase.cpp">
-      <Filter>Engine\Manegement\SceneManager\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="TItle.cpp">
-      <Filter>Engine\Manegement\SceneManager\Title</Filter>
-    </ClCompile>
-    <ClCompile Include="Over.cpp">
-      <Filter>Engine\Manegement\SceneManager\Over</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Engine\Manegement\SceneManager\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Clear.cpp">
-      <Filter>Engine\Manegement\SceneManager\Clear</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
-      <Filter>Engine\Manegement\SceneManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Input.cpp">
-      <Filter>Engine\Manegement\InputManager</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneSystem.cpp">
-      <Filter>Engine\System\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="CameraController.cpp">
-      <Filter>Engine\addMech\CameraController</Filter>
-    </ClCompile>
-    <ClCompile Include="ManagementModel.cpp">
-      <Filter>Engine\Manegement\ManagementModel</Filter>
-    </ClCompile>
-    <ClCompile Include="Model.cpp">
-      <Filter>Engine\Shapes\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="ManagementAudio.cpp">
-      <Filter>Engine\Manegement\ManagementAudio</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderTexture.cpp">
-      <Filter>Engine\Manegement\RenderTexture</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
-      <UniqueIdentifier>{c6132ddf-411a-437c-8e37-17a531cba6ba}</UniqueIdentifier>
+      <UniqueIdentifier>{c2ca08cf-1237-4329-9174-c5c1d4944a60}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\main">
-      <UniqueIdentifier>{058bdaa5-5f80-4cac-a737-e09acf2f0cb6}</UniqueIdentifier>
+    <Filter Include="Engine\Emp">
+      <UniqueIdentifier>{de6632a8-0da4-4a7c-83d0-6f079accda73}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Manegement">
-      <UniqueIdentifier>{a0bdcbc2-ef19-4c07-9d18-42b247042419}</UniqueIdentifier>
+    <Filter Include="Engine\Emp\wrapper">
+      <UniqueIdentifier>{39b5a9b4-1cc4-4ace-836e-717bb28ee940}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Manegement\ManagementWindow">
-      <UniqueIdentifier>{3670a508-ab7b-45f3-9ae8-19136bdb354b}</UniqueIdentifier>
+    <Filter Include="Engine\Scene">
+      <UniqueIdentifier>{0f5f728c-b640-41bb-a1e8-3068e3c2b4c6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Manegement\ManagementDXGIFactory">
-      <UniqueIdentifier>{397d872c-aa94-48e5-b20a-73773869a004}</UniqueIdentifier>
+    <Filter Include="Engine\Scene\Manager">
+      <UniqueIdentifier>{e9ddf741-ab27-433f-b68f-453c6a068f32}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Manegement\ManagementDevice">
-      <UniqueIdentifier>{6dabed80-002f-4db1-b952-5d386cc9d86f}</UniqueIdentifier>
+    <Filter Include="Engine\Scene\Base">
+      <UniqueIdentifier>{daf67114-6af6-4a58-b212-47b729939ea2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Manegement\ManagementCommand">
-      <UniqueIdentifier>{f3cd21d1-0afd-4899-b3eb-301d5939ac62}</UniqueIdentifier>
+    <Filter Include="Engine\Scene\Title">
+      <UniqueIdentifier>{84898b97-efb8-4574-8b4f-82ae98566971}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Manegement\ClashHandler">
-      <UniqueIdentifier>{bebb7178-47a8-4de7-97eb-fa30dee9b0a0}</UniqueIdentifier>
+    <Filter Include="Engine\Scene\wrapper">
+      <UniqueIdentifier>{b2f35769-c099-4a25-981c-94586fd23a7a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Manegement\ManagementSwapChain">
-      <UniqueIdentifier>{da3a9dde-9169-4496-bada-fbcee120d9eb}</UniqueIdentifier>
+    <Filter Include="Engine\Scene\Clear">
+      <UniqueIdentifier>{c7007597-721a-446d-8d02-091d13d0338d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Manegement\ManagementDescriptorHeap">
-      <UniqueIdentifier>{62eb3e34-e72e-4b05-9657-61a50eb0d58f}</UniqueIdentifier>
+    <Filter Include="Engine\Scene\Game">
+      <UniqueIdentifier>{f839569f-dc3d-457b-a73b-e693156836c3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Manegement\ManagementLog">
-      <UniqueIdentifier>{1d29e322-d123-469e-ba05-516163cc10ed}</UniqueIdentifier>
+    <Filter Include="Engine\Scene\over">
+      <UniqueIdentifier>{5dd05e89-1375-4d9e-80e5-e7e64730fae8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Manegement\ManagementDebug">
-      <UniqueIdentifier>{5150cfa3-a23b-4f26-9085-b38cd7fb4da6}</UniqueIdentifier>
+    <Filter Include="Engine\Management">
+      <UniqueIdentifier>{623c8f9c-51a9-466b-b054-73810fa56faf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Shader">
-      <UniqueIdentifier>{74b8016c-c9af-41ef-af37-bed799326a35}</UniqueIdentifier>
+    <Filter Include="Engine\Management\Loader">
+      <UniqueIdentifier>{85161dc2-d497-4600-b06f-db885d7c2390}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Manegement\ManagementViewPort">
-      <UniqueIdentifier>{1d631f6f-4653-4c3e-ad42-ba357217ce93}</UniqueIdentifier>
+    <Filter Include="Engine\Management\Loader\Audio">
+      <UniqueIdentifier>{0d612383-d84e-4d30-83e0-14c9aebd75d7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\addMech">
-      <UniqueIdentifier>{64e8918b-6022-42d8-9260-be0d9c3537e2}</UniqueIdentifier>
+    <Filter Include="Engine\Emp\internal">
+      <UniqueIdentifier>{f8d607cb-d833-4b63-b1fe-154754520eb8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\addMech\Vector4">
-      <UniqueIdentifier>{cf731bf1-0721-4bc3-9258-5aa6dfe7f252}</UniqueIdentifier>
+    <Filter Include="Engine\DataModel">
+      <UniqueIdentifier>{6500dd1e-f505-4aa5-9524-9cdb76aadb14}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\addMech\Matrix4x4">
-      <UniqueIdentifier>{e5a4ffd2-28b9-45fa-9597-e16a011f1898}</UniqueIdentifier>
+    <Filter Include="Engine\DataModel\Matrix">
+      <UniqueIdentifier>{635a4f23-add7-4763-86b3-693406bef22d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\addMech\Verctor3">
-      <UniqueIdentifier>{e9efc3d4-b374-4335-9816-6702e62c6805}</UniqueIdentifier>
+    <Filter Include="Engine\DataModel\Matrix\3x3">
+      <UniqueIdentifier>{3a30980f-c676-487f-9dcb-ccb3b9a2d1e1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\addMech\TransForm3d">
-      <UniqueIdentifier>{b95025f2-7998-49ee-9074-901b9a0f4110}</UniqueIdentifier>
+    <Filter Include="Engine\DataModel\Matrix\4x4">
+      <UniqueIdentifier>{350a9699-9e92-449d-9111-2d38a9554def}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Manegement\ManagementCamera">
-      <UniqueIdentifier>{50e1ad78-b8d3-4c64-8a4a-3227df3f7f06}</UniqueIdentifier>
+    <Filter Include="Engine\DataModel\Vector">
+      <UniqueIdentifier>{72bf2501-7832-4765-8dc6-f0ddc8715a1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\DataModel\Vector\3">
+      <UniqueIdentifier>{2b27697c-4799-4f9b-9db1-55ad659929b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\DataModel\Vertex4">
+      <UniqueIdentifier>{db770ae3-5daf-4e7c-89ba-6c20f04b644b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\DataModel\Vertex4\2d">
+      <UniqueIdentifier>{8e3f3ed5-9d8b-4de2-8ea8-b6532e3d5179}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Management\Loader\Texture">
+      <UniqueIdentifier>{7352868f-e958-4a42-8f49-7e404e05a400}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Management\Loader\Model">
+      <UniqueIdentifier>{d95f289d-6796-419f-acb5-7fdf696c8452}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Management\command">
+      <UniqueIdentifier>{470af65e-e374-4cfa-83d5-2077530f2bf2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Management\debug">
+      <UniqueIdentifier>{f0629dc4-251a-462c-a8a3-e3b7cced65cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Management\DescriptorHeap">
+      <UniqueIdentifier>{5ef7bef3-0f72-4c97-ae00-79fabb816357}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Management\Device">
+      <UniqueIdentifier>{bea3a014-0614-4d13-a572-c341b5d4a8eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Management\DX12Mech">
+      <UniqueIdentifier>{af12a83d-5ff9-4f4c-8cad-0d27fa46073e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Management\DXC">
+      <UniqueIdentifier>{b4c391b2-699c-4cb1-b26c-6576002712d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Management\DXGI">
+      <UniqueIdentifier>{33f0062f-fc21-4d08-b7a8-bb5b38a74fc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Management\ImGui">
+      <UniqueIdentifier>{bd824390-d26c-403c-95b5-dab0b90d931d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Management\ImGui\mine">
+      <UniqueIdentifier>{830773c0-5a0b-4a60-afa3-8edc76b9afd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Management\ImGui\Render">
+      <UniqueIdentifier>{89533436-8f47-400a-8595-efe3f7aae222}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Management\SwapChain">
+      <UniqueIdentifier>{29be4d6f-5b07-4423-b0f6-e0880181f0b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Management\Window">
+      <UniqueIdentifier>{104d9e2f-095d-41de-8787-ef4158fd7932}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Management\viewport">
+      <UniqueIdentifier>{ab675808-eb82-49f1-9265-e34c272899e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\AppObj">
+      <UniqueIdentifier>{8a46a2de-d5f8-4aee-b7df-c1c9cb04f66e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\AppObj\Camera">
+      <UniqueIdentifier>{5ab8de01-c045-4422-ab85-e6c59d38ae38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\AppObj\Camera\Camera3d">
+      <UniqueIdentifier>{88bb4c38-ea33-4224-9140-4fd61412bb02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\AppObj\Camera\controller">
+      <UniqueIdentifier>{a8a96b37-0d24-4e44-8bf9-b885c37f3f46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\AppObj\Light">
+      <UniqueIdentifier>{331398f2-f7b1-45c6-b37d-43c4e70ff3a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Input">
+      <UniqueIdentifier>{9f464bb3-aae4-4529-8b4d-b7916a617abf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Draw">
+      <UniqueIdentifier>{fdbd2724-143c-4a44-8531-0fa9624a5762}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Draw\Manager">
+      <UniqueIdentifier>{8e185048-1484-4e30-a5e5-cc0d2770097b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Log">
+      <UniqueIdentifier>{ef9f76f6-8812-4981-82ef-960bf9f53c32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\ClashHandler">
+      <UniqueIdentifier>{ffd0721c-d594-4083-b742-7269782f1837}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Draw\DoubleTriangle">
+      <UniqueIdentifier>{afd7100c-c47e-4b1c-b327-aa8fa5482149}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Draw\Model">
+      <UniqueIdentifier>{e6f602d3-bd5b-4abc-9878-a71384604c3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Draw\Sphere">
+      <UniqueIdentifier>{49d617be-6abe-418a-b6b8-0a9bc1d5d236}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Draw\Shape">
+      <UniqueIdentifier>{808b1643-a79a-475f-99dc-86fde716839e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Draw\Sprite">
+      <UniqueIdentifier>{d1b7e90f-d7fa-478b-80fe-6661380729aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Draw\Triangle">
+      <UniqueIdentifier>{59fb963b-c5df-40d4-beb0-70e7358ba17e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\ImGui">
-      <UniqueIdentifier>{7569cdce-1b38-4832-8379-6802cbe82d34}</UniqueIdentifier>
+      <UniqueIdentifier>{ab0fe216-82d2-4b07-91d3-da8d655e0c3f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Manegement\MymGui">
-      <UniqueIdentifier>{d4d376c6-84e2-43e4-b939-b48198b42b53}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\System">
-      <UniqueIdentifier>{05ee5028-ba58-468d-adba-fdadf446a573}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Manegement\ManagementTexture">
-      <UniqueIdentifier>{76c4da23-2143-4def-b36e-c112971da40a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\addMech\VertexData">
-      <UniqueIdentifier>{4dd8569a-a0d1-468c-b470-b12601d5b1ae}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\addMech\Vector2">
-      <UniqueIdentifier>{7cfc481b-2a45-42c0-ac1a-678a42aa0ba5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Manegement\ManagementDXC">
-      <UniqueIdentifier>{51a712bb-6dc4-4251-b9ce-d6dfd1313faa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\addMech\Matrix2x2">
-      <UniqueIdentifier>{fcd575f8-e10e-4d69-8f2f-12ef198c9874}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\addMech\Matrix3x3">
-      <UniqueIdentifier>{20926e2a-baae-4cbe-afb5-b72cc90586b8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\addMech\Vertex42d">
-      <UniqueIdentifier>{5969a2ae-62e3-4034-9408-a4370196b64f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\addMech\DX12Mechanics">
-      <UniqueIdentifier>{a5ebc2c4-36ee-47d6-b81e-ae2f2d84b48b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Shapes">
-      <UniqueIdentifier>{302b45f2-f09b-4d20-a5cd-ba6c77196f7c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Shapes\Shape">
-      <UniqueIdentifier>{90bcd661-0e92-4844-992a-afc24ceacf60}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Shapes\Sphere">
-      <UniqueIdentifier>{cf85c25c-e659-4d66-b836-6877c4ecec28}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Shapes\Sprite">
-      <UniqueIdentifier>{deb1f616-60b7-44dc-b80d-175a9191d3fe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Shapes\Triangle">
-      <UniqueIdentifier>{48646779-1057-4b2f-9526-539d207a6e1b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\addMech\Material">
-      <UniqueIdentifier>{36228a6e-33c7-4adc-837c-40e4e26e3317}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\addMech\TransformationMatrix">
-      <UniqueIdentifier>{8f22b273-a651-4b50-b8ad-7ad4fcf1e9e9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\addMech\DirectionalLight">
-      <UniqueIdentifier>{8a22c9f0-ddb2-4bc1-b758-9d1cd752d9d1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Shapes\DoubleTriangle">
-      <UniqueIdentifier>{922ed482-d69c-4822-91ca-37c834150fe9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Shapes\DrawManager">
-      <UniqueIdentifier>{33d67813-d7b5-4ecc-8604-f33f8cb68e4c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Manegement\SceneManager">
-      <UniqueIdentifier>{48718cab-1599-488a-a5da-96df9afc60e6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Manegement\SceneManager\Title">
-      <UniqueIdentifier>{e21f081c-4e22-4f77-9856-709c1cdb043d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Manegement\SceneManager\Game">
-      <UniqueIdentifier>{b7cf6ba8-7469-434d-972a-ac719f39aa79}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Manegement\SceneManager\Clear">
-      <UniqueIdentifier>{67b66682-a29b-4403-8849-0c71704bc411}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Manegement\SceneManager\Over">
-      <UniqueIdentifier>{6e663fec-bca7-4b9b-9d9e-03203b195c97}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Manegement\SceneManager\Base">
-      <UniqueIdentifier>{e6041e80-5d0c-4ce3-a0dd-92f1b5f86a65}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Manegement\InputManager">
-      <UniqueIdentifier>{de53772b-bcfb-47f3-9134-d207767a2e89}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\System\Scene">
-      <UniqueIdentifier>{c0ae35e1-94eb-41c4-8bf8-99bf2980b7bf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\addMech\GameScene">
-      <UniqueIdentifier>{683b2ed0-6e79-41ae-86d6-60a61c41ffd7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="課題">
-      <UniqueIdentifier>{3c794344-a66e-4df1-9af6-7dcf4ecd003f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\addMech\CameraController">
-      <UniqueIdentifier>{b79eb08b-e9cd-4483-b391-b7f63bb5ab0a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Manegement\ManagementModel">
-      <UniqueIdentifier>{9dd401c2-7913-4a0d-888b-2b5d46f05d8d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\addMech\ModelData">
-      <UniqueIdentifier>{5cd0a5d7-8848-4bde-a179-0391c902e297}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Shapes\Model">
-      <UniqueIdentifier>{06e9c60f-7387-4999-adc6-bca26e9d3247}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\addMech\MaterialData">
-      <UniqueIdentifier>{f15ef1d6-d91b-4953-bdc7-8e32ab261a11}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Manegement\ReleaseManager">
-      <UniqueIdentifier>{121a4f47-7fb4-4fbc-8fbc-848994cf9a19}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Manegement\ManagementAudio">
-      <UniqueIdentifier>{b47ccc40-4d4b-4e43-a68c-2a99234a9ca1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\addMech\SoundData">
-      <UniqueIdentifier>{67780be9-6841-446b-a1e1-faa65f012d96}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Manegement\ManagementLighting">
-      <UniqueIdentifier>{3345e457-c0a9-49ff-b31b-e35abb2915b3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Manegement\RenderTexture">
-      <UniqueIdentifier>{c1169976-7f06-47d2-8962-9f9e7529d3d3}</UniqueIdentifier>
+    <Filter Include="Engine\Shader">
+      <UniqueIdentifier>{d3251cc3-a62f-4f3e-b997-5c7220a5a1ea}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="EmpEngine.h">
-      <Filter>Engine\main</Filter>
+    <ClInclude Include="src\core\internal\EmpSysetms.h">
+      <Filter>Engine\Emp\internal</Filter>
     </ClInclude>
-    <ClInclude Include="managementWindow.h">
-      <Filter>Engine\Manegement\ManagementWindow</Filter>
+    <ClInclude Include="src\core\wrapper\EmpEngine.h">
+      <Filter>Engine\Emp\wrapper</Filter>
     </ClInclude>
-    <ClInclude Include="ManagementLog.h">
-      <Filter>Engine\Manegement\ManagementLog</Filter>
+    <ClInclude Include="src\Scene\Manager\SceneManager.h">
+      <Filter>Engine\Scene\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="ManagementDXGIFactory.h">
-      <Filter>Engine\Manegement\ManagementDXGIFactory</Filter>
+    <ClInclude Include="src\Scene\Base\SceneBase.h">
+      <Filter>Engine\Scene\Base</Filter>
     </ClInclude>
-    <ClInclude Include="ManagementDevice.h">
-      <Filter>Engine\Manegement\ManagementDevice</Filter>
+    <ClInclude Include="src\Scene\Title\Title.h">
+      <Filter>Engine\Scene\Title</Filter>
     </ClInclude>
-    <ClInclude Include="ManagementCommand.h">
-      <Filter>Engine\Manegement\ManagementCommand</Filter>
+    <ClInclude Include="src\Scene\wrapper\SceneSystem.h">
+      <Filter>Engine\Scene\wrapper</Filter>
     </ClInclude>
-    <ClInclude Include="ClashHandler.h">
-      <Filter>Engine\Manegement\ClashHandler</Filter>
+    <ClInclude Include="src\Scene\Clear\Clear.h">
+      <Filter>Engine\Scene\Clear</Filter>
     </ClInclude>
-    <ClInclude Include="ManagementSwapChain.h">
-      <Filter>Engine\Manegement\ManagementSwapChain</Filter>
+    <ClInclude Include="src\Scene\Game\Game.h">
+      <Filter>Engine\Scene\Game</Filter>
     </ClInclude>
-    <ClInclude Include="ManagementDescriptorHeap.h">
-      <Filter>Engine\Manegement\ManagementDescriptorHeap</Filter>
+    <ClInclude Include="src\Scene\Game\GameScene.h">
+      <Filter>Engine\Scene\Game</Filter>
     </ClInclude>
-    <ClInclude Include="ManagementDebug.h">
-      <Filter>Engine\Manegement\ManagementDebug</Filter>
+    <ClInclude Include="src\Scene\Over\Over.h">
+      <Filter>Engine\Scene\over</Filter>
     </ClInclude>
-    <ClInclude Include="ManagementDXC.h">
-      <Filter>Engine\Manegement\ManagementDXC</Filter>
+    <ClInclude Include="src\Internal\Loader\Audio\ManagementAudio.h">
+      <Filter>Engine\Management\Loader\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="ManagementViewPort.h">
-      <Filter>Engine\Manegement\ManagementViewPort</Filter>
+    <ClInclude Include="src\DataModel\Material.h">
+      <Filter>Engine\DataModel</Filter>
     </ClInclude>
-    <ClInclude Include="Vector4.h">
-      <Filter>Engine\addMech\Vector4</Filter>
+    <ClInclude Include="src\DataModel\MaterialData.h">
+      <Filter>Engine\DataModel</Filter>
     </ClInclude>
-    <ClInclude Include="Matrix4x4.h">
-      <Filter>Engine\addMech\Matrix4x4</Filter>
+    <ClInclude Include="src\DataModel\ModelData.h">
+      <Filter>Engine\DataModel</Filter>
     </ClInclude>
-    <ClInclude Include="Vector3.h">
-      <Filter>Engine\addMech\Verctor3</Filter>
+    <ClInclude Include="src\DataModel\SoundData.h">
+      <Filter>Engine\DataModel</Filter>
     </ClInclude>
-    <ClInclude Include="TransForm3d.h">
-      <Filter>Engine\addMech\TransForm3d</Filter>
+    <ClInclude Include="src\DataModel\TransForm3d.h">
+      <Filter>Engine\DataModel</Filter>
     </ClInclude>
-    <ClInclude Include="Camera3d.h">
-      <Filter>Engine\Manegement\ManagementCamera</Filter>
+    <ClInclude Include="src\DataModel\TransformationMatrix.h">
+      <Filter>Engine\DataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataModel\VertexData.h">
+      <Filter>Engine\DataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataModel\Matrix2x2.h">
+      <Filter>Engine\DataModel\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataModel\Matrix3x3.h">
+      <Filter>Engine\DataModel\Matrix\3x3</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataModel\Matrix4x4.h">
+      <Filter>Engine\DataModel\Matrix\4x4</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataModel\Vector2.h">
+      <Filter>Engine\DataModel\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataModel\Vector4.h">
+      <Filter>Engine\DataModel\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataModel\Vector3.h">
+      <Filter>Engine\DataModel\Vector\3</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataModel\Vertex42d.h">
+      <Filter>Engine\DataModel\Vertex4\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Internal\Loader\Texture\ManagementTexture.h">
+      <Filter>Engine\Management\Loader\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Internal\Loader\Model\ManagementModel.h">
+      <Filter>Engine\Management\Loader\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Internal\command\ManagementCommand.h">
+      <Filter>Engine\Management\command</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Internal\debug\ManagementDebug.h">
+      <Filter>Engine\Management\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Internal\DescriptorHeap\ManagementDescriptorHeap.h">
+      <Filter>Engine\Management\DescriptorHeap</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Internal\Device\ManagementDevice.h">
+      <Filter>Engine\Management\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Internal\DX12Mechanics\DX12Mechanics.h">
+      <Filter>Engine\Management\DX12Mech</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Internal\DXC\ManagementDXC.h">
+      <Filter>Engine\Management\DXC</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Internal\DXGI\ManagementDXGIFactory.h">
+      <Filter>Engine\Management\DXGI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Internal\ImGui\mine\MymGui.h">
+      <Filter>Engine\Management\ImGui\mine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Internal\ImGui\render\RenderTexture.h">
+      <Filter>Engine\Management\ImGui\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Internal\SwapChain\ManagementSwapChain.h">
+      <Filter>Engine\Management\SwapChain</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Internal\Window\managementWindow.h">
+      <Filter>Engine\Management\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Internal\viewport\ManagementViewPort.h">
+      <Filter>Engine\Management\viewport</Filter>
+    </ClInclude>
+    <ClInclude Include="src\appObj\Camera\Camera3d\Camera3d.h">
+      <Filter>Engine\AppObj\Camera\Camera3d</Filter>
+    </ClInclude>
+    <ClInclude Include="src\appObj\Camera\Controller\CameraController.h">
+      <Filter>Engine\AppObj\Camera\controller</Filter>
+    </ClInclude>
+    <ClInclude Include="src\appObj\Light\DirectionalLight.h">
+      <Filter>Engine\AppObj\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="src\appObj\Light\ManagementLighting.h">
+      <Filter>Engine\AppObj\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="src\intraction\Input\Input.h">
+      <Filter>Engine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\intraction\Input\KeyDiffine.h">
+      <Filter>Engine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\intraction\Draw\Manager\DrawManager.h">
+      <Filter>Engine\Draw\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Log\ManagementLog.h">
+      <Filter>Engine\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ClashHandler\ClashHandler.h">
+      <Filter>Engine\ClashHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="src\intraction\Draw\DoubleTriangle\DoubleTriangle.h">
+      <Filter>Engine\Draw\DoubleTriangle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\intraction\Draw\Model\Model.h">
+      <Filter>Engine\Draw\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="src\intraction\Draw\Sphere\Sphere.h">
+      <Filter>Engine\Draw\Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="src\intraction\Draw\shape\Shape.h">
+      <Filter>Engine\Draw\Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="src\intraction\Draw\Sprite\Sprite.h">
+      <Filter>Engine\Draw\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="src\intraction\Draw\Triangle\Triangle.h">
+      <Filter>Engine\Draw\Triangle</Filter>
     </ClInclude>
     <ClInclude Include="externals\imgui\imconfig.h">
       <Filter>Engine\ImGui</Filter>
@@ -414,132 +510,19 @@
     <ClInclude Include="externals\imgui\imstb_truetype.h">
       <Filter>Engine\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="MymGui.h">
-      <Filter>Engine\Manegement\MymGui</Filter>
-    </ClInclude>
-    <ClInclude Include="EmpSysetms.h">
-      <Filter>Engine\System</Filter>
-    </ClInclude>
-    <ClInclude Include="ManagementTexture.h">
-      <Filter>Engine\Manegement\ManagementTexture</Filter>
-    </ClInclude>
-    <ClInclude Include="VertexData.h">
-      <Filter>Engine\addMech\VertexData</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector2.h">
-      <Filter>Engine\addMech\Vector2</Filter>
-    </ClInclude>
-    <ClInclude Include="Matrix2x2.h">
-      <Filter>Engine\addMech\Matrix2x2</Filter>
-    </ClInclude>
-    <ClInclude Include="Matrix3x3.h">
-      <Filter>Engine\addMech\Matrix3x3</Filter>
-    </ClInclude>
-    <ClInclude Include="Vertex42d.h">
-      <Filter>Engine\addMech\Vertex42d</Filter>
-    </ClInclude>
-    <ClInclude Include="DX12Mechanics.h">
-      <Filter>Engine\addMech\DX12Mechanics</Filter>
-    </ClInclude>
-    <ClInclude Include="Shape.h">
-      <Filter>Engine\Shapes\Shape</Filter>
-    </ClInclude>
-    <ClInclude Include="Triangle.h">
-      <Filter>Engine\Shapes\Triangle</Filter>
-    </ClInclude>
-    <ClInclude Include="DrawManager.h">
-      <Filter>Engine\Shapes\DrawManager</Filter>
-    </ClInclude>
-    <ClInclude Include="DoubleTriangle.h">
-      <Filter>Engine\Shapes\DoubleTriangle</Filter>
-    </ClInclude>
-    <ClInclude Include="Sprite.h">
-      <Filter>Engine\Shapes\Sprite</Filter>
-    </ClInclude>
-    <ClInclude Include="Sphere.h">
-      <Filter>Engine\Shapes\Sphere</Filter>
-    </ClInclude>
-    <ClInclude Include="Material.h">
-      <Filter>Engine\addMech\Material</Filter>
-    </ClInclude>
-    <ClInclude Include="TransformationMatrix.h">
-      <Filter>Engine\addMech\TransformationMatrix</Filter>
-    </ClInclude>
-    <ClInclude Include="DirectionalLight.h">
-      <Filter>Engine\addMech\DirectionalLight</Filter>
-    </ClInclude>
-    <ClInclude Include="ManagementLighting.h">
-      <Filter>Engine\Manegement\ManagementLighting</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneBase.h">
-      <Filter>Engine\Manegement\SceneManager\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Title.h">
-      <Filter>Engine\Manegement\SceneManager\Title</Filter>
-    </ClInclude>
-    <ClInclude Include="Over.h">
-      <Filter>Engine\Manegement\SceneManager\Over</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Engine\Manegement\SceneManager\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Clear.h">
-      <Filter>Engine\Manegement\SceneManager\Clear</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneManager.h">
-      <Filter>Engine\Manegement\SceneManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Input.h">
-      <Filter>Engine\Manegement\InputManager</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyDiffine.h">
-      <Filter>Engine\Manegement\InputManager</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneSystem.h">
-      <Filter>Engine\System\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="GameScene.h">
-      <Filter>Engine\addMech\GameScene</Filter>
-    </ClInclude>
-    <ClInclude Include="CameraController.h">
-      <Filter>Engine\addMech\CameraController</Filter>
-    </ClInclude>
-    <ClInclude Include="ManagementModel.h">
-      <Filter>Engine\Manegement\ManagementModel</Filter>
-    </ClInclude>
-    <ClInclude Include="ModelData.h">
-      <Filter>Engine\addMech\ModelData</Filter>
-    </ClInclude>
-    <ClInclude Include="Model.h">
-      <Filter>Engine\Shapes\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="MaterialData.h">
-      <Filter>Engine\addMech\MaterialData</Filter>
-    </ClInclude>
-    <ClInclude Include="ReleaseManager.h">
-      <Filter>Engine\Manegement\ReleaseManager</Filter>
-    </ClInclude>
-    <ClInclude Include="ManagementAudio.h">
-      <Filter>Engine\Manegement\ManagementAudio</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundData.h">
-      <Filter>Engine\addMech\SoundData</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderTexture.h">
-      <Filter>Engine\Manegement\RenderTexture</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Object3d.VS.hlsl">
-      <Filter>Engine\Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Object3d.PS.hlsl">
-      <Filter>Engine\Shader</Filter>
-    </FxCompile>
-  </ItemGroup>
-  <ItemGroup>
+    <Text Include="filePath.txt" />
     <Text Include="externals\imgui\LICENSE.txt">
       <Filter>Engine\ImGui</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="resources\shader\Object3d.PS.hlsl">
+      <Filter>Engine\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="resources\shader\Object3d.VS.hlsl">
+      <Filter>Engine\Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
