@@ -29,6 +29,7 @@ ModelData ManagementModel::LoadObjFile(const std::string& directoryPath, const s
 			Vector2 texCoord;
 			s >> texCoord.x >> texCoord.y;
 			texCoord.y = 1.0f - texCoord.y;
+			texCoord.x = 1.0f - texCoord.x;
 			texcoords.push_back(texCoord);
 		}
 		else if (identifier == "vn") {

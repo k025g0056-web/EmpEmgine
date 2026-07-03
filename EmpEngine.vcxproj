@@ -185,6 +185,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="src\ClashHandler\ClashHandler.h" />
     <ClInclude Include="src\core\internal\EmpSysetms.h" />
     <ClInclude Include="src\core\wrapper\EmpEngine.h" />
+    <ClInclude Include="src\DataModel\BlendMode.h" />
     <ClInclude Include="src\DataModel\Material.h" />
     <ClInclude Include="src\DataModel\MaterialData.h" />
     <ClInclude Include="src\DataModel\Matrix2x2.h" />

@@ -510,6 +510,9 @@
     <ClInclude Include="externals\imgui\imstb_truetype.h">
       <Filter>Engine\ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="src\DataModel\BlendMode.h">
+      <Filter>Engine\DataModel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="filePath.txt" />
