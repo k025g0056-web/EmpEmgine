@@ -55,6 +55,7 @@
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -89,6 +90,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <TreatWarningAsError>true</TreatWarningAsError>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -109,85 +111,65 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
-    <None Include="Object3d.hlsli" />
+    <None Include="resources\shader\Object3d.hlsli" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Camera3d.cpp" />
-    <ClCompile Include="CameraController.cpp" />
-    <ClCompile Include="ClashHandler.cpp" />
-    <ClCompile Include="Clear.cpp" />
-    <ClCompile Include="ColorTriangle.cpp" />
-    <ClCompile Include="DoubleTriangle.cpp" />
-    <ClCompile Include="DoubleTrigle.cpp" />
-    <ClCompile Include="DrawManager.cpp" />
-    <ClCompile Include="DX12Mechanics.cpp" />
-    <ClCompile Include="EmpEngine.cpp" />
-    <ClCompile Include="EmpSystems.cpp" />
-    <ClCompile Include="externals\imgui\imgui.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="externals\imgui\imgui_demo.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="externals\imgui\imgui_draw.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="externals\imgui\imgui_impl_dx12.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="externals\imgui\imgui_impl_win32.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="externals\imgui\imgui_tables.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="externals\imgui\imgui_widgets.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="Input.cpp" />
+    <ProjectReference Include="externals\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
+      <Project>{371b9fa9-4c90-4ac6-a123-aced756d6c77}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="externals\imgui\imgui.cpp" />
+    <ClCompile Include="externals\imgui\imgui_demo.cpp" />
+    <ClCompile Include="externals\imgui\imgui_draw.cpp" />
+    <ClCompile Include="externals\imgui\imgui_impl_dx12.cpp" />
+    <ClCompile Include="externals\imgui\imgui_impl_win32.cpp" />
+    <ClCompile Include="externals\imgui\imgui_tables.cpp" />
+    <ClCompile Include="externals\imgui\imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="ManagementCommand.cpp" />
-    <ClCompile Include="ManagementDebug.cpp" />
-    <ClCompile Include="ManagementDescriptorHeap.cpp" />
-    <ClCompile Include="ManagementDevice.cpp" />
-    <ClCompile Include="ManagementDXC.cpp" />
-    <ClCompile Include="ManagementDXGIFactory.cpp" />
-    <ClCompile Include="ManagementLighting.cpp" />
-    <ClCompile Include="ManagementLog.cpp" />
-    <ClCompile Include="ManagementSwapChain.cpp" />
-    <ClCompile Include="ManagementTexture.cpp" />
-    <ClCompile Include="ManagementViewPort.cpp" />
-    <ClCompile Include="managementWindow.cpp" />
-    <ClCompile Include="Matrix3x3.cpp" />
-    <ClCompile Include="Matrix4x4.cpp" />
-    <ClCompile Include="MymGui.cpp" />
-    <ClCompile Include="Over.cpp" />
-    <ClCompile Include="Particle.cpp" />
-    <ClCompile Include="SceneBase.cpp" />
-    <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="SceneSystem.cpp" />
-    <ClCompile Include="Shape.cpp" />
-    <ClCompile Include="Sphere.cpp" />
-    <ClCompile Include="Sprite.cpp" />
-    <ClCompile Include="TItle.cpp" />
-    <ClCompile Include="Triangle.cpp" />
-    <ClCompile Include="Vector3.cpp" />
-    <ClCompile Include="Vertex42d.cpp" />
+    <ClCompile Include="src\appObj\Camera\Camera3d\Camera3d.cpp" />
+    <ClCompile Include="src\appObj\Camera\Controller\CameraController.cpp" />
+    <ClCompile Include="src\appObj\Light\ManagementLighting.cpp" />
+    <ClCompile Include="src\ClashHandler\ClashHandler.cpp" />
+    <ClCompile Include="src\core\internal\EmpSystems.cpp" />
+    <ClCompile Include="src\core\wrapper\EmpEngine.cpp" />
+    <ClCompile Include="src\DataModel\Matrix3x3.cpp" />
+    <ClCompile Include="src\DataModel\Matrix4x4.cpp" />
+    <ClCompile Include="src\DataModel\Vector3.cpp" />
+    <ClCompile Include="src\DataModel\Vertex42d.cpp" />
+    <ClCompile Include="src\Internal\command\ManagementCommand.cpp" />
+    <ClCompile Include="src\Internal\debug\ManagementDebug.cpp" />
+    <ClCompile Include="src\Internal\DescriptorHeap\ManagementDescriptorHeap.cpp" />
+    <ClCompile Include="src\Internal\Device\ManagementDevice.cpp" />
+    <ClCompile Include="src\Internal\DX12Mechanics\DX12Mechanics.cpp" />
+    <ClCompile Include="src\Internal\DXC\ManagementDXC.cpp" />
+    <ClCompile Include="src\Internal\DXGI\ManagementDXGIFactory.cpp" />
+    <ClCompile Include="src\Internal\ImGui\mine\MymGui.cpp" />
+    <ClCompile Include="src\Internal\ImGui\render\RenderTexture.cpp" />
+    <ClCompile Include="src\Internal\Loader\Audio\ManagementAudio.cpp" />
+    <ClCompile Include="src\Internal\Loader\Model\ManagementModel.cpp" />
+    <ClCompile Include="src\Internal\Loader\Texture\ManagementTexture.cpp" />
+    <ClCompile Include="src\Internal\SwapChain\ManagementSwapChain.cpp" />
+    <ClCompile Include="src\Internal\viewport\ManagementViewPort.cpp" />
+    <ClCompile Include="src\Internal\Window\managementWindow.cpp" />
+    <ClCompile Include="src\intraction\Draw\DoubleTriangle\DoubleTriangle.cpp" />
+    <ClCompile Include="src\intraction\Draw\Manager\DrawManager.cpp" />
+    <ClCompile Include="src\intraction\Draw\Model\Model.cpp" />
+    <ClCompile Include="src\intraction\Draw\shape\Shape.cpp" />
+    <ClCompile Include="src\intraction\Draw\Sphere\Sphere.cpp" />
+    <ClCompile Include="src\intraction\Draw\Sprite\Sprite.cpp" />
+    <ClCompile Include="src\intraction\Draw\Triangle\Triangle.cpp" />
+    <ClCompile Include="src\intraction\Input\Input.cpp" />
+    <ClCompile Include="src\Log\ManagementLog.cpp" />
+    <ClCompile Include="src\Scene\Base\SceneBase.cpp" />
+    <ClCompile Include="src\Scene\Clear\Clear.cpp" />
+    <ClCompile Include="src\Scene\Game\Game.cpp" />
+    <ClCompile Include="src\Scene\Manager\SceneManager.cpp" />
+    <ClCompile Include="src\Scene\Over\Over.cpp" />
+    <ClCompile Include="src\Scene\Title\TItle.cpp" />
+    <ClCompile Include="src\Scene\wrapper\SceneSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera3d.h" />
-    <ClInclude Include="CameraController.h" />
-    <ClInclude Include="ClashHandler.h" />
-    <ClInclude Include="Clear.h" />
-    <ClInclude Include="ColorTriangle.h" />
-    <ClInclude Include="DirectionalLight.h" />
-    <ClInclude Include="DoubleTriangle.h" />
-    <ClInclude Include="DoubleTrigle.h" />
-    <ClInclude Include="DrawManager.h" />
-    <ClInclude Include="DX12Mechanics.h" />
-    <ClInclude Include="EmpEngine.h" />
-    <ClInclude Include="EmpSysetms.h" />
     <ClInclude Include="externals\imgui\imconfig.h" />
     <ClInclude Include="externals\imgui\imgui.h" />
     <ClInclude Include="externals\imgui\imgui_impl_dx12.h" />
@@ -196,64 +178,74 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="externals\imgui\imstb_rectpack.h" />
     <ClInclude Include="externals\imgui\imstb_textedit.h" />
     <ClInclude Include="externals\imgui\imstb_truetype.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="GameScene.h" />
-    <ClInclude Include="Input.h" />
-    <ClInclude Include="KeyDiffine.h" />
-    <ClInclude Include="ManagementCommand.h" />
-    <ClInclude Include="ManagementDebug.h" />
-    <ClInclude Include="ManagementDescriptorHeap.h" />
-    <ClInclude Include="ManagementDevice.h" />
-    <ClInclude Include="ManagementDXC.h" />
-    <ClInclude Include="ManagementDXGIFactory.h" />
-    <ClInclude Include="ManagementLighting.h" />
-    <ClInclude Include="ManagementSwapChain.h" />
-    <ClInclude Include="ManagementTexture.h" />
-    <ClInclude Include="ManagementViewPort.h" />
-    <ClInclude Include="managementWindow.h" />
-    <ClInclude Include="ManagementLog.h" />
-    <ClInclude Include="Material.h" />
-    <ClInclude Include="Matrix2x2.h" />
-    <ClInclude Include="Matrix3x3.h" />
-    <ClInclude Include="Matrix4x4.h" />
-    <ClInclude Include="MymGui.h" />
-    <ClInclude Include="Over.h" />
-    <ClInclude Include="Particle.h" />
-    <ClInclude Include="SceneBase.h" />
-    <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="SceneSystem.h" />
-    <ClInclude Include="Shape.h" />
-    <ClInclude Include="Sphere.h" />
-    <ClInclude Include="Sprite.h" />
-    <ClInclude Include="Title.h" />
-    <ClInclude Include="TransForm3d.h" />
-    <ClInclude Include="TransformationMatrix.h" />
-    <ClInclude Include="Triangle.h" />
-    <ClInclude Include="Vector2.h" />
-    <ClInclude Include="Vector3.h" />
-    <ClInclude Include="Vector4.h" />
-    <ClInclude Include="Vertex42d.h" />
-    <ClInclude Include="VertexData.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Object3d.VS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="Object3d.PS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </FxCompile>
+    <ClInclude Include="src\appObj\Camera\Camera3d\Camera3d.h" />
+    <ClInclude Include="src\appObj\Camera\Controller\CameraController.h" />
+    <ClInclude Include="src\appObj\Light\DirectionalLight.h" />
+    <ClInclude Include="src\appObj\Light\ManagementLighting.h" />
+    <ClInclude Include="src\ClashHandler\ClashHandler.h" />
+    <ClInclude Include="src\core\internal\EmpSysetms.h" />
+    <ClInclude Include="src\core\wrapper\EmpEngine.h" />
+    <ClInclude Include="src\DataModel\Material.h" />
+    <ClInclude Include="src\DataModel\MaterialData.h" />
+    <ClInclude Include="src\DataModel\Matrix2x2.h" />
+    <ClInclude Include="src\DataModel\Matrix3x3.h" />
+    <ClInclude Include="src\DataModel\Matrix4x4.h" />
+    <ClInclude Include="src\DataModel\ModelData.h" />
+    <ClInclude Include="src\DataModel\SoundData.h" />
+    <ClInclude Include="src\DataModel\TransForm3d.h" />
+    <ClInclude Include="src\DataModel\TransformationMatrix.h" />
+    <ClInclude Include="src\DataModel\Vector2.h" />
+    <ClInclude Include="src\DataModel\Vector3.h" />
+    <ClInclude Include="src\DataModel\Vector4.h" />
+    <ClInclude Include="src\DataModel\Vertex42d.h" />
+    <ClInclude Include="src\DataModel\VertexData.h" />
+    <ClInclude Include="src\Internal\command\ManagementCommand.h" />
+    <ClInclude Include="src\Internal\debug\ManagementDebug.h" />
+    <ClInclude Include="src\Internal\DescriptorHeap\ManagementDescriptorHeap.h" />
+    <ClInclude Include="src\Internal\Device\ManagementDevice.h" />
+    <ClInclude Include="src\Internal\DX12Mechanics\DX12Mechanics.h" />
+    <ClInclude Include="src\Internal\DXC\ManagementDXC.h" />
+    <ClInclude Include="src\Internal\DXGI\ManagementDXGIFactory.h" />
+    <ClInclude Include="src\Internal\ImGui\mine\MymGui.h" />
+    <ClInclude Include="src\Internal\ImGui\render\RenderTexture.h" />
+    <ClInclude Include="src\Internal\Loader\Audio\ManagementAudio.h" />
+    <ClInclude Include="src\Internal\Loader\Model\ManagementModel.h" />
+    <ClInclude Include="src\Internal\Loader\Texture\ManagementTexture.h" />
+    <ClInclude Include="src\Internal\SwapChain\ManagementSwapChain.h" />
+    <ClInclude Include="src\Internal\viewport\ManagementViewPort.h" />
+    <ClInclude Include="src\Internal\Window\managementWindow.h" />
+    <ClInclude Include="src\intraction\Draw\DoubleTriangle\DoubleTriangle.h" />
+    <ClInclude Include="src\intraction\Draw\Manager\DrawManager.h" />
+    <ClInclude Include="src\intraction\Draw\Model\Model.h" />
+    <ClInclude Include="src\intraction\Draw\shape\Shape.h" />
+    <ClInclude Include="src\intraction\Draw\Sphere\Sphere.h" />
+    <ClInclude Include="src\intraction\Draw\Sprite\Sprite.h" />
+    <ClInclude Include="src\intraction\Draw\Triangle\Triangle.h" />
+    <ClInclude Include="src\intraction\Input\Input.h" />
+    <ClInclude Include="src\intraction\Input\KeyDiffine.h" />
+    <ClInclude Include="src\Log\ManagementLog.h" />
+    <ClInclude Include="src\Scene\Base\SceneBase.h" />
+    <ClInclude Include="src\Scene\Clear\Clear.h" />
+    <ClInclude Include="src\Scene\Game\Game.h" />
+    <ClInclude Include="src\Scene\Game\GameScene.h" />
+    <ClInclude Include="src\Scene\Manager\SceneManager.h" />
+    <ClInclude Include="src\Scene\Over\Over.h" />
+    <ClInclude Include="src\Scene\Title\Title.h" />
+    <ClInclude Include="src\Scene\wrapper\SceneSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt" />
+    <Text Include="filePath.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="externals\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
-      <Project>{371b9fa9-4c90-4ac6-a123-aced756d6c77}</Project>
-    </ProjectReference>
+    <FxCompile Include="resources\shader\Object3d.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="resources\shader\Object3d.VS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

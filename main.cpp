@@ -1,5 +1,5 @@
-#include"EmpEngine.h"
-#include"SceneManager.h"
+#include"core/wrapper/EmpEngine.h"
+#include"Scene/Manager/SceneManager.h"
 
 //Windowsアプリでのエントリーポイント(main関数)
 
