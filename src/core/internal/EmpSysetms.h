@@ -67,6 +67,20 @@ class EmpSystems {
 	void PlayAudio(const SoundData& soundData);
 	void UnLoadAudio(SoundData* soundData);
 	void DrawLight();
+
+	void GeneratePSO();
+	void SetBlendMode(BlendMode blendMode);
+	void SetRasterizer(D3D12_CULL_MODE cullMode, D3D12_FILL_MODE fillMode);
+	void SetDepthStencil(bool depthEnable, D3D12_DEPTH_WRITE_MASK DepthWriteMask, D3D12_COMPARISON_FUNC comparisonFunc);
+	void SetPosition(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset);
+	void SetTexCoord(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset);
+	void SetNormal(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset);
+	void SetVertexShader(const std::wstring& filePath);
+	void SetPixelShader(const std::wstring& filePath);
+
+
+
+
 	// GetDevice を公開するなの
 	ID3D12Device* GetDevice() { return managementDevice_.GetDevice(); }
 	//エンジンの変数

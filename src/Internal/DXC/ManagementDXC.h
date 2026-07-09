@@ -1,10 +1,14 @@
 #pragma once
+#pragma once
 #include <Windows.h>
-#include<dxcapi.h>
-#include<string>
+
+#include <string>
+#include <wrl.h>
+
 #include <d3d12.h>
 #include <dxgi1_6.h>
-#include<wrl.h>
+
+#include <dxcapi.h>
 #include"Datamodel/BlendMode.h"
 
 class ManagementDXC {
@@ -42,7 +46,7 @@ public:
 	void SetRasterizer(D3D12_CULL_MODE cullMode, D3D12_FILL_MODE fillMode);
 	void SetDepthStencil(bool depthEnable, D3D12_DEPTH_WRITE_MASK DepthWriteMask, D3D12_COMPARISON_FUNC comparisonFunc);
 	void SetPosition(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset);
-	void SetTexcoord(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset);
+	void SetTexCoord(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset);
 	void SetNormal(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset);
 	void SetVertexShader(const std::wstring& filePath);
 	void SetPixelShader(const std::wstring& filePath);

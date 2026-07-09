@@ -11,7 +11,7 @@ void ManagementDXC::Initialize(ID3D12Device* device) {
 	SettingHandler();
 	GenerateRootSignature();
 	SetPosition("POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, D3D12_APPEND_ALIGNED_ELEMENT);
-	SetTexcoord("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, D3D12_APPEND_ALIGNED_ELEMENT);
+	SetTexCoord("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, D3D12_APPEND_ALIGNED_ELEMENT);
 	SetNormal("NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, D3D12_APPEND_ALIGNED_ELEMENT);
 	SetBlendMode(kBlendModeNone);
 	SetRasterizer(D3D12_CULL_MODE_BACK, D3D12_FILL_MODE_SOLID);
@@ -361,7 +361,7 @@ void ManagementDXC::SetPosition(const char* name,unsigned int index, DXGI_FORMAT
 	isDirty_ = true;
 }
 
-void ManagementDXC::SetTexcoord(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset) {
+void ManagementDXC::SetTexCoord(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset) {
 	//テックスコードの設定
 	//-----------------------------------------------------------//
 	inputElementDescs_[1].SemanticName = name;

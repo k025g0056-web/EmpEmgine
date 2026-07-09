@@ -152,6 +152,9 @@
     <ClCompile Include="externals\imgui\imgui_widgets.cpp">
       <Filter>Engine\ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="src\Internal\ImGui\SetRender\SetRenderGui.cpp">
+      <Filter>Engine\Management\ImGui\SetRender</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -222,9 +225,6 @@
     </Filter>
     <Filter Include="Engine\DataModel\Vertex4\2d">
       <UniqueIdentifier>{8e3f3ed5-9d8b-4de2-8ea8-b6532e3d5179}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Management\Loader\Texture">
-      <UniqueIdentifier>{7352868f-e958-4a42-8f49-7e404e05a400}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Management\Loader\Model">
       <UniqueIdentifier>{d95f289d-6796-419f-acb5-7fdf696c8452}</UniqueIdentifier>
@@ -321,6 +321,12 @@
     </Filter>
     <Filter Include="Engine\Shader">
       <UniqueIdentifier>{d3251cc3-a62f-4f3e-b997-5c7220a5a1ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Management\ImGui\SetRender">
+      <UniqueIdentifier>{e6c7f8af-6007-4e30-919d-9d7da489ec5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Management\Loader\Texture">
+      <UniqueIdentifier>{7352868f-e958-4a42-8f49-7e404e05a400}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -512,6 +518,9 @@
     </ClInclude>
     <ClInclude Include="src\DataModel\BlendMode.h">
       <Filter>Engine\DataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Internal\ImGui\SetRender\SetRenderGui.h">
+      <Filter>Engine\Management\ImGui\SetRender</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

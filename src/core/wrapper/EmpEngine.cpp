@@ -116,3 +116,40 @@ void EmpEngine::DrawCompressModel(
 void EmpEngine::DrawSphere(const Transform3d& transform, const Vector4& color) {
 	empSystems.DrawSphere(transform, color);
 }
+
+
+void EmpEngine::GeneratePSO() {
+	empSystems.GeneratePSO();
+}
+
+void EmpEngine::SetBlendMode(BlendMode blendMode) {
+	empSystems.SetBlendMode(blendMode);
+}
+
+void EmpEngine::SetRasterizer(D3D12_CULL_MODE cullMode, D3D12_FILL_MODE fillMode) {
+	empSystems.SetRasterizer(cullMode, fillMode);
+}
+
+void EmpEngine::SetDepthStencil(bool depthEnable, D3D12_DEPTH_WRITE_MASK DepthWriteMask, D3D12_COMPARISON_FUNC comparisonFunc) {
+	empSystems.SetDepthStencil(depthEnable, DepthWriteMask, comparisonFunc);
+}
+
+void EmpEngine::SetPosition(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset) {
+	empSystems.SetPosition(name, index, format, offset);
+}
+
+void EmpEngine::SetTexCoord(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset) {
+	empSystems.SetTexCoord(name, index, format, offset);
+}
+
+void EmpEngine::SetNormal(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset) {
+	empSystems.SetNormal(name, index, format, offset);
+}
+
+void EmpEngine::SetVertexShader(const std::wstring& filePath) {
+	empSystems.SetVertexShader(filePath);
+}
+
+void EmpEngine::SetPixelShader(const std::wstring& filePath) {
+	empSystems.SetPixelShader(filePath);
+}

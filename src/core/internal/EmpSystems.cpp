@@ -261,3 +261,41 @@ void EmpSystems::DrawCompressModel(
 		{ 1.0f, 1.0f, 1.0f, 1.0f },
 		*SceneSystem::GetCamera());
 }
+
+void EmpSystems::GeneratePSO() {
+	managementDXC_.GeneratePSO();
+}
+
+void EmpSystems::SetBlendMode(BlendMode blendMode) {
+	managementDXC_.SetBlendMode(blendMode);
+}
+
+void EmpSystems::SetRasterizer(D3D12_CULL_MODE cullMode, D3D12_FILL_MODE fillMode) {
+	managementDXC_.SetRasterizer(cullMode, fillMode);
+}
+
+void EmpSystems::SetDepthStencil(bool depthEnable, D3D12_DEPTH_WRITE_MASK DepthWriteMask, D3D12_COMPARISON_FUNC comparisonFunc) {
+	managementDXC_.SetDepthStencil(depthEnable, DepthWriteMask, comparisonFunc);
+}
+
+void EmpSystems::SetPosition(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset) {
+	managementDXC_.SetPosition(name, index, format, offset);
+}
+
+void EmpSystems::SetTexCoord(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset) {
+	managementDXC_.SetTexCoord(name, index, format, offset);
+}
+
+void EmpSystems::SetNormal(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset) {
+	managementDXC_.SetNormal(name, index, format, offset);
+}
+
+void EmpSystems::SetVertexShader(const std::wstring& filePath) {
+	managementDXC_.SetVertexShader(filePath);
+}
+
+void EmpSystems::SetPixelShader(const std::wstring& filePath) {
+	managementDXC_.SetPixelShader(filePath);
+}
+
+

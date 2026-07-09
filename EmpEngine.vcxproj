@@ -146,6 +146,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="src\Internal\DXGI\ManagementDXGIFactory.cpp" />
     <ClCompile Include="src\Internal\ImGui\mine\MymGui.cpp" />
     <ClCompile Include="src\Internal\ImGui\render\RenderTexture.cpp" />
+    <ClCompile Include="src\Internal\ImGui\SetRender\SetRenderGui.cpp" />
     <ClCompile Include="src\Internal\Loader\Audio\ManagementAudio.cpp" />
     <ClCompile Include="src\Internal\Loader\Model\ManagementModel.cpp" />
     <ClCompile Include="src\Internal\Loader\Texture\ManagementTexture.cpp" />
@@ -209,6 +210,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="src\Internal\DXGI\ManagementDXGIFactory.h" />
     <ClInclude Include="src\Internal\ImGui\mine\MymGui.h" />
     <ClInclude Include="src\Internal\ImGui\render\RenderTexture.h" />
+    <ClInclude Include="src\Internal\ImGui\SetRender\SetRenderGui.h" />
     <ClInclude Include="src\Internal\Loader\Audio\ManagementAudio.h" />
     <ClInclude Include="src\Internal\Loader\Model\ManagementModel.h" />
     <ClInclude Include="src\Internal\Loader\Texture\ManagementTexture.h" />
