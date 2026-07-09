@@ -16,6 +16,7 @@ class GameManager :public Scene {
 	D3D12_GPU_DESCRIPTOR_HANDLE uvChecker{};
 	D3D12_GPU_DESCRIPTOR_HANDLE monsterBall{};
 	D3D12_GPU_DESCRIPTOR_HANDLE sphereHandle{};
+	D3D12_GPU_DESCRIPTOR_HANDLE fence{};
 	ModelData modelData_;
 	bool useMonsterBall = true;
 	Transform3d transform{ {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
