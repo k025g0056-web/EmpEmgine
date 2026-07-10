@@ -1,5 +1,5 @@
 #pragma once
-#include "Intraction/Draw/Shape/Shape.h"
+#include "Interaction/Draw/Shape/Shape.h"
 #include "DataModel/ModelData.h"
 #include "DataModel/TransForm3d.h"
 #include "appObj/Camera/Camera3d/Camera3d.h"

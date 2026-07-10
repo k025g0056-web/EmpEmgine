@@ -1,5 +1,5 @@
 #include "SceneManager.h"
-#include"intraction/Input/Input.h"
+#include"interaction/Input/Input.h"
 #include"Scene/Game/Game.h"
 #include"Scene/Title/Title.h"
 #include"Scene/Clear/Clear.h"
@@ -7,8 +7,12 @@
 #include"Scene/wrapper/SceneSystem.h"
 #include"externals/imgui/imgui.h"
 
+SceneManager* SceneManager::GetInstance() {
+	static SceneManager instance;
+	return&instance;
+}
+
 SceneManager::SceneManager() {
-	SceneSystem::Bind(this);
 	camera_ = std::make_unique<Camera3d>();
 }
 

@@ -1,6 +1,6 @@
-#include"ClashHandler.h"
+#include"CrashHandler.h"
 
-LONG WINAPI ClashHandler::ExportDump(EXCEPTION_POINTERS* exception) {
+LONG WINAPI CrashHandler::ExportDump(EXCEPTION_POINTERS* exception) {
 	//時刻を取得して、時刻を名前に入れたファイル
 	SYSTEMTIME time;
 	GetLocalTime(&time);

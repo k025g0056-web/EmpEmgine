@@ -1,14 +1,10 @@
 #pragma once
 #define WIN32_LEAN_AND_MEAN
-#include"core/internal/EmpSysetms.h"
+#include"core/internal/EmpSystems.h"
 #include"DataModel/Vector3.h"
 #include"DataModel/Vector4.h"
 #include"Scene/Manager/SceneManager.h"
 #include"DataModel/ModelData.h"
-
-extern EmpSystems empSystems; // グローバル変数の宣言なの！
-
-extern SceneManager sceneManager_;
 
 class EmpEngine {
 	

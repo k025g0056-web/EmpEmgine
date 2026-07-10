@@ -32,9 +32,12 @@ class SceneManager {
 	void Update();
 
 	void Draw();
-public:
+
 	SceneManager();
 	~SceneManager() = default;
+public:
+	
+	static SceneManager* GetInstance();
 
 	void Initialize(int windowWidth, int windowHeight,SceneName scene);
 

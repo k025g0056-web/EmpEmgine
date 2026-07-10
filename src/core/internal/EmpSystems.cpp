@@ -1,21 +1,21 @@
-#include"EmpSysetms.h"
-#include"ClashHandler/ClashHandler.h"
+#include"EmpSystems.h"
+#include"ClashHandler/CrashHandler.h"
 #include"Log/ManagementLog.h"
 #include"Scene/wrapper/SceneSystem.h"
 #include<cassert>
-#include"Intraction/Input/Input.h"
+#include"Interaction/Input/Input.h"
 
-static int idx = 0;
-static int douInd = 0;
-static int sprInd = 0;
-static int sphInd = 0;
-static int modInd = 0;
+EmpSystems* EmpSystems::GetInstance() {
+	static EmpSystems instance;
+	return &instance;
+}
+
 void EmpSystems::Initialize(int kWindowWidth, int kWindowHeight) {
 	//誰も捕捉しなかった場合に(Unhandled)、捕捉する関数を登録
 	//main関数が始まってすぐに登録すると良い
 	HRESULT hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
 	assert(SUCCEEDED(hr) || hr == RPC_E_CHANGED_MODE);
-	SetUnhandledExceptionFilter(ClashHandler::ExportDump);
+	SetUnhandledExceptionFilter(CrashHandler::ExportDump);
 	managementWindow_.Initialize(kWindowWidth, kWindowHeight);
 	//debug initializeの場所ん
 	managementDebug_.EnableDebugLayerWrapping();
@@ -35,7 +35,7 @@ void EmpSystems::Initialize(int kWindowWidth, int kWindowHeight) {
 		managementSwapChain_.GetSwapChainDesc(), managementDescriptHeap_.GetRtvDesc(),
 		managementDescriptHeap_.GetSrvDescriptorHeap());
 #endif // USE_IMGUI
-	rendertex_.Initialize(
+	renderTexture_.Initialize(
 		managementDevice_.GetDevice(),
 		kWindowWidth,
 		kWindowHeight,
@@ -85,7 +85,7 @@ void EmpSystems::Begin() {
 #ifdef USE_IMGUI
 	mymGui_.Begin();
 	mymGui_.MakeDockSpace();
-	rendertex_.Begin(managementCommand_.GetCommandList(), managementDescriptHeap_.GetDsvHandle());
+	renderTexture_.Begin(managementCommand_.GetCommandList(), managementDescriptHeap_.GetDsvHandle());
 #endif // USE_IMGUI
 
 }
@@ -101,7 +101,7 @@ void EmpSystems::DrawDoubleTriangle(const Transform3d& transform, D3D12_GPU_DESC
 void EmpSystems::End() {
 #ifdef USE_IMGUI
 	
-	rendertex_.End(managementCommand_.GetCommandList());
+	renderTexture_.End(managementCommand_.GetCommandList());
 
 	UINT backBufferIndex = managementSwapChain_.GetSwapChain()->GetCurrentBackBufferIndex();
 	managementCommand_.SetRenderTarget(
@@ -115,7 +115,7 @@ void EmpSystems::End() {
 	ImVec2 sceneSize = ImGui::GetContentRegionAvail();
 	if (sceneSize.x > 0.0f && sceneSize.y > 0.0f) {
 		ImGui::Image(
-			(ImTextureID)rendertex_.GetSRV().ptr,
+			(ImTextureID)renderTexture_.GetSRV().ptr,
 			sceneSize);
 	}
 

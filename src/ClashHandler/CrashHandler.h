@@ -5,7 +5,7 @@
 #pragma comment(lib,"Dbghelp.lib")
 
 
-class ClashHandler {
+class CrashHandler {
 public:
 	static LONG WINAPI ExportDump(EXCEPTION_POINTERS* exception);
 };

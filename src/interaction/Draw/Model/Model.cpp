@@ -9,16 +9,16 @@ void Model::Initialize(ID3D12Device* device, const ModelData& modelData) {
     Shape::Initialize(device, true);
     modelData_ = modelData;
     workVertices_ = modelData;
-    timer_ = 0.0f;        // ← 追加
-    compressionT_ = 0.0f;        // ← 追加
-    isCompressing_ = false;      // ← 追加
+    timer_ = 0.0f;        
+    compressionT_ = 0.0f;       
+    isCompressing_ = false;      
 
     vertexResource = DX12Mechanics::CreateBufferResource(
         device, sizeof(VertexData) * modelData_.vertices.size());
     vertexBufferView_ = DX12Mechanics::GenerateVertexBufferView<VertexData>(
         vertexResource, modelData_.vertices.size());
 
-    // ← vertexData_を必ず取り直すなの！
+   
     vertexData_ = nullptr;
     vertexResource->Map(
         0, nullptr, reinterpret_cast<void**>(&vertexData_));
@@ -137,7 +137,7 @@ void Model::UpdateVertices()
         }
 
         // ★UVは固定（歪み防止）
-        dst.texcoord = base.texcoord;
+        dst.texCoord = base.texCoord;
     }
 
     std::memcpy(vertexData_,

@@ -2,9 +2,9 @@
 #include <time.h>
 #include "core/wrapper/EmpEngine.h"
 #include "Scene/wrapper/SceneSystem.h"
-#include "Intraction/Input/Input.h"
+#include "Interaction/Input/Input.h"
 #include "externals/imgui/imgui.h"
-#include <chrono> // ← 追加なの
+#include <chrono> 
 
 GameManager::GameManager() {
     srand(static_cast<unsigned int>(time(nullptr)));

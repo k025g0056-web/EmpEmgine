@@ -1,5 +1,5 @@
 #include"CameraController.h"
-#include"intraction/Input/Input.h"
+#include"interaction/Input/Input.h"
 #include"DataModel/Matrix4x4.h"
 #include"externals/imgui/imgui.h"
 

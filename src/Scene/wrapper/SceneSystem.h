@@ -6,6 +6,5 @@ enum class SceneName;
 class SceneSystem {
 public:
 	static void Set(SceneName name);
-	static void Bind(SceneManager* m);
 	static Camera3d* GetCamera();
 };

@@ -8,7 +8,7 @@
 #include"DataModel/Vector4.h"
 #include"DataModel/ModelData.h"
 #include"DataModel/SoundData.h"
-#include"intraction/Draw/Model/Model.h"
+#include"interaction/Draw/Model/Model.h"
 
 class GameManager :public Scene {
 	//課題用の変数

@@ -21,14 +21,14 @@ float Length(const Vector3& v) {
 //正規化
 Vector3 Normalize(const Vector3& v) {
 	float length = sqrtf(v.x * v.x + v.y * v.y + v.z * v.z);
-	Vector3 Answer;
+	Vector3 answer;
 	if (length == 0.0f) {
 		return { 0.0f,0.0f,0.0f };
 	} else {
-		Answer.x = v.x / length;
-		Answer.y = v.y / length;
-		Answer.z = v.z / length;
-		return Answer;
+		answer.x = v.x / length;
+		answer.y = v.y / length;
+		answer.z = v.z / length;
+		return answer;
 	}
 }
 

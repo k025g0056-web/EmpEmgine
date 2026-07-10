@@ -57,7 +57,7 @@ void Sphere::DrawSphere(const Transform3d& transform, const Vector4& color, ID3D
 			vertexData[start].position.y = std::sin(lat);
 			vertexData[start].position.z = std::cos(lat) * std::sin(lon);
 			vertexData[start].position.w = 1.0f;
-			vertexData[start].texcoord = { u0,v0 };
+			vertexData[start].texCoord = { u0,v0 };
 			vertexData[start].normal = ToVec3(vertexData[start].position);
 
 			//左上
@@ -65,7 +65,7 @@ void Sphere::DrawSphere(const Transform3d& transform, const Vector4& color, ID3D
 			vertexData[start + 1].position.y = std::sin(lat + kLatEvery);
 			vertexData[start + 1].position.z = std::cos(lat + kLatEvery) * std::sin(lon);
 			vertexData[start + 1].position.w = 1.0f;
-			vertexData[start+1].texcoord = { u0,v1 };
+			vertexData[start+1].texCoord = { u0,v1 };
 			vertexData[start + 1].normal = ToVec3(vertexData[start + 1].position);
 
 			//右下
@@ -73,7 +73,7 @@ void Sphere::DrawSphere(const Transform3d& transform, const Vector4& color, ID3D
 			vertexData[start + 2].position.y = std::sin(lat);
 			vertexData[start + 2].position.z = std::cos(lat) * std::sin(lon + kLonEvery);
 			vertexData[start + 2].position.w = 1.0f;
-			vertexData[start + 2].texcoord = { u1,v0 };
+			vertexData[start + 2].texCoord = { u1,v0 };
 			vertexData[start + 2].normal = ToVec3(vertexData[start + 2].position);
 
 			// 右上
@@ -81,7 +81,7 @@ void Sphere::DrawSphere(const Transform3d& transform, const Vector4& color, ID3D
 			vertexData[start + 3].position.y = std::sin(lat + kLatEvery);
 			vertexData[start + 3].position.z = std::cos(lat + kLatEvery) * std::sin(lon + kLonEvery);
 			vertexData[start + 3].position.w = 1.0f;
-			vertexData[start + 3].texcoord = { u1, v1 };
+			vertexData[start + 3].texCoord = { u1, v1 };
 			vertexData[start + 3].normal = ToVec3(vertexData[start + 3].position);
 		}
 	}

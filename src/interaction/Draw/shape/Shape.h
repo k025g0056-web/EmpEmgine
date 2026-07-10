@@ -26,7 +26,7 @@ protected:
 	ID3D12Resource* indexResource_ = nullptr;
 	D3D12_INDEX_BUFFER_VIEW indexBufferView_{};
 
-	Transform3d transform3d_;
+	Transform3d transform3d_{};
 
 	bool isVertexDirty_ = true;
 	bool isTransformDirty_ = true;

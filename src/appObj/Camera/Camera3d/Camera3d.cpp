@@ -11,8 +11,8 @@ void Camera3d::Update(int kWindowWidth, int kWindowHeight) {
 	ViewProjection = Multiply(viewMatrix, projectionMatrix);
 
 	Matrix4x4 viewSprite = MakeIdentity4x4();
-	Matrix4x4 projecSprite = MakeOrthographic(0.0f, 0.0f, static_cast<float>(kWindowWidth), static_cast<float>(kWindowHeight), 0.0f, 100.0f);
-	ViewProjectionSprite = Multiply(viewSprite, projecSprite);
+	Matrix4x4 projectionSprite = MakeOrthographic(0.0f, 0.0f, static_cast<float>(kWindowWidth), static_cast<float>(kWindowHeight), 0.0f, 100.0f);
+	ViewProjectionSprite = Multiply(viewSprite, projectionSprite);
 
 }
 

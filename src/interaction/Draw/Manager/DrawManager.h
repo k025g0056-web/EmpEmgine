@@ -1,10 +1,10 @@
 #pragma once
-#include"Intraction/Draw/Triangle/Triangle.h"
-#include"Intraction/Draw/DoubleTriangle/DoubleTriangle.h"
-#include"Intraction/Draw/Sprite/Sprite.h"
-#include"Intraction/Draw/Sphere/Sphere.h"
+#include"Interaction/Draw/Triangle/Triangle.h"
+#include"Interaction/Draw/DoubleTriangle/DoubleTriangle.h"
+#include"Interaction/Draw/Sprite/Sprite.h"
+#include"Interaction/Draw/Sphere/Sphere.h"
 #include<vector>
-#include"Intraction/Draw/Model/Model.h"
+#include"Interaction/Draw/Model/Model.h"
 
 class DrawManager {
 	std::vector<Triangle>triangles_;

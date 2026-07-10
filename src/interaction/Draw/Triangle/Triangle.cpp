@@ -11,17 +11,17 @@ void Triangle::DrawTriangle(const Vector3& v0, const Vector3& v1, const Vector3&
 		vertexResource->Map(0, nullptr, reinterpret_cast<void**>(&vertexData));
 		//左下
 		vertexData[0].position = { v0.x,v0.y,v0.z,1.0f };
-		vertexData[0].texcoord = { 0.0f,1.0f };
+		vertexData[0].texCoord = { 0.0f,1.0f };
 		vertexData[0].normal = ToVec3(vertexData[0].position);
 		
 		//上
 		vertexData[1].position = { v1.x,v1.y,v1.z,1.0f };
-		vertexData[1].texcoord = { 0.5f,0.0f };
+		vertexData[1].texCoord = { 0.5f,0.0f };
 		vertexData[1].normal = ToVec3(vertexData[1].position);
 
 		//右下
 		vertexData[2].position = { v2.x,v2.y,v2.z,1.0f };
-		vertexData[2].texcoord = { 1.0f,1.0f };
+		vertexData[2].texCoord = { 1.0f,1.0f };
 		vertexData[2].normal = ToVec3(vertexData[2].position);
 		
 		vertexResource->Unmap(0, nullptr);

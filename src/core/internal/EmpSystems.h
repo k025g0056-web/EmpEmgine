@@ -13,18 +13,16 @@
 #include"Internal/ImGui/mine/MymGui.h"
 #include"Internal/Loader/Texture/ManagementTexture.h"
 #include<string>
-#include"Intraction/Draw/Manager/DrawManager.h"
+#include"Interaction/Draw/Manager/DrawManager.h"
 #include"DataModel/Vector2.h"
 #include"appObj/Light/ManagementLighting.h"
 #include"Internal/Loader/Model/ManagementModel.h"
 #include"Internal/Loader/Audio/ManagementAudio.h"
 #include"Internal/ImGui/Render/RenderTexture.h"
 
-class EmpEngine;
 class EmpSystems {
-
-	friend class EmpEngine;
-
+public:
+	static EmpSystems* GetInstance();
 	void Initialize(int kWindowWidth, int kWindowHeight);
 	int ProcessMessage();
 	void SetWindowSize(unsigned int index, int windowWidth, int windowdHeight);
@@ -77,12 +75,9 @@ class EmpSystems {
 	void SetNormal(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset);
 	void SetVertexShader(const std::wstring& filePath);
 	void SetPixelShader(const std::wstring& filePath);
-
-
-
-
-	// GetDevice を公開するなの
 	ID3D12Device* GetDevice() { return managementDevice_.GetDevice(); }
+
+private:
 	//エンジンの変数
 	//-----------------------------------------------------//
 	ManagementWindow managementWindow_;
@@ -101,6 +96,12 @@ class EmpSystems {
 	ManagementLighting managementLighting_;
 	ManagementModel managementModel_;
 	ManagementAudio managementAudio_;
-	RenderTexture rendertex_;
+	RenderTexture renderTexture_;
+	int idx = 0;
+	int douInd = 0;
+	int sprInd = 0;
+	int sphInd = 0;
+	int modInd = 0;
+
 	//------------------------------------------------------//
 };

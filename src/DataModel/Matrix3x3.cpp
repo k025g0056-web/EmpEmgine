@@ -15,17 +15,17 @@ Matrix3x3 Multiply(Matrix3x3 matrix1, Matrix3x3 matrix2) {
 }
 
 Matrix3x3 MakeTranslateMatrix(Vector2 translate) {
-	Matrix3x3 Answer{};
-	Answer.m[0][0] = 1.0f;
-	Answer.m[1][0] = 0.0f;
-	Answer.m[2][0] = translate.x;
-	Answer.m[0][1] = 0.0f;
-	Answer.m[1][1] = 1.0f;
-	Answer.m[2][1] = translate.y;
-	Answer.m[0][2] = 0.0f;
-	Answer.m[1][2] = 0.0f;
-	Answer.m[2][2] = 1.0f;
-	return Answer;
+	Matrix3x3 answer{};
+	answer.m[0][0] = 1.0f;
+	answer.m[1][0] = 0.0f;
+	answer.m[2][0] = translate.x;
+	answer.m[0][1] = 0.0f;
+	answer.m[1][1] = 1.0f;
+	answer.m[2][1] = translate.y;
+	answer.m[0][2] = 0.0f;
+	answer.m[1][2] = 0.0f;
+	answer.m[2][2] = 1.0f;
+	return answer;
 }
 
 Matrix3x3 inverse3(Matrix3x3 matrix) {
@@ -42,33 +42,33 @@ Matrix3x3 inverse3(Matrix3x3 matrix) {
 
 		matrix.m[0][0] * matrix.m[1][2] * matrix.m[2][1];
 	assert(denominator != 0);
-	Matrix3x3 Answer{};
-	Answer.m[0][0] = (matrix.m[1][1] * matrix.m[2][2] - matrix.m[1][2] * matrix.m[2][1]) / denominator;
-	Answer.m[0][1] = -(matrix.m[0][1] * matrix.m[2][2] - matrix.m[0][2] * matrix.m[2][1]) / denominator;
-	Answer.m[0][2] = (matrix.m[0][1] * matrix.m[1][2] - matrix.m[0][2] * matrix.m[1][1]) / denominator;
-	Answer.m[1][0] = -(matrix.m[1][0] * matrix.m[2][2] - matrix.m[1][2] * matrix.m[2][0]) / denominator;
-	Answer.m[1][1] = (matrix.m[0][0] * matrix.m[2][2] - matrix.m[0][2] * matrix.m[2][0]) / denominator;
-	Answer.m[1][2] = -(matrix.m[0][0] * matrix.m[1][2] - matrix.m[0][2] * matrix.m[1][0]) / denominator;
-	Answer.m[2][0] = (matrix.m[1][0] * matrix.m[2][1] - matrix.m[1][1] * matrix.m[2][0]) / denominator;
-	Answer.m[2][1] = -(matrix.m[0][0] * matrix.m[2][1] - matrix.m[0][1] * matrix.m[2][0]) / denominator;
-	Answer.m[2][2] = (matrix.m[0][0] * matrix.m[1][1] - matrix.m[0][1] * matrix.m[1][0]) / denominator;
-	return Answer;
+	Matrix3x3 answer{};
+	answer.m[0][0] = (matrix.m[1][1] * matrix.m[2][2] - matrix.m[1][2] * matrix.m[2][1]) / denominator;
+	answer.m[0][1] = -(matrix.m[0][1] * matrix.m[2][2] - matrix.m[0][2] * matrix.m[2][1]) / denominator;
+	answer.m[0][2] = (matrix.m[0][1] * matrix.m[1][2] - matrix.m[0][2] * matrix.m[1][1]) / denominator;
+	answer.m[1][0] = -(matrix.m[1][0] * matrix.m[2][2] - matrix.m[1][2] * matrix.m[2][0]) / denominator;
+	answer.m[1][1] = (matrix.m[0][0] * matrix.m[2][2] - matrix.m[0][2] * matrix.m[2][0]) / denominator;
+	answer.m[1][2] = -(matrix.m[0][0] * matrix.m[1][2] - matrix.m[0][2] * matrix.m[1][0]) / denominator;
+	answer.m[2][0] = (matrix.m[1][0] * matrix.m[2][1] - matrix.m[1][1] * matrix.m[2][0]) / denominator;
+	answer.m[2][1] = -(matrix.m[0][0] * matrix.m[2][1] - matrix.m[0][1] * matrix.m[2][0]) / denominator;
+	answer.m[2][2] = (matrix.m[0][0] * matrix.m[1][1] - matrix.m[0][1] * matrix.m[1][0]) / denominator;
+	return answer;
 }
 
 Matrix3x3 OrthographicMatrix(float left,float top,float right,float bottom) {
-	Matrix3x3 Answer{};
-	Answer.m[0][0] = 2.0f / (right - left); Answer.m[0][1] = 0.0f; Answer.m[0][2] = 0.0f;
-	Answer.m[1][0] = 0.0f; Answer.m[1][1] = 2.0f / (top - bottom); Answer.m[1][2] = 0.0f;
-	Answer.m[2][0] = (left + right) / (left - right); Answer.m[2][1] = (top + bottom) / (bottom - top); Answer.m[2][2] = 1.0f;
-	return Answer;
+	Matrix3x3 answer{};
+	answer.m[0][0] = 2.0f / (right - left); answer.m[0][1] = 0.0f; answer.m[0][2] = 0.0f;
+	answer.m[1][0] = 0.0f; answer.m[1][1] = 2.0f / (top - bottom); answer.m[1][2] = 0.0f;
+	answer.m[2][0] = (left + right) / (left - right); answer.m[2][1] = (top + bottom) / (bottom - top); answer.m[2][2] = 1.0f;
+	return answer;
 }
 
 Matrix3x3 ViewportMatrix(float left, float top,float width,float height) {
-	Matrix3x3 Answer{};
-	Answer.m[0][0] = width/ 2.0f; Answer.m[0][1] = 0.0f; Answer.m[0][2] = 0.0f;
-	Answer.m[1][0] = 0.0f; Answer.m[1][1] = -(height/ 2.0f); Answer.m[1][2] = 0.0f;
-	Answer.m[2][0] = left+(width/ 2.0f); Answer.m[2][1] = top+(height / 2.0f); Answer.m[2][2] = 1.0f;
-	return Answer;
+	Matrix3x3 answer{};
+	answer.m[0][0] = width/ 2.0f; answer.m[0][1] = 0.0f; answer.m[0][2] = 0.0f;
+	answer.m[1][0] = 0.0f; answer.m[1][1] = -(height/ 2.0f); answer.m[1][2] = 0.0f;
+	answer.m[2][0] = left+(width/ 2.0f); answer.m[2][1] = top+(height / 2.0f); answer.m[2][2] = 1.0f;
+	return answer;
 }
 
 Vector2 Transform(Vector2 vector, Matrix3x3 matrix) {
