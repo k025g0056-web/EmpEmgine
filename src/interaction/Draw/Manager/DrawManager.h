@@ -17,7 +17,7 @@ public:
 	int AddDoubleTriangle(ID3D12Device* device);
 	int AddSprite(ID3D12Device* device);
 	int AddSphere(ID3D12Device* device);
-	int AddModel(ID3D12Device* device,const ModelData& modelData);
+	int AddModel(ID3D12Device* device, const ModelData& modelData);
 	Triangle& GetTriangle(int index) { return triangles_[index]; }
 	DoubleTriangle& GetDoubleTriangle(int index) { return doubleTriangle_[index]; }
 	Sprite& GetSprite(int index) { return sprite_[index]; }

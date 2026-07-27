@@ -79,7 +79,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   <!-- Release -->
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
@@ -156,6 +156,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="src\Internal\ImGui\render\RenderTexture.cpp" />
     <ClCompile Include="src\Internal\ImGui\SetRender\SetRenderGui.cpp" />
     <ClCompile Include="src\Internal\Loader\Audio\ManagementAudio.cpp" />
+    <ClCompile Include="src\Internal\Loader\Manager\LoaderManager.cpp" />
     <ClCompile Include="src\Internal\Loader\Model\ManagementModel.cpp" />
     <ClCompile Include="src\Internal\Loader\Texture\ManagementTexture.cpp" />
     <ClCompile Include="src\Internal\SwapChain\ManagementSwapChain.cpp" />
@@ -221,6 +222,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="src\Internal\ImGui\render\RenderTexture.h" />
     <ClInclude Include="src\Internal\ImGui\SetRender\SetRenderGui.h" />
     <ClInclude Include="src\Internal\Loader\Audio\ManagementAudio.h" />
+    <ClInclude Include="src\Internal\Loader\Manager\LoaderManager.h" />
     <ClInclude Include="src\Internal\Loader\Model\ManagementModel.h" />
     <ClInclude Include="src\Internal\Loader\Texture\ManagementTexture.h" />
     <ClInclude Include="src\Internal\SwapChain\ManagementSwapChain.h" />

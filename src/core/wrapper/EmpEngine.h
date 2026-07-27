@@ -27,13 +27,10 @@ public:
 	static bool EndManagement();
 	static void Process();
 	static void LightGUI();
-	static D3D12_GPU_DESCRIPTOR_HANDLE LoadTexture(const std::string& str);
+	
+	static LoaderManager Resource();
 	static void SetWindowColor(Vector4 color);
-	static ModelData LoadObjFile(const std::string& directoryPath, const std::string& filename);
 	static void DrawPreModel(const Transform3d& transform, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle, const ModelData& modelData_);
-	static SoundData SoundLoadWave(const char* filename);
-	static void PlayAudio(const SoundData& soundData);
-	static void UnLoadAudio(SoundData* soundData);
 	static void DrawLight();
 	// EmpEngine 経由で呼べるようにするなの
 	static ID3D12Device* GetDevice();

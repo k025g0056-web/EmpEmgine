@@ -42,10 +42,13 @@ void EmpSystems::Initialize(int kWindowWidth, int kWindowHeight) {
 		managementDescriptHeap_.GetRenderTextureRtvHandle(),
 		managementDescriptHeap_.GetRenderTextureSrvHandleCPU(),
 		managementDescriptHeap_.GetRenderTextureSrvHandleGPU());
-	white1x1 = LoadTexture("white1x1.png");
+	loader_.Initialize(managementDevice_.GetDevice(),managementCommand_.GetCommandList(),managementCommand_.GetCommandQueue(),managementCommand_.GetCommandAllocator(),managementCommand_.GetFenceEvent(),managementCommand_.GetFenceValue(),managementCommand_.GetFence(),managementDescriptHeap_.GetSrvDescriptorHeap());
+
+
+	white1x1 = loader_.Texture().Load("white1x1.png");
 
 	managementLighting_.Initialize(managementDevice_.GetDevice());
-	managementAudio_.Initialize();
+	
 }
 
 int EmpSystems::ProcessMessage() {
@@ -131,7 +134,7 @@ void EmpSystems::Release() {
 	mymGui_.Release();
 	drawManager_.Release();
 	managementLighting_.Release();
-	managementTexture_.Release();
+	loader_.Release();
 	managementViewPort_.Release();
 	managementDXC_.Release();
 	managementDescriptHeap_.Release();
@@ -144,11 +147,6 @@ void EmpSystems::Release() {
 	managementWindow_.Release();
 }
 
-D3D12_GPU_DESCRIPTOR_HANDLE EmpSystems::LoadTexture(const std::string& filepath) {
-	return managementTexture_.LoadTexture(managementDevice_.GetDevice(), filepath,managementCommand_.GetCommandList()
-	,managementCommand_.GetCommandQueue(),managementCommand_.GetCommandAllocator(),managementCommand_.GetFenceEvent()
-	,managementCommand_.GetFenceValue(),managementCommand_.GetFence(),managementDescriptHeap_.GetSrvDescriptorHeap());
-}
 
 void EmpSystems::PostDraw() {
 	managementCommand_.PostDraw(managementViewPort_.GetViewPort(),
@@ -219,28 +217,12 @@ void EmpSystems::SetWindowColor(Vector4 color) {
 	managementCommand_.SetClearColor(color);
 }
 
-ModelData EmpSystems::LoadObjFile(const std::string& directoryPath, const std::string& filename) {
-	return managementModel_.LoadObjFile(directoryPath, filename);
-}
-
 void EmpSystems::DrawPreModel(const Transform3d& transform, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle,const ModelData& modelData) {
 	modInd = drawManager_.AddModel(managementDevice_.GetDevice(), modelData);
 	PostDraw();
 	drawManager_.GetModel(modInd).DrawModel(transform, managementCommand_.GetCommandList(), GraphHandle,
 		{ 1.0f,1.0f,1.0f,1.0f }, *SceneSystem::GetCamera());
 
-}
-
-SoundData EmpSystems::SoundLoadWave(const char* filename) {
-	return managementAudio_.SoundLoadWave(filename);
-}
-
-void EmpSystems::PlayAudio(const SoundData& soundData) {
-	managementAudio_.SoundPlayWave(soundData);
-}
-
-void EmpSystems::UnLoadAudio(SoundData* soundData) {
-	managementAudio_.SoundUnload(soundData);
 }
 
 void EmpSystems::DrawLight() {

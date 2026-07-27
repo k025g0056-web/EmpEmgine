@@ -15,10 +15,10 @@ void GameManager::Initialize() {
         SceneSystem::GetCamera()->GetCameraPosition(),
         SceneSystem::GetCamera()->GetCameraRotate());
 
-    uvChecker = EmpEngine::LoadTexture("uvChecker.png");
-    monsterBall = EmpEngine::LoadTexture("monsterBall.png");
-    modelData_ = EmpEngine::LoadObjFile("resources/3dObject/fence", "fence.obj");
-    fence = EmpEngine::LoadTexture("fence.png");
+    uvChecker = EmpEngine::Resource().Texture().Load("uvChecker.png");
+    monsterBall = EmpEngine::Resource().Texture().Load("monsterBall.png");
+    modelData_ = EmpEngine::Resource().Model().LoadObjFile("resources/3dObject/fence", "fence.obj");
+    fence = EmpEngine::Resource().Texture().Load("fence.png");
     // ↓ 追加なの
     model_.Initialize(EmpEngine::GetDevice(), modelData_);
 }

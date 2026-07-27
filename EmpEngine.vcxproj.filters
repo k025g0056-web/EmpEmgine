@@ -155,6 +155,9 @@
     <ClCompile Include="src\Scene\wrapper\SceneSystem.cpp">
       <Filter>Engine\Scene\wrapper</Filter>
     </ClCompile>
+    <ClCompile Include="src\Internal\Loader\Manager\LoaderManager.cpp">
+      <Filter>Engine\Management\Loader\Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -327,6 +330,9 @@
     </Filter>
     <Filter Include="Engine\Scene\wrapper">
       <UniqueIdentifier>{0ef7376a-c5cd-4c35-8d5c-25c090e0e4ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Management\Loader\Manager">
+      <UniqueIdentifier>{7588cda6-70a6-45b4-b6d4-5cc5cad510c1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -521,6 +527,9 @@
     </ClInclude>
     <ClInclude Include="src\Scene\wrapper\SceneSystem.h">
       <Filter>Engine\Scene\wrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Internal\Loader\Manager\LoaderManager.h">
+      <Filter>Engine\Management\Loader\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

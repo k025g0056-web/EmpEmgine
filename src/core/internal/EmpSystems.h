@@ -19,6 +19,7 @@
 #include"Internal/Loader/Model/ManagementModel.h"
 #include"Internal/Loader/Audio/ManagementAudio.h"
 #include"Internal/ImGui/Render/RenderTexture.h"
+#include"Internal/Loader/Manager/LoaderManager.h"
 
 class EmpSystems {
 public:
@@ -52,19 +53,17 @@ public:
 	void LightGUI();
 	void PostDraw();
 	void End();
-	D3D12_GPU_DESCRIPTOR_HANDLE LoadTexture(const std::string& str);
 	void SetWindowColor(Vector4 color);
-	ModelData LoadObjFile(const std::string& directoryPath, const std::string& filename);
 	void DrawPreModel(const Transform3d& transform, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle, const ModelData& modelData_);
 	// 既存の DrawPreModel の下に追加
 	void DrawCompressModel(
 		const Transform3d& transform,
 		D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle,
 		Model& model);
-	SoundData SoundLoadWave(const char* filename);
-	void PlayAudio(const SoundData& soundData);
-	void UnLoadAudio(SoundData* soundData);
+	
 	void DrawLight();
+
+	LoaderManager Resource() { return loader_; }
 
 	void GeneratePSO();
 	void SetBlendMode(BlendMode blendMode);
@@ -89,14 +88,12 @@ private:
 	ManagementDebug managementDebug_;
 	ManagementDXC managementDXC_;
 	ManagementViewPort managementViewPort_;
-	ManagementTexture managementTexture_;
 	MymGui mymGui_;
 	D3D12_GPU_DESCRIPTOR_HANDLE white1x1{};
 	DrawManager drawManager_;
 	ManagementLighting managementLighting_;
-	ManagementModel managementModel_;
-	ManagementAudio managementAudio_;
 	RenderTexture renderTexture_;
+	LoaderManager loader_;
 	int idx = 0;
 	int douInd = 0;
 	int sprInd = 0;

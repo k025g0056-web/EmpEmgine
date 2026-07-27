@@ -35,11 +35,6 @@ void EmpEngine::DrawTriangle(Transform3d transform, Vector3 v0,
 	EmpSystems::GetInstance()->DrawTriangleTrans(transform, v0, v1, v2, color,GraphHandle);
 }
 
-
-D3D12_GPU_DESCRIPTOR_HANDLE EmpEngine::LoadTexture(const std::string& str) {
-	return EmpSystems::GetInstance()->LoadTexture(str);
-}
-
 void EmpEngine::DrawSprite(const Transform3d& transform, const Vector2& v0,
 	const Vector2& v1, const Vector2& v2, const Vector2& v3, const Vector4& color,
 	D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle, const Transform3d& uvTransform) {
@@ -77,24 +72,12 @@ void EmpEngine::SetWindowColor(Vector4 color) {
 	EmpSystems::GetInstance()->SetWindowColor(color);
 }
 
-ModelData EmpEngine::LoadObjFile(const std::string& directoryPath, const std::string& filename) {
-	return EmpSystems::GetInstance()->LoadObjFile(directoryPath, filename);
-}
-
 void EmpEngine::DrawPreModel(const Transform3d& transform, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle, const ModelData& modelData_) {
 	EmpSystems::GetInstance()->DrawPreModel(transform, GraphHandle, modelData_);
 }
 
-SoundData EmpEngine::SoundLoadWave(const char* filename) {
-	return EmpSystems::GetInstance()->SoundLoadWave(filename);
-}
-
-void EmpEngine::PlayAudio(const SoundData& soundData) {
-	EmpSystems::GetInstance()->PlayAudio(soundData);
-}
-
-void EmpEngine::UnLoadAudio(SoundData* soundData) {
-	EmpSystems::GetInstance()->UnLoadAudio(soundData);
+LoaderManager EmpEngine::Resource() {
+	return EmpSystems::GetInstance()->Resource();
 }
 
 void EmpEngine::DrawLight() {
