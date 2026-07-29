@@ -29,11 +29,33 @@ class GameManager :public Scene {
 	bool   compressStarted_ = false;
 	// deltaTime_ を追加なの
 	float deltaTime_ = 0.0f;
+
+	// ↓ 追加：当たり判定用の球（往復移動するだけの簡単なもの）
+	Transform3d ballTransform_{ {0.1f,0.1f,0.1f}, {0.0f,0.0f,0.0f}, {-4.0f,0.0f,0.0f} };
+	Vector3     ballVelocity_{ 2.0f, 0.0f, 0.0f };
+	float       ballRadius_ = 1.0f;
+	Vector3 ballStartPos_{ -6.0f,0.0f,0.0f };
+	float weight = 100.0f; // kg見立て。潰れの最大量とふくらみ量を決める
+	enum class BallAxis
+	{
+		X,
+		Y,
+		Z
+	};
+
+	BallAxis ballAxis_ = BallAxis::X;
+	bool isBallMove_ = false;
+	bool hitOnce_ = false;
+	float hitDistance_ = 2.0f;
 	//---------------------------------------------------------------------------//
 
 	void DrawHomeWork();
 	void UpdateHomeWork();
 	void GuiHomeWork();
+	void UpdateBall(float dt);      // ← 追加：球を往復させるだけの簡単な移動
+	void DrawBall();                // ← 追加：球を描画
+	bool CheckHitModel() const;     // ← 追加：ここに実際の当たり判定を書く
+	void TryCompressOnHit();        // ← 追加：当たったら「たまに」潰す抽選＆発動
 public:
 
 	void Initialize() override;

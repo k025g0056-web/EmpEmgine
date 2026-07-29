@@ -1,5 +1,6 @@
 #include "Game.h"
 #include <time.h>
+#include <cmath>
 #include "core/wrapper/EmpEngine.h"
 #include "Scene/wrapper/SceneSystem.h"
 #include "Intraction/Input/Input.h"
@@ -17,9 +18,9 @@ void GameManager::Initialize() {
 
     uvChecker = EmpEngine::LoadTexture("uvChecker.png");
     monsterBall = EmpEngine::LoadTexture("monsterBall.png");
-    modelData_ = EmpEngine::LoadObjFile("resources/3dObject/bunny", "bunny.obj");
+    modelData_ = EmpEngine::LoadObjFile("resources/3dObject/axis", "axis.obj");
     Alarm01_ = EmpEngine::SoundLoadWave("fanfare.wav");
-
+    ballStartPos_ = ballTransform_.translate;
     // ↓ 追加なの
     model_.Initialize(EmpEngine::GetDevice(), modelData_);
 }
@@ -32,11 +33,7 @@ void GameManager::Update() {
     deltaTime_ = std::chrono::duration<float>(now - prev).count();
     prev = now;
 
-    if (Input::GetInstance()->IsTriggerVk(MDK_ENTER)) {
-        EmpEngine::PlayAudio(Alarm01_);
-    }
-
-
+   
     GuiHomeWork();
     UpdateHomeWork();
 }
@@ -54,7 +51,7 @@ void GameManager::GUI() {
 void GameManager::DrawHomeWork() {
     // ↓ DrawPreModel → DrawCompressModel に変更なの
     EmpEngine::DrawCompressModel(transform, sphereHandle, model_);
-    EmpEngine::DrawSphere(transform, { 1.0f,1.0f,1.0f,1.0f });
+    DrawBall();
 }
 
 void GameManager::GuiHomeWork() {
@@ -77,19 +74,9 @@ void GameManager::GuiHomeWork() {
 
     ImGui::SliderFloat("duration", &duration, 0.1f, 3.0f);
     ImGui::SliderFloat("delay", &delay, 0.0f, 2.0f);
-    ImGui::Combo("axis", &axis, "X\0Y\0Z\0");
+    ImGui::SliderFloat("weight (kg)", &weight, 1.0f, 300.0f);
     ImGui::Combo("easing", &easing,
         "Linear\0EaseIn\0EaseOut\0EaseInOut\0Bounce\0");
-
-    if (ImGui::Button("Start Compress!")) {
-        model_.StartCompress({
-            static_cast<CompressAxis>(axis),
-            static_cast<CompressEasing>(easing),
-            duration,
-            delay,
-            });
-        compressStarted_ = true;
-    }
 
     if (ImGui::Button("Reset")) {
         model_.Initialize(EmpEngine::GetDevice(), modelData_);
@@ -97,6 +84,53 @@ void GameManager::GuiHomeWork() {
     }
 
     ImGui::Text(model_.IsFinished() ? "完了！" : "圧縮中...");
+
+    if (ImGui::Button("Start Ball"))
+    {
+        isBallMove_ = true;
+
+        constexpr float startDistance = 6.0f;
+
+        switch (ballAxis_)
+        {
+        case BallAxis::X:
+            ballStartPos_ = {
+                transform.translate.x - startDistance,
+                transform.translate.y,
+                transform.translate.z
+            };
+            ballVelocity_ = { 2.0f,0.0f,0.0f };
+            break;
+
+        case BallAxis::Y:
+            ballStartPos_ = {
+                transform.translate.x,
+                transform.translate.y + startDistance,
+                transform.translate.z
+            };
+            ballVelocity_ = { 0.0f,-2.0f,0.0f };
+            break;
+
+        case BallAxis::Z:
+            ballStartPos_ = {
+                transform.translate.x,
+                transform.translate.y,
+                transform.translate.z - startDistance
+            };
+            ballVelocity_ = { 0.0f,0.0f,2.0f };
+            break;
+        }
+
+        ballTransform_.translate = ballStartPos_;
+    }
+
+    static int moveAxis = 0;
+
+    ImGui::SliderFloat("HitDistance", &hitDistance_, 0.5f, 6.0f);
+
+    ImGui::Combo("BallAxis", &moveAxis, "X\0Y\0Z\0");
+
+    ballAxis_ = static_cast<BallAxis>(moveAxis);
 
     ImGui::End();
 #endif
@@ -127,4 +161,94 @@ void GameManager::UpdateHomeWork() {
 
     // ↓ 追加なの
     model_.Update(deltaTime_);
+
+    if (isBallMove_)
+    {
+        UpdateBall(deltaTime_);
+        TryCompressOnHit();
+    }
+}
+
+bool GameManager::CheckHitModel() const {
+    const Vector3& ballPos = ballTransform_.translate;
+    const Vector3& modelPos = transform.translate;
+
+    float dx = ballPos.x - modelPos.x;
+    float dy = ballPos.y - modelPos.y;
+    float dz = ballPos.z - modelPos.z;
+    float distance = std::sqrt(dx * dx + dy * dy + dz * dz);
+
+    float modelRadius = transform.scale.x; // モデル側の当たり判定サイズ（近似。実寸に合わせて調整してください）
+
+    return distance < hitDistance_;
+}
+
+void GameManager::TryCompressOnHit() {
+    if (!CheckHitModel()) return;
+
+    // 潰れてる最中に再ヒットしても多重発動させない
+    if (model_.IsCompressing()) return;
+
+    // 「たまに」の抽選（30%の確率で発動。数値はお好みで）
+    constexpr int kHitChancePercent = 100;
+    if (rand() % 100 >= kHitChancePercent) return;
+
+    // 当たるたびに重さをランダムに変えると、潰れ方に毎回バリエーションが出る
+   // float weight = 0.0f;//20.0f + static_cast<float>(rand() % 260); // 20〜280kg
+
+    CompressAxis axis;
+
+    switch (ballAxis_)
+    {
+    case BallAxis::X:
+        axis = CompressAxis::X;
+        break;
+
+    case BallAxis::Y:
+        axis = CompressAxis::Y;
+        break;
+
+    default:
+        axis = CompressAxis::Z;
+        break;
+    }
+
+    model_.StartCompress({
+        axis,
+        CompressEasing::Bounce,
+        0.8f,
+        0.0f,
+        weight,
+        });
+
+    ballTransform_.translate = ballStartPos_;
+
+    ballTransform_.translate = ballStartPos_;
+    isBallMove_ = false;
+}
+
+void GameManager::UpdateBall(float dt) {
+    switch (ballAxis_){
+    case BallAxis::X:
+        ballTransform_.translate.x += ballVelocity_.x * dt;
+        if (ballTransform_.translate.x > 4 || ballTransform_.translate.x < -7)
+            ballVelocity_.x *= -1;
+        break;
+
+    case BallAxis::Y:
+        ballTransform_.translate.y += ballVelocity_.y * dt;
+        if (ballTransform_.translate.y > 4 || ballTransform_.translate.y < -7)
+            ballVelocity_.y *= -1;
+        break;
+
+    case BallAxis::Z:
+        ballTransform_.translate.z += ballVelocity_.z * dt;
+        if (ballTransform_.translate.z > 4 || ballTransform_.translate.z < -7)
+            ballVelocity_.z *= -1;
+        break;
+    }
+}
+
+void GameManager::DrawBall() {
+    EmpEngine::DrawSphere(ballTransform_, { 1.0f, 1.0f, 1.0f, 1.0f });
 }

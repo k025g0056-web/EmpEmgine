@@ -22,6 +22,7 @@ struct CompressConfig {
     CompressEasing easing = CompressEasing::Linear;
     float          duration = 1.0f;
     float          delay = 0.0f;
+    float          weight = 1.0f; // kg見立て。潰れの最大量とふくらみ量を決める
 };
 
 class Model : public Shape {
@@ -32,11 +33,15 @@ class Model : public Shape {
     float       compressionT_ = 0.0f;
     CompressConfig config_;
     bool        isCompressing_ = false;
+    bool isRecovering_ = false;
+    float recoverTimer_ = 0.0f;
+    float recoverWait_ = 0.5f;
 
 public:
     void Initialize(ID3D12Device* device, const ModelData& modelData);
     void StartCompress(const CompressConfig& config);
     bool IsFinished() const { return compressionT_ >= 1.0f; }
+    bool IsCompressing() const { return isCompressing_; } // 潰れアニメーション中かどうか（多重発動の防止用）
     void Update(float dt);
     void UpdateVertices();
     void DrawModel(
