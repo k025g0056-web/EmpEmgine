@@ -24,8 +24,10 @@ void SceneManager::Initialize(int windowWidth, int windowHeight, SceneName scene
 }
 
 void SceneManager::Update() {
+#ifdef USE_IMGUI
 	setRender_.Update();
 	Gui();
+#endif
 	scene_->Update();
 }
 
@@ -72,11 +74,13 @@ void SceneManager::Process() {
 }
 
 void SceneManager::Gui() {
+#ifdef USE_IMGUI
 	ImGui::Begin("SceneChange");
 
-	if (ImGui::Combo("Scene",&sceneName_,table,4)) {
+	if (ImGui::Combo("Scene", &sceneName_, table, 4)) {
 		SetScene(static_cast<SceneName>(sceneName_));
 	}
 
 	ImGui::End();
+#endif
 }

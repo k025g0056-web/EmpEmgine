@@ -83,14 +83,21 @@ ID3D12Resource* ManagementTexture::CreateTextureResource(const DirectX::TexMetad
 	return resource;
 }
 
-void ManagementTexture::BuildResourceDesc(D3D12_RESOURCE_DESC& resourceDesc,const DirectX::TexMetadata& metadata) {
-	resourceDesc.Width = UINT(metadata.width);//Textureの幅
-	resourceDesc.Height = UINT(metadata.height);//Textureの高さ
-	resourceDesc.MipLevels = UINT16(metadata.mipLevels);//mipMapの数
-	resourceDesc.DepthOrArraySize = UINT16(metadata.arraySize);//奥行き or 配列Textureの配列数
-	resourceDesc.Format = metadata.format;//TexutureのFormat
-	resourceDesc.SampleDesc.Count = 1;//サンプリングカウント。１固定
-	resourceDesc.Dimension = D3D12_RESOURCE_DIMENSION(metadata.dimension);//Textureの次元数。普段使っているのは二次元
+void ManagementTexture::BuildResourceDesc(
+	D3D12_RESOURCE_DESC& resourceDesc,
+	const DirectX::TexMetadata& metadata)
+{
+	resourceDesc.Dimension = static_cast<D3D12_RESOURCE_DIMENSION>(metadata.dimension);
+	resourceDesc.Alignment = 0;
+	resourceDesc.Width = metadata.width;
+	resourceDesc.Height = static_cast<UINT>(metadata.height);
+	resourceDesc.DepthOrArraySize = static_cast<UINT16>(metadata.arraySize);
+	resourceDesc.MipLevels = static_cast<UINT16>(metadata.mipLevels);
+	resourceDesc.Format = metadata.format;
+	resourceDesc.SampleDesc.Count = 1;
+	resourceDesc.SampleDesc.Quality = 0;
+	resourceDesc.Layout = D3D12_TEXTURE_LAYOUT_UNKNOWN;
+	resourceDesc.Flags = D3D12_RESOURCE_FLAG_NONE;
 }
 
 void ManagementTexture::SettingHeap(D3D12_HEAP_PROPERTIES& heapProperties) {
@@ -101,13 +108,15 @@ void ManagementTexture::SettingHeap(D3D12_HEAP_PROPERTIES& heapProperties) {
 
 void ManagementTexture::CreateCommittedResource(ID3D12Resource*& resource, D3D12_RESOURCE_DESC& resourceDesc,
 	D3D12_HEAP_PROPERTIES& heapProperties) {
+
 	HRESULT hr = device_->CreateCommittedResource(
-		&heapProperties,//Heapの設定
-		D3D12_HEAP_FLAG_NONE,//HEAPの特殊な設定。特になし
-		&resourceDesc,//Resourceの設定
-		D3D12_RESOURCE_STATE_COPY_DEST,//データ転送される設計
-		nullptr,//Clear最適値。使わないのでnullptr
-		IID_PPV_ARGS(&resource));//作成するResourceポインタへのポインタ
+		&heapProperties,
+		D3D12_HEAP_FLAG_NONE,
+		&resourceDesc,
+		D3D12_RESOURCE_STATE_COPY_DEST,
+		nullptr,
+		IID_PPV_ARGS(&resource));
+
 	assert(SUCCEEDED(hr));
 }
 
@@ -115,6 +124,7 @@ void ManagementTexture::CreateCommittedResource(ID3D12Resource*& resource, D3D12
 ID3D12Resource* ManagementTexture::UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages) {
 	std::vector<D3D12_SUBRESOURCE_DATA>subResources;
 	DirectX::PrepareUpload(device_, mipImages.GetImages(), mipImages.GetImageCount(), mipImages.GetMetadata(), subResources);
+	
 	uint64_t intermediateSize = GetRequiredIntermediateSize(texture, 0, UINT(subResources.size()));
 	ID3D12Resource* intermediateResource = DX12Mechanics::CreateBufferResource(device_, intermediateSize);
 	UpdateSubresources(commandList_, texture, intermediateResource, 0, 0, UINT(subResources.size()), subResources.data());
@@ -155,7 +165,7 @@ D3D12_GPU_DESCRIPTOR_HANDLE ManagementTexture::Load( const std::string& filePath
 
 	ID3D12CommandList* commandLists[] = { commandList_};
 	commandQueue_->ExecuteCommandLists(1, commandLists);
-
+	fenceValue_++;
 	//シグナルを送る
 	commandQueue_->Signal(fence_, fenceValue_);
 

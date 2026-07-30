@@ -7,6 +7,16 @@
 
 #include"KeyDiffine.h"
 
+#include <Xinput.h>
+
+enum class MouseButton{
+	Left,
+	Right,
+	Middle,
+	Side1,
+	Side2
+};
+
 /// <summary>
 /// キーの最大数
 /// </summary>
@@ -98,6 +108,33 @@ public:
 	/// </summary>
 	/// <param name="delta"></param>
 	void SetWheel(int delta) { wheelDelta_ = delta; }
+
+	/// <summary>
+	/// ここでデリートする
+	/// </summary>
+	void Finalize();
+
+	bool IsMousePress(int button);
+
+	bool IsMouseTrigger(int button);
+
+	bool IsMouseRelease(int button);
+
+	bool IsPadPress(WORD button);
+
+	bool IsPadTrigger(WORD button);
+
+	bool IsPadRelease(WORD button);
+
+	float GetLeftStickX();
+
+	float GetLeftStickY();
+
+	float GetLeftTrigger();
+
+	float GetRightTrigger();
+
+
 private:
 	/// <summary>
 	/// ニュー禁止
@@ -120,18 +157,18 @@ private:
 	/// <summary>
 	/// 前フレームのキーの状態
 	/// </summary>
-	char prevKey_[KEY_MAX];
+	bool prevKey_[KEY_MAX];
 
 	/// <summary>
 	/// 今フレームのキーの状態
 	/// </summary>
-	char nowKey_[KEY_MAX];
+	bool nowKey_[KEY_MAX];
 
 	/// <summary>
 	/// キーの状態を更新します(VK)
 	/// </summary>
 	/// <param name="key"></param>
-	void GetKeyStateVk(char* key);
+	void GetKeyStateVk(bool* key);
 
 	/// <summary>
 	/// インプットの変数です
@@ -141,7 +178,7 @@ private:
 	/// <summary>
 	/// 仮想キーボード
 	/// </summary>
-	IDirectInputDevice8* keybord_ = nullptr;
+	IDirectInputDevice8* keyBord_ = nullptr;
 
 	/// <summary>
 	/// マウスのスクロールの値
@@ -154,5 +191,15 @@ private:
 	void WheelReset() { wheelDelta_ = 0; }
 
 	BYTE key_[KEY_MAX]{};
-	BYTE prekey[KEY_MAX]{};
+	BYTE preKey[KEY_MAX]{};
+
+	// マウス
+	IDirectInputDevice8* mouse_ = nullptr;
+
+	DIMOUSESTATE2 mouseState_{};
+	DIMOUSESTATE2 preMouseState_{};
+
+	// Xboxコントローラー
+	XINPUT_STATE padState_{};
+	XINPUT_STATE prePadState_{};
 };

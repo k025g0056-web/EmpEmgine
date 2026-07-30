@@ -2,6 +2,7 @@
 #include"Input.h"
 #pragma comment(lib,"dinput8.lib")
 #pragma comment(lib,"dxguid.lib")
+#pragma comment(lib,"xinput.lib")
 #include <Windows.h>
 #include<cassert>
 
@@ -27,27 +28,44 @@ bool Input::IsPress(int key) {
 }
 
 bool Input::IsTrigger(int key) {
-	return (key_[key] & 0x80) && !(prekey[key] & 0x80);
+	return (key_[key] & 0x80) && !(preKey[key] & 0x80);
 }
 
 bool Input::IsRelease(int key) {
-	return !(key_[key] & 0x80) && (prekey[key] & 0x80);
+	return !(key_[key] & 0x80) && (preKey[key] & 0x80);
 }
 
-void Input::GetKeyStateVk(char*key) {
+void Input::GetKeyStateVk(bool*key) {
 	for (int i = 0; i < KEY_MAX;i++) {
 		key[i] = (GetAsyncKeyState(i) & 0x8000) ? 1 : 0;
 	}
 }
 
 void Input::InputAllUpdate() {
-	keybord_->Acquire();
-	memcpy(prekey, key_, KEY_MAX);
-	keybord_->GetDeviceState(sizeof(key_), key_);
-	keybord_->GetDeviceState(sizeof(prekey), prekey);
+	HRESULT hr = keyBord_->Acquire();
+	if (FAILED(hr)) {
+		return;
+	}
 
+	memcpy(preKey, key_, KEY_MAX);
+	keyBord_->GetDeviceState(sizeof(key_), key_);
 
 	WheelReset();
+	memcpy(preKey, key_, sizeof(key_));
+	GetKeyStateVk(nowKey_);
+
+	// マウス
+	mouse_->Acquire();
+
+	preMouseState_ = mouseState_;
+	mouse_->GetDeviceState(sizeof(mouseState_), &mouseState_);
+
+	wheelDelta_ = mouseState_.lZ;
+
+	// XInput
+	prePadState_ = padState_;
+	XInputGetState(0, &padState_);
+
 	memcpy(prevKey_, nowKey_, KEY_MAX);
 	GetKeyStateVk(nowKey_);
 }
@@ -60,14 +78,92 @@ void Input::Initialize(HWND hwnd) {
 		(void**)&directInput_,
 		nullptr);
 
-	directInput_->CreateDevice(GUID_SysKeyboard, &keybord_, nullptr);
+	directInput_->CreateDevice(GUID_SysKeyboard, &keyBord_, nullptr);
 
-	HRESULT hr = keybord_->SetDataFormat(&c_dfDIKeyboard);
+	HRESULT hr = keyBord_->SetDataFormat(&c_dfDIKeyboard);
 	assert(SUCCEEDED(hr));
 
-	hr = keybord_->SetCooperativeLevel(
+	hr = keyBord_->SetCooperativeLevel(
 		hwnd,
 		DISCL_FOREGROUND | DISCL_NONEXCLUSIVE|DISCL_NOWINKEY);
 	assert(SUCCEEDED(hr));
 
+	directInput_->CreateDevice(GUID_SysMouse, &mouse_, nullptr);
+
+	HRESULT hr = mouse_->SetDataFormat(&c_dfDIMouse2);
+	assert(SUCCEEDED(hr));
+
+	hr = mouse_->SetCooperativeLevel(
+		hwnd,
+		DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
+
+	assert(SUCCEEDED(hr));
+
+}
+
+void Input::Finalize() {
+	if (keyBord_) {
+		keyBord_->Unacquire();
+		keyBord_->Release();
+		keyBord_ = nullptr;
+	}
+
+	if (directInput_) {
+		directInput_->Release();
+		directInput_ = nullptr;
+	}
+}
+
+bool Input::IsMousePress(int button)
+{
+	return mouseState_.rgbButtons[button] & 0x80;
+}
+
+bool Input::IsMouseTrigger(int button)
+{
+	return (mouseState_.rgbButtons[button] & 0x80)
+		&& !(preMouseState_.rgbButtons[button] & 0x80);
+}
+
+bool Input::IsMouseRelease(int button)
+{
+	return !(mouseState_.rgbButtons[button] & 0x80)
+		&& (preMouseState_.rgbButtons[button] & 0x80);
+}
+
+bool Input::IsPadPress(WORD button)
+{
+	return (padState_.Gamepad.wButtons & button);
+}
+
+bool Input::IsPadTrigger(WORD button)
+{
+	return (padState_.Gamepad.wButtons & button)
+		&& !(prePadState_.Gamepad.wButtons & button);
+}
+
+bool Input::IsPadRelease(WORD button)
+{
+	return !(padState_.Gamepad.wButtons & button)
+		&& (prePadState_.Gamepad.wButtons & button);
+}
+
+float Input::GetLeftStickX()
+{
+	return padState_.Gamepad.sThumbLX / 32767.0f;
+}
+
+float Input::GetLeftStickY()
+{
+	return padState_.Gamepad.sThumbLY / 32767.0f;
+}
+
+float Input::GetLeftTrigger()
+{
+	return padState_.Gamepad.bLeftTrigger / 255.0f;
+}
+
+float Input::GetRightTrigger()
+{
+	return padState_.Gamepad.bRightTrigger / 255.0f;
 }

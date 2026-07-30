@@ -1,5 +1,6 @@
 #include"DX12Mechanics.h"
-#include<cassert>
+#include<cassert> 
+#include <cstdio>   // または <cwchar>
 
 ID3D12Resource* DX12Mechanics::CreateBufferResource(ID3D12Device* device, size_t sizeInBytes) {
 	return CreateBufferResource(device, sizeInBytes, 1);
@@ -39,7 +40,13 @@ ID3D12Resource* DX12Mechanics::CreateBufferResource(ID3D12Device* device, size_t
 		IID_PPV_ARGS(&resource)
 	);
 	assert(SUCCEEDED(hr));
-
+	if (FAILED(hr)) {
+		HRESULT reason = device->GetDeviceRemovedReason();
+		wchar_t buf[256];
+		swprintf_s(buf, L"CreateCommittedResource failed. hr=0x%08X, DeviceRemovedReason=0x%08X\n", hr, reason);
+		OutputDebugStringW(buf);
+		return nullptr;
+	}
 	return resource;
 }
 

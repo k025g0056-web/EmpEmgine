@@ -44,7 +44,8 @@ void EmpSystems::Initialize(int kWindowWidth, int kWindowHeight) {
 		managementDescriptHeap_.GetRenderTextureSrvHandleGPU());
 	loader_.Initialize(managementDevice_.GetDevice(),managementCommand_.GetCommandList(),managementCommand_.GetCommandQueue(),managementCommand_.GetCommandAllocator(),managementCommand_.GetFenceEvent(),managementCommand_.GetFenceValue(),managementCommand_.GetFence(),managementDescriptHeap_.GetSrvDescriptorHeap());
 
-
+	D3D12_GPU_DESCRIPTOR_HANDLE qqq;
+	qqq.ptr = 0;
 	white1x1 = loader_.Texture().Load("white1x1.png");
 
 	managementLighting_.Initialize(managementDevice_.GetDevice());
