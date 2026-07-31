@@ -14,16 +14,16 @@ void Model::Initialize(ID3D12Device* device, const ModelData& modelData) {
     isCompressing_ = false;      
 
     vertexResource = DX12Mechanics::CreateBufferResource(
-        device, sizeof(VertexData) * modelData_.vertices.size());
+        device, sizeof(VertexData) * modelData_.meshes.size());
     vertexBufferView_ = DX12Mechanics::GenerateVertexBufferView<VertexData>(
-        vertexResource, modelData_.vertices.size());
+        vertexResource, modelData_.meshes.size());
 
    
     vertexData_ = nullptr;
     vertexResource->Map(
         0, nullptr, reinterpret_cast<void**>(&vertexData_));
-    std::memcpy(vertexData_, modelData_.vertices.data(),
-        sizeof(VertexData) * modelData_.vertices.size());
+    std::memcpy(vertexData_, modelData_.meshes.data(),
+        sizeof(VertexData) * modelData_.meshes.size());
 }
 void Model::StartCompress(const CompressConfig& config) {
     config_ = config;
@@ -92,7 +92,7 @@ void Model::UpdateVertices()
 
     // ★現在のベース（重要）
     // 元データではなく「今の状態」を基準にする
-    for (const auto& v : workVertices_.vertices)
+    for (const auto& v : workVertices_.meshes)
     {
         minY = std::min(minY, v.position.y);
         maxY = std::max(maxY, v.position.y);
@@ -100,10 +100,10 @@ void Model::UpdateVertices()
 
     float pivotY = minY;
 
-    for (size_t i = 0; i < modelData_.vertices.size(); i++)
+    for (size_t i = 0; i < modelData_.meshes.size(); i++)
     {
-        const VertexData& base = modelData_.vertices[i];
-        VertexData& dst = workVertices_.vertices[i];
+        const VertexData& base = modelData_.meshes[i];
+        VertexData& dst = workVertices_.meshes[i];
 
         // ★ここが重要：毎回リセットしない
         dst = base;
@@ -141,8 +141,8 @@ void Model::UpdateVertices()
     }
 
     std::memcpy(vertexData_,
-        workVertices_.vertices.data(),
-        sizeof(VertexData) * workVertices_.vertices.size());
+        workVertices_.meshes.data(),
+        sizeof(VertexData) * workVertices_.meshes.size());
 
     if (t>=1.0f) {
         t = 1.0f;
@@ -169,7 +169,7 @@ void Model::DrawModel(
 
     DrawCallVertex(commandList, vertexBufferView_,
         textureSrvHandleGPU,
-        static_cast<int>(modelData_.vertices.size()));
+        static_cast<int>(modelData_.meshes.size()));
 }
 
 void Model::StartCompression()
@@ -179,5 +179,5 @@ void Model::StartCompression()
 
 void Model::FinishCompression()
 {
-    modelData_.vertices = workVertices_.vertices; // 固定化
+    modelData_.meshes = workVertices_.meshes; // 固定化
 }

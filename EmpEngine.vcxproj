@@ -193,6 +193,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="src\DataModel\Matrix2x2.h" />
     <ClInclude Include="src\DataModel\Matrix3x3.h" />
     <ClInclude Include="src\DataModel\Matrix4x4.h" />
+    <ClInclude Include="src\DataModel\MeshData.h" />
     <ClInclude Include="src\DataModel\ModelData.h" />
     <ClInclude Include="src\DataModel\SoundData.h" />
     <ClInclude Include="src\DataModel\TransForm3d.h" />

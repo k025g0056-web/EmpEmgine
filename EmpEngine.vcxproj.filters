@@ -531,6 +531,9 @@
     <ClInclude Include="src\Internal\Loader\Manager\LoaderManager.h">
       <Filter>Engine\Management\Loader\Manager</Filter>
     </ClInclude>
+    <ClInclude Include="src\DataModel\MeshData.h">
+      <Filter>Engine\DataModel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="filePath.txt" />

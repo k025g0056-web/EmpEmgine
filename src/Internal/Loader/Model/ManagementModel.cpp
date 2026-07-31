@@ -58,14 +58,14 @@ ModelData ManagementModel::LoadObjFile(const std::string& directoryPath, const s
 				position.x *= -1.0f;
 				normal.x *= -1.0f;
 				VertexData vertex = { position,texcoord,normal };
-				modelData.vertices.push_back(vertex);
+				modelData.meshes.push_back(vertex);
 				triangle[faceVertex] = { position,texcoord,normal };
 			}
 
 			//By registering the vertices in reverse order, the rotation order is reversed.
-			modelData.vertices.push_back(triangle[2]);
-			modelData.vertices.push_back(triangle[1]);
-			modelData.vertices.push_back(triangle[0]);
+			modelData.meshes.push_back(triangle[2]);
+			modelData.meshes.push_back(triangle[1]);
+			modelData.meshes.push_back(triangle[0]);
 		}else if (identifier == "mtllib") {
 			std::string materialFilename;
 			s >> materialFilename;

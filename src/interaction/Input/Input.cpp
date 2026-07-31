@@ -106,6 +106,7 @@ void Input::Finalize() {
 	}
 
 	if (mouse_) {
+		mouse_->Unacquire();
 		mouse_->Release();
 		mouse_ = nullptr;
 	}
