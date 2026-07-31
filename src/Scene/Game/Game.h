@@ -9,26 +9,69 @@
 #include"DataModel/ModelData.h"
 #include"DataModel/SoundData.h"
 #include"interaction/Draw/Model/Model.h"
+#include<vector>
 
 class GameManager :public Scene {
+
+	struct OBJ{
+		Transform3d transform = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
+		Model  model;
+		ModelData modelData;
+		Vector4 color = { 1.0f,1.0f,1.0f,1.0f };
+		Vector4 colorBuff = {1.0f,1.0f,1.0f,1.0f};
+	};
+
+	struct SpritePar{
+		D3D12_GPU_DESCRIPTOR_HANDLE textureHandle;
+		Transform3d transform = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
+		Transform3d uvTransform = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
+		Vector4 color= { 1.0f,1.0f,1.0f,1.0f };
+		Vector4 colorBuff = {1.0f,1.0f,1.0f,1.0f};
+		Vector2 point0 = { 0.0f,360.0f };
+		Vector2 point1 = { 0.0f,0.0f };
+		Vector2 point2 = { 640.0f,360.0f };
+		Vector2 point3 = { 640.0f,0.0f };
+	};
+
 	//課題用の変数
 	//----------------------------------------------------------------------------//
-	D3D12_GPU_DESCRIPTOR_HANDLE uvChecker{};
-	D3D12_GPU_DESCRIPTOR_HANDLE monsterBall{};
-	D3D12_GPU_DESCRIPTOR_HANDLE sphereHandle{};
-	D3D12_GPU_DESCRIPTOR_HANDLE fence{};
-	ModelData modelData_;
-	bool useMonsterBall = true;
-	Transform3d transform{ {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
-	Transform3d transformSpr{ {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
-	Transform3d uvTransformSpr{ {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
-	Vector4 SprColor{ 1.0f,1.0f,1.0f,1.0f };
-	Vector4 colorBuff = {};
+	D3D12_GPU_DESCRIPTOR_HANDLE uvChecker_{};
+	D3D12_GPU_DESCRIPTOR_HANDLE monsterBall_{};
+	D3D12_GPU_DESCRIPTOR_HANDLE checkerBoard_{};
 
-	Model  model_;
-	bool   compressStarted_ = false;
-	// deltaTime_ を追加なの
-	float deltaTime_ = 0.0f;
+	std::vector<OBJ> suzanne_{};
+	std::vector<OBJ> sphere_{};
+	std::vector<OBJ> stanfordBunny_{};
+	std::vector<OBJ> plane_{};
+	std::vector<OBJ> utahTeaPot_{};
+	std::vector<OBJ> multiMesh_{};
+	std::vector<OBJ> multiMaterial_{};
+	std::vector<SpritePar> sprite_{};
+
+	const char* modelTable[7] = {
+	"Sprite",
+	"Sphere",
+	"Stanford_Bunny",
+	"Plane",
+	"UtahTeapot",
+	"Multi_Mesh",
+	"Multi_Material"
+	};
+
+	enum Models {
+		Sprite,
+		Sphere,
+		Stanford_Bunny,
+		Plane,
+		UtahTeapot,
+		Multi_Mesh,
+		Multi_Material
+	};
+
+	Models models = Sprite;
+
+	int modelIndex_ = 0;
+
 	//---------------------------------------------------------------------------//
 
 	void DrawHomeWork();

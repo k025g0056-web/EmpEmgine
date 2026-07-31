@@ -14,6 +14,17 @@ void Model::Initialize(ID3D12Device* device, const ModelData& modelData) {
     isCompressing_ = false;
 
     size_t meshCount = modelData_.meshes.size();
+
+    // ← デバッグ用に追加
+    char buf[256];
+    sprintf_s(buf, "MeshCount=%zu\n", meshCount);
+    OutputDebugStringA(buf);
+    for (size_t i = 0; i < meshCount; ++i) {
+        sprintf_s(buf, "  Mesh[%zu] vertexCount=%zu materialName=%s\n",
+            i, modelData_.meshes[i].vertices.size(),
+            modelData_.meshes[i].materialName.c_str());
+        OutputDebugStringA(buf);
+    }
     vertexResources_.resize(meshCount);
     vertexBufferViews_.resize(meshCount);
     vertexDataPtrs_.resize(meshCount);
@@ -22,10 +33,14 @@ void Model::Initialize(ID3D12Device* device, const ModelData& modelData) {
         const auto& mesh = modelData_.meshes[i];
         size_t vertexCount = mesh.vertices.size();
 
-        vertexResources_[i] = DX12Mechanics::CreateBufferResource(
-            device, sizeof(VertexData) * vertexCount);
+        // CreateBufferResourceは参照カウント1の生ポインタを返すので
+        // Attach()で所有権だけ引き継ぐ(operator=だとAddRefされてリークする)
+        vertexResources_[i].Attach(DX12Mechanics::CreateBufferResource(
+            device, sizeof(VertexData) * vertexCount));
+
+        // ComPtrは生ポインタへの暗黙変換を持たないのでGet()で取り出す
         vertexBufferViews_[i] = DX12Mechanics::GenerateVertexBufferView<VertexData>(
-            vertexResources_[i], vertexCount);
+            vertexResources_[i].Get(), vertexCount);
 
         vertexDataPtrs_[i] = nullptr;
         vertexResources_[i]->Map(
@@ -33,6 +48,8 @@ void Model::Initialize(ID3D12Device* device, const ModelData& modelData) {
         std::memcpy(vertexDataPtrs_[i], mesh.vertices.data(),
             sizeof(VertexData) * vertexCount);
     }
+
+
 }
 
 void Model::StartCompress(const CompressConfig& config) {

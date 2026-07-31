@@ -76,6 +76,8 @@ public:
 	void SetPixelShader(const std::wstring& filePath);
 	ID3D12Device* GetDevice() { return managementDevice_.GetDevice(); }
 
+	D3D12_GPU_DESCRIPTOR_HANDLE GetWhite1x1() { return white1x1; }
+
 private:
 	//エンジンの変数
 	//-----------------------------------------------------//

@@ -46,7 +46,6 @@ ModelData ManagementModel::LoadObjFile(const std::string& directoryPath, const s
 			s >> materialName;
 
 			// 同じマテリアル名のメッシュが既にあればそこに追加し続ける
-			// (objファイルはusemtlが面の途中で何度も出てくることがあるため)
 			auto it = std::find_if(modelData.meshes.begin(), modelData.meshes.end(),
 				[&](const MeshData& mesh) { return mesh.materialName == materialName; });
 
@@ -61,8 +60,7 @@ ModelData ManagementModel::LoadObjFile(const std::string& directoryPath, const s
 			}
 		}
 		else if (identifier == "f") {
-			// usemtlが一度も出てきていないobjファイルのために、
-			// マテリアル未指定用のデフォルトメッシュを用意しておく
+			// usemtlが一度も出てきていないobjファイル用のデフォルトメッシュ
 			if (currentMesh == nullptr) {
 				MeshData newMesh;
 				newMesh.materialName = ""; // マテリアル未指定
@@ -76,17 +74,31 @@ ModelData ManagementModel::LoadObjFile(const std::string& directoryPath, const s
 				s >> vertexDefinition;
 				//頂点の要素へのIndexは「位置/UV/法線」で格納されているので、分割してIndexを取得する
 				std::istringstream v(vertexDefinition);
-				uint32_t elementIndices[3];
+				uint32_t elementIndices[3] = { 0, 0, 0 }; // 0 = 未指定
 				for (int32_t element = 0; element < 3; ++element) {
-					std::string Index;
-					std::getline(v, Index, '/');// 「/」区切りでインデックスを呼んでいく
-					elementIndices[element] = std::stoi(Index);
+					std::string index;
+					std::getline(v, index, '/');// 「/」区切りでインデックスを呼んでいく
+					if (!index.empty()) {
+						elementIndices[element] = std::stoi(index);
+					}
+					// 空文字列なら0のまま(該当要素なし = UVや法線が無い面)
 				}
 
 				//要素へのIndexから、実際の要素の値を取得して、頂点を構築する
 				Vector4 position = positions[elementIndices[0] - 1];
-				Vector2 texcoord = texcoords[elementIndices[1] - 1];
-				Vector3 normal = normals[elementIndices[2] - 1];
+
+				// UVが無い場合はデフォルト値にフォールバック
+				Vector2 texcoord = { 0.0f, 0.0f };
+				if (elementIndices[1] != 0) {
+					texcoord = texcoords[elementIndices[1] - 1];
+				}
+
+				// 法線が無い場合もデフォルト値にフォールバック
+				Vector3 normal = { 0.0f, 1.0f, 0.0f };
+				if (elementIndices[2] != 0) {
+					normal = normals[elementIndices[2] - 1];
+				}
+
 				position.x *= -1.0f;
 				normal.x *= -1.0f;
 				triangle[faceVertex] = { position,texcoord,normal };
@@ -130,10 +142,10 @@ std::vector<MaterialData> ManagementModel::LoadMaterialTemplateFile(const std::s
 			if (currentMaterial == nullptr) {
 				continue; // newmtlより前にmap_Kdが来ることは無い想定だが念のため
 			}
-			std::string textureFilename;
-			s >> textureFilename;
+			std::string texturefilename;
+			s >> texturefilename;
 
-			currentMaterial->textureFile = directoryPath + "/" + textureFilename;
+			currentMaterial->textureFile = directoryPath + "/" + texturefilename;
 			currentMaterial->hasTexture = true;
 		}
 	}

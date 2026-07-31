@@ -133,3 +133,7 @@ void EmpEngine::SetVertexShader(const std::wstring& filePath) {
 void EmpEngine::SetPixelShader(const std::wstring& filePath) {
 	EmpSystems::GetInstance()->SetPixelShader(filePath);
 }
+
+D3D12_GPU_DESCRIPTOR_HANDLE EmpEngine::GetWhite1x1() {
+	return EmpSystems::GetInstance()->GetWhite1x1();
+}
