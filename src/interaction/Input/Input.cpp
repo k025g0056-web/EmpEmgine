@@ -43,31 +43,23 @@ void Input::GetKeyStateVk(bool*key) {
 
 void Input::InputAllUpdate() {
 	HRESULT hr = keyBord_->Acquire();
-	if (FAILED(hr)) {
-		return;
-	}
+	if (FAILED(hr)) return;
 
 	memcpy(preKey, key_, KEY_MAX);
 	keyBord_->GetDeviceState(sizeof(key_), key_);
 
-	WheelReset();
-	memcpy(preKey, key_, sizeof(key_));
+	memcpy(prevKey_, nowKey_, KEY_MAX);
 	GetKeyStateVk(nowKey_);
 
 	// マウス
 	mouse_->Acquire();
-
 	preMouseState_ = mouseState_;
 	mouse_->GetDeviceState(sizeof(mouseState_), &mouseState_);
-
 	wheelDelta_ = mouseState_.lZ;
 
 	// XInput
 	prePadState_ = padState_;
 	XInputGetState(0, &padState_);
-
-	memcpy(prevKey_, nowKey_, KEY_MAX);
-	GetKeyStateVk(nowKey_);
 }
 
 void Input::Initialize(HWND hwnd) {
@@ -90,7 +82,7 @@ void Input::Initialize(HWND hwnd) {
 
 	directInput_->CreateDevice(GUID_SysMouse, &mouse_, nullptr);
 
-	HRESULT hr = mouse_->SetDataFormat(&c_dfDIMouse2);
+	hr = mouse_->SetDataFormat(&c_dfDIMouse2);
 	assert(SUCCEEDED(hr));
 
 	hr = mouse_->SetCooperativeLevel(
@@ -112,58 +104,53 @@ void Input::Finalize() {
 		directInput_->Release();
 		directInput_ = nullptr;
 	}
+
+	if (mouse_) {
+		mouse_->Release();
+		mouse_ = nullptr;
+	}
 }
 
-bool Input::IsMousePress(int button)
-{
-	return mouseState_.rgbButtons[button] & 0x80;
+bool Input::IsMousePress(MouseButton button){
+	return mouseState_.rgbButtons[static_cast<int>(button)] & 0x80;
 }
 
-bool Input::IsMouseTrigger(int button)
-{
-	return (mouseState_.rgbButtons[button] & 0x80)
-		&& !(preMouseState_.rgbButtons[button] & 0x80);
+bool Input::IsMouseTrigger(MouseButton button){
+	return (mouseState_.rgbButtons[static_cast<int>(button)] & 0x80)
+		&& !(preMouseState_.rgbButtons[static_cast<int>(button)] & 0x80);
 }
 
-bool Input::IsMouseRelease(int button)
-{
-	return !(mouseState_.rgbButtons[button] & 0x80)
-		&& (preMouseState_.rgbButtons[button] & 0x80);
+bool Input::IsMouseRelease(MouseButton button){
+	return !(mouseState_.rgbButtons[static_cast<int>(button)] & 0x80)
+		&& (preMouseState_.rgbButtons[static_cast<int>(button)] & 0x80);
 }
 
-bool Input::IsPadPress(WORD button)
-{
-	return (padState_.Gamepad.wButtons & button);
+bool Input::IsPadPress(PadButton button){
+	return (padState_.Gamepad.wButtons & static_cast<WORD>(button)) != 0;
 }
 
-bool Input::IsPadTrigger(WORD button)
-{
-	return (padState_.Gamepad.wButtons & button)
-		&& !(prePadState_.Gamepad.wButtons & button);
+bool Input::IsPadTrigger(PadButton button){
+	return (padState_.Gamepad.wButtons & static_cast<WORD>(button)) &&
+		!(prePadState_.Gamepad.wButtons & static_cast<WORD>(button));
 }
 
-bool Input::IsPadRelease(WORD button)
-{
-	return !(padState_.Gamepad.wButtons & button)
-		&& (prePadState_.Gamepad.wButtons & button);
+bool Input::IsPadRelease(PadButton button){
+	return !(padState_.Gamepad.wButtons & static_cast<WORD>(button)) &&
+		(prePadState_.Gamepad.wButtons & static_cast<WORD>(button));
 }
 
-float Input::GetLeftStickX()
-{
+float Input::GetLeftStickX(){
 	return padState_.Gamepad.sThumbLX / 32767.0f;
 }
 
-float Input::GetLeftStickY()
-{
+float Input::GetLeftStickY(){
 	return padState_.Gamepad.sThumbLY / 32767.0f;
 }
 
-float Input::GetLeftTrigger()
-{
+float Input::GetLeftTrigger(){
 	return padState_.Gamepad.bLeftTrigger / 255.0f;
 }
 
-float Input::GetRightTrigger()
-{
+float Input::GetRightTrigger(){
 	return padState_.Gamepad.bRightTrigger / 255.0f;
 }

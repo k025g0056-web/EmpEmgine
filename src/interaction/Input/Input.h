@@ -17,6 +17,29 @@ enum class MouseButton{
 	Side2
 };
 
+enum class PadButton : WORD
+
+{
+	PAD_UP = XINPUT_GAMEPAD_DPAD_UP,
+	PAD_DOWN = XINPUT_GAMEPAD_DPAD_DOWN,
+	PAD_LEFT = XINPUT_GAMEPAD_DPAD_LEFT,
+	PAD_RIGHT = XINPUT_GAMEPAD_DPAD_RIGHT,
+
+	PAD_START = XINPUT_GAMEPAD_START,
+	PAD_BACK = XINPUT_GAMEPAD_BACK,
+
+	PAD_LB = XINPUT_GAMEPAD_LEFT_SHOULDER,
+	PAD_RB = XINPUT_GAMEPAD_RIGHT_SHOULDER,
+
+	PAD_LS = XINPUT_GAMEPAD_LEFT_THUMB,
+	PAD_RS = XINPUT_GAMEPAD_RIGHT_THUMB,
+
+	PAD_A = XINPUT_GAMEPAD_A,
+	PAD_B = XINPUT_GAMEPAD_B,
+	PAD_X = XINPUT_GAMEPAD_X,
+	PAD_Y = XINPUT_GAMEPAD_Y
+};
+
 /// <summary>
 /// キーの最大数
 /// </summary>
@@ -114,17 +137,17 @@ public:
 	/// </summary>
 	void Finalize();
 
-	bool IsMousePress(int button);
+	bool IsMousePress(MouseButton button);
 
-	bool IsMouseTrigger(int button);
+	bool IsMouseTrigger(MouseButton button);
 
-	bool IsMouseRelease(int button);
+	bool IsMouseRelease(MouseButton button);
 
-	bool IsPadPress(WORD button);
+	bool IsPadPress(PadButton button);
 
-	bool IsPadTrigger(WORD button);
+	bool IsPadTrigger(PadButton button);
 
-	bool IsPadRelease(WORD button);
+	bool IsPadRelease(PadButton button);
 
 	float GetLeftStickX();
 
