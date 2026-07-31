@@ -31,7 +31,7 @@ void GameManager::Initialize() {
     teaPot_.modelData= EmpEngine::Resource().Model().LoadObjFile("resources/3dObject/teapot", "teapot.obj");
     teaPot_.model.Initialize(EmpEngine::GetDevice(), teaPot_.modelData);
 
-    fanfare_ = EmpEngine::Resource().Audio().SoundLoadWave();
+    fanfare_ = EmpEngine::Resource().Audio().SoundLoadWave("fanfare.wav");
 }
 
 void GameManager::Update() {
@@ -62,7 +62,7 @@ void GameManager::GuiHomeWork() {
 #ifdef USE_IMGUI
     ImGui::Begin("Homework");
     if (ImGui::Button("playSound")) {
-
+        EmpEngine::Resource().Audio().SoundPlayWave(fanfare_);
    }
 
     ImGui::End();
