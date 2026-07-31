@@ -5,5 +5,5 @@
 
 struct ModelData{
 	std::vector<MeshData> meshes;
-	std::vector<MaterialData>material;
+	std::vector<MaterialData>materials;
 };

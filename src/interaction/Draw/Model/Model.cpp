@@ -9,22 +9,32 @@ void Model::Initialize(ID3D12Device* device, const ModelData& modelData) {
     Shape::Initialize(device, true);
     modelData_ = modelData;
     workVertices_ = modelData;
-    timer_ = 0.0f;        
-    compressionT_ = 0.0f;       
-    isCompressing_ = false;      
+    timer_ = 0.0f;
+    compressionT_ = 0.0f;
+    isCompressing_ = false;
 
-    vertexResource = DX12Mechanics::CreateBufferResource(
-        device, sizeof(VertexData) * modelData_.meshes.size());
-    vertexBufferView_ = DX12Mechanics::GenerateVertexBufferView<VertexData>(
-        vertexResource, modelData_.meshes.size());
+    size_t meshCount = modelData_.meshes.size();
+    vertexResources_.resize(meshCount);
+    vertexBufferViews_.resize(meshCount);
+    vertexDataPtrs_.resize(meshCount);
 
-   
-    vertexData_ = nullptr;
-    vertexResource->Map(
-        0, nullptr, reinterpret_cast<void**>(&vertexData_));
-    std::memcpy(vertexData_, modelData_.meshes.data(),
-        sizeof(VertexData) * modelData_.meshes.size());
+    for (size_t i = 0; i < meshCount; ++i) {
+        const auto& mesh = modelData_.meshes[i];
+        size_t vertexCount = mesh.vertices.size();
+
+        vertexResources_[i] = DX12Mechanics::CreateBufferResource(
+            device, sizeof(VertexData) * vertexCount);
+        vertexBufferViews_[i] = DX12Mechanics::GenerateVertexBufferView<VertexData>(
+            vertexResources_[i], vertexCount);
+
+        vertexDataPtrs_[i] = nullptr;
+        vertexResources_[i]->Map(
+            0, nullptr, reinterpret_cast<void**>(&vertexDataPtrs_[i]));
+        std::memcpy(vertexDataPtrs_[i], mesh.vertices.data(),
+            sizeof(VertexData) * vertexCount);
+    }
 }
+
 void Model::StartCompress(const CompressConfig& config) {
     config_ = config;
     timer_ = 0.0f;
@@ -72,84 +82,67 @@ void Model::Update(float dt) {
 
     if (rawT >= 1.0f) isCompressing_ = false;
 
-    // 変化があったフレームだけ頂点を再計算してGPUに送る
     UpdateVertices();
 }
 
 void Model::UpdateVertices()
 {
     float t = compressionT_;
-    if (t >= 1.0f) {
-        t = 1.0f;
-    }
+    if (t >= 1.0f) t = 1.0f;
 
-    // スムーズ補間
     float s = 1.0f - t;
     s = s * s * (3.0f - 2.0f * s); // smoothstep
 
+    // 全メッシュ分の頂点からY範囲を求める(基準は「今の状態」)
     float minY = 1e9f;
     float maxY = -1e9f;
-
-    // ★現在のベース（重要）
-    // 元データではなく「今の状態」を基準にする
-    for (const auto& v : workVertices_.meshes)
-    {
-        minY = std::min(minY, v.position.y);
-        maxY = std::max(maxY, v.position.y);
+    for (const auto& mesh : workVertices_.meshes) {
+        for (const auto& v : mesh.vertices) {
+            minY = std::min(minY, v.position.y);
+            maxY = std::max(maxY, v.position.y);
+        }
     }
-
     float pivotY = minY;
 
-    for (size_t i = 0; i < modelData_.meshes.size(); i++)
-    {
-        const VertexData& base = modelData_.meshes[i];
-        VertexData& dst = workVertices_.meshes[i];
+    for (size_t m = 0; m < modelData_.meshes.size(); ++m) {
+        const auto& baseMesh = modelData_.meshes[m];
+        auto& workMesh = workVertices_.meshes[m];
 
-        // ★ここが重要：毎回リセットしない
-        dst = base;
+        for (size_t i = 0; i < baseMesh.vertices.size(); ++i) {
+            const VertexData& base = baseMesh.vertices[i];
+            VertexData& dst = workMesh.vertices[i];
 
-        switch (config_.axis)
-        {
-        case CompressAxis::X:
-        {
-            float pivotX = 0.0f;
+            dst = base;
 
-            dst.position.x =
-                pivotX + (base.position.x - pivotX) * s;
-            break;
+            switch (config_.axis) {
+            case CompressAxis::X: {
+                float pivotX = 0.0f;
+                dst.position.x = pivotX + (base.position.x - pivotX) * s;
+                break;
+            }
+            case CompressAxis::Z: {
+                float pivotZ = 0.0f;
+                dst.position.z = pivotZ + (base.position.z - pivotZ) * s;
+                break;
+            }
+            default: // Y
+                dst.position.y = pivotY + (base.position.y - pivotY) * s;
+                break;
+            }
+
+            dst.texCoord = base.texCoord;
         }
 
-        case CompressAxis::Z:
-        {
-            float pivotZ = 0.0f;
-
-            dst.position.z =
-                pivotZ + (base.position.z - pivotZ) * s;
-            break;
-        }
-
-        default: // Y
-        {
-            dst.position.y =
-                pivotY + (base.position.y - pivotY) * s;
-            break;
-        }
-        }
-
-        // ★UVは固定（歪み防止）
-        dst.texCoord = base.texCoord;
+        // メッシュごとにGPUへ反映
+        std::memcpy(vertexDataPtrs_[m],
+            workMesh.vertices.data(),
+            sizeof(VertexData) * workMesh.vertices.size());
     }
 
-    std::memcpy(vertexData_,
-        workVertices_.meshes.data(),
-        sizeof(VertexData) * workVertices_.meshes.size());
-
-    if (t>=1.0f) {
-        t = 1.0f;
+    if (t >= 1.0f) {
         FinishCompression();
     }
 }
-
 
 void Model::DrawModel(
     const Transform3d& transform,
@@ -160,16 +153,21 @@ void Model::DrawModel(
 {
     ChangeTransform(transform);
 
-    // ← 毎フレーム必ず更新するなの！isTransformDirty_チェックを外す
     wvpData->WVP = camera.GetWvp(transform3d_);
     wvpData->world = Affine(transform3d_);
     isTransformDirty_ = false;
 
     SetColor(color);
 
-    DrawCallVertex(commandList, vertexBufferView_,
-        textureSrvHandleGPU,
-        static_cast<int>(modelData_.meshes.size()));
+    // メッシュの数だけ順番にドローコールを発行する
+    // (課題としてはひとまず全メッシュ同じテクスチャで描画。
+    //  メッシュごとに別テクスチャを使いたい場合はここでmeshのmaterialNameから
+    //  対応するSRVハンドルを引いて渡す必要がある)
+    for (size_t i = 0; i < modelData_.meshes.size(); ++i) {
+        DrawCallVertex(commandList, vertexBufferViews_[i],
+            textureSrvHandleGPU,
+            static_cast<int>(modelData_.meshes[i].vertices.size()));
+    }
 }
 
 void Model::StartCompression()

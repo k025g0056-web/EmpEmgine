@@ -2,6 +2,7 @@
 #include<fstream>
 #include<sstream>
 #include<cassert>
+#include<algorithm>
 
 ModelData ManagementModel::LoadObjFile(const std::string& directoryPath, const std::string& filename) {
 	ModelData modelData;
@@ -14,7 +15,10 @@ ModelData ManagementModel::LoadObjFile(const std::string& directoryPath, const s
 	std::ifstream file(directoryPath + "/" + filename);
 	assert(file.is_open());//とりあえず開けなかったら止める
 
-	while (std::getline(file,line)){
+	// 現在書き込み中のメッシュ(usemtlが来るたびに切り替える)
+	MeshData* currentMesh = nullptr;
+
+	while (std::getline(file, line)) {
 		std::string identifier;
 		std::istringstream s(line);
 		s >> identifier;//行の先頭の識別子を取得
@@ -25,7 +29,7 @@ ModelData ManagementModel::LoadObjFile(const std::string& directoryPath, const s
 			position.w = 1.0f;
 			positions.push_back(position);
 		}
-		else if (identifier=="vt"){
+		else if (identifier == "vt") {
 			Vector2 texCoord;
 			s >> texCoord.x >> texCoord.y;
 			texCoord.y = 1.0f - texCoord.y;
@@ -37,7 +41,35 @@ ModelData ManagementModel::LoadObjFile(const std::string& directoryPath, const s
 			s >> normal.x >> normal.y >> normal.z;
 			normals.push_back(normal);
 		}
+		else if (identifier == "usemtl") {
+			std::string materialName;
+			s >> materialName;
+
+			// 同じマテリアル名のメッシュが既にあればそこに追加し続ける
+			// (objファイルはusemtlが面の途中で何度も出てくることがあるため)
+			auto it = std::find_if(modelData.meshes.begin(), modelData.meshes.end(),
+				[&](const MeshData& mesh) { return mesh.materialName == materialName; });
+
+			if (it != modelData.meshes.end()) {
+				currentMesh = &(*it);
+			}
+			else {
+				MeshData newMesh;
+				newMesh.materialName = materialName;
+				modelData.meshes.push_back(newMesh);
+				currentMesh = &modelData.meshes.back();
+			}
+		}
 		else if (identifier == "f") {
+			// usemtlが一度も出てきていないobjファイルのために、
+			// マテリアル未指定用のデフォルトメッシュを用意しておく
+			if (currentMesh == nullptr) {
+				MeshData newMesh;
+				newMesh.materialName = ""; // マテリアル未指定
+				modelData.meshes.push_back(newMesh);
+				currentMesh = &modelData.meshes.back();
+			}
+
 			//面は三角形限定。その他は未対応
 			for (int32_t faceVertex = 0; faceVertex < 3; ++faceVertex) {
 				std::string vertexDefinition;
@@ -57,47 +89,54 @@ ModelData ManagementModel::LoadObjFile(const std::string& directoryPath, const s
 				Vector3 normal = normals[elementIndices[2] - 1];
 				position.x *= -1.0f;
 				normal.x *= -1.0f;
-				VertexData vertex = { position,texcoord,normal };
-				modelData.meshes.push_back(vertex);
 				triangle[faceVertex] = { position,texcoord,normal };
 			}
 
 			//By registering the vertices in reverse order, the rotation order is reversed.
-			modelData.meshes.push_back(triangle[2]);
-			modelData.meshes.push_back(triangle[1]);
-			modelData.meshes.push_back(triangle[0]);
-		}else if (identifier == "mtllib") {
+			currentMesh->vertices.push_back(triangle[2]);
+			currentMesh->vertices.push_back(triangle[1]);
+			currentMesh->vertices.push_back(triangle[0]);
+		}
+		else if (identifier == "mtllib") {
 			std::string materialFilename;
 			s >> materialFilename;
 
-			modelData.material = LoadMaterialTemplateFile(directoryPath, materialFilename);
+			modelData.materials = LoadMaterialTemplateFile(directoryPath, materialFilename);
 		}
 	}
-
-
 
 	return modelData;
 }
 
-MaterialData ManagementModel::LoadMaterialTemplateFile(const std::string& directoryPath, const std::string& filename) {
-	MaterialData materialData;//構築するマテリアルデータ
+std::vector<MaterialData> ManagementModel::LoadMaterialTemplateFile(const std::string& directoryPath, const std::string& filename) {
+	std::vector<MaterialData> materials;//構築するマテリアルデータの配列
+	MaterialData* currentMaterial = nullptr;
 	std::string line;//ファイルから呼んだ1行を格納するもの
 	std::ifstream file(directoryPath + "/" + filename);
 	assert(file.is_open());//とりあえず開けなかったら止める
 
-	while (std::getline(file,line)) {
+	while (std::getline(file, line)) {
 		std::string identifier;
 		std::istringstream s(line);
 		s >> identifier;//行の先頭の識別子を取得
 
-		if (identifier=="map_Kd") {
-			std::string texturefilename;
-			s >> texturefilename;
-
-			materialData.textureFile = directoryPath + "/" + texturefilename;
+		if (identifier == "newmtl") {
+			MaterialData materialData;
+			s >> materialData.name;
+			materials.push_back(materialData);
+			currentMaterial = &materials.back();
 		}
+		else if (identifier == "map_Kd") {
+			if (currentMaterial == nullptr) {
+				continue; // newmtlより前にmap_Kdが来ることは無い想定だが念のため
+			}
+			std::string textureFilename;
+			s >> textureFilename;
 
+			currentMaterial->textureFile = directoryPath + "/" + textureFilename;
+			currentMaterial->hasTexture = true;
+		}
 	}
 
-	return materialData;
+	return materials;
 }

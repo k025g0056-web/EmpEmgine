@@ -4,6 +4,8 @@
 #include "DataModel/TransForm3d.h"
 #include "appObj/Camera/Camera3d/Camera3d.h"
 #include <algorithm>
+#include <vector>
+#include<wrl.h>
 
 enum class CompressAxis {
     X, Y, Z,
@@ -27,7 +29,12 @@ struct CompressConfig {
 class Model : public Shape {
     ModelData   modelData_;
     ModelData   workVertices_;
-    VertexData* vertexData_ = nullptr;
+
+    // メッシュごとに頂点バッファを持つ
+    std::vector<Microsoft::WRL::ComPtr<ID3D12Resource>> vertexResources_;
+    std::vector<D3D12_VERTEX_BUFFER_VIEW> vertexBufferViews_;
+    std::vector<VertexData*> vertexDataPtrs_; // Map済みポインタをメッシュごとに保持
+
     float       timer_ = 0.0f;
     float       compressionT_ = 0.0f;
     CompressConfig config_;
@@ -47,5 +54,4 @@ public:
         const Camera3d& camera);
     void StartCompression();
     void FinishCompression();
-
 };
