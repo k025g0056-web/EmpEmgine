@@ -33,7 +33,9 @@ class GameManager :public Scene {
 	Transform3d uvTransformSpr{ {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 	Vector4 SprColor{ 1.0f,1.0f,1.0f,1.0f };
 	Vector4 colorBuff = {};
-	
+	SoundData fanfare_{};
+
+
 	//---------------------------------------------------------------------------//
 
 	void DrawHomeWork();
