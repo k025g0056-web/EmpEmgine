@@ -63,7 +63,7 @@ public:
 	
 	void DrawLight();
 
-	LoaderManager Resource() { return loader_; }
+	LoaderManager& Resource() { return loader_; }
 
 	void GeneratePSO();
 	void SetBlendMode(BlendMode blendMode);

@@ -76,7 +76,7 @@ void EmpEngine::DrawPreModel(const Transform3d& transform, D3D12_GPU_DESCRIPTOR_
 	EmpSystems::GetInstance()->DrawPreModel(transform, GraphHandle, modelData_);
 }
 
-LoaderManager EmpEngine::Resource() {
+LoaderManager& EmpEngine::Resource() {
 	return EmpSystems::GetInstance()->Resource();
 }
 

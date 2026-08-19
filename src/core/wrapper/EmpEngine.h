@@ -28,7 +28,7 @@ public:
 	static void Process();
 	static void LightGUI();
 	
-	static LoaderManager Resource();
+	static LoaderManager& Resource();
 	static void SetWindowColor(Vector4 color);
 	static void DrawPreModel(const Transform3d& transform, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle, const ModelData& modelData_);
 	static void DrawLight();

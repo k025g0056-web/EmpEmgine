@@ -23,19 +23,7 @@ class GameManager :public Scene {
 	D3D12_GPU_DESCRIPTOR_HANDLE uvChecker_{};
 	D3D12_GPU_DESCRIPTOR_HANDLE monsterBall_{};
 	D3D12_GPU_DESCRIPTOR_HANDLE checkerBoard_{};
-
-	OBJ suzanne_{};
-	OBJ bunny_{};
-	OBJ teaPot_{};
-	OBJ Sphere_{};
-
-	Transform3d transformSpr{ {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
-	Transform3d uvTransformSpr{ {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
-	Vector4 SprColor{ 1.0f,1.0f,1.0f,1.0f };
-	Vector4 colorBuff = {};
-	SoundData fanfare_{};
-
-
+	Transform3d transform = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 	//---------------------------------------------------------------------------//
 
 	void DrawHomeWork();
