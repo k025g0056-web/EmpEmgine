@@ -37,7 +37,7 @@ void GameManager::GUI() {
 }
 
 void GameManager::DrawHomeWork() {
-    EmpEngine::DrawTextureSphere(transform, { 1.0f,1.0f,1.0f,1.0f }, uvChecker_);
+    EmpEngine::Draw().Draw<Sphere>(transform, Vector4{ 1.0f,1.0f,1.0f,1.0f }, uvChecker_);
 }
 
 void GameManager::GuiHomeWork() {

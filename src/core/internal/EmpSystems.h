@@ -30,40 +30,15 @@ public:
 	void Finalize();
 	void Begin();
 	void Release();
-
-	void DrawTriangle(const Vector3& v0, const Vector3& v1, 
-		const Vector3& v2, const Vector4 color, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle);
-
-	void DrawTriangleColor(const Vector3& v0, const Vector3& v1,
-		const Vector3& v2, const Vector4 color);
-	void DrawTriangleColor(const Transform3d& transform, const Vector3& v0, const Vector3& v1,
-		const Vector3& v2, const Vector4 color);
-
-	void DrawTriangleTrans(const Transform3d& transform, const Vector3& v0,
-		const Vector3& v1, const Vector3& v2, const Vector4 color, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle);
-
-	void DrawSprite(const Transform3d& transform, const Vector2& v0, 
-		const Vector2& v1, const Vector2& v2, const Vector2& v3,const Vector4& color,
-		D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle, const Transform3d& uvTransform);
-	void DrawTextureSphere(const Transform3d& transform, const Vector4& color, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle);
-	void DrawSphere(const Transform3d& transform, const Vector4& color);
-	void DrawQuad(const Transform3d& transform, const Vector2& v0,
-		const Vector2& v1, const Vector2& v2, const Vector2& v3, const Vector4& color);
-	void DrawDoubleTriangle(const Transform3d& transform, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle);
 	void LightGUI();
 	void PostDraw();
 	void End();
 	void SetWindowColor(Vector4 color);
-	void DrawPreModel(const Transform3d& transform, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle, const ModelData& modelData_);
-	// 既存の DrawPreModel の下に追加
-	void DrawCompressModel(
-		const Transform3d& transform,
-		D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle,
-		Model& model);
 	
 	void DrawLight();
 
 	LoaderManager& Resource() { return loader_; }
+	DrawManager& Draw() { return drawManager_; }
 
 	void GeneratePSO();
 	void SetBlendMode(BlendMode blendMode);
@@ -75,6 +50,7 @@ public:
 	void SetVertexShader(const std::wstring& filePath);
 	void SetPixelShader(const std::wstring& filePath);
 	ID3D12Device* GetDevice() { return managementDevice_.GetDevice(); }
+	void SetPostDraw();
 
 	D3D12_GPU_DESCRIPTOR_HANDLE GetWhite1x1() { return white1x1; }
 
@@ -96,11 +72,7 @@ private:
 	ManagementLighting managementLighting_;
 	RenderTexture renderTexture_;
 	LoaderManager loader_;
-	int idx = 0;
-	int douInd = 0;
-	int sprInd = 0;
-	int sphInd = 0;
-	int modInd = 0;
+	
 
 	//------------------------------------------------------//
 };

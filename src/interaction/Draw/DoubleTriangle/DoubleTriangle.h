@@ -8,8 +8,8 @@ class DoubleTriangle :public Shape {
 public:
 	void Initialize(ID3D12Device* device);
 
-	void DrawDoubleTriangle(const Transform3d& transform, ID3D12GraphicsCommandList* commandList,
-		D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU, const Camera3d& camera);
+	void Draw(ID3D12GraphicsCommandList* commandList, const Camera3d& camera, const Transform3d& transform,
+		D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU);
 
 	bool GetEnableLight() { return enableLight; }
 	void SetEnableLight(bool enable) { enableLight = enable; }

@@ -13,8 +13,8 @@ void Sphere::Initialize(ID3D12Device* device) {
 	indexBufferView_ = DX12Mechanics::GenerateIndexBufferView<UINT>(indexResource_, vertexCount*6);
 }
 
-void Sphere::DrawSphere(const Transform3d& transform, const Vector4& color, ID3D12GraphicsCommandList* commandList,
-	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU, const Camera3d& camera) {
+void Sphere::Draw(ID3D12GraphicsCommandList* commandList, const Camera3d& camera,
+	const Transform3d& transform, const Vector4& color,D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU) {
 	transform3d_ = transform;
 	wvpData->WVP = camera.GetWvp(transform3d_);
 	wvpData->world = Affine(transform3d_);

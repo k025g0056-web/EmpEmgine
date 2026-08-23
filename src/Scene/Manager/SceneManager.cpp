@@ -66,13 +66,6 @@ void SceneManager::SetScene(SceneName scene) {
 	scene_->Initialize();
 }
 
-void SceneManager::Process() {
-	//更新処理
-	Update();
-	//描画処理
-	Draw();
-}
-
 void SceneManager::Gui() {
 #ifdef USE_IMGUI
 	ImGui::Begin("SceneChange");

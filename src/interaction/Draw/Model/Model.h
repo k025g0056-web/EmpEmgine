@@ -41,17 +41,19 @@ class Model : public Shape {
     bool        isCompressing_ = false;
 
 public:
+    void SetModel(ModelData modelData) { modelData_ = modelData; }
+
     void Initialize(ID3D12Device* device, const ModelData& modelData);
     void StartCompress(const CompressConfig& config);
     bool IsFinished() const { return compressionT_ >= 1.0f; }
     void Update(float dt);
     void UpdateVertices();
-    void DrawModel(
-        const Transform3d& transform,
+    void Draw(
         ID3D12GraphicsCommandList* commandList,
+        const Camera3d& camera,
+        const Transform3d& transform,
         D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU,
-        const Vector4& color,
-        const Camera3d& camera);
+        const Vector4& color);
     void StartCompression();
     void FinishCompression();
 };

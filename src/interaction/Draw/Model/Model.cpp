@@ -161,12 +161,12 @@ void Model::UpdateVertices()
     }
 }
 
-void Model::DrawModel(
-    const Transform3d& transform,
+void Model::Draw(
     ID3D12GraphicsCommandList* commandList,
+    const Camera3d& camera,
+    const Transform3d& transform,
     D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU,
-    const Vector4& color,
-    const Camera3d& camera)
+    const Vector4& color)
 {
     ChangeTransform(transform);
 

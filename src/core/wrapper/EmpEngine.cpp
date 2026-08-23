@@ -25,59 +25,31 @@ void EmpEngine::End() {
 	EmpSystems::GetInstance()->End();
 }
 
-void EmpEngine::DrawTriangle(Vector3 v0, Vector3 v1,
-	Vector3 v2, Vector4 color, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle) {
-	EmpSystems::GetInstance()->DrawTriangle(v0, v1, v2, color,GraphHandle);
-}
-
-void EmpEngine::DrawTriangle(Transform3d transform, Vector3 v0,
-	Vector3 v1, Vector3 v2, Vector4 color, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle) {
-	EmpSystems::GetInstance()->DrawTriangleTrans(transform, v0, v1, v2, color,GraphHandle);
-}
-
-void EmpEngine::DrawSprite(const Transform3d& transform, const Vector2& v0,
-	const Vector2& v1, const Vector2& v2, const Vector2& v3, const Vector4& color,
-	D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle, const Transform3d& uvTransform) {
-	EmpSystems::GetInstance()->DrawSprite(transform, v0, v1, v2, v3, color, GraphHandle,uvTransform);
-}
-
-void EmpEngine::DrawTextureSphere(const Transform3d& transform, const Vector4& color
-	, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle) {
-	EmpSystems::GetInstance()->DrawTextureSphere(transform, color, GraphHandle);
-}
-
 bool EmpEngine::EndManagement() {
 	return SceneManager::GetInstance()->EndManagement();
 }
 
 void EmpEngine::Process() {
-	SceneManager::GetInstance()->Process();
+	SceneManager::GetInstance()->Update();
+	EmpSystems::GetInstance()->SetPostDraw();
+	SceneManager::GetInstance()->Draw();
+
 }
 
 void EmpEngine::LightGUI() {
 	EmpSystems::GetInstance()->LightGUI();
 }
 
-void EmpEngine::DrawTriangleColor(const Vector3& v0, const Vector3& v1,
-	const Vector3& v2, const Vector4 color) {
-	EmpSystems::GetInstance()->DrawTriangleColor(v0, v1, v2, color);
-}
-
-void EmpEngine::DrawTriangleColor(const Transform3d& transform, const Vector3& v0, const Vector3& v1,
-	const Vector3& v2, const Vector4 color) {
-	EmpSystems::GetInstance()->DrawTriangleColor(transform, v0, v1, v2, color);
-}
-
 void EmpEngine::SetWindowColor(Vector4 color) {
 	EmpSystems::GetInstance()->SetWindowColor(color);
 }
 
-void EmpEngine::DrawPreModel(const Transform3d& transform, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle, const ModelData& modelData_) {
-	EmpSystems::GetInstance()->DrawPreModel(transform, GraphHandle, modelData_);
-}
-
 LoaderManager& EmpEngine::Resource() {
 	return EmpSystems::GetInstance()->Resource();
+}
+
+DrawManager& EmpEngine::Draw() {
+	return EmpSystems::GetInstance()->Draw();
 }
 
 void EmpEngine::DrawLight() {
@@ -85,18 +57,6 @@ void EmpEngine::DrawLight() {
 }
 
 ID3D12Device* EmpEngine::GetDevice() { return EmpSystems::GetInstance()->GetDevice(); }
-
-void EmpEngine::DrawCompressModel(
-	const Transform3d& transform,
-	D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle,
-	Model& model) {
-	EmpSystems::GetInstance()->DrawCompressModel(transform, GraphHandle, model);
-}
-
-void EmpEngine::DrawSphere(const Transform3d& transform, const Vector4& color) {
-	EmpSystems::GetInstance()->DrawSphere(transform, color);
-}
-
 
 void EmpEngine::GeneratePSO() {
 	EmpSystems::GetInstance()->GeneratePSO();
@@ -136,4 +96,8 @@ void EmpEngine::SetPixelShader(const std::wstring& filePath) {
 
 D3D12_GPU_DESCRIPTOR_HANDLE EmpEngine::GetWhite1x1() {
 	return EmpSystems::GetInstance()->GetWhite1x1();
+}
+
+void EmpEngine::PostDraw() {
+	EmpSystems::GetInstance()->PostDraw();
 }

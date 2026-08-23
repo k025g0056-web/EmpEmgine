@@ -11,12 +11,14 @@ class Triangle :public Shape {
 
 	void ChangeVertex(const Vector3& v0, const Vector3& v1, const Vector3& v2);
 
+	void DrawTriangle(const Vector3& v0, const Vector3& v1, const Vector3& v2, ID3D12GraphicsCommandList* commandList,
+		D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU, const Vector4& color);
+
 public:
 	void Initialize(ID3D12Device* device);
 
-	void DrawTriangle(const Vector3& v0, const Vector3& v1, const Vector3& v2, ID3D12GraphicsCommandList* commandList,
-		D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU,const Vector4& color);
-
-	void DrawTriangle(const Transform3d& transform,const Vector3& v0, const Vector3& v1, const Vector3& v2, ID3D12GraphicsCommandList* commandList,
-		D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU, const Vector4& color,const Camera3d& camera);
+	
+	void Draw(ID3D12GraphicsCommandList* commandList, const Camera3d& camera,
+		const Transform3d& transform,const Vector3& v0, const Vector3& v1, const Vector3& v2,
+		D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU, const Vector4& color);
 };

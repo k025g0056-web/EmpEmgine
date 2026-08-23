@@ -33,8 +33,9 @@ void Triangle::DrawTriangle(const Vector3& v0, const Vector3& v1, const Vector3&
 
 }
 
-void Triangle::DrawTriangle(const Transform3d& transform, const Vector3& v0, const Vector3& v1, const Vector3& v2, ID3D12GraphicsCommandList* commandList,
-	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU, const Vector4& color, const Camera3d& camera) {
+void Triangle::Draw(ID3D12GraphicsCommandList* commandList, const Camera3d& camera,
+	const Transform3d& transform, const Vector3& v0, const Vector3& v1, const Vector3& v2, 
+	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU, const Vector4& color) {
 	ChangeTransform(transform);
 	if (isTransformDirty_) {
 		transform3d_ = transform;

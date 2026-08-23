@@ -49,7 +49,7 @@ void EmpSystems::Initialize(int kWindowWidth, int kWindowHeight) {
 	white1x1 = loader_.Texture().Load("white1x1.png");
 
 	managementLighting_.Initialize(managementDevice_.GetDevice());
-	
+	drawManager_.Initialize(managementDevice_.GetDevice());
 }
 
 int EmpSystems::ProcessMessage() {
@@ -80,7 +80,7 @@ void EmpSystems::SetWindowSize(unsigned int index, int windowWidth, int windowHe
 
 void EmpSystems::Begin() {
 	Input::GetInstance()->InputAllUpdate();
-	drawManager_.Release();
+	drawManager_.ResetUsedCount();
 	managementCommand_.LoadCommand(
 		managementSwapChain_.GetSwapChain(), 
 		managementDescriptHeap_.GetRtvHandles(),
@@ -91,15 +91,7 @@ void EmpSystems::Begin() {
 	mymGui_.MakeDockSpace();
 	renderTexture_.Begin(managementCommand_.GetCommandList(), managementDescriptHeap_.GetDsvHandle());
 #endif // USE_IMGUI
-
-}
-
-
-void EmpSystems::DrawDoubleTriangle(const Transform3d& transform, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle) {
-	douInd = drawManager_.AddDoubleTriangle(managementDevice_.GetDevice());
-	PostDraw();
-	drawManager_.GetDoubleTriangle(douInd).
-		DrawDoubleTriangle(transform, managementCommand_.GetCommandList(), GraphHandle,*SceneSystem::GetCamera());
+	drawManager_.SetCommandList(managementCommand_.GetCommandList());
 }
 
 void EmpSystems::End() {
@@ -157,92 +149,18 @@ void EmpSystems::PostDraw() {
 	managementLighting_.DrawCall(managementCommand_.GetCommandList());
 }
 
-void EmpSystems::DrawTriangle(const Vector3& v0, const Vector3& v1, 
-	const Vector3& v2, const Vector4 color, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle) {
-	idx = drawManager_.AddTriangle(managementDevice_.GetDevice());
-	PostDraw();
-	drawManager_.GetTriangle(idx).DrawTriangle(v0, v1, v2, managementCommand_.GetCommandList(),
-		GraphHandle, color);
-}
-
-void EmpSystems::DrawTriangleTrans(const Transform3d& transform, const Vector3& v0,
-	const Vector3& v1, const Vector3& v2, const Vector4 color, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle) {
-	idx = drawManager_.AddTriangle(managementDevice_.GetDevice());;
-	PostDraw();
-	drawManager_.GetTriangle(idx).DrawTriangle(transform,v0, v1, v2, managementCommand_.GetCommandList(), 
-		GraphHandle, color,*SceneSystem::GetCamera());
-
-}
-
-void EmpSystems::DrawSprite(const Transform3d& transform, const Vector2& v0,
-	const Vector2& v1, const Vector2& v2, const Vector2& v3,const Vector4& color,
-	D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle, const Transform3d& uvTransform) {
-	sprInd = drawManager_.AddSprite(managementDevice_.GetDevice());
-	PostDraw();
-	drawManager_.GetSprite(sprInd).DrawSprite(transform,v0,v1,v2,v3,managementCommand_.GetCommandList(),
-		GraphHandle,color,*SceneSystem::GetCamera(),uvTransform);
-}
-
-void EmpSystems::DrawTextureSphere(const Transform3d& transform, const Vector4& color
-	, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle) {
-	sphInd = drawManager_.AddSphere(managementDevice_.GetDevice());
-	PostDraw();
-	drawManager_.GetSphere(sphInd).DrawSphere(transform, color, 
-		managementCommand_.GetCommandList(), GraphHandle,*SceneSystem::GetCamera());
-}
-
-void EmpSystems::DrawSphere(const Transform3d& transform, const Vector4& color) {
-	DrawTextureSphere(transform, color, white1x1);
-}
-
-void EmpSystems::DrawQuad(const Transform3d& transform, const Vector2& v0,
-	const Vector2& v1, const Vector2& v2, const Vector2& v3, const Vector4& color) {
-	DrawSprite(transform, v0, v1, v2, v3, color, white1x1,{ReturnAllOne(),{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f}});
-}
-
 void EmpSystems::LightGUI() {
 	managementLighting_.GUI();
-}
-
-void EmpSystems::DrawTriangleColor(const Vector3& v0, const Vector3& v1,
-	const Vector3& v2, const Vector4 color) {
-	DrawTriangle(v0, v1, v2, color, white1x1);
-}
-
-void EmpSystems::DrawTriangleColor(const Transform3d& transform, const Vector3& v0, const Vector3& v1,
-	const Vector3& v2, const Vector4 color) {
-	DrawTriangleTrans(transform,v0, v1, v2, color, white1x1);
 }
 
 void EmpSystems::SetWindowColor(Vector4 color) {
 	managementCommand_.SetClearColor(color);
 }
 
-void EmpSystems::DrawPreModel(const Transform3d& transform, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle,const ModelData& modelData) {
-	modInd = drawManager_.AddModel(managementDevice_.GetDevice(), modelData);
-	PostDraw();
-	drawManager_.GetModel(modInd).DrawModel(transform, managementCommand_.GetCommandList(), GraphHandle,
-		{ 1.0f,1.0f,1.0f,1.0f }, *SceneSystem::GetCamera());
-
-}
-
-void EmpSystems::DrawLight() {
-	DrawTextureSphere({ {0.05f,0.05f,0.05f},{0.0f,0.0f,0.0f},managementLighting_.GetDirection() }, { 1.0f,1.0f,1.0f,1.0f }, white1x1);
-}
-
-// ファイルの一番下に追加
-void EmpSystems::DrawCompressModel(
-	const Transform3d& transform,
-	D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle,
-	Model& model)
-{
-	PostDraw();
-	model.DrawModel(
-		transform,
-		managementCommand_.GetCommandList(),
-		GraphHandle,
-		{ 1.0f, 1.0f, 1.0f, 1.0f },
-		*SceneSystem::GetCamera());
+void EmpSystems::DrawLight() {   
+	drawManager_.Draw<Sphere>(
+		Transform3d{ {0.05f,0.05f,0.05f},{0.0f,0.0f,0.0f},managementLighting_.GetDirection() },
+		Vector4{ 1.0f,1.0f,1.0f,1.0f }, white1x1);
 }
 
 void EmpSystems::GeneratePSO() {
@@ -281,4 +199,6 @@ void EmpSystems::SetPixelShader(const std::wstring& filePath) {
 	managementDXC_.SetPixelShader(filePath);
 }
 
-
+void EmpSystems::SetPostDraw() {
+	drawManager_.SetPostDrawFunc([this]() {PostDraw(); });
+}

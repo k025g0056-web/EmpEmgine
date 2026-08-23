@@ -29,9 +29,7 @@ class SceneManager {
 	int windowWidth_ = 0;
 	int windowHeight_ = 0;
 	
-	void Update();
 
-	void Draw();
 
 	SceneManager();
 	~SceneManager() = default;
@@ -41,9 +39,12 @@ public:
 
 	void Initialize(int windowWidth, int windowHeight,SceneName scene);
 
-	void Process();
 
 	bool EndManagement();
+
+	void Update();
+
+	void Draw();
 
 	void SetScene(SceneName scene);
 
