@@ -168,21 +168,20 @@ void Model::Draw(
     D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU,
     const Vector4& color)
 {
-    ChangeTransform(transform);
+    ChangeTransform(transform); // isTransformDirty_ 更新
 
-    wvpData->WVP = camera.GetWvp(transform3d_);
-    wvpData->world = Affine(transform3d_);
-    isTransformDirty_ = false;
+    if (isTransformDirty_ || camera.IsDirty()) {
+        wvpData->WVP = camera.GetWvp(transform3d_);
+        wvpData->world = Affine(transform3d_);
+        isTransformDirty_ = false;
+    }
 
     SetColor(color);
 
-    // メッシュの数だけ順番にドローコールを発行する
-    // (課題としてはひとまず全メッシュ同じテクスチャで描画。
-    //  メッシュごとに別テクスチャを使いたい場合はここでmeshのmaterialNameから
-    //  対応するSRVハンドルを引いて渡す必要がある)
+    SetUpCommonDrawState(commandList, textureSrvHandleGPU);
+
     for (size_t i = 0; i < modelData_.meshes.size(); ++i) {
-        DrawCallVertex(commandList, vertexBufferViews_[i],
-            textureSrvHandleGPU,
+        DrawCallVertexOnly(commandList, vertexBufferViews_[i],
             static_cast<int>(modelData_.meshes[i].vertices.size()));
     }
 }

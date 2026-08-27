@@ -40,6 +40,8 @@ class Model : public Shape {
     CompressConfig config_;
     bool        isCompressing_ = false;
 
+    std::vector<D3D12_GPU_DESCRIPTOR_HANDLE> meshTextureHandles_;
+
 public:
     void SetModel(ModelData modelData) { modelData_ = modelData; }
 

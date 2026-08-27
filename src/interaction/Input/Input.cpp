@@ -43,19 +43,21 @@ void Input::GetKeyStateVk(bool*key) {
 
 void Input::InputAllUpdate() {
 	HRESULT hr = keyBord_->Acquire();
-	if (FAILED(hr)) return;
-
-	memcpy(preKey, key_, KEY_MAX);
-	keyBord_->GetDeviceState(sizeof(key_), key_);
+	if (SUCCEEDED(hr)) {
+		memcpy(preKey, key_, KEY_MAX);
+		keyBord_->GetDeviceState(sizeof(key_), key_);
+	}
 
 	memcpy(prevKey_, nowKey_, KEY_MAX);
 	GetKeyStateVk(nowKey_);
 
-	// マウス
-	mouse_->Acquire();
-	preMouseState_ = mouseState_;
-	mouse_->GetDeviceState(sizeof(mouseState_), &mouseState_);
-	wheelDelta_ = mouseState_.lZ;
+	// マウス（キーボードの失敗と切り離して独立して更新する）
+	//HRESULT mouseHr = mouse_->Acquire();
+	//if (SUCCEEDED(mouseHr)) {
+		//preMouseState_ = mouseState_;
+		//mouse_->GetDeviceState(sizeof(mouseState_), &mouseState_);
+		//wheelDelta_ = mouseState_.lZ;
+	//}
 
 	// XInput
 	prePadState_ = padState_;

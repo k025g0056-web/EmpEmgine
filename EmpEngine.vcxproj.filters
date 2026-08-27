@@ -158,6 +158,21 @@
     <ClCompile Include="src\Internal\Loader\Manager\LoaderManager.cpp">
       <Filter>Engine\Management\Loader\Manager</Filter>
     </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Game\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="MapManager.cpp">
+      <Filter>Game\MapManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Score.cpp">
+      <Filter>Game\Score</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Game\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -333,6 +348,24 @@
     </Filter>
     <Filter Include="Engine\Management\Loader\Manager">
       <UniqueIdentifier>{7588cda6-70a6-45b4-b6d4-5cc5cad510c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{681f486f-7473-4752-a7d0-457dc80cb82e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Player">
+      <UniqueIdentifier>{f10be37e-742f-4665-8771-86ec49bddc6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Item">
+      <UniqueIdentifier>{c634eb7d-0d57-4165-a0c3-75a96a8e92b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\MapManager">
+      <UniqueIdentifier>{167a4614-3907-4859-909d-ba545b657aa9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Score">
+      <UniqueIdentifier>{80ec46bf-5f11-491f-a5cd-bf3d74bf1755}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collision">
+      <UniqueIdentifier>{30cf6950-5b5f-48cf-96fc-26a12e045ffb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -533,6 +566,21 @@
     </ClInclude>
     <ClInclude Include="src\DataModel\MeshData.h">
       <Filter>Engine\DataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Game\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="MapManager.h">
+      <Filter>Game\MapManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Score.h">
+      <Filter>Game\Score</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Game\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>Collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

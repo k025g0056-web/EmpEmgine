@@ -6,6 +6,8 @@
 #include"Scene/Over/Over.h"
 #include"Scene/wrapper/SceneSystem.h"
 #include"externals/imgui/imgui.h"
+#include"Log/ManagementLog.h"
+#include "core/wrapper/EmpEngine.h"
 
 SceneManager* SceneManager::GetInstance() {
 	static SceneManager instance;
@@ -47,15 +49,19 @@ void SceneManager::SetScene(SceneName scene) {
 	switch (scene) {
 	case SceneName::Title:
 		scene_ = std::make_unique<Title>();
+		ManagementLog::Log("Title");
 		break;
 	case SceneName::Play:
 		scene_ = std::make_unique<GameManager>();
+		ManagementLog::Log("play");
 		break;
 	case SceneName::Clear:
 		scene_ = std::make_unique<Clear>();
+		ManagementLog::Log("clear");
 		break;
 	case SceneName::over:
 		scene_ = std::make_unique<Over>();
+		ManagementLog::Log("over");
 		break;
 	default:
 		break;
@@ -64,6 +70,8 @@ void SceneManager::SetScene(SceneName scene) {
 	scene_->SetWindowWidth(windowWidth_);
 	scene_->SetWindowHeight(windowHeight_);
 	scene_->Initialize();
+	EmpEngine::RebindRenderTarget();
+	ManagementLog::Log("Online");
 }
 
 void SceneManager::Gui() {

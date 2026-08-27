@@ -8,27 +8,29 @@
 #include"DataModel/Vector4.h"
 #include"DataModel/ModelData.h"
 #include"DataModel/SoundData.h"
-#include"interaction/Draw/Model/Model.h"
+#include"Player.h"
+#include"MapManager.h"
+#include"DataModel/Vector2.h"
 
 class GameManager :public Scene {
+	ModelData ItemModel_{};
+	D3D12_GPU_DESCRIPTOR_HANDLE ItemTextureHandle_;
+	ModelData blockModel_{};
+	D3D12_GPU_DESCRIPTOR_HANDLE blockHandle_;
+	ModelData goalModel_{};
+	ModelData playerModel_{};
+	D3D12_GPU_DESCRIPTOR_HANDLE playerHandle_;
 
-	struct OBJ{
-		Transform3d transform= { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
-		Model  model;
-		ModelData modelData;
-	};
+	MapManager mapManager_;
+	Player player_;
+	Vector3 CameraPos_{};
 
-	//課題用の変数
-	//----------------------------------------------------------------------------//
-	D3D12_GPU_DESCRIPTOR_HANDLE uvChecker_{};
-	D3D12_GPU_DESCRIPTOR_HANDLE monsterBall_{};
-	D3D12_GPU_DESCRIPTOR_HANDLE checkerBoard_{};
-	Transform3d transform = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
-	//---------------------------------------------------------------------------//
+	int count = 0;
 
-	void DrawHomeWork();
-	void UpdateHomeWork();
-	void GuiHomeWork();
+	ModelData titleModel_;
+	Transform3d titleTransform_{ {1000.0f,1000.0f,1.0f},{0.0f,0.0f,0.0f },{0.0f,0.0f,2.0f} };
+	D3D12_GPU_DESCRIPTOR_HANDLE TitleHandle_;
+
 public:
 
 	void Initialize() override;
@@ -43,5 +45,4 @@ public:
 	GameManager& operator=(const GameManager&) = delete;
 private:
 	DebugCamera debugCamera_;
-	void GUI();
 };

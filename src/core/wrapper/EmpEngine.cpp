@@ -31,7 +31,6 @@ bool EmpEngine::EndManagement() {
 
 void EmpEngine::Process() {
 	SceneManager::GetInstance()->Update();
-	EmpSystems::GetInstance()->SetPostDraw();
 	SceneManager::GetInstance()->Draw();
 
 }
@@ -100,4 +99,9 @@ D3D12_GPU_DESCRIPTOR_HANDLE EmpEngine::GetWhite1x1() {
 
 void EmpEngine::PostDraw() {
 	EmpSystems::GetInstance()->PostDraw();
+}
+
+// EmpEngine.cpp に追加
+void EmpEngine::RebindRenderTarget() {
+	EmpSystems::GetInstance()->RebindRenderTarget();
 }

@@ -24,7 +24,7 @@ class SetRenderGui {
     };
 
     void SetRasterizer();
-    int cullMode_ = 1;
+    int cullMode_ = 2;
     const char* cullItems[3]{
          "NONE",
         "FRONT",

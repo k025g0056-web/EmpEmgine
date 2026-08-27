@@ -79,3 +79,18 @@ void Shape::SetUpDrawCall(ID3D12GraphicsCommandList* commandList,
 	commandList->SetGraphicsRootConstantBufferView(1, wvpResource->GetGPUVirtualAddress());
 	commandList->SetGraphicsRootDescriptorTable(2, textureSrvHandleGPU);
 }
+
+void Shape::SetUpCommonDrawState(ID3D12GraphicsCommandList* commandList,
+	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU) {
+	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	commandList->SetGraphicsRootConstantBufferView(0, materialResource->GetGPUVirtualAddress());
+	commandList->SetGraphicsRootConstantBufferView(1, wvpResource->GetGPUVirtualAddress());
+	commandList->SetGraphicsRootDescriptorTable(2, textureSrvHandleGPU);
+}
+
+void Shape::DrawCallVertexOnly(ID3D12GraphicsCommandList* commandList,
+	D3D12_VERTEX_BUFFER_VIEW vertexBufferView, int vertex) {
+	commandList->IASetVertexBuffers(0, 1, &vertexBufferView);
+	commandList->DrawInstanced(vertex, 1, 0, 0);
+}
+

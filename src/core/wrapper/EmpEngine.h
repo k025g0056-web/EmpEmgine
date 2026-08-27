@@ -38,4 +38,5 @@ public:
 	static void SetVertexShader(const std::wstring& filePath);
 	static void SetPixelShader(const std::wstring& filePath);
 	static D3D12_GPU_DESCRIPTOR_HANDLE GetWhite1x1();
+	static void RebindRenderTarget();
 };

@@ -45,6 +45,11 @@ protected:
 	void SetUvTransForm(const Transform3d& uvTransform) { 
 		Matrix4x4 uvTransformMatrix = Affine3D22D(uvTransform);
 		materialData->uvTransform = uvTransformMatrix; }
+	void SetUpCommonDrawState(ID3D12GraphicsCommandList* commandList,
+		D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU);
+	void DrawCallVertexOnly(ID3D12GraphicsCommandList* commandList,
+		D3D12_VERTEX_BUFFER_VIEW vertexBufferView, int vertex);
+
 public:
 	void Initialize(ID3D12Device* device,bool enableLighting);
 	void Release();

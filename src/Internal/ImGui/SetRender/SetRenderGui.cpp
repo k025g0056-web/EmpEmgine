@@ -30,11 +30,11 @@ void SetRenderGui::SetRasterizer() {
 	ImGui::Begin("Rasterizer");
 
 	if (ImGui::Combo("cullMode", &cullMode_, cullItems, 3)) {
-		EmpEngine::SetRasterizer(static_cast<D3D12_CULL_MODE>(cullMode_), static_cast<D3D12_FILL_MODE>(fillMode_ + 2));
+		EmpEngine::SetRasterizer(static_cast<D3D12_CULL_MODE>(cullMode_+1), static_cast<D3D12_FILL_MODE>(fillMode_ + 2));
 	}
 
 	if (ImGui::Combo("fillMode", &fillMode_, fillItems, 2)) {
-		EmpEngine::SetRasterizer(static_cast<D3D12_CULL_MODE>(cullMode_), static_cast<D3D12_FILL_MODE>(fillMode_ + 2));
+		EmpEngine::SetRasterizer(static_cast<D3D12_CULL_MODE>(cullMode_+1), static_cast<D3D12_FILL_MODE>(fillMode_ + 2));
 	}
 
 	ImGui::End();

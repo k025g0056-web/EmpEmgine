@@ -43,26 +43,22 @@ void EmpSystems::Initialize(int kWindowWidth, int kWindowHeight) {
 		managementDescriptHeap_.GetRenderTextureSrvHandleCPU(),
 		managementDescriptHeap_.GetRenderTextureSrvHandleGPU());
 	loader_.Initialize(managementDevice_.GetDevice(),managementCommand_.GetCommandList(),managementCommand_.GetCommandQueue(),managementCommand_.GetCommandAllocator(),managementCommand_.GetFenceEvent(),managementCommand_.GetFenceValue(),managementCommand_.GetFence(),managementDescriptHeap_.GetSrvDescriptorHeap());
-
-	D3D12_GPU_DESCRIPTOR_HANDLE qqq;
-	qqq.ptr = 0;
 	white1x1 = loader_.Texture().Load("white1x1.png");
 
 	managementLighting_.Initialize(managementDevice_.GetDevice());
 	drawManager_.Initialize(managementDevice_.GetDevice());
+	drawManager_.SetPostDrawFunc([this]() {PostDraw(); });
 }
 
 int EmpSystems::ProcessMessage() {
 	MSG msg{};
-	//Windowにメッセージが来ていたら最優先で処理させる
-	if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+	while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) { // ★if→while
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 		if (msg.message == WM_QUIT) {
 			return 1;
 		}
 	}
-
 	return 0;
 }
 
@@ -105,7 +101,7 @@ void EmpSystems::End() {
 		managementDescriptHeap_.GetDsvHandle());
 	ImGuiViewport* viewport = ImGui::GetMainViewport();
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-	OutputDebugStringA("before Begin\n");
+	
 	ImGui::Begin("Scene");
 
 	ImVec2 sceneSize = ImGui::GetContentRegionAvail();
@@ -124,6 +120,7 @@ void EmpSystems::End() {
 }
 
 void EmpSystems::Release() {
+	managementCommand_.WaitForGPU();
 	mymGui_.Release();
 	drawManager_.Release();
 	managementLighting_.Release();
@@ -199,6 +196,17 @@ void EmpSystems::SetPixelShader(const std::wstring& filePath) {
 	managementDXC_.SetPixelShader(filePath);
 }
 
-void EmpSystems::SetPostDraw() {
-	drawManager_.SetPostDrawFunc([this]() {PostDraw(); });
+void EmpSystems::RebindRenderTarget() {
+#ifdef USE_IMGUI
+	// ImGui有効時はrenderTexture_へ描画してるので、そのRTVを使ってDSVごと張り直す
+	managementCommand_.SetRenderTarget(
+		managementDescriptHeap_.GetRenderTextureRtvHandle(),
+		managementDescriptHeap_.GetDsvHandle());
+#else
+	// ImGui無効時はバックバッファへ直接描画してるので、現在のバックバッファを使う
+	UINT backBufferIndex = managementSwapChain_.GetSwapChain()->GetCurrentBackBufferIndex();
+	managementCommand_.SetRenderTarget(
+		managementDescriptHeap_.GetRtvHandles(backBufferIndex),
+		managementDescriptHeap_.GetDsvHandle());
+#endif
 }
