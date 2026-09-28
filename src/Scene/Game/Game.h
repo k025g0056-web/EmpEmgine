@@ -8,8 +8,6 @@
 #include"DataModel/Vector4.h"
 #include"DataModel/ModelData.h"
 #include"DataModel/SoundData.h"
-#include"Player.h"
-#include"MapManager.h"
 #include"DataModel/Vector2.h"
 
 class GameManager :public Scene {
@@ -20,16 +18,6 @@ class GameManager :public Scene {
 	ModelData goalModel_{};
 	ModelData playerModel_{};
 	D3D12_GPU_DESCRIPTOR_HANDLE playerHandle_;
-
-	MapManager mapManager_;
-	Player player_;
-	Vector3 CameraPos_{};
-
-	int count = 0;
-
-	ModelData titleModel_;
-	Transform3d titleTransform_{ {1000.0f,1000.0f,1.0f},{0.0f,0.0f,0.0f },{0.0f,0.0f,2.0f} };
-	D3D12_GPU_DESCRIPTOR_HANDLE TitleHandle_;
 
 public:
 

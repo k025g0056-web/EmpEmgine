@@ -6,7 +6,7 @@
 Title::Title() {}
 
 void Title::Initialize() {
-	model_ = EmpEngine::Resource().Model().LoadObjFile("Title", "Title");
+	
 }
 
 void Title::Update() {
@@ -19,5 +19,4 @@ void Title::Update() {
 }
 
 void Title::Draw() {
-	EmpEngine::Draw().DrawModel(model_, transform_, EmpEngine::GetWhite1x1(), Vector4{ 1.0f,1.0f,1.0f,1.0f });
 }
