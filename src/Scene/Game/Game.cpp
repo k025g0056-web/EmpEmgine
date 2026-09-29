@@ -30,8 +30,9 @@ void GameManager::Initialize() {
 void GameManager::Update() {
  
 
- 
-}
+    debugCamera_.Update();
+    EmpEngine::LightGUI();
+} 
 
 void GameManager::Draw() {
    
