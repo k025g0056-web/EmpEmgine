@@ -158,9 +158,6 @@
     <ClCompile Include="src\Internal\Loader\Manager\LoaderManager.cpp">
       <Filter>Engine\Management\Loader\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="Collision.cpp">
-      <Filter>Collision</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -336,9 +333,6 @@
     </Filter>
     <Filter Include="Engine\Management\Loader\Manager">
       <UniqueIdentifier>{7588cda6-70a6-45b4-b6d4-5cc5cad510c1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Collision">
-      <UniqueIdentifier>{30cf6950-5b5f-48cf-96fc-26a12e045ffb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -539,9 +533,6 @@
     </ClInclude>
     <ClInclude Include="src\DataModel\MeshData.h">
       <Filter>Engine\DataModel</Filter>
-    </ClInclude>
-    <ClInclude Include="Collision.h">
-      <Filter>Collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
