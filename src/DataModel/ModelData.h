@@ -1,9 +1,9 @@
 #pragma once
-#include"VertexData.h"
+#include"MeshData.h"
 #include<vector>
 #include"MaterialData.h"
 
 struct ModelData{
-	std::vector<VertexData> vertices;
-	MaterialData material;
+	std::vector<MeshData> meshes;
+	std::vector<MaterialData>materials;
 };

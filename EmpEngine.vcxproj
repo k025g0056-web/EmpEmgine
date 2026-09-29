@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
@@ -79,7 +79,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   <!-- Release -->
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
@@ -119,6 +119,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Collision.cpp" />
     <ClCompile Include="externals\imgui\imgui.cpp" />
     <ClCompile Include="externals\imgui\imgui_demo.cpp" />
     <ClCompile Include="externals\imgui\imgui_draw.cpp" />
@@ -130,13 +131,21 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="src\appObj\Camera\Camera3d\Camera3d.cpp" />
     <ClCompile Include="src\appObj\Camera\Controller\CameraController.cpp" />
     <ClCompile Include="src\appObj\Light\ManagementLighting.cpp" />
-    <ClCompile Include="src\ClashHandler\ClashHandler.cpp" />
+    <ClCompile Include="src\ClashHandler\CrashHandler.cpp" />
     <ClCompile Include="src\core\internal\EmpSystems.cpp" />
     <ClCompile Include="src\core\wrapper\EmpEngine.cpp" />
     <ClCompile Include="src\DataModel\Matrix3x3.cpp" />
     <ClCompile Include="src\DataModel\Matrix4x4.cpp" />
     <ClCompile Include="src\DataModel\Vector3.cpp" />
     <ClCompile Include="src\DataModel\Vertex42d.cpp" />
+    <ClCompile Include="src\interaction\Draw\DoubleTriangle\DoubleTriangle.cpp" />
+    <ClCompile Include="src\interaction\Draw\Manager\DrawManager.cpp" />
+    <ClCompile Include="src\interaction\Draw\Model\Model.cpp" />
+    <ClCompile Include="src\interaction\Draw\shape\Shape.cpp" />
+    <ClCompile Include="src\interaction\Draw\Sphere\Sphere.cpp" />
+    <ClCompile Include="src\interaction\Draw\Sprite\Sprite.cpp" />
+    <ClCompile Include="src\interaction\Draw\Triangle\Triangle.cpp" />
+    <ClCompile Include="src\interaction\Input\Input.cpp" />
     <ClCompile Include="src\Internal\command\ManagementCommand.cpp" />
     <ClCompile Include="src\Internal\debug\ManagementDebug.cpp" />
     <ClCompile Include="src\Internal\DescriptorHeap\ManagementDescriptorHeap.cpp" />
@@ -146,20 +155,14 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="src\Internal\DXGI\ManagementDXGIFactory.cpp" />
     <ClCompile Include="src\Internal\ImGui\mine\MymGui.cpp" />
     <ClCompile Include="src\Internal\ImGui\render\RenderTexture.cpp" />
+    <ClCompile Include="src\Internal\ImGui\SetRender\SetRenderGui.cpp" />
     <ClCompile Include="src\Internal\Loader\Audio\ManagementAudio.cpp" />
+    <ClCompile Include="src\Internal\Loader\Manager\LoaderManager.cpp" />
     <ClCompile Include="src\Internal\Loader\Model\ManagementModel.cpp" />
     <ClCompile Include="src\Internal\Loader\Texture\ManagementTexture.cpp" />
     <ClCompile Include="src\Internal\SwapChain\ManagementSwapChain.cpp" />
     <ClCompile Include="src\Internal\viewport\ManagementViewPort.cpp" />
     <ClCompile Include="src\Internal\Window\managementWindow.cpp" />
-    <ClCompile Include="src\intraction\Draw\DoubleTriangle\DoubleTriangle.cpp" />
-    <ClCompile Include="src\intraction\Draw\Manager\DrawManager.cpp" />
-    <ClCompile Include="src\intraction\Draw\Model\Model.cpp" />
-    <ClCompile Include="src\intraction\Draw\shape\Shape.cpp" />
-    <ClCompile Include="src\intraction\Draw\Sphere\Sphere.cpp" />
-    <ClCompile Include="src\intraction\Draw\Sprite\Sprite.cpp" />
-    <ClCompile Include="src\intraction\Draw\Triangle\Triangle.cpp" />
-    <ClCompile Include="src\intraction\Input\Input.cpp" />
     <ClCompile Include="src\Log\ManagementLog.cpp" />
     <ClCompile Include="src\Scene\Base\SceneBase.cpp" />
     <ClCompile Include="src\Scene\Clear\Clear.cpp" />
@@ -170,6 +173,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="src\Scene\wrapper\SceneSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Collision.h" />
     <ClInclude Include="externals\imgui\imconfig.h" />
     <ClInclude Include="externals\imgui\imgui.h" />
     <ClInclude Include="externals\imgui\imgui_impl_dx12.h" />
@@ -182,14 +186,16 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="src\appObj\Camera\Controller\CameraController.h" />
     <ClInclude Include="src\appObj\Light\DirectionalLight.h" />
     <ClInclude Include="src\appObj\Light\ManagementLighting.h" />
-    <ClInclude Include="src\ClashHandler\ClashHandler.h" />
-    <ClInclude Include="src\core\internal\EmpSysetms.h" />
+    <ClInclude Include="src\ClashHandler\CrashHandler.h" />
+    <ClInclude Include="src\core\internal\EmpSystems.h" />
     <ClInclude Include="src\core\wrapper\EmpEngine.h" />
+    <ClInclude Include="src\DataModel\BlendMode.h" />
     <ClInclude Include="src\DataModel\Material.h" />
     <ClInclude Include="src\DataModel\MaterialData.h" />
     <ClInclude Include="src\DataModel\Matrix2x2.h" />
     <ClInclude Include="src\DataModel\Matrix3x3.h" />
     <ClInclude Include="src\DataModel\Matrix4x4.h" />
+    <ClInclude Include="src\DataModel\MeshData.h" />
     <ClInclude Include="src\DataModel\ModelData.h" />
     <ClInclude Include="src\DataModel\SoundData.h" />
     <ClInclude Include="src\DataModel\TransForm3d.h" />
@@ -199,6 +205,15 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="src\DataModel\Vector4.h" />
     <ClInclude Include="src\DataModel\Vertex42d.h" />
     <ClInclude Include="src\DataModel\VertexData.h" />
+    <ClInclude Include="src\interaction\Draw\DoubleTriangle\DoubleTriangle.h" />
+    <ClInclude Include="src\interaction\Draw\Manager\DrawManager.h" />
+    <ClInclude Include="src\interaction\Draw\Model\Model.h" />
+    <ClInclude Include="src\interaction\Draw\shape\Shape.h" />
+    <ClInclude Include="src\interaction\Draw\Sphere\Sphere.h" />
+    <ClInclude Include="src\interaction\Draw\Sprite\Sprite.h" />
+    <ClInclude Include="src\interaction\Draw\Triangle\Triangle.h" />
+    <ClInclude Include="src\interaction\Input\Input.h" />
+    <ClInclude Include="src\interaction\Input\KeyDiffine.h" />
     <ClInclude Include="src\Internal\command\ManagementCommand.h" />
     <ClInclude Include="src\Internal\debug\ManagementDebug.h" />
     <ClInclude Include="src\Internal\DescriptorHeap\ManagementDescriptorHeap.h" />
@@ -208,21 +223,14 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="src\Internal\DXGI\ManagementDXGIFactory.h" />
     <ClInclude Include="src\Internal\ImGui\mine\MymGui.h" />
     <ClInclude Include="src\Internal\ImGui\render\RenderTexture.h" />
+    <ClInclude Include="src\Internal\ImGui\SetRender\SetRenderGui.h" />
     <ClInclude Include="src\Internal\Loader\Audio\ManagementAudio.h" />
+    <ClInclude Include="src\Internal\Loader\Manager\LoaderManager.h" />
     <ClInclude Include="src\Internal\Loader\Model\ManagementModel.h" />
     <ClInclude Include="src\Internal\Loader\Texture\ManagementTexture.h" />
     <ClInclude Include="src\Internal\SwapChain\ManagementSwapChain.h" />
     <ClInclude Include="src\Internal\viewport\ManagementViewPort.h" />
     <ClInclude Include="src\Internal\Window\managementWindow.h" />
-    <ClInclude Include="src\intraction\Draw\DoubleTriangle\DoubleTriangle.h" />
-    <ClInclude Include="src\intraction\Draw\Manager\DrawManager.h" />
-    <ClInclude Include="src\intraction\Draw\Model\Model.h" />
-    <ClInclude Include="src\intraction\Draw\shape\Shape.h" />
-    <ClInclude Include="src\intraction\Draw\Sphere\Sphere.h" />
-    <ClInclude Include="src\intraction\Draw\Sprite\Sprite.h" />
-    <ClInclude Include="src\intraction\Draw\Triangle\Triangle.h" />
-    <ClInclude Include="src\intraction\Input\Input.h" />
-    <ClInclude Include="src\intraction\Input\KeyDiffine.h" />
     <ClInclude Include="src\Log\ManagementLog.h" />
     <ClInclude Include="src\Scene\Base\SceneBase.h" />
     <ClInclude Include="src\Scene\Clear\Clear.h" />

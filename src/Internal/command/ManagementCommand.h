@@ -59,4 +59,9 @@ public:
 		clearColor_[2] = color.z;
 		clearColor_[3] = color.w;
 	}
+
+	void WaitForGPU() {
+		SendSignal();
+		WaitingGPU();
+	}
 };

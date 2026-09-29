@@ -23,9 +23,6 @@
     <ClCompile Include="src\Scene\Title\TItle.cpp">
       <Filter>Engine\Scene\Title</Filter>
     </ClCompile>
-    <ClCompile Include="src\Scene\wrapper\SceneSystem.cpp">
-      <Filter>Engine\Scene\wrapper</Filter>
-    </ClCompile>
     <ClCompile Include="src\Scene\Clear\Clear.cpp">
       <Filter>Engine\Scene\Clear</Filter>
     </ClCompile>
@@ -101,35 +98,11 @@
     <ClCompile Include="src\appObj\Light\ManagementLighting.cpp">
       <Filter>Engine\AppObj\Light</Filter>
     </ClCompile>
-    <ClCompile Include="src\intraction\Input\Input.cpp">
-      <Filter>Engine\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="src\intraction\Draw\Manager\DrawManager.cpp">
-      <Filter>Engine\Draw\Manager</Filter>
-    </ClCompile>
     <ClCompile Include="src\Log\ManagementLog.cpp">
       <Filter>Engine\Log</Filter>
     </ClCompile>
-    <ClCompile Include="src\ClashHandler\ClashHandler.cpp">
-      <Filter>Engine\ClashHandler</Filter>
-    </ClCompile>
-    <ClCompile Include="src\intraction\Draw\DoubleTriangle\DoubleTriangle.cpp">
-      <Filter>Engine\Draw\DoubleTriangle</Filter>
-    </ClCompile>
-    <ClCompile Include="src\intraction\Draw\Model\Model.cpp">
-      <Filter>Engine\Draw\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="src\intraction\Draw\Sphere\Sphere.cpp">
-      <Filter>Engine\Draw\Sphere</Filter>
-    </ClCompile>
-    <ClCompile Include="src\intraction\Draw\shape\Shape.cpp">
-      <Filter>Engine\Draw\Shape</Filter>
-    </ClCompile>
-    <ClCompile Include="src\intraction\Draw\Sprite\Sprite.cpp">
-      <Filter>Engine\Draw\Sprite</Filter>
-    </ClCompile>
-    <ClCompile Include="src\intraction\Draw\Triangle\Triangle.cpp">
-      <Filter>Engine\Draw\Triangle</Filter>
+    <ClCompile Include="src\ClashHandler\CrashHandler.cpp">
+      <Filter>Engine\CrashHandler</Filter>
     </ClCompile>
     <ClCompile Include="externals\imgui\imgui.cpp">
       <Filter>Engine\ImGui</Filter>
@@ -151,6 +124,42 @@
     </ClCompile>
     <ClCompile Include="externals\imgui\imgui_widgets.cpp">
       <Filter>Engine\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Internal\ImGui\SetRender\SetRenderGui.cpp">
+      <Filter>Engine\Management\ImGui\SetRender</Filter>
+    </ClCompile>
+    <ClCompile Include="src\interaction\Draw\Sprite\Sprite.cpp">
+      <Filter>Engine\Draw\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="src\interaction\Draw\Triangle\Triangle.cpp">
+      <Filter>Engine\Draw\Triangle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\interaction\Draw\Sphere\Sphere.cpp">
+      <Filter>Engine\Draw\Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="src\interaction\Draw\shape\Shape.cpp">
+      <Filter>Engine\Draw\Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="src\interaction\Draw\Model\Model.cpp">
+      <Filter>Engine\Draw\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="src\interaction\Draw\Manager\DrawManager.cpp">
+      <Filter>Engine\Draw\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\interaction\Draw\DoubleTriangle\DoubleTriangle.cpp">
+      <Filter>Engine\Draw\DoubleTriangle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\interaction\Input\Input.cpp">
+      <Filter>Engine\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scene\wrapper\SceneSystem.cpp">
+      <Filter>Engine\Scene\wrapper</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Internal\Loader\Manager\LoaderManager.cpp">
+      <Filter>Engine\Management\Loader\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -174,9 +183,6 @@
     </Filter>
     <Filter Include="Engine\Scene\Title">
       <UniqueIdentifier>{84898b97-efb8-4574-8b4f-82ae98566971}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Scene\wrapper">
-      <UniqueIdentifier>{b2f35769-c099-4a25-981c-94586fd23a7a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Scene\Clear">
       <UniqueIdentifier>{c7007597-721a-446d-8d02-091d13d0338d}</UniqueIdentifier>
@@ -222,9 +228,6 @@
     </Filter>
     <Filter Include="Engine\DataModel\Vertex4\2d">
       <UniqueIdentifier>{8e3f3ed5-9d8b-4de2-8ea8-b6532e3d5179}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Management\Loader\Texture">
-      <UniqueIdentifier>{7352868f-e958-4a42-8f49-7e404e05a400}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Management\Loader\Model">
       <UniqueIdentifier>{d95f289d-6796-419f-acb5-7fdf696c8452}</UniqueIdentifier>
@@ -295,9 +298,6 @@
     <Filter Include="Engine\Log">
       <UniqueIdentifier>{ef9f76f6-8812-4981-82ef-960bf9f53c32}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\ClashHandler">
-      <UniqueIdentifier>{ffd0721c-d594-4083-b742-7269782f1837}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Draw\DoubleTriangle">
       <UniqueIdentifier>{afd7100c-c47e-4b1c-b327-aa8fa5482149}</UniqueIdentifier>
     </Filter>
@@ -322,11 +322,26 @@
     <Filter Include="Engine\Shader">
       <UniqueIdentifier>{d3251cc3-a62f-4f3e-b997-5c7220a5a1ea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Management\ImGui\SetRender">
+      <UniqueIdentifier>{e6c7f8af-6007-4e30-919d-9d7da489ec5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Management\Loader\Texture">
+      <UniqueIdentifier>{7352868f-e958-4a42-8f49-7e404e05a400}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\CrashHandler">
+      <UniqueIdentifier>{ffd0721c-d594-4083-b742-7269782f1837}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Scene\wrapper">
+      <UniqueIdentifier>{0ef7376a-c5cd-4c35-8d5c-25c090e0e4ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Management\Loader\Manager">
+      <UniqueIdentifier>{7588cda6-70a6-45b4-b6d4-5cc5cad510c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collision">
+      <UniqueIdentifier>{30cf6950-5b5f-48cf-96fc-26a12e045ffb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\core\internal\EmpSysetms.h">
-      <Filter>Engine\Emp\internal</Filter>
-    </ClInclude>
     <ClInclude Include="src\core\wrapper\EmpEngine.h">
       <Filter>Engine\Emp\wrapper</Filter>
     </ClInclude>
@@ -338,9 +353,6 @@
     </ClInclude>
     <ClInclude Include="src\Scene\Title\Title.h">
       <Filter>Engine\Scene\Title</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Scene\wrapper\SceneSystem.h">
-      <Filter>Engine\Scene\wrapper</Filter>
     </ClInclude>
     <ClInclude Include="src\Scene\Clear\Clear.h">
       <Filter>Engine\Scene\Clear</Filter>
@@ -453,38 +465,11 @@
     <ClInclude Include="src\appObj\Light\ManagementLighting.h">
       <Filter>Engine\AppObj\Light</Filter>
     </ClInclude>
-    <ClInclude Include="src\intraction\Input\Input.h">
-      <Filter>Engine\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="src\intraction\Input\KeyDiffine.h">
-      <Filter>Engine\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="src\intraction\Draw\Manager\DrawManager.h">
-      <Filter>Engine\Draw\Manager</Filter>
-    </ClInclude>
     <ClInclude Include="src\Log\ManagementLog.h">
       <Filter>Engine\Log</Filter>
     </ClInclude>
-    <ClInclude Include="src\ClashHandler\ClashHandler.h">
-      <Filter>Engine\ClashHandler</Filter>
-    </ClInclude>
-    <ClInclude Include="src\intraction\Draw\DoubleTriangle\DoubleTriangle.h">
-      <Filter>Engine\Draw\DoubleTriangle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\intraction\Draw\Model\Model.h">
-      <Filter>Engine\Draw\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="src\intraction\Draw\Sphere\Sphere.h">
-      <Filter>Engine\Draw\Sphere</Filter>
-    </ClInclude>
-    <ClInclude Include="src\intraction\Draw\shape\Shape.h">
-      <Filter>Engine\Draw\Shape</Filter>
-    </ClInclude>
-    <ClInclude Include="src\intraction\Draw\Sprite\Sprite.h">
-      <Filter>Engine\Draw\Sprite</Filter>
-    </ClInclude>
-    <ClInclude Include="src\intraction\Draw\Triangle\Triangle.h">
-      <Filter>Engine\Draw\Triangle</Filter>
+    <ClInclude Include="src\ClashHandler\CrashHandler.h">
+      <Filter>Engine\CrashHandler</Filter>
     </ClInclude>
     <ClInclude Include="externals\imgui\imconfig.h">
       <Filter>Engine\ImGui</Filter>
@@ -509,6 +494,54 @@
     </ClInclude>
     <ClInclude Include="externals\imgui\imstb_truetype.h">
       <Filter>Engine\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataModel\BlendMode.h">
+      <Filter>Engine\DataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Internal\ImGui\SetRender\SetRenderGui.h">
+      <Filter>Engine\Management\ImGui\SetRender</Filter>
+    </ClInclude>
+    <ClInclude Include="src\interaction\Draw\Sprite\Sprite.h">
+      <Filter>Engine\Draw\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="src\interaction\Draw\Triangle\Triangle.h">
+      <Filter>Engine\Draw\Triangle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\interaction\Draw\Sphere\Sphere.h">
+      <Filter>Engine\Draw\Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="src\interaction\Draw\shape\Shape.h">
+      <Filter>Engine\Draw\Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="src\interaction\Draw\Model\Model.h">
+      <Filter>Engine\Draw\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="src\interaction\Draw\Manager\DrawManager.h">
+      <Filter>Engine\Draw\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\interaction\Draw\DoubleTriangle\DoubleTriangle.h">
+      <Filter>Engine\Draw\DoubleTriangle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\interaction\Input\Input.h">
+      <Filter>Engine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\interaction\Input\KeyDiffine.h">
+      <Filter>Engine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\internal\EmpSystems.h">
+      <Filter>Engine\Emp\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scene\wrapper\SceneSystem.h">
+      <Filter>Engine\Scene\wrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Internal\Loader\Manager\LoaderManager.h">
+      <Filter>Engine\Management\Loader\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataModel\MeshData.h">
+      <Filter>Engine\DataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>Collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

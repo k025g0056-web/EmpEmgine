@@ -1,114 +1,107 @@
 #include"EmpEngine.h"
 
-EmpSystems empSystems;
-SceneManager sceneManager_;
-
 void EmpEngine::Initialize(int kWindowWidth, int kWindowHeight,SceneName scene) {
-	empSystems.Initialize(kWindowWidth, kWindowHeight);
-	sceneManager_.Initialize(kWindowWidth, kWindowHeight, scene);
+	EmpSystems::GetInstance()->Initialize(kWindowWidth, kWindowHeight);
+	SceneManager::GetInstance()->Initialize(kWindowWidth, kWindowHeight, scene);
 }
 
 int EmpEngine::ProcessMessage() {
-	return empSystems.ProcessMessage();
+	return EmpSystems::GetInstance()->ProcessMessage();
 }
 
 void EmpEngine::Finalize() {
-	empSystems.Finalize();
+	EmpSystems::GetInstance()->Finalize();
 }
 
 void EmpEngine::SetWindowSize(unsigned int index,int windowWidth,int windowHeight) {
-	empSystems.SetWindowSize(index, windowWidth, windowHeight);
+	EmpSystems::GetInstance()->SetWindowSize(index, windowWidth, windowHeight);
 }
 
 void EmpEngine::Begin() {
-	empSystems.Begin();
+	EmpSystems::GetInstance()->Begin();
 }
 
 void EmpEngine::End() {
-	empSystems.End();
-}
-
-void EmpEngine::DrawTriangle(Vector3 v0, Vector3 v1,
-	Vector3 v2, Vector4 color, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle) {
-	empSystems.DrawTriangle(v0, v1, v2, color,GraphHandle);
-}
-
-void EmpEngine::DrawTriangle(Transform3d transform, Vector3 v0,
-	Vector3 v1, Vector3 v2, Vector4 color, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle) {
-	empSystems.DrawTriangleTrans(transform, v0, v1, v2, color,GraphHandle);
-}
-
-
-D3D12_GPU_DESCRIPTOR_HANDLE EmpEngine::LoadTexture(const std::string& str) {
-	return empSystems.LoadTexture(str);
-}
-
-void EmpEngine::DrawSprite(const Transform3d& transform, const Vector2& v0,
-	const Vector2& v1, const Vector2& v2, const Vector2& v3, const Vector4& color,
-	D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle, const Transform3d& uvTransform) {
-	empSystems.DrawSprite(transform, v0, v1, v2, v3, color, GraphHandle,uvTransform);
-}
-
-void EmpEngine::DrawSphere(const Transform3d& transform, const Vector4& color
-	, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle) {
-	empSystems.DrawSphere(transform, color, GraphHandle);
+	EmpSystems::GetInstance()->End();
 }
 
 bool EmpEngine::EndManagement() {
-	return sceneManager_.EndManagement();
+	return SceneManager::GetInstance()->EndManagement();
 }
 
 void EmpEngine::Process() {
-	sceneManager_.Process();
+	SceneManager::GetInstance()->Update();
+	SceneManager::GetInstance()->Draw();
+
 }
 
 void EmpEngine::LightGUI() {
-	empSystems.LightGUI();
-}
-
-void EmpEngine::DrawTriangleColor(const Vector3& v0, const Vector3& v1,
-	const Vector3& v2, const Vector4 color) {
-	empSystems.DrawTriangleColor(v0, v1, v2, color);
-}
-
-void EmpEngine::DrawTriangleColor(const Transform3d& transform, const Vector3& v0, const Vector3& v1,
-	const Vector3& v2, const Vector4 color) {
-	empSystems.DrawTriangleColor(transform, v0, v1, v2, color);
+	EmpSystems::GetInstance()->LightGUI();
 }
 
 void EmpEngine::SetWindowColor(Vector4 color) {
-	empSystems.SetWindowColor(color);
+	EmpSystems::GetInstance()->SetWindowColor(color);
 }
 
-ModelData EmpEngine::LoadObjFile(const std::string& directoryPath, const std::string& filename) {
-	return empSystems.LoadObjFile(directoryPath, filename);
+LoaderManager& EmpEngine::Resource() {
+	return EmpSystems::GetInstance()->Resource();
 }
 
-void EmpEngine::DrawPreModel(const Transform3d& transform, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle, const ModelData& modelData_) {
-	empSystems.DrawPreModel(transform, GraphHandle, modelData_);
-}
-
-SoundData EmpEngine::SoundLoadWave(const char* filename) {
-	return empSystems.SoundLoadWave(filename);
-}
-
-void EmpEngine::PlayAudio(const SoundData& soundData) {
-	empSystems.PlayAudio(soundData);
-}
-
-void EmpEngine::UnLoadAudio(SoundData* soundData) {
-	empSystems.UnLoadAudio(soundData);
+DrawManager& EmpEngine::Draw() {
+	return EmpSystems::GetInstance()->Draw();
 }
 
 void EmpEngine::DrawLight() {
-	empSystems.DrawLight();
+	EmpSystems::GetInstance()->DrawLight();
 }
 
-ID3D12Device* EmpEngine::GetDevice() { return empSystems.GetDevice(); }
+ID3D12Device* EmpEngine::GetDevice() { return EmpSystems::GetInstance()->GetDevice(); }
 
-void EmpEngine::DrawCompressModel(
-	const Transform3d& transform,
-	D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle,
-	Model& model) {
-	empSystems.DrawCompressModel(transform, GraphHandle, model);
+void EmpEngine::GeneratePSO() {
+	EmpSystems::GetInstance()->GeneratePSO();
+}
+
+void EmpEngine::SetBlendMode(BlendMode blendMode) {
+	EmpSystems::GetInstance()->SetBlendMode(blendMode);
+}
+
+void EmpEngine::SetRasterizer(D3D12_CULL_MODE cullMode, D3D12_FILL_MODE fillMode) {
+	EmpSystems::GetInstance()->SetRasterizer(cullMode, fillMode);
+}
+
+void EmpEngine::SetDepthStencil(bool depthEnable, D3D12_DEPTH_WRITE_MASK DepthWriteMask, D3D12_COMPARISON_FUNC comparisonFunc) {
+	EmpSystems::GetInstance()->SetDepthStencil(depthEnable, DepthWriteMask, comparisonFunc);
+}
+
+void EmpEngine::SetPosition(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset) {
+	EmpSystems::GetInstance()->SetPosition(name, index, format, offset);
+}
+
+void EmpEngine::SetTexCoord(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset) {
+	EmpSystems::GetInstance()->SetTexCoord(name, index, format, offset);
+}
+
+void EmpEngine::SetNormal(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset) {
+	EmpSystems::GetInstance()->SetNormal(name, index, format, offset);
+}
+
+void EmpEngine::SetVertexShader(const std::wstring& filePath) {
+	EmpSystems::GetInstance()->SetVertexShader(filePath);
+}
+
+void EmpEngine::SetPixelShader(const std::wstring& filePath) {
+	EmpSystems::GetInstance()->SetPixelShader(filePath);
+}
+
+D3D12_GPU_DESCRIPTOR_HANDLE EmpEngine::GetWhite1x1() {
+	return EmpSystems::GetInstance()->GetWhite1x1();
+}
+
+void EmpEngine::PostDraw() {
+	EmpSystems::GetInstance()->PostDraw();
+}
+
+// EmpEngine.cpp に追加
+void EmpEngine::RebindRenderTarget() {
+	EmpSystems::GetInstance()->RebindRenderTarget();
 }

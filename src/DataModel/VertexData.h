@@ -5,6 +5,6 @@
 
 struct VertexData {
 	Vector4 position;
-	Vector2 texcoord;
+	Vector2 texCoord;
 	Vector3 normal;
 };

@@ -8,32 +8,17 @@
 #include"DataModel/Vector4.h"
 #include"DataModel/ModelData.h"
 #include"DataModel/SoundData.h"
-#include"intraction/Draw/Model/Model.h"
+#include"DataModel/Vector2.h"
 
 class GameManager :public Scene {
-	//課題用の変数
-	//----------------------------------------------------------------------------//
-	D3D12_GPU_DESCRIPTOR_HANDLE uvChecker{};
-	D3D12_GPU_DESCRIPTOR_HANDLE monsterBall{};
-	D3D12_GPU_DESCRIPTOR_HANDLE sphereHandle{};
-	ModelData modelData_;
-	bool useMonsterBall = true;
-	Transform3d transform{ {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
-	Transform3d transformSpr{ {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
-	Transform3d uvTransformSpr{ {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
-	Vector4 SprColor{ 1.0f,1.0f,1.0f,1.0f };
-	Vector4 colorBuff = {};
-	SoundData Alarm01_;
+	ModelData ItemModel_{};
+	D3D12_GPU_DESCRIPTOR_HANDLE ItemTextureHandle_;
+	ModelData blockModel_{};
+	D3D12_GPU_DESCRIPTOR_HANDLE blockHandle_;
+	ModelData goalModel_{};
+	ModelData playerModel_{};
+	D3D12_GPU_DESCRIPTOR_HANDLE playerHandle_;
 
-	Model  model_;
-	bool   compressStarted_ = false;
-	// deltaTime_ を追加なの
-	float deltaTime_ = 0.0f;
-	//---------------------------------------------------------------------------//
-
-	void DrawHomeWork();
-	void UpdateHomeWork();
-	void GuiHomeWork();
 public:
 
 	void Initialize() override;
@@ -48,5 +33,4 @@ public:
 	GameManager& operator=(const GameManager&) = delete;
 private:
 	DebugCamera debugCamera_;
-	void GUI();
 };

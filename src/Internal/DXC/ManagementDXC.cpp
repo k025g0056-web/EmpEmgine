@@ -5,10 +5,20 @@
 #include<format>
 
 void ManagementDXC::Initialize(ID3D12Device* device) {
+	device_ = device;
+
 	GenerateInstance();
 	SettingHandler();
-	GenerateRootSignature(device);
-	GeneratePSO(device);
+	GenerateRootSignature();
+	SetPosition("POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, D3D12_APPEND_ALIGNED_ELEMENT);
+	SetTexCoord("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, D3D12_APPEND_ALIGNED_ELEMENT);
+	SetNormal("NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, D3D12_APPEND_ALIGNED_ELEMENT);
+	SetBlendMode(kBlendModeNone);
+	SetRasterizer(D3D12_CULL_MODE_NONE, D3D12_FILL_MODE_SOLID);
+	SetDepthStencil(true, D3D12_DEPTH_WRITE_MASK_ALL, D3D12_COMPARISON_FUNC_LESS_EQUAL);
+	SetVertexShader(L"Object3D.VS.hlsl");
+	SetPixelShader(L"Object3D.PS.hlsl");
+	GeneratePSO();
 }
 
 void ManagementDXC::GenerateInstance() {
@@ -30,14 +40,16 @@ IDxcBlob* ManagementDXC::CompileShader(const std::wstring& filePath, const wchar
 	IDxcBlobUtf8* shaderError = nullptr;
 	IDxcBlob* shaderBlob = nullptr;
 
+	std::wstring file = L"resources/shader/" + filePath;
+
 	//1.hlslファイルを読む
-	LoadingFile(filePath, profile,shaderSource,shaderSourceBuffer);
+	LoadingFile(file, profile,shaderSource,shaderSourceBuffer);
 	//2.Compileする
-	Compiling(filePath, profile,shaderSourceBuffer,shaderResult);
+	Compiling(file, profile,shaderSourceBuffer,shaderResult);
 	//3.警告・エラーが出てないか確認する
 	CheckingError(shaderResult,shaderError);
 	//4.Compile結果を受け取って返す
-	ReturnResult(filePath,profile,shaderResult,shaderBlob,shaderSource);
+	ReturnResult(file,profile,shaderResult,shaderBlob,shaderSource);
 	//実行用のバイナリを返却
 	return shaderBlob;
 }
@@ -96,7 +108,7 @@ void ManagementDXC::ReturnResult(const std::wstring& filePath, const wchar_t* pr
 	shaderResult->Release();
 }
 
-void ManagementDXC::GenerateRootSignature(ID3D12Device* device) {
+void ManagementDXC::GenerateRootSignature() {
 
 	//この関数で使う変数の初期化
 	//----------------------------------------------------------//
@@ -171,7 +183,7 @@ void ManagementDXC::GenerateRootSignature(ID3D12Device* device) {
 		assert(false);
 	}
 
-	hr = device->CreateRootSignature(0,
+	hr = device_->CreateRootSignature(0,
 		signatureBlob_->GetBufferPointer(), signatureBlob_->GetBufferSize(),
 		IID_PPV_ARGS(&rootSignature_));
 	assert(SUCCEEDED(hr));
@@ -188,120 +200,63 @@ void ManagementDXC::GenerateRootSignature(ID3D12Device* device) {
 
 }
 
-void ManagementDXC::GeneratePSO(ID3D12Device* device) {
+void ManagementDXC::GeneratePSO() {
+
+	if (!isDirty_) {
+		return;
+	}
 
 	//関数で使う変数の初期化
 	//--------------------------------------------------//
 	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc_{};
-	D3D12_BLEND_DESC blendDesc_{};
-	D3D12_RASTERIZER_DESC rasterizerDesc{};
-	IDxcBlob* vertexShaderBlob_ = nullptr;
-	IDxcBlob* pixelShaderBlob_ = nullptr;
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicspipelineStateDesc{};
-	D3D12_INPUT_ELEMENT_DESC inputElementDescs_[3] = {};
-	D3D12_DEPTH_STENCIL_DESC depthStencilDesc_{};
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc{};
 	//---------------------------------------------------//
 
 	//インプットレイヤーの設定
 	//====================================================================================//
 	
-	//ポジションの設定
-	//-----------------------------------------------------------//
-	inputElementDescs_[0].SemanticName = "POSITION";
-	inputElementDescs_[0].SemanticIndex = 0;
-	inputElementDescs_[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-	inputElementDescs_[0].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
-	//--------------------------------------------------------------//
-
-	//テックスコードの設定
-	//-----------------------------------------------------------//
-	inputElementDescs_[1].SemanticName = "TEXCOORD";
-	inputElementDescs_[1].SemanticIndex = 0;
-	inputElementDescs_[1].Format = DXGI_FORMAT_R32G32_FLOAT;
-	inputElementDescs_[1].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
-	//-------------------------------------------------------------//
-
-	//法線の設定
-	//-----------------------------------------------------------//
-	inputElementDescs_[2].SemanticName = "NORMAL";
-	inputElementDescs_[2].SemanticIndex = 0;
-	inputElementDescs_[2].Format = DXGI_FORMAT_R32G32B32_FLOAT;
-	inputElementDescs_[2].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
-	//-----------------------------------------------------------//
-
 	inputLayoutDesc_.pInputElementDescs = inputElementDescs_;
 	inputLayoutDesc_.NumElements = _countof(inputElementDescs_);
 
 	//================================================================================//
 
-	//ブレンドの状態の設定
-	/*blendDesc_.RenderTarget[0].BlendEnable = TRUE;
-	blendDesc_.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
-	blendDesc_.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
-	blendDesc_.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
-	blendDesc_.RenderTarget[0].SrcBlendAlpha = D3D12_BLEND_ONE;
-	blendDesc_.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ZERO;
-	blendDesc_.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;*/
-	blendDesc_.RenderTarget[0].RenderTargetWriteMask =
-		D3D12_COLOR_WRITE_ENABLE_ALL;
-
-	//リスタライザーの設定
-	//----------------------------------------------------//
-	//裏面(時計回り)を表示しない
-	rasterizerDesc.CullMode = D3D12_CULL_MODE_BACK;
-	//三角形の中を塗りつぶす
-	rasterizerDesc.FillMode = D3D12_FILL_MODE_SOLID;
-	//-----------------------------------------------------//
-
 	//Depth Stencilの設定
 	//-------------------------------------------------------------------//
-	//Depthの機能を有効化する
-	depthStencilDesc_.DepthEnable = true;
-
-	//書き込みします
-	depthStencilDesc_.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
-
-	//比較関数はLessEqual。つまり、近ければ描画される
-	depthStencilDesc_.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
-
+	
 	//DepthStencilの設定
-	graphicspipelineStateDesc.DepthStencilState = depthStencilDesc_;
-	graphicspipelineStateDesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	graphicsPipelineStateDesc.DepthStencilState = depthStencilDesc_;
+	graphicsPipelineStateDesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	graphicsPipelineStateDesc.SampleDesc.Count = 1;
+	graphicsPipelineStateDesc.SampleDesc.Quality = 0;
 	//-------------------------------------------------------------------//
 
 	//シェーダーのコンパイル
 	//---------------------------------------------------------//
-	vertexShaderBlob_ = CompileShader(L"resources/shader/Object3D.VS.hlsl", L"vs_6_0");
-	assert(vertexShaderBlob_ != nullptr);
-
-	pixelShaderBlob_ = CompileShader(L"resources/shader/Object3D.PS.hlsl", L"ps_6_0");
-	assert(pixelShaderBlob_ != nullptr);
 	//----------------------------------------------------------//
 
-	graphicspipelineStateDesc.pRootSignature = rootSignature_.Get();//RootSignature
-	graphicspipelineStateDesc.InputLayout = inputLayoutDesc_;//InputLayout
-	graphicspipelineStateDesc.VS = { vertexShaderBlob_->GetBufferPointer(),
+	graphicsPipelineStateDesc.pRootSignature = rootSignature_.Get();//RootSignature
+	graphicsPipelineStateDesc.InputLayout = inputLayoutDesc_;//InputLayout
+	graphicsPipelineStateDesc.VS = { vertexShaderBlob_->GetBufferPointer(),
 	vertexShaderBlob_->GetBufferSize() };//vertexShader
-	graphicspipelineStateDesc.PS = { pixelShaderBlob_->GetBufferPointer(),
+	graphicsPipelineStateDesc.PS = { pixelShaderBlob_->GetBufferPointer(),
 	pixelShaderBlob_->GetBufferSize() };//pixelShader
-	graphicspipelineStateDesc.BlendState = blendDesc_;//BlendState
-	graphicspipelineStateDesc.RasterizerState = rasterizerDesc;//RasterizerState
+	graphicsPipelineStateDesc.BlendState = blendDesc_;//BlendState
+	graphicsPipelineStateDesc.RasterizerState = rasterizerDesc;//RasterizerState
 	//書き込むRTVの情報
-	graphicspipelineStateDesc.NumRenderTargets = 1;
-	graphicspipelineStateDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	graphicsPipelineStateDesc.NumRenderTargets = 1;
+	graphicsPipelineStateDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	//利用するトポロジ(形状)のタイプ。三角形
-	graphicspipelineStateDesc.PrimitiveTopologyType =
+	graphicsPipelineStateDesc.PrimitiveTopologyType =
 		D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 	//どのように画面に色を打ち込むかの設定
-	graphicspipelineStateDesc.SampleDesc.Count = 1;
-	graphicspipelineStateDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
+	graphicsPipelineStateDesc.SampleDesc.Count = 1;
+	graphicsPipelineStateDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
 
-	HRESULT hr = device->CreateGraphicsPipelineState(&graphicspipelineStateDesc,
+	HRESULT hr = device_->CreateGraphicsPipelineState(&graphicsPipelineStateDesc,
 		IID_PPV_ARGS(&graphicsPipelineState_));
 	assert(SUCCEEDED(hr));
 
-	vertexShaderBlob_->Release();
-	pixelShaderBlob_->Release();
+	isDirty_ = false;
 }
 
 void ManagementDXC::Release() {
@@ -309,3 +264,136 @@ void ManagementDXC::Release() {
 	graphicsPipelineState_.Reset();
 }
 
+void ManagementDXC::SetBlendMode(BlendMode blendMode) {
+	//ブレンドの状態の設定
+	blendDesc_.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+	blendDesc_.RenderTarget[0].BlendEnable = TRUE;
+	switch (blendMode) {
+	case kBlendModeNone:
+		blendDesc_.RenderTarget[0].SrcBlend = D3D12_BLEND_ONE;
+		blendDesc_.RenderTarget[0].DestBlend = D3D12_BLEND_ZERO;
+		blendDesc_.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
+		break;
+	case kBlendModeNormal:
+		blendDesc_.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
+		blendDesc_.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
+		blendDesc_.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
+
+		break;
+	case kBlendModeAdd:
+		blendDesc_.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
+		blendDesc_.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
+		blendDesc_.RenderTarget[0].DestBlend = D3D12_BLEND_ONE;
+
+		break;
+	case kBlendModeSubtract:
+		blendDesc_.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
+		blendDesc_.RenderTarget[0].BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;
+		blendDesc_.RenderTarget[0].DestBlend = D3D12_BLEND_ONE;
+
+		break;
+	case kBlendModeMultiply:
+		blendDesc_.RenderTarget[0].SrcBlend = D3D12_BLEND_ZERO;
+		blendDesc_.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
+		blendDesc_.RenderTarget[0].DestBlend = D3D12_BLEND_SRC_COLOR;
+
+		break;
+	case kBlendModeScreen:
+		blendDesc_.RenderTarget[0].SrcBlend = D3D12_BLEND_INV_DEST_COLOR;
+		blendDesc_.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
+		blendDesc_.RenderTarget[0].DestBlend = D3D12_BLEND_ONE;
+
+		break;
+	case kCountOfBlendMode:
+		blendDesc_.RenderTarget[0].SrcBlend = D3D12_BLEND_ONE;
+		blendDesc_.RenderTarget[0].DestBlend = D3D12_BLEND_ZERO;
+		blendDesc_.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
+		break;
+	default:
+		blendDesc_.RenderTarget[0].SrcBlend = D3D12_BLEND_ONE;
+		blendDesc_.RenderTarget[0].DestBlend = D3D12_BLEND_ZERO;
+		blendDesc_.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
+		break;
+	}
+
+	blendDesc_.RenderTarget[0].SrcBlendAlpha = D3D12_BLEND_ONE;
+	blendDesc_.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;
+	blendDesc_.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ZERO;
+
+	isDirty_ = true;
+}
+
+void ManagementDXC::SetRasterizer(D3D12_CULL_MODE cullMode, D3D12_FILL_MODE fillMode) {
+	//リスタライザーの設定
+	//----------------------------------------------------//
+	//裏面(時計回り)を表示しない
+	rasterizerDesc.CullMode = cullMode;
+	//三角形の中を塗りつぶす
+	rasterizerDesc.FillMode = fillMode;
+	//-----------------------------------------------------//
+
+	isDirty_ = true;
+}
+
+void ManagementDXC::SetDepthStencil(bool depthEnable, D3D12_DEPTH_WRITE_MASK DepthWriteMask, D3D12_COMPARISON_FUNC comparisonFunc) {
+	//Depthの機能を有効化する
+	depthStencilDesc_.DepthEnable = depthEnable;
+
+	//書き込みします
+	depthStencilDesc_.DepthWriteMask = DepthWriteMask;
+
+	//比較関数はLessEqual。つまり、近ければ描画される
+	depthStencilDesc_.DepthFunc = comparisonFunc;
+
+	isDirty_ = true;
+
+}
+
+void ManagementDXC::SetPosition(const char* name,unsigned int index, DXGI_FORMAT format,UINT offset) {
+	//ポジションの設定
+	//-----------------------------------------------------------//
+	inputElementDescs_[0].SemanticName = name;
+	inputElementDescs_[0].SemanticIndex = index;
+	inputElementDescs_[0].Format = format;
+	inputElementDescs_[0].AlignedByteOffset = offset;
+	//--------------------------------------------------------------//
+
+	isDirty_ = true;
+}
+
+void ManagementDXC::SetTexCoord(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset) {
+	//テックスコードの設定
+	//-----------------------------------------------------------//
+	inputElementDescs_[1].SemanticName = name;
+	inputElementDescs_[1].SemanticIndex = index;
+	inputElementDescs_[1].Format = format;
+	inputElementDescs_[1].AlignedByteOffset = offset;
+	//-------------------------------------------------------------//
+
+	isDirty_ = true;
+}
+
+void ManagementDXC::SetNormal(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset) {
+	//法線の設定
+	//-----------------------------------------------------------//
+	inputElementDescs_[2].SemanticName = name;
+	inputElementDescs_[2].SemanticIndex = index;
+	inputElementDescs_[2].Format = format;
+	inputElementDescs_[2].AlignedByteOffset = offset;
+	//-----------------------------------------------------------//
+
+	isDirty_ = true;
+}
+
+void ManagementDXC::SetVertexShader(const std::wstring& filePath) {
+	vertexShaderBlob_= CompileShader(filePath, L"vs_6_0");
+	assert(vertexShaderBlob_ != nullptr);
+
+	isDirty_ = true;
+}
+
+void ManagementDXC::SetPixelShader(const std::wstring& filePath) {
+	pixelShaderBlob_ = CompileShader(filePath, L"ps_6_0");
+	assert(pixelShaderBlob_ != nullptr);
+	isDirty_ = true;
+}

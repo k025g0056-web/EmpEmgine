@@ -1,21 +1,21 @@
-#include"EmpSysetms.h"
-#include"ClashHandler/ClashHandler.h"
+#include"EmpSystems.h"
+#include"ClashHandler/CrashHandler.h"
 #include"Log/ManagementLog.h"
 #include"Scene/wrapper/SceneSystem.h"
 #include<cassert>
-#include"Intraction/Input/Input.h"
+#include"Interaction/Input/Input.h"
 
-static int idx = 0;
-static int douInd = 0;
-static int sprInd = 0;
-static int sphInd = 0;
-static int modInd = 0;
+EmpSystems* EmpSystems::GetInstance() {
+	static EmpSystems instance;
+	return &instance;
+}
+
 void EmpSystems::Initialize(int kWindowWidth, int kWindowHeight) {
 	//誰も捕捉しなかった場合に(Unhandled)、捕捉する関数を登録
 	//main関数が始まってすぐに登録すると良い
 	HRESULT hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
 	assert(SUCCEEDED(hr) || hr == RPC_E_CHANGED_MODE);
-	SetUnhandledExceptionFilter(ClashHandler::ExportDump);
+	SetUnhandledExceptionFilter(CrashHandler::ExportDump);
 	managementWindow_.Initialize(kWindowWidth, kWindowHeight);
 	//debug initializeの場所ん
 	managementDebug_.EnableDebugLayerWrapping();
@@ -35,30 +35,30 @@ void EmpSystems::Initialize(int kWindowWidth, int kWindowHeight) {
 		managementSwapChain_.GetSwapChainDesc(), managementDescriptHeap_.GetRtvDesc(),
 		managementDescriptHeap_.GetSrvDescriptorHeap());
 #endif // USE_IMGUI
-	rendertex_.Initialize(
+	renderTexture_.Initialize(
 		managementDevice_.GetDevice(),
 		kWindowWidth,
 		kWindowHeight,
 		managementDescriptHeap_.GetRenderTextureRtvHandle(),
 		managementDescriptHeap_.GetRenderTextureSrvHandleCPU(),
 		managementDescriptHeap_.GetRenderTextureSrvHandleGPU());
-	white1x1 = LoadTexture("white1x1.png");
+	loader_.Initialize(managementDevice_.GetDevice(),managementCommand_.GetCommandList(),managementCommand_.GetCommandQueue(),managementCommand_.GetCommandAllocator(),managementCommand_.GetFenceEvent(),managementCommand_.GetFenceValue(),managementCommand_.GetFence(),managementDescriptHeap_.GetSrvDescriptorHeap());
+	white1x1 = loader_.Texture().Load("white1x1.png");
 
 	managementLighting_.Initialize(managementDevice_.GetDevice());
-	managementAudio_.Initialize();
+	drawManager_.Initialize(managementDevice_.GetDevice());
+	drawManager_.SetPostDrawFunc([this]() {PostDraw(); });
 }
 
 int EmpSystems::ProcessMessage() {
 	MSG msg{};
-	//Windowにメッセージが来ていたら最優先で処理させる
-	if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+	while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) { // ★if→while
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 		if (msg.message == WM_QUIT) {
 			return 1;
 		}
 	}
-
 	return 0;
 }
 
@@ -76,7 +76,7 @@ void EmpSystems::SetWindowSize(unsigned int index, int windowWidth, int windowHe
 
 void EmpSystems::Begin() {
 	Input::GetInstance()->InputAllUpdate();
-	drawManager_.Release();
+	drawManager_.ResetUsedCount();
 	managementCommand_.LoadCommand(
 		managementSwapChain_.GetSwapChain(), 
 		managementDescriptHeap_.GetRtvHandles(),
@@ -85,29 +85,15 @@ void EmpSystems::Begin() {
 #ifdef USE_IMGUI
 	mymGui_.Begin();
 	mymGui_.MakeDockSpace();
-	ImGui::Begin("Test");
-	ImGui::Text("Hello");
-	ImGui::End();
-	rendertex_.Begin(managementCommand_.GetCommandList(), managementDescriptHeap_.GetDsvHandle());
+	renderTexture_.Begin(managementCommand_.GetCommandList(), managementDescriptHeap_.GetDsvHandle());
 #endif // USE_IMGUI
-
-}
-
-
-void EmpSystems::DrawDoubleTriangle(const Transform3d& transform, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle) {
-	douInd = drawManager_.AddDoubleTriangle(managementDevice_.GetDevice());
-	PostDraw();
-	drawManager_.GetDoubleTriangle(douInd).
-		DrawDoubleTriangle(transform, managementCommand_.GetCommandList(), GraphHandle,*SceneSystem::GetCamera());
+	drawManager_.SetCommandList(managementCommand_.GetCommandList());
 }
 
 void EmpSystems::End() {
 #ifdef USE_IMGUI
-	OutputDebugStringA("before RenderTex End\n");
-
-	rendertex_.End(managementCommand_.GetCommandList());
-
-	OutputDebugStringA("after RenderTex End\n");
+	
+	renderTexture_.End(managementCommand_.GetCommandList());
 
 	UINT backBufferIndex = managementSwapChain_.GetSwapChain()->GetCurrentBackBufferIndex();
 	managementCommand_.SetRenderTarget(
@@ -115,13 +101,13 @@ void EmpSystems::End() {
 		managementDescriptHeap_.GetDsvHandle());
 	ImGuiViewport* viewport = ImGui::GetMainViewport();
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-	OutputDebugStringA("before Begin\n");
+	
 	ImGui::Begin("Scene");
 
 	ImVec2 sceneSize = ImGui::GetContentRegionAvail();
 	if (sceneSize.x > 0.0f && sceneSize.y > 0.0f) {
 		ImGui::Image(
-			(ImTextureID)rendertex_.GetSRV().ptr,
+			(ImTextureID)renderTexture_.GetSRV().ptr,
 			sceneSize);
 	}
 
@@ -134,10 +120,11 @@ void EmpSystems::End() {
 }
 
 void EmpSystems::Release() {
+	managementCommand_.WaitForGPU();
 	mymGui_.Release();
 	drawManager_.Release();
 	managementLighting_.Release();
-	managementTexture_.Release();
+	loader_.Release();
 	managementViewPort_.Release();
 	managementDXC_.Release();
 	managementDescriptHeap_.Release();
@@ -150,11 +137,6 @@ void EmpSystems::Release() {
 	managementWindow_.Release();
 }
 
-D3D12_GPU_DESCRIPTOR_HANDLE EmpSystems::LoadTexture(const std::string& filepath) {
-	return managementTexture_.LoadTexture(managementDevice_.GetDevice(), filepath,managementCommand_.GetCommandList()
-	,managementCommand_.GetCommandQueue(),managementCommand_.GetCommandAllocator(),managementCommand_.GetFenceEvent()
-	,managementCommand_.GetFenceValue(),managementCommand_.GetFence(),managementDescriptHeap_.GetSrvDescriptorHeap());
-}
 
 void EmpSystems::PostDraw() {
 	managementCommand_.PostDraw(managementViewPort_.GetViewPort(),
@@ -164,106 +146,67 @@ void EmpSystems::PostDraw() {
 	managementLighting_.DrawCall(managementCommand_.GetCommandList());
 }
 
-void EmpSystems::DrawTriangle(const Vector3& v0, const Vector3& v1, 
-	const Vector3& v2, const Vector4 color, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle) {
-	idx = drawManager_.AddTriangle(managementDevice_.GetDevice());
-	PostDraw();
-	drawManager_.GetTriangle(idx).DrawTriangle(v0, v1, v2, managementCommand_.GetCommandList(),
-		GraphHandle, color);
-}
-
-void EmpSystems::DrawTriangleTrans(const Transform3d& transform, const Vector3& v0,
-	const Vector3& v1, const Vector3& v2, const Vector4 color, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle) {
-	idx = drawManager_.AddTriangle(managementDevice_.GetDevice());;
-	PostDraw();
-	drawManager_.GetTriangle(idx).DrawTriangle(transform,v0, v1, v2, managementCommand_.GetCommandList(), 
-		GraphHandle, color,*SceneSystem::GetCamera());
-
-}
-
-void EmpSystems::DrawSprite(const Transform3d& transform, const Vector2& v0,
-	const Vector2& v1, const Vector2& v2, const Vector2& v3,const Vector4& color,
-	D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle, const Transform3d& uvTransform) {
-	sprInd = drawManager_.AddSprite(managementDevice_.GetDevice());
-	PostDraw();
-	drawManager_.GetSprite(sprInd).DrawSprite(transform,v0,v1,v2,v3,managementCommand_.GetCommandList(),
-		GraphHandle,color,*SceneSystem::GetCamera(),uvTransform);
-}
-
-void EmpSystems::DrawSphere(const Transform3d& transform, const Vector4& color
-	, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle) {
-	sphInd = drawManager_.AddSphere(managementDevice_.GetDevice());
-	PostDraw();
-	drawManager_.GetSphere(sphInd).DrawSphere(transform, color, 
-		managementCommand_.GetCommandList(), GraphHandle,*SceneSystem::GetCamera());
-}
-
-void EmpSystems::DrawColorSphere(const Transform3d& transform, const Vector4& color) {
-	DrawSphere(transform, color, white1x1);
-}
-
-void EmpSystems::DrawQuad(const Transform3d& transform, const Vector2& v0,
-	const Vector2& v1, const Vector2& v2, const Vector2& v3, const Vector4& color) {
-	DrawSprite(transform, v0, v1, v2, v3, color, white1x1,{ReturnAllOne(),{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f}});
-}
-
 void EmpSystems::LightGUI() {
 	managementLighting_.GUI();
-}
-
-void EmpSystems::DrawTriangleColor(const Vector3& v0, const Vector3& v1,
-	const Vector3& v2, const Vector4 color) {
-	DrawTriangle(v0, v1, v2, color, white1x1);
-}
-
-void EmpSystems::DrawTriangleColor(const Transform3d& transform, const Vector3& v0, const Vector3& v1,
-	const Vector3& v2, const Vector4 color) {
-	DrawTriangleTrans(transform,v0, v1, v2, color, white1x1);
 }
 
 void EmpSystems::SetWindowColor(Vector4 color) {
 	managementCommand_.SetClearColor(color);
 }
 
-ModelData EmpSystems::LoadObjFile(const std::string& directoryPath, const std::string& filename) {
-	return managementModel_.LoadObjFile(directoryPath, filename);
+void EmpSystems::DrawLight() {   
+	drawManager_.Draw<Sphere>(
+		Transform3d{ {0.05f,0.05f,0.05f},{0.0f,0.0f,0.0f},managementLighting_.GetDirection() },
+		Vector4{ 1.0f,1.0f,1.0f,1.0f }, white1x1);
 }
 
-void EmpSystems::DrawPreModel(const Transform3d& transform, D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle,const ModelData& modelData) {
-	modInd = drawManager_.AddModel(managementDevice_.GetDevice(), modelData);
-	PostDraw();
-	drawManager_.GetModel(modInd).DrawModel(transform, managementCommand_.GetCommandList(), GraphHandle,
-		{ 1.0f,1.0f,1.0f,1.0f }, *SceneSystem::GetCamera());
-
+void EmpSystems::GeneratePSO() {
+	managementDXC_.GeneratePSO();
 }
 
-SoundData EmpSystems::SoundLoadWave(const char* filename) {
-	return managementAudio_.SoundLoadWave(filename);
+void EmpSystems::SetBlendMode(BlendMode blendMode) {
+	managementDXC_.SetBlendMode(blendMode);
 }
 
-void EmpSystems::PlayAudio(const SoundData& soundData) {
-	managementAudio_.SoundPlayWave(soundData);
+void EmpSystems::SetRasterizer(D3D12_CULL_MODE cullMode, D3D12_FILL_MODE fillMode) {
+	managementDXC_.SetRasterizer(cullMode, fillMode);
 }
 
-void EmpSystems::UnLoadAudio(SoundData* soundData) {
-	managementAudio_.SoundUnload(soundData);
+void EmpSystems::SetDepthStencil(bool depthEnable, D3D12_DEPTH_WRITE_MASK DepthWriteMask, D3D12_COMPARISON_FUNC comparisonFunc) {
+	managementDXC_.SetDepthStencil(depthEnable, DepthWriteMask, comparisonFunc);
 }
 
-void EmpSystems::DrawLight() {
-	DrawSphere({ {0.05f,0.05f,0.05f},{0.0f,0.0f,0.0f},managementLighting_.GetDirection() }, { 1.0f,1.0f,1.0f,1.0f }, white1x1);
+void EmpSystems::SetPosition(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset) {
+	managementDXC_.SetPosition(name, index, format, offset);
 }
 
-// ファイルの一番下に追加
-void EmpSystems::DrawCompressModel(
-	const Transform3d& transform,
-	D3D12_GPU_DESCRIPTOR_HANDLE GraphHandle,
-	Model& model)
-{
-	PostDraw();
-	model.DrawModel(
-		transform,
-		managementCommand_.GetCommandList(),
-		GraphHandle,
-		{ 1.0f, 1.0f, 1.0f, 1.0f },
-		*SceneSystem::GetCamera());
+void EmpSystems::SetTexCoord(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset) {
+	managementDXC_.SetTexCoord(name, index, format, offset);
+}
+
+void EmpSystems::SetNormal(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset) {
+	managementDXC_.SetNormal(name, index, format, offset);
+}
+
+void EmpSystems::SetVertexShader(const std::wstring& filePath) {
+	managementDXC_.SetVertexShader(filePath);
+}
+
+void EmpSystems::SetPixelShader(const std::wstring& filePath) {
+	managementDXC_.SetPixelShader(filePath);
+}
+
+void EmpSystems::RebindRenderTarget() {
+#ifdef USE_IMGUI
+	// ImGui有効時はrenderTexture_へ描画してるので、そのRTVを使ってDSVごと張り直す
+	managementCommand_.SetRenderTarget(
+		managementDescriptHeap_.GetRenderTextureRtvHandle(),
+		managementDescriptHeap_.GetDsvHandle());
+#else
+	// ImGui無効時はバックバッファへ直接描画してるので、現在のバックバッファを使う
+	UINT backBufferIndex = managementSwapChain_.GetSwapChain()->GetCurrentBackBufferIndex();
+	managementCommand_.SetRenderTarget(
+		managementDescriptHeap_.GetRtvHandles(backBufferIndex),
+		managementDescriptHeap_.GetDsvHandle());
+#endif
 }

@@ -1,12 +1,20 @@
 #include "SceneManager.h"
-#include"intraction/Input/Input.h"
+#include"interaction/Input/Input.h"
 #include"Scene/Game/Game.h"
 #include"Scene/Title/Title.h"
 #include"Scene/Clear/Clear.h"
 #include"Scene/Over/Over.h"
 #include"Scene/wrapper/SceneSystem.h"
+#include"externals/imgui/imgui.h"
+#include"Log/ManagementLog.h"
+#include "core/wrapper/EmpEngine.h"
+
+SceneManager* SceneManager::GetInstance() {
+	static SceneManager instance;
+	return&instance;
+}
+
 SceneManager::SceneManager() {
-	SceneSystem::Bind(this);
 	camera_ = std::make_unique<Camera3d>();
 }
 
@@ -18,6 +26,10 @@ void SceneManager::Initialize(int windowWidth, int windowHeight, SceneName scene
 }
 
 void SceneManager::Update() {
+#ifdef USE_IMGUI
+	setRender_.Update();
+	Gui();
+#endif
 	scene_->Update();
 }
 
@@ -32,18 +44,24 @@ bool SceneManager::EndManagement() {
 
 void SceneManager::SetScene(SceneName scene) {
 
+	sceneName_ = static_cast<int>(scene);
+
 	switch (scene) {
 	case SceneName::Title:
 		scene_ = std::make_unique<Title>();
+		ManagementLog::Log("Title");
 		break;
 	case SceneName::Play:
 		scene_ = std::make_unique<GameManager>();
+		ManagementLog::Log("play");
 		break;
 	case SceneName::Clear:
 		scene_ = std::make_unique<Clear>();
+		ManagementLog::Log("clear");
 		break;
 	case SceneName::over:
 		scene_ = std::make_unique<Over>();
+		ManagementLog::Log("over");
 		break;
 	default:
 		break;
@@ -52,11 +70,18 @@ void SceneManager::SetScene(SceneName scene) {
 	scene_->SetWindowWidth(windowWidth_);
 	scene_->SetWindowHeight(windowHeight_);
 	scene_->Initialize();
+	EmpEngine::RebindRenderTarget();
+	ManagementLog::Log("Online");
 }
 
-void SceneManager::Process() {
-	//更新処理
-	Update();
-	//描画処理
-	Draw();
+void SceneManager::Gui() {
+#ifdef USE_IMGUI
+	ImGui::Begin("SceneChange");
+
+	if (ImGui::Combo("Scene", &sceneName_, table, 4)) {
+		SetScene(static_cast<SceneName>(sceneName_));
+	}
+
+	ImGui::End();
+#endif
 }

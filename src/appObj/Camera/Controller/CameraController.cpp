@@ -1,5 +1,5 @@
 #include"CameraController.h"
-#include"intraction/Input/Input.h"
+#include"interaction/Input/Input.h"
 #include"DataModel/Matrix4x4.h"
 #include"externals/imgui/imgui.h"
 
@@ -15,9 +15,12 @@ void DebugCamera::Initialize(Vector3 translate, Vector3 rotate) {
 }
 
 void DebugCamera::Update() {
+#ifdef USE_IMGUI
 	ImGui::Begin("Camera");
-	ImGui::DragFloat3("cameraRotate", &rotate_.x, 0.01f, -1.0f, 10.0f, "%.3f", 0);
+	ImGui::Text("FPS: %.1f", ImGui::GetIO().Framerate); // ★追加
+	ImGui::DragFloat3("cameraRotate", &rotate_.x, 0.01f, -10.0f, 10.0f, "%.3f", 0);
 	ImGui::End();
+#endif // USE_IMGUI
 
 	RotateToMat();
 

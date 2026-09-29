@@ -99,6 +99,15 @@ inline Vector3 operator*(float scalar, const Vector3& v) {
 		v.z * scalar,
 	};
 }
+
+inline Vector3& operator*=(Vector3& v, float scalar) {
+	v.x *= scalar;
+	v.y *= scalar;
+	v.z *= scalar;
+	return v;
+}
+
+
 inline Vector3 operator/(float scalar, const Vector3& v) {
 	return {
 		v.x / scalar,

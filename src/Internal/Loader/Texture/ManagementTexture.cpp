@@ -4,6 +4,19 @@
 #include"Internal/DX12Mechanics/DX12Mechanics.h"
 #include"externals//DirectXTex/d3dx12.h"
 
+void ManagementTexture::Initialize(ID3D12Device* device,ID3D12GraphicsCommandList* commandList,
+	ID3D12CommandQueue* commandQueue,ID3D12CommandAllocator* commandAllocator,HANDLE fenceEvent,
+	uint64_t fenceValue,ID3D12Fence* fence,ID3D12DescriptorHeap* srvDescriptorHeap) {
+	device_ = device;
+	commandList_ = commandList;
+	commandQueue_ = commandQueue;
+	commandAllocator_ = commandAllocator;
+	fenceEvent_ = fenceEvent;
+	fence_ = fence;
+	fenceValue_ = fenceValue;
+	srvDescriptorHeap_ = srvDescriptorHeap;
+}
+
 DirectX::ScratchImage ManagementTexture::LoadTextureFile(const std::string& filepath) {
 
 	// 落ちた時にファイルの名前を出力する
@@ -57,7 +70,7 @@ DirectX::ScratchImage ManagementTexture::LoadTextureFile(const std::string& file
 	return mipImages;
 }
 
-ID3D12Resource* ManagementTexture::CreateTextureResource(ID3D12Device* device, const DirectX::TexMetadata& metadata) {
+ID3D12Resource* ManagementTexture::CreateTextureResource(const DirectX::TexMetadata& metadata) {
 	//1.metadetaを基にResourceの設定
 	D3D12_RESOURCE_DESC resourceDesc{};
 	BuildResourceDesc(resourceDesc, metadata);
@@ -66,18 +79,25 @@ ID3D12Resource* ManagementTexture::CreateTextureResource(ID3D12Device* device, c
 	SettingHeap(heapProperties);
 	//3.Resourceの精製
 	ID3D12Resource* resource = nullptr;
-	CreateCommittedResource(resource, resourceDesc, heapProperties, device);
+	CreateCommittedResource(resource, resourceDesc, heapProperties);
 	return resource;
 }
 
-void ManagementTexture::BuildResourceDesc(D3D12_RESOURCE_DESC& resourceDesc,const DirectX::TexMetadata& metadata) {
-	resourceDesc.Width = UINT(metadata.width);//Textureの幅
-	resourceDesc.Height = UINT(metadata.height);//Textureの高さ
-	resourceDesc.MipLevels = UINT16(metadata.mipLevels);//mipMapの数
-	resourceDesc.DepthOrArraySize = UINT16(metadata.arraySize);//奥行き or 配列Textureの配列数
-	resourceDesc.Format = metadata.format;//TexutureのFormat
-	resourceDesc.SampleDesc.Count = 1;//サンプリングカウント。１固定
-	resourceDesc.Dimension = D3D12_RESOURCE_DIMENSION(metadata.dimension);//Textureの次元数。普段使っているのは二次元
+void ManagementTexture::BuildResourceDesc(
+	D3D12_RESOURCE_DESC& resourceDesc,
+	const DirectX::TexMetadata& metadata)
+{
+	resourceDesc.Dimension = static_cast<D3D12_RESOURCE_DIMENSION>(metadata.dimension);
+	resourceDesc.Alignment = 0;
+	resourceDesc.Width = metadata.width;
+	resourceDesc.Height = static_cast<UINT>(metadata.height);
+	resourceDesc.DepthOrArraySize = static_cast<UINT16>(metadata.arraySize);
+	resourceDesc.MipLevels = static_cast<UINT16>(metadata.mipLevels);
+	resourceDesc.Format = metadata.format;
+	resourceDesc.SampleDesc.Count = 1;
+	resourceDesc.SampleDesc.Quality = 0;
+	resourceDesc.Layout = D3D12_TEXTURE_LAYOUT_UNKNOWN;
+	resourceDesc.Flags = D3D12_RESOURCE_FLAG_NONE;
 }
 
 void ManagementTexture::SettingHeap(D3D12_HEAP_PROPERTIES& heapProperties) {
@@ -87,25 +107,27 @@ void ManagementTexture::SettingHeap(D3D12_HEAP_PROPERTIES& heapProperties) {
 }
 
 void ManagementTexture::CreateCommittedResource(ID3D12Resource*& resource, D3D12_RESOURCE_DESC& resourceDesc,
-	D3D12_HEAP_PROPERTIES& heapProperties, ID3D12Device* device) {
-	HRESULT hr = device->CreateCommittedResource(
-		&heapProperties,//Heapの設定
-		D3D12_HEAP_FLAG_NONE,//HEAPの特殊な設定。特になし
-		&resourceDesc,//Resourceの設定
-		D3D12_RESOURCE_STATE_COPY_DEST,//データ転送される設計
-		nullptr,//Clear最適値。使わないのでnullptr
-		IID_PPV_ARGS(&resource));//作成するResourceポインタへのポインタ
+	D3D12_HEAP_PROPERTIES& heapProperties) {
+
+	HRESULT hr = device_->CreateCommittedResource(
+		&heapProperties,
+		D3D12_HEAP_FLAG_NONE,
+		&resourceDesc,
+		D3D12_RESOURCE_STATE_COPY_DEST,
+		nullptr,
+		IID_PPV_ARGS(&resource));
+
 	assert(SUCCEEDED(hr));
 }
 
 [[nodiscard]]
-ID3D12Resource* ManagementTexture::UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages,
-	ID3D12Device* device,ID3D12GraphicsCommandList*commandList) {
+ID3D12Resource* ManagementTexture::UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages) {
 	std::vector<D3D12_SUBRESOURCE_DATA>subResources;
-	DirectX::PrepareUpload(device, mipImages.GetImages(), mipImages.GetImageCount(), mipImages.GetMetadata(), subResources);
+	DirectX::PrepareUpload(device_, mipImages.GetImages(), mipImages.GetImageCount(), mipImages.GetMetadata(), subResources);
+	
 	uint64_t intermediateSize = GetRequiredIntermediateSize(texture, 0, UINT(subResources.size()));
-	ID3D12Resource* intermediateResource = DX12Mechanics::CreateBufferResource(device, intermediateSize);
-	UpdateSubresources(commandList, texture, intermediateResource, 0, 0, UINT(subResources.size()), subResources.data());
+	ID3D12Resource* intermediateResource = DX12Mechanics::CreateBufferResource(device_, intermediateSize);
+	UpdateSubresources(commandList_, texture, intermediateResource, 0, 0, UINT(subResources.size()), subResources.data());
 	//Textureへの転送後は利用できるよう、D3D12_RESOURCE_STATE_COPYから
 	//D3D12_RESOURCE_STATE_GENERIC_READへResourceStateを変更する
 	D3D12_RESOURCE_BARRIER barrier{};
@@ -115,52 +137,50 @@ ID3D12Resource* ManagementTexture::UploadTextureData(ID3D12Resource* texture, co
 	barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
 	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_COPY_DEST;
 	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_GENERIC_READ;
-	commandList->ResourceBarrier(1, &barrier);
+	commandList_->ResourceBarrier(1, &barrier);
 	return intermediateResource;
 }
 
-D3D12_GPU_DESCRIPTOR_HANDLE ManagementTexture::LoadTexture(ID3D12Device* device, const std::string& filePath,
-	ID3D12GraphicsCommandList* commandList,ID3D12CommandQueue* commandQueue,
-	ID3D12CommandAllocator* commandAllocator, HANDLE fenceEvent, uint64_t fenceValue, ID3D12Fence*fence, ID3D12DescriptorHeap* srvDescriptorHeap) {
+D3D12_GPU_DESCRIPTOR_HANDLE ManagementTexture::Load( const std::string& filePath) {
 	DirectX::ScratchImage mipImages;
 	DirectX::TexMetadata metadata;
 	ID3D12Resource* textureResource = nullptr;
 	//テクスチャを読んで転送する
 	mipImages = LoadTextureFile(filePath);
 	metadata = mipImages.GetMetadata();
-	textureResource = CreateTextureResource(device, metadata);
-	ID3D12Resource* intermediateResource=UploadTextureData(textureResource, mipImages,device,commandList);
+	textureResource = CreateTextureResource(metadata);
+	ID3D12Resource* intermediateResource=UploadTextureData(textureResource, mipImages);
 	
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = BuildSrvDesc(metadata);
-	const uint32_t descriptorSizeSRV = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-	const uint32_t descriptorSizeRTV = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-	const uint32_t descriptorSizeDSV = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
-	D3D12_CPU_DESCRIPTOR_HANDLE handleCPU = GetCPUDescriptorHandle(srvDescriptorHeap, descriptorSizeSRV, nextTextureIndex_);
-	D3D12_GPU_DESCRIPTOR_HANDLE handleGPU = GetGPUDescriptorHandle(srvDescriptorHeap, descriptorSizeSRV, nextTextureIndex_);
-	device->CreateShaderResourceView(textureResource, &srvDesc, handleCPU);
+	const uint32_t descriptorSizeSRV = device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	const uint32_t descriptorSizeRTV = device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+	const uint32_t descriptorSizeDSV = device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
+	D3D12_CPU_DESCRIPTOR_HANDLE handleCPU = GetCPUDescriptorHandle(srvDescriptorHeap_, descriptorSizeSRV, nextTextureIndex_);
+	D3D12_GPU_DESCRIPTOR_HANDLE handleGPU = GetGPUDescriptorHandle(srvDescriptorHeap_, descriptorSizeSRV, nextTextureIndex_);
+	device_->CreateShaderResourceView(textureResource, &srvDesc, handleCPU);
 	nextTextureIndex_++;
 
 	//リストを閉じる
-	commandList->Close();
+	commandList_->Close();
 
-	ID3D12CommandList* commandLists[] = { commandList};
-	commandQueue->ExecuteCommandLists(1, commandLists);
-
+	ID3D12CommandList* commandLists[] = { commandList_};
+	commandQueue_->ExecuteCommandLists(1, commandLists);
+	fenceValue_++;
 	//シグナルを送る
-	commandQueue->Signal(fence, fenceValue);
+	commandQueue_->Signal(fence_, fenceValue_);
 
-	if (fence->GetCompletedValue() < fenceValue) {
+	if (fence_->GetCompletedValue() < fenceValue_) {
 		//指定したSignalにたどりついていないので、たどりつくまで待つようにイベントを設定する
-		fence->SetEventOnCompletion(fenceValue, fenceEvent);
+		fence_->SetEventOnCompletion(fenceValue_, fenceEvent_);
 		//イベントを待つ
-		WaitForSingleObject(fenceEvent, INFINITE);
+		WaitForSingleObject(fenceEvent_, INFINITE);
 	}
 
 	//解放したり、コマンド積めるようにしたり
 	//----------------------------------------------//
 	intermediateResource->Release();
-	commandAllocator->Reset();
-	commandList->Reset(commandAllocator, nullptr);
+	commandAllocator_->Reset();
+	commandList_->Reset(commandAllocator_, nullptr);
 	//----------------------------------------------//
 
 	TextureData textureData{};
