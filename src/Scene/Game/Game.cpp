@@ -16,15 +16,8 @@ void GameManager::Initialize() {
     debugCamera_.Initialize(
         SceneSystem::GetCamera()->GetCameraPosition(),
         SceneSystem::GetCamera()->GetCameraRotate());
-    ItemModel_ = EmpEngine::Resource().Model().LoadObjFile("Item", "Item.obj");
-    ItemTextureHandle_ = EmpEngine::Resource().Texture().Load("Item.png");
-    blockModel_ = EmpEngine::Resource().Model().LoadObjFile("Block", "Block.obj");
+    blockModel_ = EmpEngine::Resource().Model().LoadObjFile("teapot", "teapot.obj");
     blockHandle_ = EmpEngine::Resource().Texture().Load("Cube.png");
-    goalModel_ = EmpEngine::Resource().Model().LoadObjFile("goal", "goal.obj");
-    playerModel_ = EmpEngine::Resource().Model().LoadObjFile("Player", "player.obj");
-    playerHandle_ = EmpEngine::Resource().Texture().Load("player.png");
-
-  
 }
 
 void GameManager::Update() {

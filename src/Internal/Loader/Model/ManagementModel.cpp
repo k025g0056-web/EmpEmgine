@@ -20,8 +20,11 @@ ModelData ManagementModel::LoadObjFile(const std::string& directoryPath, const s
 	const aiScene* scene = importer.ReadFile(objPath.c_str(), aiProcess_FlipWindingOrder | aiProcess_FlipUVs);
 	assert(scene->HasMeshes());//メッシュがないものは対応しない。
 
+	modelData.meshes.resize(scene->mNumMeshes);
+	modelData.materials.resize(scene->mNumMaterials);
 	for (uint32_t meshIndex = 0; meshIndex < scene->mNumMeshes;++meshIndex) {
 		aiMesh* mesh = scene->mMeshes[meshIndex];
+		//modelData.meshes.emplace_back();
 		assert(mesh->HasNormals());
 		assert(mesh->HasTextureCoords(0));
 		for (uint32_t faceIndex = 0; faceIndex < mesh->mNumFaces;++faceIndex) {
