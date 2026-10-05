@@ -6,11 +6,12 @@
 int WINAPI WinMain(HINSTANCE, HINSTANCE,LPSTR,int){
 	//必ず最初に初期化する
 	EmpEngine::Initialize(1280,720,SceneName::Play);
+
 	//ゲームのメインループ
 	while (EmpEngine::ProcessMessage()==0){
 		//フレームの開始
 		EmpEngine::Begin();
-		
+
 		//ゲームのプロセス
 		EmpEngine::Process();
 
