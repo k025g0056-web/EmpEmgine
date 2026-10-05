@@ -35,5 +35,5 @@ void GameManager::Update() {
 } 
 
 void GameManager::Draw() {
-   
+    EmpEngine::Draw().DrawModel(blockModel_, transform_, blockHandle_, Vector4{ 1.0f,1.0f,1.0f,1.0f });
 }

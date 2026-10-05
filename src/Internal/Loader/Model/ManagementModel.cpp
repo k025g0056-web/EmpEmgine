@@ -4,125 +4,53 @@
 #include<cassert>
 #include<algorithm>
 #include<Windows.h>
-
+#include<assimp/Importer.hpp>
+#include<assimp/scene.h>
+#include<assimp/postprocess.h>
 
 ModelData ManagementModel::LoadObjFile(const std::string& directoryPath, const std::string& filename) {
 	ModelData modelData;
-	std::vector<Vector4> positions;
-	std::vector<Vector3> normals;
-	std::vector<Vector2> texcoords;
-	std::string line;
+	Assimp::Importer importer;
 	std::string objPath = "./resources/3dObject/" + directoryPath + "/" + filename;
-
+	
 	// ★デバッグ用
 	OutputDebugStringA("=== LoadObjFile ===\n");
 	OutputDebugStringA(("試そうとしてるパス: " + objPath + "\n").c_str());
 
-	std::ifstream file(objPath);
-	assert(file.is_open());
+	const aiScene* scene = importer.ReadFile(objPath.c_str(), aiProcess_FlipWindingOrder | aiProcess_FlipUVs);
+	assert(scene->HasMeshes());//メッシュがないものは対応しない。
 
-	MeshData* currentMesh = nullptr;
-	std::string currentObjectName = ""; // 追加：今読んでいるオブジェクト名
+	for (uint32_t meshIndex = 0; meshIndex < scene->mNumMeshes;++meshIndex) {
+		aiMesh* mesh = scene->mMeshes[meshIndex];
+		assert(mesh->HasNormals());
+		assert(mesh->HasTextureCoords(0));
+		for (uint32_t faceIndex = 0; faceIndex < mesh->mNumFaces;++faceIndex) {
+			aiFace& face = mesh->mFaces[faceIndex];
+			assert(face.mNumIndices == 3);
+			for (uint32_t element = 0; element < face.mNumIndices;++element) {
+				uint32_t vertexIndex = face.mIndices[element];
+				aiVector3D& position = mesh->mVertices[vertexIndex];
+				aiVector3D& normal = mesh->mNormals[vertexIndex];
+				aiVector3D& texcoord = mesh->mTextureCoords[0][vertexIndex];
+				VertexData vertex;
+				vertex.position = { position.x,position.y,position.z,1.0f };
+				vertex.normal = { normal.x,normal.y,normal.z };
+				vertex.texCoord = { texcoord.x,texcoord.y };
 
-	// マテリアル名とオブジェクト名の両方が一致するメッシュを探す関数
-	auto findOrCreateMesh = [&](const std::string& objectName, const std::string& materialName) -> MeshData* {
-		auto it = std::find_if(modelData.meshes.begin(), modelData.meshes.end(),
-			[&](const MeshData& mesh) {
-				return mesh.objectName == objectName && mesh.materialName == materialName;
-			});
-
-		if (it != modelData.meshes.end()) {
-			return &(*it);
-		}
-
-		MeshData newMesh;
-		newMesh.objectName = objectName;
-		newMesh.materialName = materialName;
-		modelData.meshes.push_back(newMesh);
-		return &modelData.meshes.back();
-		};
-
-	while (std::getline(file, line)) {
-		std::string identifier;
-		std::istringstream s(line);
-		s >> identifier;
-
-		if (identifier == "v") {
-			Vector4 position;
-			s >> position.x >> position.y >> position.z;
-			position.w = 1.0f;
-			positions.push_back(position);
-		}
-		else if (identifier == "vt") {
-			Vector2 texCoord;
-			s >> texCoord.x >> texCoord.y;
-			texCoord.y = 1.0f - texCoord.y;
-			texCoord.x = 1.0f - texCoord.x;
-			texcoords.push_back(texCoord);
-		}
-		else if (identifier == "vn") {
-			Vector3 normal;
-			s >> normal.x >> normal.y >> normal.z;
-			normals.push_back(normal);
-		}
-		else if (identifier == "o" || identifier == "g") {
-			// 新しいオブジェクト(またはグループ)の始まり
-			s >> currentObjectName;
-			currentMesh = nullptr; // マテリアル指定はオブジェクトごとにやり直しになるのでリセット
-		}
-		else if (identifier == "usemtl") {
-			std::string materialName;
-			s >> materialName;
-			currentMesh = findOrCreateMesh(currentObjectName, materialName);
-		}
-		else if (identifier == "f") {
-			if (currentMesh == nullptr) {
-				currentMesh = findOrCreateMesh(currentObjectName, "");
-			}
-
-			// 面の頂点を全部読み込む(3つとは限らない)
-			std::vector<VertexData> faceVertices;
-			std::string vertexDefinition;
-			while (s >> vertexDefinition) {
-				std::istringstream v(vertexDefinition);
-				uint32_t elementIndices[3] = { 0, 0, 0 };
-				for (int32_t element = 0; element < 3; ++element) {
-					std::string index;
-					std::getline(v, index, '/');
-					if (!index.empty()) {
-						elementIndices[element] = std::stoi(index);
-					}
-				}
-
-				Vector4 position = positions[elementIndices[0] - 1];
-
-				Vector2 texcoord = { 0.0f, 0.0f };
-				if (elementIndices[1] != 0) {
-					texcoord = texcoords[elementIndices[1] - 1];
-				}
-
-				Vector3 normal = { 0.0f, 1.0f, 0.0f };
-				if (elementIndices[2] != 0) {
-					normal = normals[elementIndices[2] - 1];
-				}
-
-				position.x *= -1.0f;
-				normal.x *= -1.0f;
-
-				faceVertices.push_back({ position, texcoord, normal });
-			}
-
-			// 扇形分割：3頂点なら三角形1つ、4頂点なら三角形2つ...
-			for (size_t i = 1; i + 1 < faceVertices.size(); ++i) {
-				currentMesh->vertices.push_back(faceVertices[i + 1]);
-				currentMesh->vertices.push_back(faceVertices[i]);
-				currentMesh->vertices.push_back(faceVertices[0]);
+				vertex.position.x *= -1.0f;
+				vertex.normal.x *= -1.0f;
+				modelData.meshes[meshIndex].vertices.push_back(vertex);
 			}
 		}
-		else if (identifier == "mtllib") {
-			std::string materialFilename;
-			s >> materialFilename;
-			modelData.materials = LoadMaterialTemplateFile(directoryPath, materialFilename);
+
+	}
+
+	for (uint32_t materialIndex = 0; materialIndex < scene->mNumMaterials;++materialIndex) {
+		aiMaterial* material = scene->mMaterials[materialIndex];
+		if (material->GetTextureCount(aiTextureType_DIFFUSE)!=0) {
+			aiString textureFilePath;
+			material->GetTexture(aiTextureType_DIFFUSE, 0, &textureFilePath);
+			modelData.materials[materialIndex].textureFile = "./resources/3dObject/" + directoryPath + "/" + textureFilePath.C_Str();
 		}
 	}
 
