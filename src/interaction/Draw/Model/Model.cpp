@@ -180,7 +180,26 @@ void Model::Draw(
 
     SetUpCommonDrawState(commandList, textureSrvHandleGPU);
 
+    OutputDebugStringA(
+        ("meshes.size = " +
+            std::to_string(modelData_.meshes.size()) + "\n").c_str()
+    );
+
+    OutputDebugStringA(
+        ("vertexBufferViews.size = " +
+            std::to_string(vertexBufferViews_.size()) + "\n").c_str()
+    );
+
     for (size_t i = 0; i < modelData_.meshes.size(); ++i) {
+
+        OutputDebugStringA(
+            ("Draw mesh " +
+                std::to_string(i) +
+                " vertexCount = " +
+                std::to_string(modelData_.meshes[i].vertices.size()) +
+                "\n").c_str()
+        );
+
         DrawCallVertexOnly(commandList, vertexBufferViews_[i],
             static_cast<int>(modelData_.meshes[i].vertices.size()));
     }

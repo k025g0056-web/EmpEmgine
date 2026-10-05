@@ -24,9 +24,13 @@ void GameManager::Update() {
  
 
     debugCamera_.Update();
+    SceneSystem::GetCamera()->SetCameraPosition(debugCamera_.GetTranslate());
+    SceneSystem::GetCamera()->SetCameraRotate(debugCamera_.GetRotate());
+    SceneSystem::GetCamera()->Update(windowWidth_, windowHeight_);
     EmpEngine::LightGUI();
 } 
 
 void GameManager::Draw() {
     EmpEngine::Draw().DrawModel(blockModel_, transform_, blockHandle_, Vector4{ 1.0f,1.0f,1.0f,1.0f });
+    EmpEngine::DrawLight();
 }
