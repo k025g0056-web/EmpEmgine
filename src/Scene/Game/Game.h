@@ -18,6 +18,7 @@ class GameManager :public Scene {
 	ModelData goalModel_{};
 	ModelData playerModel_{};
 	D3D12_GPU_DESCRIPTOR_HANDLE playerHandle_;
+	Transform3d transform_{ {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 
 public:
 
