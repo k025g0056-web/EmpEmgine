@@ -4,6 +4,20 @@
 
 struct Matrix4x4{
 	float m[4][4];
+
+	Matrix4x4 operator *(const Matrix4x4& other) const {
+		Matrix4x4 Ans;
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				float sum = 0.0f;
+				for (int k = 0; k < 4; k++) {
+					sum += m[i][k] * other.m[k][j];
+				}
+				Ans.m[i][j] = sum;
+			}
+		}
+		return Ans;
+	}
 };
 
 Matrix4x4 Add(const Matrix4x4& m1, const Matrix4x4& m2);

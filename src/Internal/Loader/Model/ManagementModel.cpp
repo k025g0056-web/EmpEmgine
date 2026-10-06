@@ -4,9 +4,6 @@
 #include<cassert>
 #include<algorithm>
 #include<Windows.h>
-#include<assimp/Importer.hpp>
-#include<assimp/scene.h>
-#include<assimp/postprocess.h>
 
 ModelData ManagementModel::LoadObjFile(const std::string& directoryPath, const std::string& filename) {
 	ModelData modelData;
@@ -42,10 +39,12 @@ ModelData ManagementModel::LoadObjFile(const std::string& directoryPath, const s
 
 				vertex.position.x *= -1.0f;
 				vertex.normal.x *= -1.0f;
+				vertex.texCoord.x = 1.0f - texcoord.x;
 				modelData.meshes[meshIndex].vertices.push_back(vertex);
 			}
 		}
 
+		modelData.meshes[meshIndex].rootNode = ReadNode(scene->mRootNode);
 	}
 
 	for (uint32_t materialIndex = 0; materialIndex < scene->mNumMaterials;++materialIndex) {
@@ -91,4 +90,24 @@ std::vector<MaterialData> ManagementModel::LoadMaterialTemplateFile(const std::s
 	}
 
 	return materials;
+}
+
+Node ManagementModel::ReadNode(aiNode* node) {
+	Node result;
+	aiMatrix4x4 aiLocalMatrix = node->mTransformation;//ノードのローカル行列を取得
+	aiLocalMatrix.Transpose();//列ベクトル形式を行ベクトル形式に転置
+	for (int i = 0; i < 4;i++) {
+		for (int j = 0; j < 4;j++) {
+			result.localMatrix.m[i][j] = aiLocalMatrix[i][j];
+		}
+	}
+
+	result.name = node->mName.C_Str();//名前を取得
+	result.children.resize(node->mNumChildren);
+
+	for (uint32_t childIndex = 0; childIndex < node->mNumChildren;++childIndex) {
+		result.children[childIndex] = ReadNode(node->mChildren[childIndex]);
+	}
+
+	return result;
 }

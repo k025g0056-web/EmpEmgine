@@ -1,7 +1,7 @@
 #include"Camera3d.h"
 
 void Camera3d::Initialize() {
-	cameraTransform ={ {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{23.0f,31.0f,-50.0f} };
+	cameraTransform ={ {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-10.0f} };
 }
 
 void Camera3d::Update(int kWindowWidth, int kWindowHeight) {
@@ -9,7 +9,6 @@ void Camera3d::Update(int kWindowWidth, int kWindowHeight) {
 	// 書き換えでも確実に拾えるよう、setter単位ではなくここで一括比較する）
 	isDirty_ = !(cameraTransform == prevCameraTransform_);
 	prevCameraTransform_ = cameraTransform;
-
 	Matrix4x4 cameraMatrix = Affine(cameraTransform.scale, cameraTransform.rotate, cameraTransform.translate);
 	Matrix4x4 viewMatrix = Inverse(cameraMatrix);
 	Matrix4x4 projectionMatrix = MakePerspectiveFov(0.45f, static_cast<float>(kWindowWidth) / static_cast<float>(kWindowHeight), 0.1f, 100.0f);

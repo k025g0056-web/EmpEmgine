@@ -171,9 +171,11 @@ void Model::Draw(
     ChangeTransform(transform); // isTransformDirty_ 更新
 
     if (isTransformDirty_ || camera.IsDirty()) {
-        wvpData->WVP = camera.GetWvp(transform3d_);
-        wvpData->world = Affine(transform3d_);
-        isTransformDirty_ = false;
+        for (int i = 0; i < modelData_.meshes.size();i++) {
+            wvpData->WVP = modelData_.meshes[i].rootNode.localMatrix*camera.GetWvp(transform3d_);
+            wvpData->world = modelData_.meshes[i].rootNode.localMatrix * Affine(transform3d_);
+            isTransformDirty_ = false;
+        }
     }
 
     SetColor(color);

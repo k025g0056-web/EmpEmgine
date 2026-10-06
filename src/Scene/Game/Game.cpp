@@ -16,8 +16,8 @@ void GameManager::Initialize() {
     debugCamera_.Initialize(
         SceneSystem::GetCamera()->GetCameraPosition(),
         SceneSystem::GetCamera()->GetCameraRotate());
-    blockModel_ = EmpEngine::Resource().Model().LoadObjFile("teapot", "teapot.obj");
-    blockHandle_ = EmpEngine::Resource().Texture().Load("Cube.png");
+    blockModel_ = EmpEngine::Resource().Model().LoadObjFile("plane", "plane.obj");
+    blockHandle_ = EmpEngine::Resource().Texture().Load("oirano.jpg");
 }
 
 void GameManager::Update() {
@@ -31,6 +31,6 @@ void GameManager::Update() {
 } 
 
 void GameManager::Draw() {
-    EmpEngine::Draw().DrawModel(blockModel_, transform_, blockHandle_, Vector4{ 1.0f,1.0f,1.0f,1.0f });
+    EmpEngine::Draw().DrawModel(blockModel_, transform_,blockHandle_, Vector4{1.0f,1.0f,1.0f,1.0f});
     EmpEngine::DrawLight();
 }
