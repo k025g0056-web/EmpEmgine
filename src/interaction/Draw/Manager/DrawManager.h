@@ -85,6 +85,7 @@ public:
 		usedSprite_ = 0;
 		usedSphere_ = 0;
 		usedModel_ = 0;
+		useParticle3D_ = 0;
 	}
 }; 
 
