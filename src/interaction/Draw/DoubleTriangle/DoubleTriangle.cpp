@@ -45,7 +45,7 @@ void DoubleTriangle::Draw(ID3D12GraphicsCommandList* commandList, const Camera3d
 
 	vertexResource->Unmap(0, nullptr);
 
-	DrawCallVertex(commandList, vertexBufferView_, textureSrvHandleGPU, 6);
+	DrawCallVertex(commandList, vertexBufferView_, textureSrvHandleGPU, 6,1);
 }
 
 void DoubleTriangle::Initialize(ID3D12Device* device) {

@@ -6,6 +6,7 @@
 #include<vector>
 #include"Interaction/Draw/Model/Model.h"
 #include"Scene/wrapper/SceneSystem.h"
+#include"Interaction/Draw/Particle/3D/Particle3D.h"
 #include <functional>
 
 
@@ -15,6 +16,7 @@ class DrawManager {
 	std::vector<Sprite>sprite_;
 	std::vector<Sphere>sphere_;
 	std::vector<Model>model_;
+	std::vector<Particle3D> particle3D_;
 	template<typename T>
 	std::vector<T>& GetVector();
 
@@ -27,6 +29,7 @@ class DrawManager {
 	int usedSprite_ = 0;
 	int usedSphere_ = 0;
 	int usedModel_ = 0;
+	int useParticle3D_ = 0;
 
 	std::function<void()> postDrawFunc_;
 public:
@@ -59,13 +62,13 @@ public:
 		Get<T>(idx).Draw(commandList_, *SceneSystem::GetCamera(), std::forward<Args>(args)...);
 	}
 
-	template<typename... Args>
+	template<typename T,typename... Args>
 	void DrawModel(const ModelData& modelData, Args&&... args) {
-		int idx = Add<Model>(modelData);
+		int idx = Add<T>(modelData);
 		if (postDrawFunc_) {
 			postDrawFunc_();
 		}
-		Get<Model>(idx).Draw(commandList_, *SceneSystem::GetCamera(), std::forward<Args>(args)...);
+		Get<T>(idx).Draw(commandList_, *SceneSystem::GetCamera(), std::forward<Args>(args)...);
 	}
 
 	template<typename T>
@@ -90,8 +93,11 @@ template<> inline std::vector<DoubleTriangle>& DrawManager::GetVector<DoubleTria
 template<> inline std::vector<Sprite>& DrawManager::GetVector<Sprite>() { return sprite_; }
 template<> inline std::vector<Sphere>& DrawManager::GetVector<Sphere>() { return sphere_; }
 template<> inline std::vector<Model>& DrawManager::GetVector<Model>() { return model_; }
+template<> inline std::vector<Particle3D>& DrawManager::GetVector<Particle3D>() { return particle3D_; }
+
 template<> inline int& DrawManager::UsedCount<Triangle>() { return usedTriangle_; }
 template<> inline int& DrawManager::UsedCount<DoubleTriangle>() { return usedDoubleTriangle_; }
 template<> inline int& DrawManager::UsedCount<Sprite>() { return usedSprite_; }
 template<> inline int& DrawManager::UsedCount<Sphere>() { return usedSphere_; }
 template<> inline int& DrawManager::UsedCount<Model>() { return usedModel_; }
+template<> inline int& DrawManager::UsedCount<Particle3D>() { return useParticle3D_; }

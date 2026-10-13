@@ -35,10 +35,10 @@ protected:
 	void GenerateWvpResource(ID3D12Device* device);
 	void DrawCallVertex(ID3D12GraphicsCommandList* commandList,
 		D3D12_VERTEX_BUFFER_VIEW vetexBufferView, 
-		D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU, int vertex);
+		D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU, int vertex,int SpawnCount);
 	void DrawCallIndex(ID3D12GraphicsCommandList* commandList,
 		D3D12_INDEX_BUFFER_VIEW indexBufferView, D3D12_VERTEX_BUFFER_VIEW vertexBufferView,
-		D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU, int index);
+		D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU, int index, int SpawnCount);
 
 	void SetColor(const Vector4& color);
 	void ChangeTransform(const Transform3d& transform);
@@ -48,7 +48,7 @@ protected:
 	void SetUpCommonDrawState(ID3D12GraphicsCommandList* commandList,
 		D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU);
 	void DrawCallVertexOnly(ID3D12GraphicsCommandList* commandList,
-		D3D12_VERTEX_BUFFER_VIEW vertexBufferView, int vertex);
+		D3D12_VERTEX_BUFFER_VIEW vertexBufferView, int vertex, int spawnCount);
 
 public:
 	void Initialize(ID3D12Device* device,bool enableLighting);

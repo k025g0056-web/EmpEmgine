@@ -35,18 +35,18 @@ void Shape::GenerateWvpResource(ID3D12Device * device) {
 }
 
 void Shape::DrawCallVertex(ID3D12GraphicsCommandList* commandList,
-	D3D12_VERTEX_BUFFER_VIEW vertexBufferView, D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU,int vertex) {
+	D3D12_VERTEX_BUFFER_VIEW vertexBufferView, D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU,int vertex, int spawnCount) {
 	SetUpDrawCall(commandList, vertexBufferView, textureSrvHandleGPU);
 	//描画！（DrawCall/ドローコール）。3頂点で１つのインスタンス。インスタンスについては今後
-	commandList->DrawInstanced(vertex, 1, 0, 0);
+	commandList->DrawInstanced(vertex, spawnCount, 0, 0);
 }
 
 void Shape::DrawCallIndex(ID3D12GraphicsCommandList* commandList,
 	D3D12_INDEX_BUFFER_VIEW indexBufferView, D3D12_VERTEX_BUFFER_VIEW vertexBufferView,
-	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU, int index) {
+	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU, int index, int spawnCount) {
 	commandList->IASetIndexBuffer(&indexBufferView);//IBVを設定
 	SetUpDrawCall(commandList, vertexBufferView, textureSrvHandleGPU);
-	commandList->DrawIndexedInstanced(index, 1, 0, 0,0);
+	commandList->DrawIndexedInstanced(index, spawnCount, 0, 0,0);
 }
 
 void Shape::SetColor(const Vector4& color) {
@@ -89,8 +89,8 @@ void Shape::SetUpCommonDrawState(ID3D12GraphicsCommandList* commandList,
 }
 
 void Shape::DrawCallVertexOnly(ID3D12GraphicsCommandList* commandList,
-	D3D12_VERTEX_BUFFER_VIEW vertexBufferView, int vertex) {
+	D3D12_VERTEX_BUFFER_VIEW vertexBufferView, int vertex, int spawnCount) {
 	commandList->IASetVertexBuffers(0, 1, &vertexBufferView);
-	commandList->DrawInstanced(vertex, 1, 0, 0);
+	commandList->DrawInstanced(vertex, spawnCount, 0, 0);
 }
 

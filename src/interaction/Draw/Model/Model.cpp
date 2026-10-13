@@ -203,7 +203,7 @@ void Model::Draw(
         );
 
         DrawCallVertexOnly(commandList, vertexBufferViews_[i],
-            static_cast<int>(modelData_.meshes[i].vertices.size()));
+            static_cast<int>(modelData_.meshes[i].vertices.size()),1);
     }
 }
 

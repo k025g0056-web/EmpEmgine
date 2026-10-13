@@ -87,5 +87,5 @@ void Sphere::Draw(ID3D12GraphicsCommandList* commandList, const Camera3d& camera
 	}
 
 	vertexResource->Unmap(0, nullptr);
-	DrawCallIndex(commandList,indexBufferView_, vertexBufferView_, textureSrvHandleGPU, kSubdivision * kSubdivision * 6);
+	DrawCallIndex(commandList,indexBufferView_, vertexBufferView_, textureSrvHandleGPU, kSubdivision * kSubdivision * 6,1);
 }

@@ -196,6 +196,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="src\interaction\Draw\DoubleTriangle\DoubleTriangle.cpp" />
     <ClCompile Include="src\interaction\Draw\Manager\DrawManager.cpp" />
     <ClCompile Include="src\interaction\Draw\Model\Model.cpp" />
+    <ClCompile Include="src\interaction\Draw\Particle\3D\Particle3D.cpp" />
     <ClCompile Include="src\interaction\Draw\shape\Shape.cpp" />
     <ClCompile Include="src\interaction\Draw\Sphere\Sphere.cpp" />
     <ClCompile Include="src\interaction\Draw\Sprite\Sprite.cpp" />
@@ -263,6 +264,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="src\interaction\Draw\DoubleTriangle\DoubleTriangle.h" />
     <ClInclude Include="src\interaction\Draw\Manager\DrawManager.h" />
     <ClInclude Include="src\interaction\Draw\Model\Model.h" />
+    <ClInclude Include="src\interaction\Draw\Particle\3D\Particle3D.h" />
     <ClInclude Include="src\interaction\Draw\shape\Shape.h" />
     <ClInclude Include="src\interaction\Draw\Sphere\Sphere.h" />
     <ClInclude Include="src\interaction\Draw\Sprite\Sprite.h" />

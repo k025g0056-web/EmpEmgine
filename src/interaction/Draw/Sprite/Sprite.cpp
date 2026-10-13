@@ -53,6 +53,6 @@ void Sprite::Draw(ID3D12GraphicsCommandList* commandList, const Camera3d& camera
 
 	SetColor(color);
 
-	DrawCallIndex(commandList,indexBufferView_, vertexBufferView_, textureSrvHandleGPU, 6);
+	DrawCallIndex(commandList,indexBufferView_, vertexBufferView_, textureSrvHandleGPU, 6,1);
 
 }

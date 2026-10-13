@@ -158,6 +158,7 @@
     <ClCompile Include="src\Internal\Loader\Manager\LoaderManager.cpp">
       <Filter>Engine\Management\Loader\Manager</Filter>
     </ClCompile>
+    <ClCompile Include="src\interaction\Draw\Particle\3D\Particle3D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -333,6 +334,15 @@
     </Filter>
     <Filter Include="Engine\Management\Loader\Manager">
       <UniqueIdentifier>{7588cda6-70a6-45b4-b6d4-5cc5cad510c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Draw\particle">
+      <UniqueIdentifier>{a6eaf5d9-971e-43f4-bec2-4410ea451e26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Draw\particle\3D">
+      <UniqueIdentifier>{e35d91fc-6826-43b5-baa3-adef8cb7bd7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Draw\particle\2D">
+      <UniqueIdentifier>{226787d8-829b-4954-bef1-2560c18163be}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -537,6 +547,7 @@
     <ClInclude Include="src\DataModel\Node.h">
       <Filter>Engine\DataModel</Filter>
     </ClInclude>
+    <ClInclude Include="src\interaction\Draw\Particle\3D\Particle3D.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="filePath.txt" />
