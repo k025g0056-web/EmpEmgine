@@ -9,6 +9,7 @@ void DrawManager::Clear() {
 	sphere_.clear();
 	model_.clear();
 	particle3D_.clear();
+	
 }
 
 void DrawManager::Release() {
