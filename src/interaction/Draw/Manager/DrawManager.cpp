@@ -30,13 +30,13 @@ void DrawManager::Release() {
 	}
 
 	for (auto& mod:model_) {
+		//mod.ReleaseModel();
 		mod.Release();
-		mod.ReleaseModel();
 	}
 
 	for (auto& par3:particle3D_) {
+		//par3.ReleaseModel();
 		par3.Release();
-		par3.ReleaseModel();
 	}
 
 	Clear();

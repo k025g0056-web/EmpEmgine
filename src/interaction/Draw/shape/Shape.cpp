@@ -54,9 +54,18 @@ void Shape::SetColor(const Vector4& color) {
 }
 
 void Shape::Release() {
-	vertexResource->Release();
-	materialResource->Release();
-	wvpResource->Release();
+	if (vertexResource) {
+		vertexResource->Release();
+	}
+
+	if (materialResource) {
+		materialResource->Release();
+	}
+	
+	if (wvpResource) {
+		wvpResource->Release();
+	}
+
 }
 
 void Shape::ChangeTransform(const Transform3d& transform) {
