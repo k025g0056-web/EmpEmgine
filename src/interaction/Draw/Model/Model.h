@@ -58,4 +58,13 @@ public:
         const Vector4& color);
     void StartCompression();
     void FinishCompression();
+
+    void ReleaseModel() {
+        for (auto& r : vertexResources_) {
+            r.Reset();
+        }
+
+        vertexResources_.clear();
+
+    }
 };

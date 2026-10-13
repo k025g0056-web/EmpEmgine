@@ -28,5 +28,14 @@ public:
         const Transform3d& transform,
         D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU,
         const Vector4& color,int SpawnCount);
+
+    void ReleaseModel() {
+        for (auto& r : vertexResources_) {
+            r.Reset();
+        }
+
+        vertexResources_.clear();
+
+    }
 };
 
