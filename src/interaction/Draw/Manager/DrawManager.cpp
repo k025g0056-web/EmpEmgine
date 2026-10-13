@@ -28,8 +28,13 @@ void DrawManager::Release() {
 		sph.Release();
 	}
 
-	triangles_.clear();
-	doubleTriangle_.clear();
-	sprite_.clear();
-	sphere_.clear();
+	for (auto& mod:model_) {
+		mod.Release();
+	}
+
+	for (auto& par3:particle3D_) {
+		par3.Release();
+	}
+
+	Clear();
 }

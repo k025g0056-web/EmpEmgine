@@ -158,7 +158,9 @@
     <ClCompile Include="src\Internal\Loader\Manager\LoaderManager.cpp">
       <Filter>Engine\Management\Loader\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="src\interaction\Draw\Particle\3D\Particle3D.cpp" />
+    <ClCompile Include="src\interaction\Draw\Particle\3D\Particle3D.cpp">
+      <Filter>Engine\Draw\particle\3D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -547,7 +549,9 @@
     <ClInclude Include="src\DataModel\Node.h">
       <Filter>Engine\DataModel</Filter>
     </ClInclude>
-    <ClInclude Include="src\interaction\Draw\Particle\3D\Particle3D.h" />
+    <ClInclude Include="src\interaction\Draw\Particle\3D\Particle3D.h">
+      <Filter>Engine\Draw\particle\3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="filePath.txt" />
