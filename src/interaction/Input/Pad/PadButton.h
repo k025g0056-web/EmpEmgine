@@ -1,4 +1,5 @@
 #pragma once
+#include <Windows.h>
 #include <Xinput.h>
 
 enum class PadButton : WORD {
