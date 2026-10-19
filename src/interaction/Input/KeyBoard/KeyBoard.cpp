@@ -68,14 +68,14 @@ bool KeyBoard::IsRelease(int key) {
 void KeyBoard::GetKeyStateVk() {
 	prevKey_ = nowKey_;
 	for (int i = 0; i < KEY_MAX; i++) {
-		key_[i] = (GetAsyncKeyState(i) & 0x8000) ? 1 : 0;
+		nowKey_[i] = (GetAsyncKeyState(i) & 0x8000) ? 1 : 0;
 	}
 }
 
 void KeyBoard::Finalize() {
 	if (keyBord_) {
 		keyBord_->Unacquire();
-		keyBord_->Release();
+		keyBord_.Reset();
 		keyBord_ = nullptr;
 	}
 }

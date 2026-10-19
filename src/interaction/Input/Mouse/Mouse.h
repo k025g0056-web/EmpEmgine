@@ -4,8 +4,8 @@
 class Mouse {
 
 	IDirectInputDevice8* mouse_ = nullptr;
-	DIMOUSESTATE mouseState_{};
-	DIMOUSESTATE preMouseState_{};
+	DIMOUSESTATE2 mouseState_{};
+	DIMOUSESTATE2 preMouseState_{};
 	int wheelDelta_ = 0;
 public:
 	static Mouse* GetInstance();

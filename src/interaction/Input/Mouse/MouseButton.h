@@ -5,4 +5,5 @@ enum class MouseButton {
 	Right,
 	Middle,
 	Side1,
+	Side2
 };
