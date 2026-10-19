@@ -161,6 +161,15 @@
     <ClCompile Include="src\interaction\Draw\Particle\3D\Particle3D.cpp">
       <Filter>Engine\Draw\particle\3D</Filter>
     </ClCompile>
+    <ClCompile Include="src\interaction\Input\KeyBoard\KeyBoard.cpp">
+      <Filter>Engine\Input\KeyBoard</Filter>
+    </ClCompile>
+    <ClCompile Include="src\interaction\Input\Mouse\Mouse.cpp">
+      <Filter>Engine\Input\Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\interaction\Input\Pad\Pad.cpp">
+      <Filter>Engine\Input\Pad</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -345,6 +354,15 @@
     </Filter>
     <Filter Include="Engine\Draw\particle\2D">
       <UniqueIdentifier>{226787d8-829b-4954-bef1-2560c18163be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Input\KeyBoard">
+      <UniqueIdentifier>{9d6ccecf-97ee-49f2-8b5c-dc075aef91c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Input\Mouse">
+      <UniqueIdentifier>{3b6c3559-e311-4f79-b004-35888829d071}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Input\Pad">
+      <UniqueIdentifier>{44dfb451-5706-4ad6-9416-9693a45a1ae2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -551,6 +569,21 @@
     </ClInclude>
     <ClInclude Include="src\interaction\Draw\Particle\3D\Particle3D.h">
       <Filter>Engine\Draw\particle\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="src\interaction\Input\KeyBoard\KeyBoard.h">
+      <Filter>Engine\Input\KeyBoard</Filter>
+    </ClInclude>
+    <ClInclude Include="src\interaction\Input\Pad\Pad.h">
+      <Filter>Engine\Input\Pad</Filter>
+    </ClInclude>
+    <ClInclude Include="src\interaction\Input\Mouse\MouseButton.h">
+      <Filter>Engine\Input\Mouse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\interaction\Input\Mouse\Mouse.h">
+      <Filter>Engine\Input\Mouse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\interaction\Input\Pad\PadButton.h">
+      <Filter>Engine\Input\Pad</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -202,6 +202,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="src\interaction\Draw\Sprite\Sprite.cpp" />
     <ClCompile Include="src\interaction\Draw\Triangle\Triangle.cpp" />
     <ClCompile Include="src\interaction\Input\Input.cpp" />
+    <ClCompile Include="src\interaction\Input\KeyBoard\KeyBoard.cpp" />
+    <ClCompile Include="src\interaction\Input\Mouse\Mouse.cpp" />
+    <ClCompile Include="src\interaction\Input\Pad\Pad.cpp" />
     <ClCompile Include="src\Internal\command\ManagementCommand.cpp" />
     <ClCompile Include="src\Internal\debug\ManagementDebug.cpp" />
     <ClCompile Include="src\Internal\DescriptorHeap\ManagementDescriptorHeap.cpp" />
@@ -270,7 +273,12 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="src\interaction\Draw\Sprite\Sprite.h" />
     <ClInclude Include="src\interaction\Draw\Triangle\Triangle.h" />
     <ClInclude Include="src\interaction\Input\Input.h" />
+    <ClInclude Include="src\interaction\Input\KeyBoard\KeyBoard.h" />
     <ClInclude Include="src\interaction\Input\KeyDiffine.h" />
+    <ClInclude Include="src\interaction\Input\Mouse\Mouse.h" />
+    <ClInclude Include="src\interaction\Input\Mouse\MouseButton.h" />
+    <ClInclude Include="src\interaction\Input\Pad\Pad.h" />
+    <ClInclude Include="src\interaction\Input\Pad\PadButton.h" />
     <ClInclude Include="src\Internal\command\ManagementCommand.h" />
     <ClInclude Include="src\Internal\debug\ManagementDebug.h" />
     <ClInclude Include="src\Internal\DescriptorHeap\ManagementDescriptorHeap.h" />

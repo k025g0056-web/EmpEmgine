@@ -1,4 +1,6 @@
-﻿#pragma once
+#pragma once
+#include"Mouse/MouseButton.h"
+#include"Pad/PadButton.h"
 #include<Windows.h>
 
 ///MDK=my define key
