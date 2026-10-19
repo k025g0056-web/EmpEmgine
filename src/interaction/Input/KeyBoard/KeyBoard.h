@@ -1,5 +1,6 @@
 #pragma once
 #include <array>
+#include <Windows.h>
 #include <dinput.h>
 #include<wrl.h>
 

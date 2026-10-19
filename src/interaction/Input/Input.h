@@ -1,4 +1,5 @@
 #pragma once
+#include <Windows.h>
 #include <dinput.h>
 #include"KeyDiffine.h"
 #include"KeyBoard/KeyBoard.h"

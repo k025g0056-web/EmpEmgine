@@ -24,30 +24,30 @@ void DebugCamera::Update() {
 
 	RotateToMat();
 
-	if (Input::GetInstance()->IsPressVk(MDK_W)) {
+	if (Input::GetInstance()->GetKeyBoard()->IsPressVk(MDK_W)) {
 		translate_ += forward * kSpeed;
 	}
 
-	if (Input::GetInstance()->IsPressVk(MDK_A)) {
+	if (Input::GetInstance()->GetKeyBoard()->IsPressVk(MDK_A)) {
 		translate_ -= right * kSpeed;
 	}
 
-	if (Input::GetInstance()->IsPressVk(MDK_S)) {
+	if (Input::GetInstance()->GetKeyBoard()->IsPressVk(MDK_S)) {
 		translate_ -= forward * kSpeed;
 	}
 
-	if (Input::GetInstance()->IsPressVk(MDK_D)) {
+	if (Input::GetInstance()->GetKeyBoard()->IsPressVk(MDK_D)) {
 		translate_ += right * kSpeed;
 	}
 
-	if (Input::GetInstance()->IsPressVk(MDK_E)) {
+	if (Input::GetInstance()->GetKeyBoard()->IsPressVk(MDK_E)) {
 		translate_ += up * kSpeed;
 	}
-	if (Input::GetInstance()->IsPressVk(MDK_Q)) {
+	if (Input::GetInstance()->GetKeyBoard()->IsPressVk(MDK_Q)) {
 		translate_ -= up * kSpeed;
 	}
 
-	if (Input::GetInstance()->IsPressVk(MDK_R)) {
+	if (Input::GetInstance()->GetKeyBoard()->IsPressVk(MDK_R)) {
 		translate_ = { 0.0f,0.0f,-10.0f };
 		rotate_ = { 0.26f,0.0f,0.0f };
 	}
