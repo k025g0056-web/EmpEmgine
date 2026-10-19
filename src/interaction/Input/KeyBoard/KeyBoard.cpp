@@ -6,7 +6,7 @@ KeyBoard* KeyBoard::GetInstance() {
 	return &instance;
 }
 
-void KeyBoard::Initialize(HWND hwnd, IDirectInput8* directInput) {
+IDirectInput8* KeyBoard::Initialize(HWND hwnd, IDirectInput8* directInput) {
 	DirectInput8Create(
 		GetModuleHandle(nullptr),
 		DIRECTINPUT_VERSION,
@@ -23,6 +23,8 @@ void KeyBoard::Initialize(HWND hwnd, IDirectInput8* directInput) {
 		hwnd,
 		DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 	assert(SUCCEEDED(hr));
+
+	return directInput;
 }
 
 void KeyBoard::Update() {

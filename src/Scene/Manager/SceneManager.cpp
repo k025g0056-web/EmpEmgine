@@ -39,7 +39,7 @@ void SceneManager::Draw() {
 
 bool SceneManager::EndManagement() {
 	// ESCキーが押されたらループを抜ける
-	return (Input::GetInstance()->IsReleaseVk(MDK_ESCAPE));
+	return (Input::GetInstance()->GetKeyBoard()->IsReleaseVk(MDK_ESCAPE));
 }
 
 void SceneManager::SetScene(SceneName scene) {

@@ -5,9 +5,6 @@
 #pragma comment(lib,"xinput.lib")
 #include <Windows.h>
 #include<cassert>
-#include"KeyBoard/KeyBoard.h"
-#include"Mouse/Mouse.h"
-#include"Pad/Pad.h"
 
 Input* Input::GetInstance() {
 	static Input instance_;
@@ -24,7 +21,7 @@ void Input::InputAllUpdate() {
 }
 
 void Input::Initialize(HWND hwnd) {
-	GetKeyBoard()->Initialize(hwnd, directInput_);
+	directInput_ = GetKeyBoard()->Initialize(hwnd, directInput_);
 	GetMouse()->Initialize(hwnd, directInput_);
 }
 

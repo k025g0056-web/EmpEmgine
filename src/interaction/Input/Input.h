@@ -1,14 +1,9 @@
 #pragma once
 #include <dinput.h>
-
 #include"KeyDiffine.h"
-/// <summary>
-/// キーの最大数
-/// </summary>
-static constexpr int KEY_MAX = 256;
-class KeyBoard;
-class Mouse;
-class Pad;
+#include"KeyBoard/KeyBoard.h"
+#include"Mouse/Mouse.h"
+#include"Pad/Pad.h"
 
 class Input {
 public:

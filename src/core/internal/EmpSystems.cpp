@@ -120,6 +120,7 @@ void EmpSystems::End() {
 }
 
 void EmpSystems::Release() {
+	Input::GetInstance()->Finalize();
 	managementCommand_.WaitForGPU();
 	mymGui_.Release();
 	drawManager_.Release();

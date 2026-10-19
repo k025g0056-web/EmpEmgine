@@ -10,7 +10,7 @@ void Title::Initialize() {
 }
 
 void Title::Update() {
-	if (Input::GetInstance()->IsPress(DIK_SPACE)) {
+	if (Input::GetInstance()->GetKeyBoard()->IsPress(DIK_SPACE)) {
 		SceneSystem::Set(SceneName::Play);
 	}
 

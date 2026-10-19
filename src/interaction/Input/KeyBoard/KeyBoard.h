@@ -18,7 +18,7 @@ class KeyBoard{
 
 public:
 	static KeyBoard* GetInstance();
-	void Initialize(HWND hwnd, IDirectInput8* directInput);
+	IDirectInput8* Initialize(HWND hwnd, IDirectInput8* directInput);
 	void Update();
 	void Finalize();
 	bool IsTriggerVk(int key);
