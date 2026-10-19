@@ -1,4 +1,5 @@
 #pragma once
+#include<Windows.h>
 #include"MouseButton.h"
 #include<dinput.h>
 class Mouse {
