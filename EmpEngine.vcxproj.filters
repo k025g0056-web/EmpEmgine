@@ -3,7 +3,10 @@
   <ItemGroup>
     <None Include=".editorconfig" />
     <None Include="resources\shader\Object3d.hlsli">
-      <Filter>Engine\Shader</Filter>
+      <Filter>Engine\Shader\Object</Filter>
+    </None>
+    <None Include="Particle.hlsli">
+      <Filter>Engine\Shader\Particle</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -364,6 +367,12 @@
     <Filter Include="Engine\Input\Pad">
       <UniqueIdentifier>{44dfb451-5706-4ad6-9416-9693a45a1ae2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Shader\Object">
+      <UniqueIdentifier>{4e69b781-ecf7-456c-8f83-a7992dcc8765}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Shader\Particle">
+      <UniqueIdentifier>{423c9643-6ae7-4f9e-b977-49492eb6d86b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\wrapper\EmpEngine.h">
@@ -594,10 +603,16 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="resources\shader\Object3d.PS.hlsl">
-      <Filter>Engine\Shader</Filter>
+      <Filter>Engine\Shader\Object</Filter>
     </FxCompile>
     <FxCompile Include="resources\shader\Object3d.VS.hlsl">
-      <Filter>Engine\Shader</Filter>
+      <Filter>Engine\Shader\Object</Filter>
+    </FxCompile>
+    <FxCompile Include="Particle.VS.hlsl">
+      <Filter>Engine\Shader\Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="Particle.PS.hlsl">
+      <Filter>Engine\Shader\Particle</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
