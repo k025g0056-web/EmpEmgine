@@ -185,7 +185,7 @@ void ManagementDXC::GenerateRootSignature() {
 
 	hr = device_->CreateRootSignature(0,
 		signatureBlob_->GetBufferPointer(), signatureBlob_->GetBufferSize(),
-		IID_PPV_ARGS(&rootSignature_));
+		IID_PPV_ARGS(&objectPipeline_.rootSignature));
 	assert(SUCCEEDED(hr));
 	//-----------------------------------------------------------------------//
 
@@ -234,7 +234,7 @@ void ManagementDXC::GeneratePSO() {
 	//---------------------------------------------------------//
 	//----------------------------------------------------------//
 
-	graphicsPipelineStateDesc.pRootSignature = rootSignature_.Get();//RootSignature
+	graphicsPipelineStateDesc.pRootSignature = objectPipeline_.rootSignature.Get();//RootSignature
 	graphicsPipelineStateDesc.InputLayout = inputLayoutDesc_;//InputLayout
 	graphicsPipelineStateDesc.VS = { vertexShaderBlob_->GetBufferPointer(),
 	vertexShaderBlob_->GetBufferSize() };//vertexShader
@@ -253,15 +253,15 @@ void ManagementDXC::GeneratePSO() {
 	graphicsPipelineStateDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
 
 	HRESULT hr = device_->CreateGraphicsPipelineState(&graphicsPipelineStateDesc,
-		IID_PPV_ARGS(&graphicsPipelineState_));
+		IID_PPV_ARGS(&objectPipeline_.pipelineState));
 	assert(SUCCEEDED(hr));
 
 	isDirty_ = false;
 }
 
 void ManagementDXC::Release() {
-	rootSignature_.Reset();
-	graphicsPipelineState_.Reset();
+	Reset(objectPipeline_);
+	Reset(particlePipeline_);
 }
 
 void ManagementDXC::SetBlendMode(BlendMode blendMode) {
@@ -435,5 +435,16 @@ void ManagementDXC::SetPipeLine(DrawMode drawMode, BlendMode blendMode, FillMode
 		break;
 	}
 
+}
 
+void ManagementDXC::Reset(GraphicsPipeline& pipeLine) {
+	if (pipeLine.pipelineState) {
+		pipeLine.pipelineState.Reset();
+		pipeLine.pipelineState = nullptr;
+	}
+
+	if (pipeLine.rootSignature) {
+		pipeLine.pipelineState.Reset();
+		pipeLine.rootSignature = nullptr;
+	}
 }

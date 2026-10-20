@@ -12,11 +12,17 @@
 #include"Datamodel/FillMode.h"
 
 class ManagementDXC {
+	struct GraphicsPipeline {
+		Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature;
+		Microsoft::WRL::ComPtr<ID3D12PipelineState> pipelineState;
+	};
+
+	GraphicsPipeline objectPipeline_;
+	GraphicsPipeline particlePipeline_;
+
 	Microsoft::WRL::ComPtr<IDxcUtils> dxcUtils_;
 	Microsoft::WRL::ComPtr<IDxcCompiler3> dxcCompiler_;
 	Microsoft::WRL::ComPtr<IDxcIncludeHandler> includeHandler_;
-	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature_;
-	Microsoft::WRL::ComPtr<ID3D12PipelineState> graphicsPipelineState_;
 	
 	IDxcBlob* CompileShader(const std::wstring& filePath,const wchar_t* profile);
 	void LoadingFile(const std::wstring& filePath, const wchar_t* profile, IDxcBlobEncoding*& shaderSource, DxcBuffer& shaderSourceBuffer);
@@ -39,6 +45,7 @@ class ManagementDXC {
 	Microsoft::WRL::ComPtr<ID3D12Device>device_;
 	bool isDirty_ = true;
 
+	void Reset(GraphicsPipeline& pipeLine);
 public:
 	void Initialize(ID3D12Device* device);
 	ID3D12PipelineState* GetGraphicPipeLineState() { return graphicsPipelineState_.Get(); }
