@@ -594,7 +594,7 @@
     <ClInclude Include="src\interaction\Input\Pad\PadButton.h">
       <Filter>Engine\Input\Pad</Filter>
     </ClInclude>
-    <ClInclude Include="DrawMode.h">
+    <ClInclude Include="src\DataModel\DrawMode.h">
       <Filter>Engine\DataModel</Filter>
     </ClInclude>
   </ItemGroup>

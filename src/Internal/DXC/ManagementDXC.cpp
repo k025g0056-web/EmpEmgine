@@ -108,7 +108,7 @@ void ManagementDXC::ReturnResult(const std::wstring& filePath, const wchar_t* pr
 	shaderResult->Release();
 }
 
-void ManagementDXC::GenerateRootSignature() {
+void ManagementDXC::GenerateRootSignature(DrawMode drawMode) {
 
 	//この関数で使う変数の初期化
 	//----------------------------------------------------------//

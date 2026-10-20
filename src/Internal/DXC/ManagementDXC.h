@@ -10,6 +10,7 @@
 
 #include <dxcapi.h>
 #include"Datamodel/BlendMode.h"
+#include"Datamodel/DrawMode.h"
 
 class ManagementDXC {
 	Microsoft::WRL::ComPtr<IDxcUtils> dxcUtils_;
@@ -25,7 +26,7 @@ class ManagementDXC {
 	void ReturnResult(const std::wstring& filePath, const wchar_t* profile, IDxcResult*& shaderResult, IDxcBlob*& shaderBlob, IDxcBlobEncoding*& shaderSource);
 	void GenerateInstance();
 	void SettingHandler();
-	void GenerateRootSignature();
+	void GenerateRootSignature(DrawMode drawMode);
 
 	D3D12_BLEND_DESC blendDesc_{};
 	D3D12_RASTERIZER_DESC rasterizerDesc{};

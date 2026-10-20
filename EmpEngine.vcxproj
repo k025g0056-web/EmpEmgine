@@ -233,7 +233,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="src\Scene\wrapper\SceneSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DrawMode.h" />
     <ClInclude Include="externals\imgui\imconfig.h" />
     <ClInclude Include="externals\imgui\imgui.h" />
     <ClInclude Include="externals\imgui\imgui_impl_dx12.h" />
@@ -250,6 +249,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="src\core\internal\EmpSystems.h" />
     <ClInclude Include="src\core\wrapper\EmpEngine.h" />
     <ClInclude Include="src\DataModel\BlendMode.h" />
+    <ClInclude Include="src\DataModel\DrawMode.h" />
     <ClInclude Include="src\DataModel\Material.h" />
     <ClInclude Include="src\DataModel\MaterialData.h" />
     <ClInclude Include="src\DataModel\Matrix2x2.h" />
