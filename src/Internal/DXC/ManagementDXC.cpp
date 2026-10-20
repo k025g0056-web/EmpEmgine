@@ -108,7 +108,7 @@ void ManagementDXC::ReturnResult(const std::wstring& filePath, const wchar_t* pr
 	shaderResult->Release();
 }
 
-void ManagementDXC::GenerateRootSignature(DrawMode drawMode) {
+void ManagementDXC::GenerateRootSignature() {
 
 	//この関数で使う変数の初期化
 	//----------------------------------------------------------//
@@ -396,4 +396,17 @@ void ManagementDXC::SetPixelShader(const std::wstring& filePath) {
 	pixelShaderBlob_ = CompileShader(filePath, L"ps_6_0");
 	assert(pixelShaderBlob_ != nullptr);
 	isDirty_ = true;
+}
+
+void ManagementDXC::ObjectMode(BlendMode blendMode) {
+	GenerateRootSignature();
+	SetPosition("POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, D3D12_APPEND_ALIGNED_ELEMENT);
+	SetTexCoord("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, D3D12_APPEND_ALIGNED_ELEMENT);
+	SetNormal("NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, D3D12_APPEND_ALIGNED_ELEMENT);
+	SetBlendMode(blendMode);
+	SetRasterizer(D3D12_CULL_MODE_NONE, D3D12_FILL_MODE_SOLID);
+	SetDepthStencil(true, D3D12_DEPTH_WRITE_MASK_ALL, D3D12_COMPARISON_FUNC_LESS_EQUAL);
+	SetVertexShader(L"Object3D.VS.hlsl");
+	SetPixelShader(L"Object3D.PS.hlsl");
+	GeneratePSO();
 }

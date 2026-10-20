@@ -597,6 +597,9 @@
     <ClInclude Include="src\DataModel\DrawMode.h">
       <Filter>Engine\DataModel</Filter>
     </ClInclude>
+    <ClInclude Include="FillMode.h">
+      <Filter>Engine\DataModel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="filePath.txt" />

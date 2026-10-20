@@ -1,16 +1,15 @@
 #pragma once
 #pragma once
 #include <Windows.h>
-
 #include <string>
 #include <wrl.h>
 
 #include <d3d12.h>
 #include <dxgi1_6.h>
-
 #include <dxcapi.h>
 #include"Datamodel/BlendMode.h"
 #include"Datamodel/DrawMode.h"
+
 
 class ManagementDXC {
 	Microsoft::WRL::ComPtr<IDxcUtils> dxcUtils_;
@@ -26,7 +25,10 @@ class ManagementDXC {
 	void ReturnResult(const std::wstring& filePath, const wchar_t* profile, IDxcResult*& shaderResult, IDxcBlob*& shaderBlob, IDxcBlobEncoding*& shaderSource);
 	void GenerateInstance();
 	void SettingHandler();
-	void GenerateRootSignature(DrawMode drawMode);
+	void GenerateRootSignature();
+
+	void ObjectMode(BlendMode blendMode);
+
 
 	D3D12_BLEND_DESC blendDesc_{};
 	D3D12_RASTERIZER_DESC rasterizerDesc{};
