@@ -327,12 +327,12 @@ void ManagementDXC::SetRasterizer(D3D12_CULL_MODE cullMode, D3D12_FILL_MODE fill
 	//リスタライザーの設定
 	//----------------------------------------------------//
 	//裏面(時計回り)を表示しない
-	rasterizerDesc.CullMode = cullMode;
-	//三角形の中を塗りつぶす
-	rasterizerDesc.FillMode = fillMode;
-	//-----------------------------------------------------//
+rasterizerDesc.CullMode = cullMode;
+//三角形の中を塗りつぶす
+rasterizerDesc.FillMode = fillMode;
+//-----------------------------------------------------//
 
-	isDirty_ = true;
+isDirty_ = true;
 }
 
 void ManagementDXC::SetDepthStencil(bool depthEnable, D3D12_DEPTH_WRITE_MASK DepthWriteMask, D3D12_COMPARISON_FUNC comparisonFunc) {
@@ -349,7 +349,7 @@ void ManagementDXC::SetDepthStencil(bool depthEnable, D3D12_DEPTH_WRITE_MASK Dep
 
 }
 
-void ManagementDXC::SetPosition(const char* name,unsigned int index, DXGI_FORMAT format,UINT offset) {
+void ManagementDXC::SetPosition(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset) {
 	//ポジションの設定
 	//-----------------------------------------------------------//
 	inputElementDescs_[0].SemanticName = name;
@@ -386,7 +386,7 @@ void ManagementDXC::SetNormal(const char* name, unsigned int index, DXGI_FORMAT 
 }
 
 void ManagementDXC::SetVertexShader(const std::wstring& filePath) {
-	vertexShaderBlob_= CompileShader(filePath, L"vs_6_0");
+	vertexShaderBlob_ = CompileShader(filePath, L"vs_6_0");
 	assert(vertexShaderBlob_ != nullptr);
 
 	isDirty_ = true;
@@ -398,15 +398,42 @@ void ManagementDXC::SetPixelShader(const std::wstring& filePath) {
 	isDirty_ = true;
 }
 
-void ManagementDXC::ObjectMode(BlendMode blendMode) {
+void ManagementDXC::ObjectMode(BlendMode blendMode, FillMode fillMode) {
 	GenerateRootSignature();
 	SetPosition("POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, D3D12_APPEND_ALIGNED_ELEMENT);
 	SetTexCoord("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, D3D12_APPEND_ALIGNED_ELEMENT);
 	SetNormal("NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, D3D12_APPEND_ALIGNED_ELEMENT);
 	SetBlendMode(blendMode);
-	SetRasterizer(D3D12_CULL_MODE_NONE, D3D12_FILL_MODE_SOLID);
+	SetRasterizer(D3D12_CULL_MODE_NONE, static_cast<D3D12_FILL_MODE>(fillMode));
 	SetDepthStencil(true, D3D12_DEPTH_WRITE_MASK_ALL, D3D12_COMPARISON_FUNC_LESS_EQUAL);
 	SetVertexShader(L"Object3D.VS.hlsl");
 	SetPixelShader(L"Object3D.PS.hlsl");
 	GeneratePSO();
+}
+
+void ManagementDXC::ParticleMode(BlendMode blendMode, FillMode fillMode) {
+	GenerateRootSignature();
+	SetPosition("POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, D3D12_APPEND_ALIGNED_ELEMENT);
+	SetTexCoord("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, D3D12_APPEND_ALIGNED_ELEMENT);
+	SetNormal("NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, D3D12_APPEND_ALIGNED_ELEMENT);
+	SetBlendMode(blendMode);
+	SetRasterizer(D3D12_CULL_MODE_NONE, static_cast<D3D12_FILL_MODE>(fillMode));
+	SetDepthStencil(true, D3D12_DEPTH_WRITE_MASK_ALL, D3D12_COMPARISON_FUNC_LESS_EQUAL);
+	SetVertexShader(L"Particle.VS.hlsl");
+	SetPixelShader(L"Particle.PS.hlsl");
+	GeneratePSO();
+}
+
+void ManagementDXC::SetPipeLine(DrawMode drawMode, BlendMode blendMode, FillMode fillMode){
+
+	switch (drawMode){
+	case DrawMode::Object:
+		ObjectMode(blendMode, fillMode);
+		break;
+	case DrawMode::Particle:
+		ParticleMode(blendMode, fillMode);
+		break;
+	}
+
+
 }

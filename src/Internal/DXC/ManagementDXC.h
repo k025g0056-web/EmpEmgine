@@ -9,7 +9,7 @@
 #include <dxcapi.h>
 #include"Datamodel/BlendMode.h"
 #include"Datamodel/DrawMode.h"
-
+#include"Datamodel/FillMode.h"
 
 class ManagementDXC {
 	Microsoft::WRL::ComPtr<IDxcUtils> dxcUtils_;
@@ -27,8 +27,8 @@ class ManagementDXC {
 	void SettingHandler();
 	void GenerateRootSignature();
 
-	void ObjectMode(BlendMode blendMode);
-
+	void ObjectMode(BlendMode blendMode,FillMode fillMode);
+	void ParticleMode(BlendMode blendMode, FillMode fillMode);
 
 	D3D12_BLEND_DESC blendDesc_{};
 	D3D12_RASTERIZER_DESC rasterizerDesc{};
@@ -53,4 +53,5 @@ public:
 	void SetNormal(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset);
 	void SetVertexShader(const std::wstring& filePath);
 	void SetPixelShader(const std::wstring& filePath);
+	void SetPipeLine(DrawMode drawMode, BlendMode blendMode, FillMode fillMode);
 };
