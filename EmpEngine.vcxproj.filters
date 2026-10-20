@@ -5,7 +5,7 @@
     <None Include="resources\shader\Object3d.hlsli">
       <Filter>Engine\Shader\Object</Filter>
     </None>
-    <None Include="Particle.hlsli">
+    <None Include="resources\shader\Particle.hlsli">
       <Filter>Engine\Shader\Particle</Filter>
     </None>
   </ItemGroup>
@@ -594,6 +594,9 @@
     <ClInclude Include="src\interaction\Input\Pad\PadButton.h">
       <Filter>Engine\Input\Pad</Filter>
     </ClInclude>
+    <ClInclude Include="DrawMode.h">
+      <Filter>Engine\DataModel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="filePath.txt" />
@@ -608,10 +611,10 @@
     <FxCompile Include="resources\shader\Object3d.VS.hlsl">
       <Filter>Engine\Shader\Object</Filter>
     </FxCompile>
-    <FxCompile Include="Particle.VS.hlsl">
+    <FxCompile Include="resources\shader\Particle.PS.hlsl">
       <Filter>Engine\Shader\Particle</Filter>
     </FxCompile>
-    <FxCompile Include="Particle.PS.hlsl">
+    <FxCompile Include="resources\shader\Particle.VS.hlsl">
       <Filter>Engine\Shader\Particle</Filter>
     </FxCompile>
   </ItemGroup>
