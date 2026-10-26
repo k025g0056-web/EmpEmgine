@@ -134,6 +134,13 @@ LRESULT CALLBACK ManagementWindow::WindowProc(HWND hwnd, UINT msg, WPARAM wparam
 			DestroyWindow(hwnd);
 		}
 		return 0;
+	case WM_SIZE:
+		if (wparam != SIZE_MINIMIZED) {
+			pendingWidth = LOWORD(lparam);
+			pendingHeight = HIWORD(lparam);
+			resizePending = true;
+		}
+		return 0;
 	}
 
 	//標準のメッセージ

@@ -88,6 +88,7 @@ void EmpSystems::Begin() {
 	renderTexture_.Begin(managementCommand_.GetCommandList(), managementDescriptHeap_.GetDsvHandle());
 #endif // USE_IMGUI
 	drawManager_.SetCommandList(managementCommand_.GetCommandList());
+	
 }
 
 void EmpSystems::End() {
@@ -210,4 +211,13 @@ void EmpSystems::RebindRenderTarget() {
 		managementDescriptHeap_.GetRtvHandles(backBufferIndex),
 		managementDescriptHeap_.GetDsvHandle());
 #endif
+}
+
+void EmpSystems::ResizeWindow() {
+	if (managementWindow_.GetResizePending()) {
+		managementCommand_.WaitForGPU();
+		
+
+		managementWindow_.SetResizePending(false);
+	}
 }

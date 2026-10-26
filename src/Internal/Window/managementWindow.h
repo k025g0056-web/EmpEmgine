@@ -19,7 +19,10 @@ class ManagementWindow {
 
 	WNDCLASS wc_{};
 	std::vector<WindowData> windows_{};
-
+	
+	UINT pendingWidth_ = 0;
+	UINT pendingHeight_ = 0;
+	bool resizePending_ = false;
 
 public:
 	void Initialize(int kWindowWidth, int kWindowHeight);
@@ -29,4 +32,8 @@ public:
 	void Release();
 	HWND GetHwnd(unsigned int i);
 	RECT GetRect(unsigned int i);
+	bool& GetResizePending() { return resizePending_; }
+	UINT GetPendingWidth() { return pendingWidth_; }
+	UINT GetPendingHeight() { return pendingHeight_; }
+	void SetResizePending(bool resizePending) { resizePending_ = resizePending; }
 };

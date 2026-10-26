@@ -27,7 +27,6 @@ class ManagementDescriptorHeap {
 	void GenerateDsvDesc(ID3D12Device* device, ID3D12Resource* depthStencilResource);
 public:
 	void Initialize(ID3D12Device* device, IDXGISwapChain4* swapChain, ID3D12Resource* depthStencilResource);
-
 	static ID3D12DescriptorHeap* CreateDescriptorHeap(ID3D12Device* device,
 		D3D12_DESCRIPTOR_HEAP_TYPE heapType, UINT numDescriptors, bool shaderVisible);
 

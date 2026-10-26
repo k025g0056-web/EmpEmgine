@@ -22,6 +22,7 @@
 #include"Internal/Loader/Manager/LoaderManager.h"
 
 class EmpSystems {
+	void ResizeWindow();
 public:
 	static EmpSystems* GetInstance();
 	void Initialize(int kWindowWidth, int kWindowHeight);
