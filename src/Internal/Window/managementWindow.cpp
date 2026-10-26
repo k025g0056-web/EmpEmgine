@@ -19,7 +19,13 @@ void ManagementWindow::Initialize(int windowWidth,int windowHeight) {
 	//ウィンドウサイズを表す構造体にクライアント領域を入れる
 	window.wrc_ = {0,0,windowWidth,windowHeight};
 	//クライアント領域を元に実際のサイズをwrcに変更してもらう
-	AdjustWindowRect(&window.wrc_, WS_OVERLAPPEDWINDOW, false);
+	AdjustWindowRect(&window.wrc_, WS_OVERLAPPEDWINDOW, true);
+
+	HMENU menu = CreateMenu();
+	HMENU fileMenu = CreatePopupMenu();
+	AppendMenu(fileMenu, MF_STRING, 1, L"終了");
+	AppendMenu(menu, MF_POPUP, reinterpret_cast<UINT_PTR>(fileMenu), L"ファイル");
+
 
 	window.hwnd_ = CreateWindow(
 		wc_.lpszClassName,//利用するクラス名
@@ -30,7 +36,7 @@ void ManagementWindow::Initialize(int windowWidth,int windowHeight) {
 		window.wrc_.right - window.wrc_.left,//ウィンドウ横幅
 		window.wrc_.bottom - window.wrc_.top,//ウィンドウ縦幅
 		nullptr,//親ウィンドウハンドル
-		nullptr,//メニューハンドル
+		menu,//メニューハンドル
 		wc_.hInstance,//インスタンスハンドル
 		this);//オプション
 
@@ -42,7 +48,12 @@ void ManagementWindow::GenerateWindow(int windowWidth, int windowHeight) {
 	WindowData window{};
 
 	window.wrc_ = { 0,0,windowWidth,windowHeight };
-	AdjustWindowRect(&window.wrc_, WS_OVERLAPPEDWINDOW, false);
+	AdjustWindowRect(&window.wrc_, WS_OVERLAPPEDWINDOW, true);
+
+	HMENU menu = CreateMenu();
+	HMENU fileMenu = CreatePopupMenu();
+	AppendMenu(fileMenu, MF_STRING, 1, L"終了");
+	AppendMenu(menu, MF_POPUP, reinterpret_cast<UINT_PTR>(fileMenu), L"ファイル");
 
 	window.hwnd_ = CreateWindow(
 		wc_.lpszClassName,
@@ -53,7 +64,7 @@ void ManagementWindow::GenerateWindow(int windowWidth, int windowHeight) {
 		window.wrc_.right - window.wrc_.left,
 		window.wrc_.bottom - window.wrc_.top,
 		nullptr,
-		nullptr,
+		menu,
 		wc_.hInstance,
 		this
 	);
@@ -71,7 +82,7 @@ void ManagementWindow::SetWindowSize(unsigned int index,int windowWidth,int wind
 	auto& window = windows_[index];
 
 	RECT rc = { 0,0,windowWidth,windowHeight };
-	AdjustWindowRect(&rc, WS_EX_OVERLAPPEDWINDOW, false);
+	AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, true);
 
 	SetWindowPos(
 		window.hwnd_,
@@ -117,6 +128,11 @@ LRESULT CALLBACK ManagementWindow::WindowProc(HWND hwnd, UINT msg, WPARAM wparam
 	case WM_DESTROY:
 		//OSに対してアプリの終了を伝える
 		PostQuitMessage(0);
+		return 0;
+	case WM_COMMAND:
+		if (LOWORD(wparam) == 1) {
+			DestroyWindow(hwnd);
+		}
 		return 0;
 	}
 

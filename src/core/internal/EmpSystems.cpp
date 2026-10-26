@@ -142,8 +142,8 @@ void EmpSystems::Release() {
 void EmpSystems::PostDraw() {
 	managementCommand_.PostDraw(managementViewPort_.GetViewPort(),
 		managementViewPort_.GetScissorRect(),
-		managementDXC_.GetGraphicPipeLineState(),
-		managementDXC_.GetRootSignature(), managementDescriptHeap_.GetSrvDescriptorHeap());
+		managementDXC_.GetOBJGraphicPipeLineState(),
+		managementDXC_.GetOBJRootSignature(), managementDescriptHeap_.GetSrvDescriptorHeap());
 	managementLighting_.DrawCall(managementCommand_.GetCommandList());
 }
 

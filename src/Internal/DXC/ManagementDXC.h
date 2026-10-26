@@ -48,8 +48,8 @@ class ManagementDXC {
 	void Reset(GraphicsPipeline& pipeLine);
 public:
 	void Initialize(ID3D12Device* device);
-	ID3D12PipelineState* GetGraphicPipeLineState() { return graphicsPipelineState_.Get(); }
-	ID3D12RootSignature* GetRootSignature() { return rootSignature_.Get(); }
+	ID3D12PipelineState* GetOBJGraphicPipeLineState() { return objectPipeline_.pipelineState.Get(); }
+	ID3D12RootSignature* GetOBJRootSignature() { return objectPipeline_.rootSignature.Get(); }
 	void Release();
 	void GeneratePSO();
 	void SetBlendMode(BlendMode blendMode);
