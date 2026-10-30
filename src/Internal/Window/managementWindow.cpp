@@ -1,6 +1,6 @@
 #include"managementWindow.h"
 
-void ManagementWindow::Initialize(int windowWidth,int windowHeight) {
+void ManagementWindow::Initialize(int windowWidth, int windowHeight) {
 	windows_.emplace_back();
 	auto& window = windows_.back();
 	wc_ = {};
@@ -17,7 +17,7 @@ void ManagementWindow::Initialize(int windowWidth,int windowHeight) {
 	RegisterClass(&wc_);
 
 	//ウィンドウサイズを表す構造体にクライアント領域を入れる
-	window.wrc_ = {0,0,windowWidth,windowHeight};
+	window.wrc_ = { 0,0,windowWidth,windowHeight };
 	//クライアント領域を元に実際のサイズをwrcに変更してもらう
 	AdjustWindowRect(&window.wrc_, WS_OVERLAPPEDWINDOW, true);
 
@@ -68,14 +68,14 @@ void ManagementWindow::GenerateWindow(int windowWidth, int windowHeight) {
 		wc_.hInstance,
 		this
 	);
-	
+
 	ShowWindow(window.hwnd_, SW_SHOW);
 
 	windows_.push_back(window);
 }
 
-void ManagementWindow::SetWindowSize(unsigned int index,int windowWidth,int windowHeight) {
-	if (index>=windows_.size()) {
+void ManagementWindow::SetWindowSize(unsigned int index, int windowWidth, int windowHeight) {
+	if (index >= windows_.size()) {
 		return;
 	}
 
@@ -97,16 +97,16 @@ void ManagementWindow::SetWindowSize(unsigned int index,int windowWidth,int wind
 }
 
 HWND ManagementWindow::GetHwnd(unsigned int index) {
-	 if (index>=windows_.size()) {
-		 return nullptr;
-	 }
+	if (index >= windows_.size()) {
+		return nullptr;
+	}
 
-	 return windows_[index].hwnd_;
-	 
+	return windows_[index].hwnd_;
+
 }
 
 RECT ManagementWindow::GetRect(unsigned int index) {
-	if (index>=windows_.size()) {
+	if (index >= windows_.size()) {
 		return RECT{};
 	}
 
@@ -114,42 +114,65 @@ RECT ManagementWindow::GetRect(unsigned int index) {
 }
 
 LRESULT CALLBACK ManagementWindow::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
-#ifdef USE_IMGUI
+	// WM_NCCREATEでインスタンスポインタをウィンドウに紐づける
+	if (msg == WM_NCCREATE) {
+		auto* createStruct = reinterpret_cast<CREATESTRUCT*>(lparam);
+		auto* self = static_cast<ManagementWindow*>(createStruct->lpCreateParams);
 
-	if (ImGui_ImplWin32_WndProcHandler(hwnd,msg,wparam,lparam)) {
-		return true;
+		SetWindowLongPtr(
+			hwnd,
+			GWLP_USERDATA,
+			reinterpret_cast<LONG_PTR>(self));
 	}
 
+#ifdef USE_IMGUI
+	// マクロ（#ifdefなど）は必ず独立した行に記述する必要があります
+	if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wparam, lparam)) {
+		return true;
+	}
 #endif // USE_IMGUI
 
-	//メッセージに応じてゲーム固有の処理を行う
+	// メッセージに応じてゲーム固有の処理を行う
 	switch (msg) {
-		//ウィンドウが破棄された
+		// ウィンドウが破棄された
 	case WM_DESTROY:
-		//OSに対してアプリの終了を伝える
+		// OSに対してアプリの終了を伝える
 		PostQuitMessage(0);
 		return 0;
+
 	case WM_COMMAND:
 		if (LOWORD(wparam) == 1) {
 			DestroyWindow(hwnd);
 		}
 		return 0;
+
 	case WM_SIZE:
-		if (wparam != SIZE_MINIMIZED) {
-			pendingWidth = LOWORD(lparam);
-			pendingHeight = HIWORD(lparam);
-			resizePending = true;
+		// インスタンスポインタを取り出す
+		auto* self = reinterpret_cast<ManagementWindow*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
+
+		if (self && wparam != SIZE_MINIMIZED) {
+			RECT clientRect{};
+			if (GetClientRect(hwnd, &clientRect)) {
+				const UINT width =
+					static_cast<UINT>(clientRect.right - clientRect.left);
+				const UINT height =
+					static_cast<UINT>(clientRect.bottom - clientRect.top);
+
+				if (width > 0 && height > 0) {
+					self->pendingWidth_ = width;
+					self->pendingHeight_ = height;
+					self->resizePending_ = true;
+				}
+			}
 		}
 		return 0;
 	}
 
-	//標準のメッセージ
 	return DefWindowProc(hwnd, msg, wparam, lparam);
 }
+	void ManagementWindow::Release() {
+		for (auto& window : windows_) {
+			CloseWindow(window.hwnd_);
+		}
 
-void ManagementWindow::Release() {
-	for (auto& window:windows_) {
-		CloseWindow(window.hwnd_);
 	}
-
-}

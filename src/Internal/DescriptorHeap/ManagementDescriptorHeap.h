@@ -45,4 +45,7 @@ public:
 	ID3D12DescriptorHeap* GetSrvDescriptorHeap() { return srvDescriptorHeap_.Get(); }
 	ID3D12DescriptorHeap* GetDsvDescriptorHeap() { return dsvDescriptorHeap_.Get(); }
 	void Release();
+
+	void ReleaseSwapChainBuffers();
+	void RecreateSwapChainBuffers(ID3D12Device* device, IDXGISwapChain4* swapChain);
 };

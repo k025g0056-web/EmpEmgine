@@ -19,6 +19,7 @@ class ManagementViewPort {
 public:
 	void Initialize(ID3D12Device* device, int kWindowWidth, int kWindowHeight);
 	void Release();
+	void Resize(ID3D12Device* device, UINT width, UINT height);
 
 	//ゲッターロボ
 	//-----------------------------------------------------------------------------//

@@ -16,5 +16,5 @@ public:
 	IDXGISwapChain4* GetSwapChain() const{ return swapChain_.Get(); }
 	Microsoft::WRL::ComPtr<IDXGISwapChain4>GetSwapChainComPtr() { return swapChain_; }
 	DXGI_SWAP_CHAIN_DESC1 GetSwapChainDesc() { return swapChainDesc_; }
-
+	void Resize(UINT width, UINT height);
 };

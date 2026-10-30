@@ -92,3 +92,11 @@ D3D12_GPU_DESCRIPTOR_HANDLE ManagementDescriptorHeap::GetRenderTextureSrvHandleG
 D3D12_CPU_DESCRIPTOR_HANDLE ManagementDescriptorHeap::GetDsvHandle() const {
 	return dsvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart();
 }
+
+void ManagementDescriptorHeap::ReleaseSwapChainBuffers() {
+
+}
+
+void ManagementDescriptorHeap::RecreateSwapChainBuffers(ID3D12Device* device, IDXGISwapChain4* swapChain) {
+
+}

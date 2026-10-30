@@ -36,4 +36,6 @@ public:
 	UINT GetPendingWidth() { return pendingWidth_; }
 	UINT GetPendingHeight() { return pendingHeight_; }
 	void SetResizePending(bool resizePending) { resizePending_ = resizePending; }
+	void SetWindowPendingWidth(UINT width) { pendingWidth_ = width; }
+	void SetWindowPendingHeight(UINT height) { pendingHeight_ = height; }
 };

@@ -33,3 +33,6 @@ void ManagementViewPort::Release() {
 	depthStencilResource_.Reset();
 }
 
+void ManagementViewPort::Resize(ID3D12Device* device, UINT width, UINT height) {
+
+}

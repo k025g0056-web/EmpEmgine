@@ -20,3 +20,7 @@ void ManagementSwapChain::Release() {
 	swapChain_.Reset();
 	swapChain_ = nullptr;
 }
+
+void ManagementSwapChain::Resize(UINT width, UINT height) {
+	
+}

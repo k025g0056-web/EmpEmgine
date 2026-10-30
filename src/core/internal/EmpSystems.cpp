@@ -214,10 +214,26 @@ void EmpSystems::RebindRenderTarget() {
 }
 
 void EmpSystems::ResizeWindow() {
-	if (managementWindow_.GetResizePending()) {
-		managementCommand_.WaitForGPU();
-		
-
-		managementWindow_.SetResizePending(false);
+	if (!managementWindow_.GetResizePending()) {
+		return;
 	}
+
+	const UINT width = managementWindow_.GetPendingWidth();
+	const UINT height = managementWindow_.GetPendingHeight();
+
+	managementWindow_.SetResizePending(false);
+
+	if (width==0||height==0) {
+		return;
+	}
+
+	managementCommand_.WaitForGPU();
+
+	managementDescriptHeap_.ReleaseSwapChainBuffers();
+	managementSwapChain_.Resize(width, height);
+	managementDescriptHeap_.RecreateSwapChainBuffers(managementDevice_.GetDevice(),managementSwapChain_.GetSwapChain());
+	// managementViewPort_.Resize(managementDevice_.GetDevice(), width, height);
+	// managementDescriptHeap_.UpdateDsv(managementDevice_.GetDevice(),managementViewPort_.GetDepthStencilResource());
+	// renderTexture_.Resize(managementDevice_.GetDevice(), width, height);
+
 }
