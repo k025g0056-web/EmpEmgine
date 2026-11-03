@@ -4,8 +4,7 @@
 
 using Microsoft::WRL::ComPtr;
 
-class RenderTexture
-{
+class RenderTexture{
 public:
 
     void Initialize(
@@ -30,6 +29,8 @@ public:
     {
         return srvGPU_;
     }
+
+    void Resize(ID3D12Device* device, UINT width, UINT height);
 
 private:
 

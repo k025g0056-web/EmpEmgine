@@ -76,12 +76,14 @@ void EmpSystems::SetWindowSize(unsigned int index, int windowWidth, int windowHe
 
 void EmpSystems::Begin() {
 	Input::GetInstance()->InputAllUpdate();
+	ResizeWindow();
 	drawManager_.ResetUsedCount();
 	managementCommand_.LoadCommand(
 		managementSwapChain_.GetSwapChain(), 
 		managementDescriptHeap_.GetRtvHandles(),
 		managementDescriptHeap_.GetSwapChainResources(),
 		managementDescriptHeap_.GetDsvDescriptorHeap());
+
 #ifdef USE_IMGUI
 	mymGui_.Begin();
 	mymGui_.MakeDockSpace();
@@ -232,8 +234,8 @@ void EmpSystems::ResizeWindow() {
 	managementDescriptHeap_.ReleaseSwapChainBuffers();
 	managementSwapChain_.Resize(width, height);
 	managementDescriptHeap_.RecreateSwapChainBuffers(managementDevice_.GetDevice(),managementSwapChain_.GetSwapChain());
-	// managementViewPort_.Resize(managementDevice_.GetDevice(), width, height);
-	// managementDescriptHeap_.UpdateDsv(managementDevice_.GetDevice(),managementViewPort_.GetDepthStencilResource());
-	// renderTexture_.Resize(managementDevice_.GetDevice(), width, height);
+	managementViewPort_.Resize(managementDevice_.GetDevice(), width, height);
+	managementDescriptHeap_.UpdateDsv(managementDevice_.GetDevice(),managementViewPort_.GetDepthStencilResource());
+	renderTexture_.Resize(managementDevice_.GetDevice(), width, height);
 
 }

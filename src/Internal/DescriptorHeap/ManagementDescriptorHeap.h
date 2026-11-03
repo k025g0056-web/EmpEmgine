@@ -48,4 +48,5 @@ public:
 
 	void ReleaseSwapChainBuffers();
 	void RecreateSwapChainBuffers(ID3D12Device* device, IDXGISwapChain4* swapChain);
+	void UpdateDsv(ID3D12Device* device, ID3D12Resource* depthStencilResource);
 };

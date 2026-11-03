@@ -54,8 +54,6 @@ void RenderTexture::Initialize(
 
         IID_PPV_ARGS(texture_.GetAddressOf()));
 
-
-
     D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
 
     rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
@@ -68,9 +66,6 @@ void RenderTexture::Initialize(
         &rtvDesc,
 
         rtv_);
-
-
-
 
     D3D12_SHADER_RESOURCE_VIEW_DESC srv{};
 
@@ -150,4 +145,46 @@ void RenderTexture::End(
         D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
 
     cmd->ResourceBarrier(1, &barrier);
+}
+
+void RenderTexture::Resize(ID3D12Device* device, UINT width, UINT height) {
+    D3D12_RESOURCE_DESC desc{};
+
+    desc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+    desc.Width = width;
+    desc.Height = height;
+    desc.DepthOrArraySize = 1;
+    desc.MipLevels = 1;
+    desc.Format = DXGI_FORMAT_R8G8B8A8_TYPELESS;
+    desc.SampleDesc.Count = 1;
+    desc.Layout = D3D12_TEXTURE_LAYOUT_UNKNOWN;
+    desc.Flags = D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET;
+
+    D3D12_HEAP_PROPERTIES heap{};
+
+    heap.Type = D3D12_HEAP_TYPE_DEFAULT;
+
+    FLOAT clearColor[4] = {
+    0.1f,0.25f,0.5f,1.0f
+    };
+
+    D3D12_CLEAR_VALUE clear{};
+
+    clear.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+
+    memcpy(clear.Color, clearColor, sizeof(clearColor));
+
+    device->CreateCommittedResource(
+        &heap,
+
+        D3D12_HEAP_FLAG_NONE,
+
+        &desc,
+
+        D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
+
+        &clear,
+
+        IID_PPV_ARGS(texture_.GetAddressOf()));
+
 }

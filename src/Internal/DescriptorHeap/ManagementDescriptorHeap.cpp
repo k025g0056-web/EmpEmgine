@@ -121,3 +121,7 @@ void ManagementDescriptorHeap::RecreateSwapChainBuffers(ID3D12Device* device, ID
 	device->CreateRenderTargetView(
 		swapChainResources_[1], &rtvDesc_, rtvHandles_[1]);
 }
+
+void ManagementDescriptorHeap::UpdateDsv(ID3D12Device* device,ID3D12Resource* depthStencilResource) {
+
+}
