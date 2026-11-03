@@ -229,6 +229,13 @@ void EmpSystems::ResizeWindow() {
 		return;
 	}
 
+	const auto currentSize = managementSwapChain_.GetSwapChainDesc();
+
+	if (width == currentSize.Width &&
+		height == currentSize.Height) {
+		return;
+	}
+
 	managementCommand_.WaitForGPU();
 
 	managementDescriptHeap_.ReleaseSwapChainBuffers();
