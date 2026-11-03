@@ -1,4 +1,5 @@
 #include "RenderTexture.h"
+#include<cassert>
 
 void RenderTexture::Initialize(
     ID3D12Device* device,
@@ -174,17 +175,41 @@ void RenderTexture::Resize(ID3D12Device* device, UINT width, UINT height) {
 
     memcpy(clear.Color, clearColor, sizeof(clearColor));
 
-    device->CreateCommittedResource(
+    ComPtr<ID3D12Resource> newTexture;
+
+    HRESULT hr = device->CreateCommittedResource(
         &heap,
-
         D3D12_HEAP_FLAG_NONE,
-
         &desc,
-
         D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
-
         &clear,
+        IID_PPV_ARGS(&newTexture));
 
-        IID_PPV_ARGS(texture_.GetAddressOf()));
+    assert(SUCCEEDED(hr)&&"レンダー失敗してるよん");
+    if (FAILED(hr)) {
+        return;
+    }
 
+    texture_ = newTexture;
+
+    D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
+    rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+    rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
+
+    device->CreateRenderTargetView(
+        texture_.Get(),
+        &rtvDesc,
+        rtv_);
+
+    D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+    srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+    srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+    srvDesc.Texture2D.MipLevels = 1;
+    srvDesc.Shader4ComponentMapping =
+        D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+
+    device->CreateShaderResourceView(
+        texture_.Get(),
+        &srvDesc,
+        srvCPU_);
 }

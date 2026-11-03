@@ -123,5 +123,5 @@ void ManagementDescriptorHeap::RecreateSwapChainBuffers(ID3D12Device* device, ID
 }
 
 void ManagementDescriptorHeap::UpdateDsv(ID3D12Device* device,ID3D12Resource* depthStencilResource) {
-
+	GenerateDsvDesc(device, depthStencilResource);
 }
