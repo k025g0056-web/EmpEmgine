@@ -94,9 +94,30 @@ D3D12_CPU_DESCRIPTOR_HANDLE ManagementDescriptorHeap::GetDsvHandle() const {
 }
 
 void ManagementDescriptorHeap::ReleaseSwapChainBuffers() {
+	if (swapChainResources_[0]) {
+		swapChainResources_[0]->Release();
+		swapChainResources_[0] = nullptr;
+	}
 
+	if (swapChainResources_[1]) {
+		swapChainResources_[1]->Release();
+		swapChainResources_[1] = nullptr;
+	}
 }
 
 void ManagementDescriptorHeap::RecreateSwapChainBuffers(ID3D12Device* device, IDXGISwapChain4* swapChain) {
 
+	HRESULT hr = swapChain->GetBuffer(
+		0, IID_PPV_ARGS(&swapChainResources_[0]));
+	assert(SUCCEEDED(hr));
+
+	hr = swapChain->GetBuffer(
+		1, IID_PPV_ARGS(&swapChainResources_[1]));
+	assert(SUCCEEDED(hr));
+
+	device->CreateRenderTargetView(
+		swapChainResources_[0], &rtvDesc_, rtvHandles_[0]);
+
+	device->CreateRenderTargetView(
+		swapChainResources_[1], &rtvDesc_, rtvHandles_[1]);
 }

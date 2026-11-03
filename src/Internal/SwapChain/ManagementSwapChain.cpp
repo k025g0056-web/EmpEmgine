@@ -22,5 +22,15 @@ void ManagementSwapChain::Release() {
 }
 
 void ManagementSwapChain::Resize(UINT width, UINT height) {
-	
+	HRESULT hr = swapChain_->ResizeBuffers(
+		2,                          // バッファ数
+		width,
+		height,
+		DXGI_FORMAT_R8G8B8A8_UNORM, // Initializeで指定した形式
+		0);
+
+	assert(SUCCEEDED(hr));
+
+	swapChainDesc_.Width = width;
+	swapChainDesc_.Height = height;
 }

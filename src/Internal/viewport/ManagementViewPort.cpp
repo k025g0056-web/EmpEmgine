@@ -34,5 +34,17 @@ void ManagementViewPort::Release() {
 }
 
 void ManagementViewPort::Resize(ID3D12Device* device, UINT width, UINT height) {
+	depthStencilResource_.Reset();
 
+	depthStencilResource_ =
+		DX12Mechanics::CreateDepthStencilTextureResource(
+			device, width, height);
+
+	GenerateViewPort(
+		static_cast<int>(width),
+		static_cast<int>(height));
+
+	CorrectionScissorRect(
+		static_cast<int>(width),
+		static_cast<int>(height));
 }
