@@ -64,4 +64,14 @@ public:
 		SendSignal();
 		WaitingGPU();
 	}
+
+	void WaitCompleteCommand();
+
+	//細分化関数群
+	void SetRSViewPort(D3D12_VIEWPORT viewPort);
+	void SetRSScissorRects(D3D12_RECT scissorRect);
+	void SetRootSignature(ID3D12RootSignature* rootSignature);
+	void SetPipelineState(ID3D12PipelineState* graphicsPipelineState);
+	void SetDescriptorHeaps(ID3D12DescriptorHeap* srvDescriptorHeap);
+
 };

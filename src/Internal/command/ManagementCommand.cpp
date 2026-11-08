@@ -186,3 +186,34 @@ void ManagementCommand::PostDraw(D3D12_VIEWPORT viewPort,
 	commandList_->SetDescriptorHeaps(1, descriptorHeaps); // ← これがないとエラー！
 
 }
+
+void ManagementCommand::SetRSViewPort(D3D12_VIEWPORT viewPort) {
+	commandList_->RSSetViewports(1, &viewPort);
+}
+
+void ManagementCommand::SetRSScissorRects(D3D12_RECT scissorRect) {
+	commandList_->RSSetScissorRects(1, &scissorRect);
+}
+
+void ManagementCommand::SetRootSignature(ID3D12RootSignature* rootSignature) {
+	commandList_->SetGraphicsRootSignature(rootSignature);
+}
+
+void ManagementCommand::SetPipelineState(ID3D12PipelineState* graphicsPipelineState) {
+	commandList_->SetPipelineState(graphicsPipelineState);
+}
+
+void ManagementCommand::SetDescriptorHeaps(ID3D12DescriptorHeap* srvDescriptorHeap) {
+	ID3D12DescriptorHeap* descriptorHeaps[] = { srvDescriptorHeap };
+	commandList_->SetDescriptorHeaps(1, descriptorHeaps); // ← これがないとエラー！
+}
+
+void ManagementCommand::WaitCompleteCommand() {
+	SendSignal();
+	if (fence_.Get()->GetCompletedValue()!=fenceValue_) {
+		HANDLE event = CreateEvent(nullptr, false, false, nullptr);
+		fence_.Get()->SetEventOnCompletion(fenceValue_, event);
+		WaitForSingleObject(event, INFINITE);
+		CloseHandle(event);
+	}
+}
