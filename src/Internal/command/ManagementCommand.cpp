@@ -60,15 +60,14 @@ void ManagementCommand::KickCommand(IDXGISwapChain4* swapChain) {
 	HRESULT hr = commandList_->Close();
 	assert(SUCCEEDED(hr));
 
-	ID3D12CommandList* commandLists[] = { commandList_.Get() };
-	commandQueue_->ExecuteCommandLists(1, commandLists);
+	Excute();
 
 	SendSignal();
 
 	WaitingGPU();
 
 	//GPUとOSに画面の交換を行うように通知する
-	swapChain->Present(1, 0);
+	Present(swapChain);
 	//次フレーム用のコマンドリストを準備
 	hr = commandAllocator_->Reset();
 	assert(SUCCEEDED(hr));
@@ -213,7 +212,19 @@ void ManagementCommand::WaitCompleteCommand() {
 	if (fence_.Get()->GetCompletedValue()!=fenceValue_) {
 		HANDLE event = CreateEvent(nullptr, false, false, nullptr);
 		fence_.Get()->SetEventOnCompletion(fenceValue_, event);
-		WaitForSingleObject(event, INFINITE);
-		CloseHandle(event);
+		if (event!=0) {
+			WaitForSingleObject(event, INFINITE);
+			CloseHandle(event);
+		}
 	}
+}
+
+void ManagementCommand::Excute() {
+	ID3D12CommandList* commandLists[] = { commandList_.Get() };
+	commandQueue_->ExecuteCommandLists(1, commandLists);
+
+}
+
+void ManagementCommand::Present(IDXGISwapChain4* swapChain) {
+	swapChain->Present(1, 0);
 }

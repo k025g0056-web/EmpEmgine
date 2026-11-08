@@ -66,6 +66,8 @@ public:
 	}
 
 	void WaitCompleteCommand();
+	void Excute();
+	void Present(IDXGISwapChain4* swapChain);
 
 	//細分化関数群
 	void SetRSViewPort(D3D12_VIEWPORT viewPort);
