@@ -137,53 +137,9 @@ void ManagementCommand::CommandRelease() {
 	commandQueue_.Reset();
 }
 
-void ManagementCommand::DrawCall(
-	D3D12_VIEWPORT viewPort,
-	D3D12_RECT scissorRect, 
-	D3D12_VERTEX_BUFFER_VIEW vertexBufferView,
-	ID3D12PipelineState* graphicsPipelineState, 
-	ID3D12RootSignature* rootSignature, 
-	ID3D12Resource* materialResource, 
-	ID3D12Resource* wvpResource, ID3D12DescriptorHeap* srvDescriptorHeap,
-	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU) {
-	commandList_->RSSetViewports(1, &viewPort);//viewPortを設定
-	commandList_->RSSetScissorRects(1, &scissorRect);//Scissorを設定
-	//RootSignatureを設定。PSOに設定してるけど別途設定が必要
-	commandList_->SetGraphicsRootSignature(rootSignature);
-	commandList_->SetPipelineState(graphicsPipelineState);//PSOを設定
-	ID3D12DescriptorHeap* descriptorHeaps[] = { srvDescriptorHeap };
-	commandList_->SetDescriptorHeaps(1, descriptorHeaps); // ← これがないとエラー！
-
-
-	commandList_->IASetVertexBuffers(0, 1, &vertexBufferView);//VBVを設定
-	//形状を設定。PSOに設定しているものとはまた別。同じ物を設定すると考えて置けば良い
-	commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	//マテリアルCBufferの場所を設定
-	commandList_->SetGraphicsRootConstantBufferView(0, materialResource->GetGPUVirtualAddress());
-	commandList_->SetGraphicsRootConstantBufferView(1, wvpResource->GetGPUVirtualAddress());
-	commandList_->SetGraphicsRootDescriptorTable(2, textureSrvHandleGPU);
-	//描画！（DrawCall/ドローコール）。3頂点で１つのインスタンス。インスタンスについては今後
-	commandList_->DrawInstanced(6, 1, 0, 0);
-}
-
 void ManagementCommand::SettingDsvHandle(ID3D12DescriptorHeap* dsvDescriptorHeap, D3D12_CPU_DESCRIPTOR_HANDLE* rtvHandle,UINT backBufferIndex) {
 	dsvHandle_ = dsvDescriptorHeap->GetCPUDescriptorHandleForHeapStart();
 	commandList_->OMSetRenderTargets(1, &rtvHandle[backBufferIndex], false, &dsvHandle_);
-}
-
-void ManagementCommand::PostDraw(D3D12_VIEWPORT viewPort,
-	D3D12_RECT scissorRect,
-	ID3D12PipelineState* graphicsPipelineState,
-	ID3D12RootSignature* rootSignature, ID3D12DescriptorHeap* srvDescriptorHeap) {
-
-	commandList_->RSSetViewports(1, &viewPort);//viewPortを設定
-	commandList_->RSSetScissorRects(1, &scissorRect);//Scissorを設定
-	//RootSignatureを設定。PSOに設定してるけど別途設定が必要
-	commandList_->SetGraphicsRootSignature(rootSignature);
-	commandList_->SetPipelineState(graphicsPipelineState);//PSOを設定
-	ID3D12DescriptorHeap* descriptorHeaps[] = { srvDescriptorHeap };
-	commandList_->SetDescriptorHeaps(1, descriptorHeaps); // ← これがないとエラー！
-
 }
 
 void ManagementCommand::SetRSViewPort(D3D12_VIEWPORT viewPort) {

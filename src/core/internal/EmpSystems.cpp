@@ -146,10 +146,13 @@ void EmpSystems::Release() {
 
 
 void EmpSystems::PostDraw() {
-	managementCommand_.PostDraw(managementViewPort_.GetViewPort(),
-		managementViewPort_.GetScissorRect(),
-		managementDXC_.GetOBJGraphicPipeLineState(),
-		managementDXC_.GetOBJRootSignature(), managementDescriptHeap_.GetSrvDescriptorHeap());
+	managementCommand_.SetRSViewPort(managementViewPort_.GetViewPort());
+	managementCommand_.SetRSScissorRects(managementViewPort_.GetScissorRect());
+	//ここは後々変更する
+	managementCommand_.SetRootSignature(managementDXC_.GetOBJRootSignature());
+	managementCommand_.SetPipelineState(managementDXC_.GetOBJGraphicPipeLineState());
+
+	managementCommand_.SetDescriptorHeaps(managementDescriptHeap_.GetSrvDescriptorHeap());
 	managementLighting_.DrawCall(managementCommand_.GetCommandList());
 }
 

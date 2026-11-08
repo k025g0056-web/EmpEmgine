@@ -32,10 +32,6 @@ class ManagementCommand {
 public:
 
 	void Initialize(ID3D12Device* device);
-	void PostDraw(D3D12_VIEWPORT viewPort,
-		D3D12_RECT scissorRect,
-		ID3D12PipelineState* graphicsPipelineState,
-		ID3D12RootSignature* rootSignature, ID3D12DescriptorHeap* srvDescriptorHeap);
 	ID3D12CommandQueue* GetCommandQueue() const{ return commandQueue_.Get(); }
 	ID3D12CommandAllocator* GetCommandAllocator()const { return commandAllocator_.Get(); }
 	ID3D12GraphicsCommandList* GetCommandList()const { return commandList_.Get(); }
@@ -47,12 +43,7 @@ public:
 	void KickCommand(IDXGISwapChain4* swapChain);
 	void FenceRelease();
 	void CommandRelease();
-	void DrawCall(D3D12_VIEWPORT viewPort,
-		D3D12_RECT scissorRect,D3D12_VERTEX_BUFFER_VIEW vertexBufferView, 
-		ID3D12PipelineState* graphicsPipelineState, ID3D12RootSignature* rootSignature,
-		ID3D12Resource* materialResource, ID3D12Resource* wvpResource,
-		ID3D12DescriptorHeap* srvDescriptorHeap,
-		D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU);
+	
 	void SetClearColor(Vector4 color) {
 		clearColor_[0] = color.x;
 		clearColor_[1] = color.y;
