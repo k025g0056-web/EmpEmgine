@@ -122,7 +122,7 @@ void EmpSystems::End() {
 #endif // USE_IMGUI
 
 	managementCommand_.KickCommand(managementSwapChain_.GetSwapChain());
-	framerate_.Update();
+	//framerate_.Update();
 }
 
 void EmpSystems::Release() {
