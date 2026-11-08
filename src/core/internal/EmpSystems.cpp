@@ -122,6 +122,7 @@ void EmpSystems::End() {
 #endif // USE_IMGUI
 
 	managementCommand_.KickCommand(managementSwapChain_.GetSwapChain());
+	framerate_.Update();
 }
 
 void EmpSystems::Release() {
@@ -149,7 +150,6 @@ void EmpSystems::PostDraw() {
 		managementViewPort_.GetScissorRect(),
 		managementDXC_.GetOBJGraphicPipeLineState(),
 		managementDXC_.GetOBJRootSignature(), managementDescriptHeap_.GetSrvDescriptorHeap());
-	framerate_.Update();
 	managementLighting_.DrawCall(managementCommand_.GetCommandList());
 }
 

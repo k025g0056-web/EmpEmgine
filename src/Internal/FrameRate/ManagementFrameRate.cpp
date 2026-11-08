@@ -8,11 +8,10 @@ void ManagementFrameRate::Initialize() {
 }
 
 void ManagementFrameRate::Update() {
-	GUI();
 	//指定したフレームレートピッタリの時間
-	const std::chrono::microseconds kMinTime(uint64_t(1000000.0f / minFPS));
+	const std::chrono::microseconds kMinTime(uint64_t(1000000.0f / maxFPS));
 	//指定したフレームレートよりわずかに短い時間
-	const std::chrono::microseconds kMinCheckTime(uint64_t(1000000.0f / (minFPS+FPSOffset)));
+	//const std::chrono::microseconds kMinCheckTime(uint64_t(1000000.0f / (minFPS+FPSOffset)));
 
 	//現在の時間を取得する
 	std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
@@ -24,11 +23,7 @@ void ManagementFrameRate::Update() {
 	//指定した時間に達していない場合
 	if (elaps<kMinTime) {
 		//時間がくるまで意図的に止める
-		while (std::chrono::steady_clock::now()-reference_<kMinTime) {
-			//1マイクロ秒刻みで機能を止める
-			std::this_thread::sleep_for(std::chrono::microseconds(1));
-		}
-
+		std::this_thread::sleep_until(reference_ + kMinTime);
 	}
 
 	reference_ = std::chrono::steady_clock::now();
@@ -37,7 +32,7 @@ void ManagementFrameRate::Update() {
 void ManagementFrameRate::GUI() {
 	ImGui::Begin("FPS");
 	ImGui::Text("preFPS: %.1f", ImGui::GetIO().Framerate);
-	ImGui::DragFloat("Framerate", &minFPS, 1.0f, 1.0f, 144.0f);
+	ImGui::DragFloat("Framerate", &maxFPS, 1.0f, 10.0f, 144.0f);
 	ImGui::DragFloat("FrameOffset", &FPSOffset, 1.0f, 1.0f, 10.0f);
 	ImGui::End();
 }

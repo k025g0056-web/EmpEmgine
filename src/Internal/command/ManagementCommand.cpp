@@ -176,6 +176,7 @@ void ManagementCommand::PostDraw(D3D12_VIEWPORT viewPort,
 	D3D12_RECT scissorRect,
 	ID3D12PipelineState* graphicsPipelineState,
 	ID3D12RootSignature* rootSignature, ID3D12DescriptorHeap* srvDescriptorHeap) {
+
 	commandList_->RSSetViewports(1, &viewPort);//viewPortを設定
 	commandList_->RSSetScissorRects(1, &scissorRect);//Scissorを設定
 	//RootSignatureを設定。PSOに設定してるけど別途設定が必要

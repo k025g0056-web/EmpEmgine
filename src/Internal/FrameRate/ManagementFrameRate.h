@@ -5,7 +5,7 @@ class ManagementFrameRate{
 
 	//記録用の変数
 	std::chrono::steady_clock::time_point reference_;
-	float minFPS = 60.0f;
+	float maxFPS = 60.0f;
 	float FPSOffset = 5.0f;
 
 public:
