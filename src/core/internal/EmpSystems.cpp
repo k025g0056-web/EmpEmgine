@@ -48,6 +48,7 @@ void EmpSystems::Initialize(int kWindowWidth, int kWindowHeight) {
 	managementLighting_.Initialize(managementDevice_.GetDevice());
 	drawManager_.Initialize(managementDevice_.GetDevice());
 	drawManager_.SetPostDrawFunc([this]() {PostDraw(); });
+	framerate_.Initialize();
 }
 
 int EmpSystems::ProcessMessage() {
@@ -87,6 +88,7 @@ void EmpSystems::Begin() {
 #ifdef USE_IMGUI
 	mymGui_.Begin();
 	mymGui_.MakeDockSpace();
+	framerate_.GUI();
 	renderTexture_.Begin(managementCommand_.GetCommandList(), managementDescriptHeap_.GetDsvHandle());
 #endif // USE_IMGUI
 	drawManager_.SetCommandList(managementCommand_.GetCommandList());
@@ -147,6 +149,7 @@ void EmpSystems::PostDraw() {
 		managementViewPort_.GetScissorRect(),
 		managementDXC_.GetOBJGraphicPipeLineState(),
 		managementDXC_.GetOBJRootSignature(), managementDescriptHeap_.GetSrvDescriptorHeap());
+	framerate_.Update();
 	managementLighting_.DrawCall(managementCommand_.GetCommandList());
 }
 

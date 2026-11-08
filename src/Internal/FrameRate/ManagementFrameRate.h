@@ -8,13 +8,13 @@ class ManagementFrameRate{
 	float minFPS = 60.0f;
 	float FPSOffset = 5.0f;
 
-	void GUI();
-
 public:
 	void Initialize();
 
 	void Update();
 
+	//エンジンの進み具合で設定に切り替える
+	void GUI();
 };
 
 

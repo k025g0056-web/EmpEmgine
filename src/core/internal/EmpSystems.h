@@ -20,6 +20,7 @@
 #include"Internal/Loader/Audio/ManagementAudio.h"
 #include"Internal/ImGui/Render/RenderTexture.h"
 #include"Internal/Loader/Manager/LoaderManager.h"
+#include"Internal/FrameRate/ManagementFrameRate.h"
 
 class EmpSystems {
 	void ResizeWindow();
@@ -72,7 +73,7 @@ private:
 	ManagementLighting managementLighting_;
 	RenderTexture renderTexture_;
 	LoaderManager loader_;
-	
+	ManagementFrameRate framerate_;
 
 	//------------------------------------------------------//
 };
