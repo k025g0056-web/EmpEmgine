@@ -1,0 +1,14 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "C:\\myApp\\CG2\\Project\\..\\generated\\obj\\EmpEngine\\Debug\\ManagementFrameRate.obj",
+            "outputs": [
+                "C:\\myApp\\CG2\\Project\\..\\generated\\obj\\EmpEngine\\Debug\\ManagementFrameRate.cpp.obj.dt.module.json",
+                "C:\\myApp\\CG2\\Project\\..\\generated\\obj\\EmpEngine\\Debug\\ManagementFrameRate.cpp.obj.dt.d.json"
+            ],
+            "requires": []
+        }
+    ]
+}
