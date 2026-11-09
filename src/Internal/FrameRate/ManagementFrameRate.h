@@ -7,8 +7,11 @@ class ManagementFrameRate{
 	std::chrono::steady_clock::time_point reference_;
 	float maxFPS = 60.0f;
 	float FPSOffset = 5.0f;
+	bool isVsnc_ = true;
 
 public:
+	bool GetIsVsnc() { return isVsnc_; }
+
 	void Initialize();
 
 	void Update();

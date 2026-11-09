@@ -144,12 +144,12 @@ ID3D12Resource* ManagementTexture::UploadTextureData(ID3D12Resource* texture, co
 D3D12_GPU_DESCRIPTOR_HANDLE ManagementTexture::Load( const std::string& filePath) {
 	DirectX::ScratchImage mipImages;
 	DirectX::TexMetadata metadata;
-	ID3D12Resource* textureResource = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12Resource> textureResource = nullptr;
 	//テクスチャを読んで転送する
 	mipImages = LoadTextureFile(filePath);
 	metadata = mipImages.GetMetadata();
 	textureResource = CreateTextureResource(metadata);
-	ID3D12Resource* intermediateResource=UploadTextureData(textureResource, mipImages);
+	ID3D12Resource* intermediateResource=UploadTextureData(textureResource.Get(), mipImages);
 	
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = BuildSrvDesc(metadata);
 	const uint32_t descriptorSizeSRV = device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
@@ -157,7 +157,7 @@ D3D12_GPU_DESCRIPTOR_HANDLE ManagementTexture::Load( const std::string& filePath
 	const uint32_t descriptorSizeDSV = device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
 	D3D12_CPU_DESCRIPTOR_HANDLE handleCPU = GetCPUDescriptorHandle(srvDescriptorHeap_, descriptorSizeSRV, nextTextureIndex_);
 	D3D12_GPU_DESCRIPTOR_HANDLE handleGPU = GetGPUDescriptorHandle(srvDescriptorHeap_, descriptorSizeSRV, nextTextureIndex_);
-	device_->CreateShaderResourceView(textureResource, &srvDesc, handleCPU);
+	device_->CreateShaderResourceView(textureResource.Get(), &srvDesc, handleCPU);
 	nextTextureIndex_++;
 
 	//リストを閉じる

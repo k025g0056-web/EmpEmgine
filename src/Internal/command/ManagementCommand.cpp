@@ -182,5 +182,5 @@ void ManagementCommand::Excute() {
 }
 
 void ManagementCommand::Present(IDXGISwapChain4* swapChain) {
-	swapChain->Present(1, 0);
+	swapChain->Present(isVsnc_, 0);
 }

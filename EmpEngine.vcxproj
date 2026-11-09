@@ -179,11 +179,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="externals\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="externals\imgui\imgui_tables.cpp" />
     <ClCompile Include="externals\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="main.cpp">
-      <Optimization Condition="'$(Configuration)|$(Platform)'=='Development|x64'">MaxSpeed</Optimization>
-      <WholeProgramOptimization Condition="'$(Configuration)|$(Platform)'=='Development|x64'">true</WholeProgramOptimization>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Development|x64'">_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
     <ClCompile Include="src\appObj\Camera\Camera3d\Camera3d.cpp" />
     <ClCompile Include="src\appObj\Camera\Controller\CameraController.cpp" />
     <ClCompile Include="src\appObj\Light\ManagementLighting.cpp" />
@@ -225,6 +220,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="src\Internal\viewport\ManagementViewPort.cpp" />
     <ClCompile Include="src\Internal\Window\managementWindow.cpp" />
     <ClCompile Include="src\Log\ManagementLog.cpp" />
+    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Scene\Base\SceneBase.cpp" />
     <ClCompile Include="src\Scene\Clear\Clear.cpp" />
     <ClCompile Include="src\Scene\Game\Game.cpp" />
@@ -313,7 +309,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt" />
-    <Text Include="filePath.txt" />
+    <Text Include="src\filePath.txt" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="resources\shader\Object3d.PS.hlsl">

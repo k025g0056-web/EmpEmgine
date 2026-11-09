@@ -19,6 +19,7 @@ class ManagementCommand {
 	HANDLE fenceEvent_ = nullptr;
 
 	float clearColor_[4] = { 0.1f,0.25f,0.5f,1.0f };
+	int isVsnc_ = 1;
 
 	void GenerateCommandQueue(ID3D12Device* device);
 	void GenerateCommandAllocator(ID3D12Device* device);
@@ -55,6 +56,8 @@ public:
 		SendSignal();
 		WaitingGPU();
 	}
+
+	void SetIsVsnc_(bool flag) { isVsnc_ = static_cast<int>(flag); }
 
 	void WaitCompleteCommand();
 	void Excute();

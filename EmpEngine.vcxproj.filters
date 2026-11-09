@@ -19,7 +19,6 @@
     <ClCompile Include="src\Scene\Manager\SceneManager.cpp">
       <Filter>Engine\Scene\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="src\Scene\Base\SceneBase.cpp">
       <Filter>Engine\Scene\Base</Filter>
     </ClCompile>
@@ -176,6 +175,7 @@
     <ClCompile Include="src\Internal\FrameRate\ManagementFrameRate.cpp">
       <Filter>Engine\Management\FrameRate</Filter>
     </ClCompile>
+    <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -611,10 +611,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="filePath.txt" />
     <Text Include="externals\imgui\LICENSE.txt">
       <Filter>Engine\ImGui</Filter>
     </Text>
+    <Text Include="src\filePath.txt" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="resources\shader\Object3d.PS.hlsl">

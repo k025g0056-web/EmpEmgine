@@ -172,7 +172,7 @@ LRESULT CALLBACK ManagementWindow::WindowProc(HWND hwnd, UINT msg, WPARAM wparam
 }
 	void ManagementWindow::Release() {
 		for (auto& window : windows_) {
-			CloseWindow(window.hwnd_);
+			DestroyWindow(window.hwnd_);
 		}
 
 	}

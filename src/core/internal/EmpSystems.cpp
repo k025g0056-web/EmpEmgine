@@ -126,7 +126,8 @@ void EmpSystems::End() {
 #endif // USE_IMGUI
 
 	managementCommand_.KickCommand(managementSwapChain_.GetSwapChain());
-	//framerate_.Update();
+	framerate_.Update();
+	managementCommand_.SetIsVsnc_(framerate_.GetIsVsnc());
 }
 
 void EmpSystems::Release() {
