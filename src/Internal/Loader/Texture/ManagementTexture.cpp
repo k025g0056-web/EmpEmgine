@@ -217,7 +217,7 @@ D3D12_SHADER_RESOURCE_VIEW_DESC ManagementTexture::BuildSrvDesc(DirectX::TexMeta
 void ManagementTexture::Release() {
 	for (TextureData& texture : textures_) {
 		if (texture.resource) {
-			texture.resource->Release();
+			texture.resource.Reset();
 			texture.resource = nullptr;
 		}
 	}

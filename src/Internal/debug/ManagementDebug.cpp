@@ -19,7 +19,7 @@ void ManagementDebug::EnableDebugLayerWrapping() {
 
 void ManagementDebug::ErrorDetection(ID3D12Device* device) {
 #ifdef _DEBUG
-	ID3D12InfoQueue* infoQueue_ = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12InfoQueue> infoQueue_ = nullptr;
 	if (SUCCEEDED(device->QueryInterface(IID_PPV_ARGS(&infoQueue_)))) {
 		//やばいエラー時に止まる
 		infoQueue_->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, true);
@@ -46,7 +46,7 @@ void ManagementDebug::ErrorDetection(ID3D12Device* device) {
 
 		//解放
 		if (infoQueue_) {
-			infoQueue_->Release();
+			infoQueue_.Reset();
 			infoQueue_ = nullptr;
 		}
 	}
@@ -55,12 +55,12 @@ void ManagementDebug::ErrorDetection(ID3D12Device* device) {
 }
 
 void ManagementDebug::DebugReportLiveObject() {
-	IDXGIDebug1* debug;
+	Microsoft::WRL::ComPtr<IDXGIDebug1> debug;
 	if (SUCCEEDED(DXGIGetDebugInterface1(0,IID_PPV_ARGS(&debug)))) {
 		debug->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_ALL);
 		debug->ReportLiveObjects(DXGI_DEBUG_APP, DXGI_DEBUG_RLO_ALL);
 		debug->ReportLiveObjects(DXGI_DEBUG_D3D12, DXGI_DEBUG_RLO_ALL);
-		debug->Release();
+		debug.Reset();
 		debug = nullptr;
 	}
 }

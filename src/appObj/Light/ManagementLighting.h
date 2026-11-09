@@ -1,9 +1,10 @@
 #pragma once
 #include"DirectionalLight.h"
 #include<d3d12.h>
+#include<wrl.h>
 
 class ManagementLighting {
-	ID3D12Resource* directionalLightResource_=nullptr;
+	Microsoft::WRL::ComPtr<ID3D12Resource> directionalLightResource_=nullptr;
 	DirectionalLight* directionalLightData=nullptr;
 
 public:

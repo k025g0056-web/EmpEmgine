@@ -8,9 +8,9 @@ void Sphere::Initialize(ID3D12Device* device) {
 	Shape::Initialize(device,true);//親が先やでん
 	const uint32_t vertexCount = kSubdivision * kSubdivision;
 	vertexResource = DX12Mechanics::CreateBufferResource(device, sizeof(VertexData) * vertexCount*4);
-	vertexBufferView_ = DX12Mechanics::GenerateVertexBufferView<VertexData>(vertexResource, vertexCount*4);
+	vertexBufferView_ = DX12Mechanics::GenerateVertexBufferView<VertexData>(vertexResource.Get(), vertexCount * 4);
 	indexResource_ = DX12Mechanics::CreateBufferResource(device, sizeof(uint32_t) * vertexCount*6);
-	indexBufferView_ = DX12Mechanics::GenerateIndexBufferView<UINT>(indexResource_, vertexCount*6);
+	indexBufferView_ = DX12Mechanics::GenerateIndexBufferView<UINT>(indexResource_.Get(), vertexCount * 6);
 }
 
 void Sphere::Draw(ID3D12GraphicsCommandList* commandList, const Camera3d& camera,

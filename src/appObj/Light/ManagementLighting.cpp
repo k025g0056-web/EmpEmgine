@@ -27,7 +27,7 @@ void ManagementLighting::DrawCall(ID3D12GraphicsCommandList* commandList) {
 
 void ManagementLighting::Release() {
 	if (directionalLightResource_) {
-		directionalLightResource_->Release();
+		directionalLightResource_.Reset();
 		directionalLightResource_ = nullptr;
 		directionalLightData = nullptr;
 	}

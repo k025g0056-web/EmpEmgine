@@ -7,6 +7,7 @@
 #include"DataModel/Material.h"
 #include"DataModel/TransformationMatrix.h"
 #include"DataModel/Matrix3x3.h"
+#include<wrl.h>
 
 //図形のクラス。いい感じに作りたい
 class Shape {
@@ -14,23 +15,22 @@ private:
 	void SetUpDrawCall(ID3D12GraphicsCommandList* commandList,
 		D3D12_VERTEX_BUFFER_VIEW vertexBufferView, D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU);
 protected:
-	ID3D12Resource* materialResource = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12Resource> materialResource = nullptr;
 	Material* materialData = nullptr;
 
-	ID3D12Resource* wvpResource = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12Resource> wvpResource = nullptr;
 	TransformationMatrix* wvpData = nullptr;
 	
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_{};
-	ID3D12Resource* vertexResource = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12Resource> vertexResource = nullptr;
 
-	ID3D12Resource* indexResource_ = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12Resource> indexResource_ = nullptr;
 	D3D12_INDEX_BUFFER_VIEW indexBufferView_{};
 
 	Transform3d transform3d_{};
 
 	bool isVertexDirty_ = true;
 	bool isTransformDirty_ = true;
-
 	void GenerateMaterial(ID3D12Device* device,const Vector4& color,bool enableLighting);
 	void GenerateWvpResource(ID3D12Device* device);
 	void DrawCallVertex(ID3D12GraphicsCommandList* commandList,

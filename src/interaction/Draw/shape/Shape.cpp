@@ -55,15 +55,16 @@ void Shape::SetColor(const Vector4& color) {
 
 void Shape::Release() {
 	if (vertexResource) {
-		vertexResource->Release();
+		vertexResource.Reset();
+		vertexResource = nullptr;
 	}
 
 	if (materialResource) {
-		materialResource->Release();
+		materialResource.Reset();
 	}
 	
 	if (wvpResource) {
-		wvpResource->Release();
+		wvpResource.Reset();
 	}
 
 }

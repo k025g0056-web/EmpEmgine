@@ -31,20 +31,20 @@ void ManagementDescriptorHeap::GenerateRTV(ID3D12Device* device) {
 	rtvStartHandle_ = rtvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart();
 	//まず一つ目を作る。一つ目は最初のところに作る。作る場所を指定してあげる必要がある
 	rtvHandles_[0] = rtvStartHandle_;
-	device->CreateRenderTargetView(swapChainResources_[0], &rtvDesc_, rtvHandles_[0]);
+	device->CreateRenderTargetView(swapChainResources_[0].Get(), &rtvDesc_, rtvHandles_[0]);
 	//二つ目のディスクリプタハンドルを得る（自力で）
 	rtvHandles_[1].ptr = rtvHandles_[0].ptr + device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 	//二つ目を作る
-	device->CreateRenderTargetView(swapChainResources_[1], &rtvDesc_, rtvHandles_[1]);
+	device->CreateRenderTargetView(swapChainResources_[1].Get(), &rtvDesc_, rtvHandles_[1]);
 	renderTextureRtvHandle_.ptr = rtvHandles_[1].ptr + device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 	
 }
 
 void ManagementDescriptorHeap::Release() {
 	rtvDescriptorHeap_.Reset();
-	swapChainResources_[0]->Release();
+	swapChainResources_[0].Reset();
 	swapChainResources_[0] = nullptr;
-	swapChainResources_[1]->Release();
+	swapChainResources_[1].Reset();
 	swapChainResources_[1] = nullptr;
 }
 
@@ -95,12 +95,12 @@ D3D12_CPU_DESCRIPTOR_HANDLE ManagementDescriptorHeap::GetDsvHandle() const {
 
 void ManagementDescriptorHeap::ReleaseSwapChainBuffers() {
 	if (swapChainResources_[0]) {
-		swapChainResources_[0]->Release();
+		swapChainResources_[0].Reset();
 		swapChainResources_[0] = nullptr;
 	}
 
 	if (swapChainResources_[1]) {
-		swapChainResources_[1]->Release();
+		swapChainResources_[1].Reset();
 		swapChainResources_[1] = nullptr;
 	}
 }
@@ -116,10 +116,10 @@ void ManagementDescriptorHeap::RecreateSwapChainBuffers(ID3D12Device* device, ID
 	assert(SUCCEEDED(hr));
 
 	device->CreateRenderTargetView(
-		swapChainResources_[0], &rtvDesc_, rtvHandles_[0]);
+		swapChainResources_[0].Get(), &rtvDesc_, rtvHandles_[0]);
 
 	device->CreateRenderTargetView(
-		swapChainResources_[1], &rtvDesc_, rtvHandles_[1]);
+		swapChainResources_[1].Get(), &rtvDesc_, rtvHandles_[1]);
 }
 
 void ManagementDescriptorHeap::UpdateDsv(ID3D12Device* device,ID3D12Resource* depthStencilResource) {

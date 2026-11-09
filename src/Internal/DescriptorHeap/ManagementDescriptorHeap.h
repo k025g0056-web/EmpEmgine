@@ -13,11 +13,11 @@ class ManagementDescriptorHeap {
 
 
 	//RTVを二つ作るのでディスクリプタを二つ用意
-	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles_[2];
+	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles_[2]{};
 	D3D12_CPU_DESCRIPTOR_HANDLE renderTextureRtvHandle_{};
 	UINT srvDescriptorSize_ = 0;
 
-	ID3D12Resource* swapChainResources_[2] = { nullptr };
+	Microsoft::WRL::ComPtr<ID3D12Resource> swapChainResources_[2] = { nullptr };
 
 	void GenerateRtvDescriptorHeap(ID3D12Device* device);
 	void GenerateSrvDescriptorHeap(ID3D12Device* device);
@@ -40,8 +40,7 @@ public:
 	D3D12_CPU_DESCRIPTOR_HANDLE GetRenderTextureSrvHandleCPU() const;
 	D3D12_GPU_DESCRIPTOR_HANDLE GetRenderTextureSrvHandleGPU() const;
 	D3D12_CPU_DESCRIPTOR_HANDLE GetDsvHandle() const;
-	ID3D12Resource* GetSwapChainResources(int i)const { if (i > 1 || 0 > i) { return {}; }return swapChainResources_[i]; }
-	ID3D12Resource** GetSwapChainResources() { return swapChainResources_; }
+	ID3D12Resource* GetSwapChainResources(int i)const { if (i > 1 || 0 > i) { return {}; }return swapChainResources_[i].Get(); }
 	ID3D12DescriptorHeap* GetSrvDescriptorHeap() { return srvDescriptorHeap_.Get(); }
 	ID3D12DescriptorHeap* GetDsvDescriptorHeap() { return dsvDescriptorHeap_.Get(); }
 	void Release();

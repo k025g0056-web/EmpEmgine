@@ -4,9 +4,9 @@
 void Sprite::Initialize(ID3D12Device* device) {
 	Shape::Initialize(device,false);//親が先やでん
 	vertexResource = DX12Mechanics::CreateBufferResource(device, sizeof(VertexData) * 4);
-	vertexBufferView_ = DX12Mechanics::GenerateVertexBufferView<VertexData>(vertexResource, 4);
+	vertexBufferView_ = DX12Mechanics::GenerateVertexBufferView<VertexData>(vertexResource.Get(), 4);
 	indexResource_ = DX12Mechanics::CreateBufferResource(device, sizeof(uint32_t) * 6);
-	indexBufferView_ = DX12Mechanics::GenerateIndexBufferView<uint32_t>(indexResource_,6);
+	indexBufferView_ = DX12Mechanics::GenerateIndexBufferView<uint32_t>(indexResource_.Get(), 6);
 }
 
 void Sprite::Draw(ID3D12GraphicsCommandList* commandList, const Camera3d& camera, const Transform3d& transform,

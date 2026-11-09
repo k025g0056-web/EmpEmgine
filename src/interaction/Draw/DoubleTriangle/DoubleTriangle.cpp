@@ -51,5 +51,5 @@ void DoubleTriangle::Draw(ID3D12GraphicsCommandList* commandList, const Camera3d
 void DoubleTriangle::Initialize(ID3D12Device* device) {
 	Shape::Initialize(device,true);
 	vertexResource = DX12Mechanics::CreateBufferResource(device, sizeof(VertexData) * 6);
-	vertexBufferView_ = DX12Mechanics::GenerateVertexBufferView<VertexData>(vertexResource, 6);
+	vertexBufferView_ = DX12Mechanics::GenerateVertexBufferView<VertexData>(vertexResource.Get(), 6);
 }

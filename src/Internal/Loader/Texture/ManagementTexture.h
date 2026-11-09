@@ -3,9 +3,10 @@
 #include "externals/DirectXTex/DirectXTex.h"
 #include<string>
 #include<vector>
+#include<wrl.h>
 
 struct TextureData {
-	ID3D12Resource* resource = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12Resource> resource = nullptr;
 	DirectX::TexMetadata metadata{};
 	D3D12_CPU_DESCRIPTOR_HANDLE srvHandleCPU{};
 	D3D12_GPU_DESCRIPTOR_HANDLE srvHandleGPU{};
@@ -24,14 +25,14 @@ public:
 	D3D12_GPU_DESCRIPTOR_HANDLE Load(const std::string& filePath);
 	void Release();
 private:
-	ID3D12Device* device_;
-	ID3D12GraphicsCommandList* commandList_;
-	ID3D12CommandQueue* commandQueue_;
-	ID3D12CommandAllocator* commandAllocator_;
-	HANDLE fenceEvent_;
-	uint64_t fenceValue_;
-	ID3D12Fence* fence_;
-	ID3D12DescriptorHeap* srvDescriptorHeap_;
+	ID3D12Device* device_ = nullptr;
+	ID3D12GraphicsCommandList* commandList_ = nullptr;
+	ID3D12CommandQueue* commandQueue_ = nullptr;
+	ID3D12CommandAllocator* commandAllocator_ = nullptr;
+	HANDLE fenceEvent_{};
+	uint64_t fenceValue_{};
+	ID3D12Fence* fence_ = nullptr;
+	ID3D12DescriptorHeap* srvDescriptorHeap_ = nullptr;
 
 	void BuildResourceDesc(D3D12_RESOURCE_DESC& resourceDesc,const DirectX::TexMetadata& metadata);
 	void SettingHeap(D3D12_HEAP_PROPERTIES& heapProperties);

@@ -78,11 +78,15 @@ void EmpSystems::SetWindowSize(unsigned int index, int windowWidth, int windowHe
 void EmpSystems::Begin() {
 	Input::GetInstance()->InputAllUpdate();
 	ResizeWindow();
+	ID3D12Resource* resources[] = {
+	managementDescriptHeap_.GetSwapChainResources(0),
+	managementDescriptHeap_.GetSwapChainResources(1)
+	};
 	drawManager_.ResetUsedCount();
 	managementCommand_.LoadCommand(
 		managementSwapChain_.GetSwapChain(), 
 		managementDescriptHeap_.GetRtvHandles(),
-		managementDescriptHeap_.GetSwapChainResources(),
+		resources,
 		managementDescriptHeap_.GetDsvDescriptorHeap());
 
 #ifdef USE_IMGUI
