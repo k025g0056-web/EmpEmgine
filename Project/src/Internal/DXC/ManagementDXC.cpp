@@ -6,19 +6,10 @@
 
 void ManagementDXC::Initialize(ID3D12Device* device) {
 	device_ = device;
-
 	GenerateInstance();
 	SettingHandler();
-	GenerateRootSignature();
-	SetPosition("POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, D3D12_APPEND_ALIGNED_ELEMENT);
-	SetTexCoord("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, D3D12_APPEND_ALIGNED_ELEMENT);
-	SetNormal("NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, D3D12_APPEND_ALIGNED_ELEMENT);
-	SetBlendMode(kBlendModeNone);
-	SetRasterizer(D3D12_CULL_MODE_NONE, D3D12_FILL_MODE_SOLID);
-	SetDepthStencil(true, D3D12_DEPTH_WRITE_MASK_ALL, D3D12_COMPARISON_FUNC_LESS_EQUAL);
-	SetVertexShader(L"Object3D.VS.hlsl");
-	SetPixelShader(L"Object3D.PS.hlsl");
-	GeneratePSO();
+	GenerateObjectPipeLine();
+	GenerateParticlePipeLine();
 }
 
 void ManagementDXC::GenerateInstance() {
@@ -108,7 +99,7 @@ void ManagementDXC::ReturnResult(const std::wstring& filePath, const wchar_t* pr
 	shaderResult->Release();
 }
 
-void ManagementDXC::GenerateRootSignature() {
+void ManagementDXC::GenerateRootSignature(GraphicsPipeline pipeline) {
 
 	//この関数で使う変数の初期化
 	//----------------------------------------------------------//
@@ -185,7 +176,7 @@ void ManagementDXC::GenerateRootSignature() {
 
 	hr = device_->CreateRootSignature(0,
 		signatureBlob_->GetBufferPointer(), signatureBlob_->GetBufferSize(),
-		IID_PPV_ARGS(&objectPipeline_.rootSignature));
+		IID_PPV_ARGS(&pipeline.rootSignature));
 	assert(SUCCEEDED(hr));
 	//-----------------------------------------------------------------------//
 
@@ -200,7 +191,7 @@ void ManagementDXC::GenerateRootSignature() {
 
 }
 
-void ManagementDXC::GeneratePSO() {
+void ManagementDXC::GeneratePSO(GraphicsPipeline pipeline) {
 
 	if (!isDirty_) {
 		return;
@@ -230,11 +221,7 @@ void ManagementDXC::GeneratePSO() {
 	graphicsPipelineStateDesc.SampleDesc.Quality = 0;
 	//-------------------------------------------------------------------//
 
-	//シェーダーのコンパイル
-	//---------------------------------------------------------//
-	//----------------------------------------------------------//
-
-	graphicsPipelineStateDesc.pRootSignature = objectPipeline_.rootSignature.Get();//RootSignature
+	graphicsPipelineStateDesc.pRootSignature = pipeline.rootSignature.Get();//RootSignature
 	graphicsPipelineStateDesc.InputLayout = inputLayoutDesc_;//InputLayout
 	graphicsPipelineStateDesc.VS = { vertexShaderBlob_->GetBufferPointer(),
 	vertexShaderBlob_->GetBufferSize() };//vertexShader
@@ -253,7 +240,7 @@ void ManagementDXC::GeneratePSO() {
 	graphicsPipelineStateDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
 
 	HRESULT hr = device_->CreateGraphicsPipelineState(&graphicsPipelineStateDesc,
-		IID_PPV_ARGS(&objectPipeline_.pipelineState));
+		IID_PPV_ARGS(&pipeline.pipelineState));
 	assert(SUCCEEDED(hr));
 
 	isDirty_ = false;
@@ -398,45 +385,6 @@ void ManagementDXC::SetPixelShader(const std::wstring& filePath) {
 	isDirty_ = true;
 }
 
-void ManagementDXC::ObjectMode(BlendMode blendMode, FillMode fillMode) {
-	GenerateRootSignature();
-	SetPosition("POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, D3D12_APPEND_ALIGNED_ELEMENT);
-	SetTexCoord("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, D3D12_APPEND_ALIGNED_ELEMENT);
-	SetNormal("NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, D3D12_APPEND_ALIGNED_ELEMENT);
-	SetBlendMode(blendMode);
-	SetRasterizer(D3D12_CULL_MODE_NONE, static_cast<D3D12_FILL_MODE>(fillMode));
-	SetDepthStencil(true, D3D12_DEPTH_WRITE_MASK_ALL, D3D12_COMPARISON_FUNC_LESS_EQUAL);
-	SetVertexShader(L"Object3D.VS.hlsl");
-	SetPixelShader(L"Object3D.PS.hlsl");
-	GeneratePSO();
-}
-
-void ManagementDXC::ParticleMode(BlendMode blendMode, FillMode fillMode) {
-	GenerateRootSignature();
-	SetPosition("POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, D3D12_APPEND_ALIGNED_ELEMENT);
-	SetTexCoord("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, D3D12_APPEND_ALIGNED_ELEMENT);
-	SetNormal("NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, D3D12_APPEND_ALIGNED_ELEMENT);
-	SetBlendMode(blendMode);
-	SetRasterizer(D3D12_CULL_MODE_NONE, static_cast<D3D12_FILL_MODE>(fillMode));
-	SetDepthStencil(true, D3D12_DEPTH_WRITE_MASK_ALL, D3D12_COMPARISON_FUNC_LESS_EQUAL);
-	SetVertexShader(L"Particle.VS.hlsl");
-	SetPixelShader(L"Particle.PS.hlsl");
-	GeneratePSO();
-}
-
-void ManagementDXC::SetPipeLine(DrawMode drawMode, BlendMode blendMode, FillMode fillMode){
-
-	switch (drawMode){
-	case DrawMode::Object:
-		ObjectMode(blendMode, fillMode);
-		break;
-	case DrawMode::Particle:
-		ParticleMode(blendMode, fillMode);
-		break;
-	}
-
-}
-
 void ManagementDXC::Reset(GraphicsPipeline& pipeLine) {
 	if (pipeLine.pipelineState) {
 		pipeLine.pipelineState.Reset();
@@ -447,4 +395,30 @@ void ManagementDXC::Reset(GraphicsPipeline& pipeLine) {
 		pipeLine.pipelineState.Reset();
 		pipeLine.rootSignature = nullptr;
 	}
+}
+
+void ManagementDXC::GenerateObjectPipeLine() {
+	GenerateRootSignature(objectPipeline_);
+	SetPosition("POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, D3D12_APPEND_ALIGNED_ELEMENT);
+	SetTexCoord("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, D3D12_APPEND_ALIGNED_ELEMENT);
+	SetNormal("NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, D3D12_APPEND_ALIGNED_ELEMENT);
+	SetBlendMode(kBlendModeNone);
+	SetRasterizer(D3D12_CULL_MODE_NONE, D3D12_FILL_MODE_SOLID);
+	SetDepthStencil(true, D3D12_DEPTH_WRITE_MASK_ALL, D3D12_COMPARISON_FUNC_LESS_EQUAL);
+	SetVertexShader(L"Object3D.VS.hlsl");
+	SetPixelShader(L"Object3D.PS.hlsl");
+	GeneratePSO(objectPipeline_);
+}
+
+void ManagementDXC::GenerateParticlePipeLine() {
+	GenerateRootSignature(particlePipeline_);
+	SetPosition("POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, D3D12_APPEND_ALIGNED_ELEMENT);
+	SetTexCoord("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, D3D12_APPEND_ALIGNED_ELEMENT);
+	SetNormal("NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, D3D12_APPEND_ALIGNED_ELEMENT);
+	SetBlendMode(kBlendModeNone);
+	SetRasterizer(D3D12_CULL_MODE_NONE, D3D12_FILL_MODE_SOLID);
+	SetDepthStencil(true, D3D12_DEPTH_WRITE_MASK_ALL, D3D12_COMPARISON_FUNC_LESS_EQUAL);
+	SetVertexShader(L"Particle.VS.hlsl");
+	SetPixelShader(L"Particle.PS.hlsl");
+	GeneratePSO(particlePipeline_);
 }

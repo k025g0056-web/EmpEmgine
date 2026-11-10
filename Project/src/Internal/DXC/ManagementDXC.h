@@ -31,10 +31,7 @@ class ManagementDXC {
 	void ReturnResult(const std::wstring& filePath, const wchar_t* profile, IDxcResult*& shaderResult, IDxcBlob*& shaderBlob, IDxcBlobEncoding*& shaderSource);
 	void GenerateInstance();
 	void SettingHandler();
-	void GenerateRootSignature();
-
-	void ObjectMode(BlendMode blendMode,FillMode fillMode);
-	void ParticleMode(BlendMode blendMode, FillMode fillMode);
+	void GenerateRootSignature(GraphicsPipeline pipeline);
 
 	D3D12_BLEND_DESC blendDesc_{};
 	D3D12_RASTERIZER_DESC rasterizerDesc{};
@@ -46,12 +43,15 @@ class ManagementDXC {
 	bool isDirty_ = true;
 
 	void Reset(GraphicsPipeline& pipeLine);
+
+	void GenerateObjectPipeLine();
+	void GenerateParticlePipeLine();
 public:
 	void Initialize(ID3D12Device* device);
 	ID3D12PipelineState* GetOBJGraphicPipeLineState() { return objectPipeline_.pipelineState.Get(); }
 	ID3D12RootSignature* GetOBJRootSignature() { return objectPipeline_.rootSignature.Get(); }
 	void Release();
-	void GeneratePSO();
+	void GeneratePSO(GraphicsPipeline pipeline);
 	void SetBlendMode(BlendMode blendMode);
 	void SetRasterizer(D3D12_CULL_MODE cullMode, D3D12_FILL_MODE fillMode);
 	void SetDepthStencil(bool depthEnable, D3D12_DEPTH_WRITE_MASK DepthWriteMask, D3D12_COMPARISON_FUNC comparisonFunc);
@@ -60,5 +60,4 @@ public:
 	void SetNormal(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset);
 	void SetVertexShader(const std::wstring& filePath);
 	void SetPixelShader(const std::wstring& filePath);
-	void SetPipeLine(DrawMode drawMode, BlendMode blendMode, FillMode fillMode);
 };
