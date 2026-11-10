@@ -31,7 +31,7 @@ class ManagementDXC {
 	void ReturnResult(const std::wstring& filePath, const wchar_t* profile, IDxcResult*& shaderResult, IDxcBlob*& shaderBlob, IDxcBlobEncoding*& shaderSource);
 	void GenerateInstance();
 	void SettingHandler();
-	void GenerateRootSignature(GraphicsPipeline pipeline);
+	void GenerateRootSignature(GraphicsPipeline& pipeline);
 
 	D3D12_BLEND_DESC blendDesc_{};
 	D3D12_RASTERIZER_DESC rasterizerDesc{};
@@ -51,7 +51,7 @@ public:
 	ID3D12PipelineState* GetOBJGraphicPipeLineState() { return objectPipeline_.pipelineState.Get(); }
 	ID3D12RootSignature* GetOBJRootSignature() { return objectPipeline_.rootSignature.Get(); }
 	void Release();
-	void GeneratePSO(GraphicsPipeline pipeline);
+	void GeneratePSO(GraphicsPipeline& pipeline);
 	void SetBlendMode(BlendMode blendMode);
 	void SetRasterizer(D3D12_CULL_MODE cullMode, D3D12_FILL_MODE fillMode);
 	void SetDepthStencil(bool depthEnable, D3D12_DEPTH_WRITE_MASK DepthWriteMask, D3D12_COMPARISON_FUNC comparisonFunc);

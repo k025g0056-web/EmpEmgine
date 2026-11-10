@@ -99,7 +99,7 @@ void ManagementDXC::ReturnResult(const std::wstring& filePath, const wchar_t* pr
 	shaderResult->Release();
 }
 
-void ManagementDXC::GenerateRootSignature(GraphicsPipeline pipeline) {
+void ManagementDXC::GenerateRootSignature(GraphicsPipeline& pipeline) {
 
 	//この関数で使う変数の初期化
 	//----------------------------------------------------------//
@@ -191,7 +191,7 @@ void ManagementDXC::GenerateRootSignature(GraphicsPipeline pipeline) {
 
 }
 
-void ManagementDXC::GeneratePSO(GraphicsPipeline pipeline) {
+void ManagementDXC::GeneratePSO(GraphicsPipeline& pipeline) {
 
 	if (!isDirty_) {
 		return;
