@@ -15,6 +15,8 @@ void EmpEngine::Finalize() {
 
 void EmpEngine::SetWindowSize(unsigned int index,int windowWidth,int windowHeight) {
 	EmpSystems::GetInstance()->SetWindowSize(index, windowWidth, windowHeight);
+	SceneManager::GetInstance()->SetWidth(windowWidth);
+	SceneManager::GetInstance()->SetHeight(windowHeight);
 }
 
 void EmpEngine::Begin() {

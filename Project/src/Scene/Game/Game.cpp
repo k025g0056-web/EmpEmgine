@@ -26,7 +26,7 @@ void GameManager::Update() {
     debugCamera_.Update();
     SceneSystem::GetCamera()->SetCameraPosition(debugCamera_.GetTranslate());
     SceneSystem::GetCamera()->SetCameraRotate(debugCamera_.GetRotate());
-    SceneSystem::GetCamera()->Update(windowWidth_, windowHeight_);
+   
     EmpEngine::LightGUI();
 } 
 

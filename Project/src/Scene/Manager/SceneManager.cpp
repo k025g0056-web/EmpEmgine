@@ -31,6 +31,7 @@ void SceneManager::Update() {
 	Gui();
 #endif
 	scene_->Update();
+	SceneSystem::GetCamera()->Update(windowWidth_, windowHeight_);
 }
 
 void SceneManager::Draw() {

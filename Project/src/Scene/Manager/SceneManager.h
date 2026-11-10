@@ -50,6 +50,8 @@ public:
 
 	SceneManager(const SceneManager&) = delete;
 	SceneManager& operator=(const SceneManager&) = delete;
+	void SetWidth(int width) { windowWidth_ = width; }
+	void SetHeight(int height) { windowHeight_ = height; }
 
 	Camera3d* GetCamera() { return camera_.get(); }
 };

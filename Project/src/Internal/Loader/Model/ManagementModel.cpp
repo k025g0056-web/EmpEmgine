@@ -15,7 +15,8 @@ ModelData ManagementModel::LoadObjFile(const std::string& directoryPath, const s
 	OutputDebugStringA(("試そうとしてるパス: " + objPath + "\n").c_str());
 
 	const aiScene* scene = importer.ReadFile(objPath.c_str(), aiProcess_FlipWindingOrder | aiProcess_FlipUVs);
-	assert(scene->HasMeshes());//メッシュがないものは対応しない。
+	assert(scene && "ファイルロード出来てないね");
+	assert(scene->HasMeshes()&&"めっしゅないんご");//メッシュがないものは対応しない。
 
 	modelData.meshes.resize(scene->mNumMeshes);
 	modelData.materials.resize(scene->mNumMaterials);

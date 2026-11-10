@@ -15,7 +15,6 @@ void Title::Update() {
 	}
 
 	SceneSystem::GetCamera()->SetCameraPosition({ transform_.translate.x,transform_.translate.y,transform_.translate.z - 10.0f });
-	SceneSystem::GetCamera()->Update(windowWidth_,windowHeight_) ;
 }
 
 void Title::Draw() {
