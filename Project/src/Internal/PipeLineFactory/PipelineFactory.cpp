@@ -61,3 +61,81 @@ void PipelineFactory::GenerateRootSignature(Pipeline& pipeline, const PipelineDe
 		IID_PPV_ARGS(&pipeline.rootSignature));
 	assert(SUCCEEDED(hr));
 }
+
+void PipelineFactory::GeneratePSO(Pipeline& pipeline, const PipelineDesc& desc, ShaderCompiler& compier, ID3D12Device* device) {
+	assert(pipeline.rootSignature && "ルートシグネチャないね関数の順番を疑って見よう");
+
+	auto vs = compier.CompileShader(desc.vsPath, L"vs_6_0");
+	auto ps = compier.CompileShader(desc.psPath, L"vs_6_0");
+	assert(vs && "バーテックスシェーダーがないねぇ");
+	assert(ps && "ピクセルシェーダーがないねぇ");
+
+	std::vector<D3D12_INPUT_ELEMENT_DESC> elements;
+	for (const InputElement& e:desc.inputElements) {
+		D3D12_INPUT_ELEMENT_DESC d{};
+		d.SemanticName = e.semanticName.c_str();
+		d.SemanticIndex = e.semanticIndex;
+	}
+}
+
+D3D12_BLEND_DESC PipelineFactory::MakeBlendDesc(BlendMode blendMode) {
+	D3D12_BLEND_DESC blendDesc;
+
+	//ブレンドの状態の設定
+	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+	blendDesc.RenderTarget[0].BlendEnable = TRUE;
+	switch (blendMode) {
+	case kBlendModeNone:
+		blendDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_ONE;
+		blendDesc.RenderTarget[0].DestBlend = D3D12_BLEND_ZERO;
+		blendDesc.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
+		break;
+	case kBlendModeNormal:
+		blendDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
+		blendDesc.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
+		blendDesc.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
+
+		break;
+	case kBlendModeAdd:
+		blendDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
+		blendDesc.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
+		blendDesc.RenderTarget[0].DestBlend = D3D12_BLEND_ONE;
+
+		break;
+	case kBlendModeSubtract:
+		blendDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
+
+		blendDesc.RenderTarget[0].BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;
+		blendDesc.RenderTarget[0].DestBlend = D3D12_BLEND_ONE;
+
+		break;
+	case kBlendModeMultiply:
+		blendDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_ZERO;
+		blendDesc.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
+		blendDesc.RenderTarget[0].DestBlend = D3D12_BLEND_SRC_COLOR;
+
+		break;
+	case kBlendModeScreen:
+		blendDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_INV_DEST_COLOR;
+		blendDesc.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
+		blendDesc.RenderTarget[0].DestBlend = D3D12_BLEND_ONE;
+
+		break;
+	case kCountOfBlendMode:
+		blendDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_ONE;
+		blendDesc.RenderTarget[0].DestBlend = D3D12_BLEND_ZERO;
+		blendDesc.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
+		break;
+	default:
+		blendDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_ONE;
+		blendDesc.RenderTarget[0].DestBlend = D3D12_BLEND_ZERO;
+		blendDesc.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
+		break;
+	}
+
+	blendDesc.RenderTarget[0].SrcBlendAlpha = D3D12_BLEND_ONE;
+	blendDesc.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;
+	blendDesc.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ZERO;
+
+	return blendDesc;
+}

@@ -1,6 +1,13 @@
 #include "ShaderCompiler.h"
+#pragma comment(lib,"dxcompiler.lib")
 #include"Log/ManagementLog.h"
 #include<cassert>
+#include<format>
+
+void ShaderCompiler::Initialize() {
+	GenerateInstance();
+	SettingHandler();
+}
 
 Microsoft::WRL::ComPtr<IDxcBlob> ShaderCompiler::CompileShader(const std::wstring& filePath, const wchar_t* profile) {
 	IDxcBlobEncoding* shaderSource = nullptr;
@@ -75,4 +82,16 @@ void ShaderCompiler::ReturnResult(const std::wstring& filePath, const wchar_t* p
 	//もう使わないリソースを解放
 	shaderSource->Release();
 	shaderResult->Release();
+}
+
+void ShaderCompiler::GenerateInstance() {
+	HRESULT hr = DxcCreateInstance(CLSID_DxcUtils, IID_PPV_ARGS(&dxcUtils_));
+	assert(SUCCEEDED(hr));
+	hr = DxcCreateInstance(CLSID_DxcCompiler, IID_PPV_ARGS(&dxcCompiler_));
+	assert(SUCCEEDED(hr));
+}
+
+void ShaderCompiler::SettingHandler() {
+	HRESULT hr = dxcUtils_->CreateDefaultIncludeHandler(&includeHandler_);
+	assert(SUCCEEDED(hr));
 }

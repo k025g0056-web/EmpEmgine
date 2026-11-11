@@ -9,6 +9,8 @@ class ShaderCompiler{
 	void Compiling(const std::wstring& filePath, const wchar_t* profile, DxcBuffer& shaderSourceBuffer, IDxcResult*& shaderResult);
 	void CheckingError(IDxcResult*& shaderResult, IDxcBlobUtf8*& shaderError);
 	void ReturnResult(const std::wstring& filePath, const wchar_t* profile, IDxcResult*& shaderResult, IDxcBlob*& shaderBlob, IDxcBlobEncoding*& shaderSource);
+	void GenerateInstance();
+	void SettingHandler();
 
 	Microsoft::WRL::ComPtr<IDxcUtils> dxcUtils_;
 	Microsoft::WRL::ComPtr<IDxcCompiler3> dxcCompiler_;
@@ -16,5 +18,6 @@ class ShaderCompiler{
 
 public:
 	Microsoft::WRL::ComPtr<IDxcBlob> CompileShader(const std::wstring& filePath, const wchar_t* profile);
+	void Initialize();
 };
 
