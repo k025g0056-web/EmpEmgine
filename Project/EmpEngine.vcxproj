@@ -191,6 +191,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="externals\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="externals\imgui\imgui_tables.cpp" />
     <ClCompile Include="externals\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\Internal\PipeLineFactory\PipelineFactory.cpp" />
+    <ClCompile Include="src\Internal\ShaderCompiler\ShaderCompiler.cpp" />
     <ClCompile Include="src\appObj\Camera\Camera3d\Camera3d.cpp" />
     <ClCompile Include="src\appObj\Camera\Controller\CameraController.cpp" />
     <ClCompile Include="src\appObj\Light\ManagementLighting.cpp" />
@@ -250,6 +252,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="externals\imgui\imstb_rectpack.h" />
     <ClInclude Include="externals\imgui\imstb_textedit.h" />
     <ClInclude Include="externals\imgui\imstb_truetype.h" />
+    <ClInclude Include="src\DataModel\PipelineSet.h" />
+    <ClInclude Include="src\Internal\PipeLineFactory\PipelineFactory.h" />
+    <ClInclude Include="src\Internal\ShaderCompiler\ShaderCompiler.h" />
     <ClInclude Include="src\appObj\Camera\Camera3d\Camera3d.h" />
     <ClInclude Include="src\appObj\Camera\Controller\CameraController.h" />
     <ClInclude Include="src\appObj\Light\DirectionalLight.h" />

@@ -1,9 +1,7 @@
 #pragma once
-#pragma once
 #include <Windows.h>
 #include <string>
 #include <wrl.h>
-
 #include <d3d12.h>
 #include <dxgi1_6.h>
 #include <dxcapi.h>
@@ -15,6 +13,17 @@ class ManagementDXC {
 	struct GraphicsPipeline {
 		Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature;
 		Microsoft::WRL::ComPtr<ID3D12PipelineState> pipelineState;
+	};
+
+	struct PipelineDesc{
+		std::wstring vsPath;
+		std::wstring psPath;
+		BlendMode blendMode = kBlendModeNone;
+		D3D12_CULL_MODE cullMode = D3D12_CULL_MODE_NONE;
+		D3D12_FILL_MODE fillMode = D3D12_FILL_MODE_SOLID;
+		bool depthEnable = true;
+		D3D12_DEPTH_WRITE_MASK deothWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+		D3D12_COMPARISON_FUNC depthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
 	};
 
 	GraphicsPipeline objectPipeline_;
@@ -46,6 +55,11 @@ class ManagementDXC {
 
 	void GenerateObjectPipeLine();
 	void GenerateParticlePipeLine();
+
+
+	void CreatePipeline(GraphicsPipeline& pipeline, const PipelineDesc& desc);
+	static D3D12_BLEND_DESC MakeBlendDesc(BlendMode blendMode);
+
 public:
 	void Initialize(ID3D12Device* device);
 	ID3D12PipelineState* GetOBJGraphicPipeLineState() { return objectPipeline_.pipelineState.Get(); }
