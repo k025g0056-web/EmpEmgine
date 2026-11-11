@@ -19,7 +19,7 @@ void GameManager::Initialize() {
     blockModel_ = EmpEngine::Resource().Model().LoadObjFile("plane", "plane.obj");
     blockHandle_ = EmpEngine::Resource().Texture().Load("oirano.jpg");
 }
-
+                       
 void GameManager::Update() {
  
 

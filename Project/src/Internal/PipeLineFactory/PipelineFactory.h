@@ -9,7 +9,7 @@
 
 class PipelineFactory{
 public:
-	static void GenerateRootSignature(Pipeline& pipeline,PipelineDesc& desc,ID3D12Device* device);
+	static void GenerateRootSignature(Pipeline& pipeline,const PipelineDesc& desc,ID3D12Device* device);
 
 
 

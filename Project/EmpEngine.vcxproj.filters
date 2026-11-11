@@ -178,6 +178,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Internal\ShaderCompiler\ShaderCompiler.cpp" />
     <ClCompile Include="src\Internal\PipeLineFactory\PipelineFactory.cpp" />
+    <ClCompile Include="src\Internal\PipelineContainer\PipelineContainer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -614,6 +615,7 @@
     <ClInclude Include="src\Internal\ShaderCompiler\ShaderCompiler.h" />
     <ClInclude Include="src\DataModel\PipelineSet.h" />
     <ClInclude Include="src\Internal\PipeLineFactory\PipelineFactory.h" />
+    <ClInclude Include="src\Internal\PipelineContainer\PipelineContainer.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt">
