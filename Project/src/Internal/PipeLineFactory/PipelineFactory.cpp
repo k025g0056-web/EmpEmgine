@@ -75,6 +75,43 @@ void PipelineFactory::GeneratePSO(Pipeline& pipeline, const PipelineDesc& desc, 
 		D3D12_INPUT_ELEMENT_DESC d{};
 		d.SemanticName = e.semanticName.c_str();
 		d.SemanticIndex = e.semanticIndex;
+		d.Format = e.format;
+		d.AlignedByteOffset = e.offset;
+		d.InputSlotClass = D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA;
+		elements.push_back(d);
+	}
+
+	//深度
+	D3D12_DEPTH_STENCIL_DESC depth{};
+	depth.DepthEnable = desc.depth.enable;
+	depth.DepthWriteMask = desc.depth.writeMask;
+	depth.DepthFunc = desc.depth.func;
+
+	//ラスタライザー
+	D3D12_RASTERIZER_DESC raster{};
+	raster.CullMode = desc.cullMode;
+	raster.FillMode = desc.fillMode;
+
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc{};
+	psoDesc.pRootSignature = pipeline.rootSignature.Get();
+	psoDesc.InputLayout = { elements.data(),static_cast<UINT>(elements.size()) };
+	psoDesc.VS = { vs->GetBufferPointer(),vs->GetBufferSize() };
+	psoDesc.PS = { ps->GetBufferPointer(),ps->GetBufferSize() };
+	psoDesc.RasterizerState = raster;
+	psoDesc.DepthStencilState = depth;
+	psoDesc.DSVFormat = desc.formats.dsv;
+	psoDesc.NumRenderTargets = 1;
+	psoDesc.RTVFormats[0] = desc.formats.rtv;
+	psoDesc.PrimitiveTopologyType = desc.topology;
+	psoDesc.SampleDesc.Count = 1;
+	psoDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
+
+	//ブレンドモード
+	for (size_t i = 0; i < kBlendModeCount;++i) {
+		psoDesc.BlendState = MakeBlendDesc(static_cast<BlendMode>(i));
+		HRESULT hr = device->CreateGraphicsPipelineState(&psoDesc,
+			IID_PPV_ARGS(&pipeline.psos[i]));
+		assert(SUCCEEDED(hr));
 	}
 }
 

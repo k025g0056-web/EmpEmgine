@@ -10,6 +10,7 @@ class PipelineContainer{
 	Pipeline particle;
 
 	void MakeObjectShaderPipeline(ID3D12Device* device);
+	void MakeParticleShaderPipeline(ID3D12Device* device);
 
 public:
 	void Initialize(ID3D12Device* device);
