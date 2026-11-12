@@ -5,7 +5,7 @@
 #include <cmath>
 #include <algorithm>
 
-void Particle3D::Initialize(ID3D12Device* device, const ModelData& modelData) {
+void Particle3D::Initialize(ID3D12Device* device, const ModelData& modelData,uint64_t kNumInstance) {
     Shape::Initialize(device, true);
     modelData_ = modelData;
     workVertices_ = modelData;
@@ -32,17 +32,17 @@ void Particle3D::Initialize(ID3D12Device* device, const ModelData& modelData) {
         // CreateBufferResourceは参照カウント1の生ポインタを返すので
         // Attach()で所有権だけ引き継ぐ(operator=だとAddRefされてリークする)
         vertexResources_[i].Attach(DX12Mechanics::CreateBufferResource(
-            device, sizeof(VertexData) * vertexCount));
+            device, sizeof(VertexData) * vertexCount*kNumInstance));
 
         // ComPtrは生ポインタへの暗黙変換を持たないのでGet()で取り出す
         vertexBufferViews_[i] = DX12Mechanics::GenerateVertexBufferView<VertexData>(
-            vertexResources_[i].Get(), vertexCount);
+            vertexResources_[i].Get(), vertexCount*kNumInstance);
 
         vertexDataPtrs_[i] = nullptr;
         vertexResources_[i]->Map(
             0, nullptr, reinterpret_cast<void**>(&vertexDataPtrs_[i]));
         std::memcpy(vertexDataPtrs_[i], mesh.vertices.data(),
-            sizeof(VertexData) * vertexCount);
+            sizeof(VertexData) * vertexCount*kNumInstance);
     }
 
 }
@@ -68,25 +68,7 @@ void Particle3D::Draw(
 
     SetUpCommonDrawState(commandList, textureSrvHandleGPU);
 
-    OutputDebugStringA(
-        ("meshes.size = " +
-            std::to_string(modelData_.meshes.size()) + "\n").c_str()
-    );
-
-    OutputDebugStringA(
-        ("vertexBufferViews.size = " +
-            std::to_string(vertexBufferViews_.size()) + "\n").c_str()
-    );
-
     for (size_t i = 0; i < modelData_.meshes.size(); ++i) {
-
-        OutputDebugStringA(
-            ("Draw mesh " +
-                std::to_string(i) +
-                " vertexCount = " +
-                std::to_string(modelData_.meshes[i].vertices.size()) +
-                "\n").c_str()
-        );
 
         DrawCallVertexOnly(commandList, vertexBufferViews_[i],
             static_cast<int>(modelData_.meshes[i].vertices.size()), SpawnCount);

@@ -17,7 +17,7 @@ void PipelineFactory::GenerateRootSignature(Pipeline& pipeline, const PipelineDe
 
 		switch (src.type){
 		case RootParam::Type::CBV:
-			dst.ParameterType = D3D12_ROOT_PARAMETER_TYPE_SRV;
+			dst.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
 			dst.Descriptor.ShaderRegister = src.shaderRegister;
 			break;
 		case RootParam::Type::SRVTABLE:
@@ -40,7 +40,7 @@ void PipelineFactory::GenerateRootSignature(Pipeline& pipeline, const PipelineDe
 	D3D12_ROOT_SIGNATURE_DESC rsDesc{};
 	rsDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 	rsDesc.pParameters = rootParameters.data();
-	rsDesc.NumStaticSamplers = static_cast<UINT>(rootParameters.size());
+	rsDesc.NumParameters = static_cast<UINT>(rootParameters.size());
 	rsDesc.pStaticSamplers = desc.sampler.data();
 	rsDesc.NumStaticSamplers = static_cast<UINT>(desc.sampler.size());
 
@@ -66,7 +66,7 @@ void PipelineFactory::GeneratePSO(Pipeline& pipeline, const PipelineDesc& desc, 
 	assert(pipeline.rootSignature && "ルートシグネチャないね関数の順番を疑って見よう");
 
 	auto vs = compier.CompileShader(desc.vsPath, L"vs_6_0");
-	auto ps = compier.CompileShader(desc.psPath, L"vs_6_0");
+	auto ps = compier.CompileShader(desc.psPath, L"ps_6_0");
 	assert(vs && "バーテックスシェーダーがないねぇ");
 	assert(ps && "ピクセルシェーダーがないねぇ");
 
@@ -116,7 +116,7 @@ void PipelineFactory::GeneratePSO(Pipeline& pipeline, const PipelineDesc& desc, 
 }
 
 D3D12_BLEND_DESC PipelineFactory::MakeBlendDesc(BlendMode blendMode) {
-	D3D12_BLEND_DESC blendDesc;
+	D3D12_BLEND_DESC blendDesc{};
 
 	//ブレンドの状態の設定
 	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
@@ -175,4 +175,32 @@ D3D12_BLEND_DESC PipelineFactory::MakeBlendDesc(BlendMode blendMode) {
 	blendDesc.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ZERO;
 
 	return blendDesc;
+}
+
+D3D12_STATIC_SAMPLER_DESC PipelineFactory::MakeDefaultSampler() {
+	D3D12_STATIC_SAMPLER_DESC sampler{};
+	sampler.Filter = D3D12_FILTER_MIN_LINEAR_MAG_POINT_MIP_LINEAR;
+	sampler.AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	sampler.AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	sampler.AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	sampler.ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
+	sampler.MaxLOD = D3D12_FLOAT32_MAX;
+	sampler.ShaderRegister = 0;
+	sampler.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	return sampler;
+}
+
+void i(){
+	D3D12_DESCRIPTOR_RANGE descriptorForInstancing[1] = {};
+	descriptorForInstancing[0].BaseShaderRegister = 0;//0から始まる
+	descriptorForInstancing[0].NumDescriptors = 1;//数は一つ
+	descriptorForInstancing[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;//SRVを使う
+	descriptorForInstancing[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+	D3D12_ROOT_PARAMETER rootParameters[4] = {};
+	rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
+	rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;//VertexShaderを使う
+	rootParameters[1].DescriptorTable.pDescriptorRanges = descriptorForInstancing;//Tableの中身の配列を指定
+	rootParameters[1].DescriptorTable.NumDescriptorRanges = _countof(descriptorForInstancing);//Tableで利用する数
+
 }
