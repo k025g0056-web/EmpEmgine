@@ -7,12 +7,16 @@
 
 class Particle{
 	std::vector<ParticleSet> particle_;
+	Emitter emit_;
 	int count_ = 0;
 
 	void GUI();
 	void PositionUpdate();
 	void GeneParticle(int count);
 	void Erase();
+	void AllDelete();
+	bool infenity = false;
+
 public:
 	void Initialize(int count);
 

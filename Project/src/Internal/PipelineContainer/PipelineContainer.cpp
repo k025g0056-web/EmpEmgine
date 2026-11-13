@@ -46,9 +46,8 @@ void PipelineContainer::MakeParticleShaderPipeline(ID3D12Device* device) {
 	};
 
 	desc.sampler = { PipelineFactory::MakeDefaultSampler() };
-
 	desc.cullMode = D3D12_CULL_MODE_FRONT;
-
+	desc.depth.writeMask = D3D12_DEPTH_WRITE_MASK_ZERO;
 	desc.inputElements = {
 	{ "POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT },
 	{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT },

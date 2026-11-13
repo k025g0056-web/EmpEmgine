@@ -27,7 +27,6 @@ void SceneManager::Initialize(int windowWidth, int windowHeight, SceneName scene
 
 void SceneManager::Update() {
 #ifdef USE_IMGUI
-	setRender_.Update();
 	Gui();
 #endif
 	scene_->Update();

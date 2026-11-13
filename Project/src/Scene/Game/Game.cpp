@@ -17,7 +17,7 @@ void GameManager::Initialize() {
         SceneSystem::GetCamera()->GetCameraPosition(),
         SceneSystem::GetCamera()->GetCameraRotate());
     plane_ = EmpEngine::Resource().Model().LoadObjFile("plane", "plane.obj");
-    myCharactorHandle_ = EmpEngine::Resource().Texture().Load("oirano.jpg");
+    myCharactorHandle_ = EmpEngine::Resource().Texture().Load("circle.png");
     particle_.Initialize(parthicleCount);
 }
                        
