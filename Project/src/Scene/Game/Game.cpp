@@ -21,8 +21,8 @@ void GameManager::Initialize() {
 }
                        
 void GameManager::Update() {
- 
-
+    GUI();
+    GeneParticle();
     debugCamera_.Update();
     SceneSystem::GetCamera()->SetCameraPosition(debugCamera_.GetTranslate());
     SceneSystem::GetCamera()->SetCameraRotate(debugCamera_.GetRotate());
@@ -31,6 +31,25 @@ void GameManager::Update() {
 } 
 
 void GameManager::Draw() {
-    EmpEngine::Draw().DrawModel<Particle3D>(blockModel_, transform_,blockHandle_, Vector4{1.0f,1.0f,1.0f,1.0f},30000);
+    EmpEngine::Draw().DrawModel<Particle3D>(blockModel_, transform_,blockHandle_, Vector4{1.0f,1.0f,1.0f,1.0f},parthicleCount);
     EmpEngine::DrawLight();
+}
+
+void GameManager::GUI() {
+#ifdef USE_IMGUI
+    ImGui::Begin("Particle");
+    ImGui::SliderInt("Count", &parthicleCount, 1, 100000);
+    ImGui::End();
+#endif // USE_IMGUI
+}
+
+void GameManager::GeneParticle() {
+
+    int count = parthicleCount - static_cast<int>(transform_.size());
+
+    for (int i = 0; i < parthicleCount;i++) {
+        transform_[i].scale = { 1.0f,1.0f,1.0f };
+        transform_[i].rotate = { 0.0f,0.0f,0.0f };
+        transform_[i].translate = { i * 0.1f,i * 0.1f,i * 0.1f };
+    }
 }

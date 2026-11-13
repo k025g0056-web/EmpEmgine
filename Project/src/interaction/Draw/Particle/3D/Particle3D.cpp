@@ -74,7 +74,7 @@ void Particle3D::Initialize(ID3D12Device* device, const ModelData& modelData) {
 void Particle3D::Draw(
     ID3D12GraphicsCommandList* commandList,
     const Camera3d& camera,
-    const Transform3d& transform,
+    const std::vector<Transform3d>& transform,
     D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU,
     const Vector4& color, int SpawnCount){
 
@@ -84,7 +84,7 @@ void Particle3D::Draw(
     SpawnCount = std::min<int>(SpawnCount, kMaxInstance);
 
     for (int i = 0; i < SpawnCount;++i) {
-        Transform3d t = transform;
+        Transform3d t = transform[i];
 
         instancingData_[i].WVP = modelData_.meshes[0].rootNode.localMatrix * camera.GetWvp(t);
         instancingData_[i].world = modelData_.meshes[0].rootNode.localMatrix * Affine(t);
