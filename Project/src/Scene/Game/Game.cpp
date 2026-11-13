@@ -61,6 +61,6 @@ void GameManager::GeneParticle() {
 
 void GameManager::UpdateParticle() {
     for (int i = 0; i < transform_.size();i++) {
-        transform_[i].translate = velo_[i] * EmpEngine::DeltaTime();
+        transform_[i].translate += velo_[i] * EmpEngine::DeltaTime();
     }
 }
