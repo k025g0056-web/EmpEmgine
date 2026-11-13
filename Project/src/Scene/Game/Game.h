@@ -9,6 +9,7 @@
 #include"DataModel/ModelData.h"
 #include"DataModel/SoundData.h"
 #include"DataModel/Vector2.h"
+#include"DataModel/Perticle.h"
 
 class GameManager :public Scene {
 	ModelData ItemModel_{};
@@ -19,9 +20,11 @@ class GameManager :public Scene {
 	ModelData playerModel_{};
 	D3D12_GPU_DESCRIPTOR_HANDLE playerHandle_;
 	std::vector<Transform3d> transform_{};
+	std::vector<Vector3> velo_{};
 	int parthicleCount = 10;
 
 	void GeneParticle();
+	void UpdateParticle();
 	void GUI();
 public:
 

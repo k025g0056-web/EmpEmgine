@@ -28,8 +28,10 @@ void ManagementFrameRate::Update() {
 		}
 
 	}
-
-	reference_ = std::chrono::steady_clock::now();
+	
+	auto end = std::chrono::steady_clock::now();
+	deltaTime = std::chrono::duration<float>(end - reference_).count();
+	reference_ = end;
 }
 
 void ManagementFrameRate::GUI() {

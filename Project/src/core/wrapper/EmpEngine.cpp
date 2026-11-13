@@ -107,3 +107,7 @@ void EmpEngine::PostDraw() {
 void EmpEngine::RebindRenderTarget() {
 	EmpSystems::GetInstance()->RebindRenderTarget();
 }
+
+float EmpEngine::DeltaTime() {
+	return EmpSystems::GetInstance()->DeltaTime();
+}

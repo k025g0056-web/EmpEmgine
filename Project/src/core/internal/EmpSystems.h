@@ -53,7 +53,7 @@ public:
 	void SetVertexShader(const std::wstring& filePath);
 	void SetPixelShader(const std::wstring& filePath);
 	ID3D12Device* GetDevice() { return managementDevice_.GetDevice(); }
-
+	float DeltaTime() { return framerate_.GetDeltaTime(); }
 	D3D12_GPU_DESCRIPTOR_HANDLE GetWhite1x1() { return white1x1; }
 	void RebindRenderTarget();
 private:

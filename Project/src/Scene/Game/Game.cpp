@@ -23,6 +23,7 @@ void GameManager::Initialize() {
 void GameManager::Update() {
     GUI();
     GeneParticle();
+    UpdateParticle();
     debugCamera_.Update();
     SceneSystem::GetCamera()->SetCameraPosition(debugCamera_.GetTranslate());
     SceneSystem::GetCamera()->SetCameraRotate(debugCamera_.GetRotate());
@@ -48,10 +49,18 @@ void GameManager::GeneParticle() {
     int count = parthicleCount - static_cast<int>(transform_.size());
 
     for (int i = 0; i < parthicleCount;i++) {
-        Transform3d transform;
+        Transform3d transform{};
         transform.scale = { 1.0f,1.0f,1.0f };
         transform.rotate = { 0.0f,0.0f,0.0f };
         transform.translate = { i * 0.1f,i * 0.1f,i * 0.1f };
         transform_.push_back(transform);
+        
+        velo_.push_back(Vector3{ 0.0f,1.0f,0.0f });
+    }
+}
+
+void GameManager::UpdateParticle() {
+    for (int i = 0; i < transform_.size();i++) {
+        transform_[i].translate = velo_[i] * EmpEngine::DeltaTime();
     }
 }
