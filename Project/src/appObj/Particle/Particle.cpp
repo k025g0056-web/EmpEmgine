@@ -23,7 +23,7 @@ void Particle::Draw(ModelData model, D3D12_GPU_DESCRIPTOR_HANDLE handle) {
         if (particle_[i].lifeTime<=particle_[i].currentTime) {
             continue;
         }
-        particle_[i].currentTime = EmpEngine::DeltaTime();
+        particle_[i].currentTime += EmpEngine::DeltaTime();
 		transform.push_back(particle_[i].transform);
         colo.push_back(particle_[i].color);
         ++numInstance;
