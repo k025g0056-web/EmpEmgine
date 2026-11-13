@@ -92,6 +92,7 @@ void Particle3D::Draw(
 
     SetColor(color);
 
+    commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     commandList->SetGraphicsRootConstantBufferView(0, materialResource->GetGPUVirtualAddress());
     commandList->SetGraphicsRootDescriptorTable(1, instancingSrvGpu_);
     commandList->SetGraphicsRootDescriptorTable(2, textureSrvHandleGPU);

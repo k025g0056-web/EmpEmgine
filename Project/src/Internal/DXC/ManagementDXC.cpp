@@ -9,7 +9,6 @@ void ManagementDXC::Initialize(ID3D12Device* device) {
 	GenerateInstance();
 	SettingHandler();
 	GenerateObjectPipeLine();
-	GenerateParticlePipeLine();
 }
 
 void ManagementDXC::GenerateInstance() {
