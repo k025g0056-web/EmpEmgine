@@ -22,6 +22,7 @@
 #include"Internal/Loader/Manager/LoaderManager.h"
 #include"Internal/FrameRate/ManagementFrameRate.h"
 #include"internal/PipelineContainer/PipelineContainer.h"
+#include<random>
 
 class EmpSystems {
 	void ResizeWindow();
@@ -56,6 +57,8 @@ public:
 	float DeltaTime() { return framerate_.GetDeltaTime(); }
 	D3D12_GPU_DESCRIPTOR_HANDLE GetWhite1x1() { return white1x1; }
 	void RebindRenderTarget();
+	std::mt19937& GetRandom() { return randomEngine_; }
+
 private:
 	//エンジンの変数
 	//-----------------------------------------------------//
@@ -76,6 +79,6 @@ private:
 	LoaderManager loader_;
 	ManagementFrameRate framerate_;
 	PipelineContainer pipelinecontainer_;
-
+	std::mt19937 randomEngine_;
 	//------------------------------------------------------//
 };

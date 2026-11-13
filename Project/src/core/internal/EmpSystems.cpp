@@ -52,6 +52,9 @@ void EmpSystems::Initialize(int kWindowWidth, int kWindowHeight) {
 	Particle3D::SetSrvHeap(managementDescriptHeap_.GetSrvDescriptorHeap());
 	pipelinecontainer_.Initialize(managementDevice_.GetDevice());
 	Particle3D::SetPipeline(&pipelinecontainer_.GetPartoclePipe());
+	std::random_device seedGenerator;
+	std::mt19937 randomEngine(seedGenerator());
+	randomEngine_ = randomEngine;
 }
 
 int EmpSystems::ProcessMessage() {

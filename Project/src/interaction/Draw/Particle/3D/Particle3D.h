@@ -7,6 +7,7 @@
 #include <vector>
 #include<wrl.h>
 #include"DataModel/PipelineSet.h"
+#include"DataModel/ParticleForGPU.h"
 
 class Particle3D :public Shape{
 
@@ -25,7 +26,7 @@ class Particle3D :public Shape{
     static constexpr uint32_t kInstanceSrvIndex = 126;//SRVヒープの空き番号
     inline static ID3D12DescriptorHeap* srvHeap_ = nullptr;
     Microsoft::WRL::ComPtr<ID3D12Resource> instancingResource_;
-    TransformationMatrix* instancingData_ = nullptr;
+    ParticleForGPU* instancingData_ = nullptr;
     D3D12_GPU_DESCRIPTOR_HANDLE instancingSrvGpu_{};
 
     inline static Pipeline* pipeline_ = nullptr;
@@ -38,7 +39,7 @@ public:
         const Camera3d& camera,
         const std::vector<Transform3d>& transform,
         D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU,
-        const Vector4& color,int SpawnCount);
+        const std::vector<Vector4>& color,int SpawnCount);
 
     void ReleaseModel() {
         for (auto& r : vertexResources_) {

@@ -4,28 +4,25 @@
 #include<d3d12.h>
 #include"GameScene.h"
 #include"appObj/Camera/Controller/CameraController.h"
+#include"appObj/Particle/Particle.h"
 #include"DataModel/TransForm3d.h"
 #include"DataModel/Vector4.h"
 #include"DataModel/ModelData.h"
 #include"DataModel/SoundData.h"
 #include"DataModel/Vector2.h"
-#include"DataModel/Perticle.h"
 
 class GameManager :public Scene {
 	ModelData ItemModel_{};
 	D3D12_GPU_DESCRIPTOR_HANDLE ItemTextureHandle_;
-	ModelData blockModel_{};
-	D3D12_GPU_DESCRIPTOR_HANDLE blockHandle_;
+	ModelData plane_{};
+	D3D12_GPU_DESCRIPTOR_HANDLE myCharactorHandle_;
 	ModelData goalModel_{};
 	ModelData playerModel_{};
 	D3D12_GPU_DESCRIPTOR_HANDLE playerHandle_;
 	std::vector<Transform3d> transform_{};
 	std::vector<Vector3> velo_{};
 	int parthicleCount = 10;
-
-	void GeneParticle();
-	void UpdateParticle();
-	void GUI();
+	Particle particle_;
 public:
 
 	void Initialize() override;

@@ -46,7 +46,7 @@ void Particle3D::Initialize(ID3D12Device* device, const ModelData& modelData) {
     }
 
     instancingResource_.Attach(DX12Mechanics::CreateBufferResource(device,
-        sizeof(TransformationMatrix)*kMaxInstance));
+        sizeof(ParticleForGPU)*kMaxInstance));
     instancingResource_->Map(0, nullptr, reinterpret_cast<void**>(&instancingData_));
     for (uint32_t i = 0; i < kMaxInstance;++i) {
         instancingData_[i].WVP = MakeIdentity4x4();
@@ -66,7 +66,7 @@ void Particle3D::Initialize(ID3D12Device* device, const ModelData& modelData) {
     srv.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
     srv.Buffer.FirstElement = 0;
     srv.Buffer.NumElements = kMaxInstance;
-    srv.Buffer.StructureByteStride = sizeof(TransformationMatrix);
+    srv.Buffer.StructureByteStride = sizeof(ParticleForGPU);
     srv.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
     device->CreateShaderResourceView(instancingResource_.Get(), &srv, cpu);
 }
@@ -76,7 +76,7 @@ void Particle3D::Draw(
     const Camera3d& camera,
     const std::vector<Transform3d>& transform,
     D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU,
-    const Vector4& color, int SpawnCount){
+    const std::vector<Vector4>& color, int SpawnCount){
 
     commandList->SetGraphicsRootSignature(pipeline_->GetRootSignature());
     commandList->SetPipelineState(pipeline_->GetPSO(kBlendModeNone));
@@ -88,9 +88,8 @@ void Particle3D::Draw(
 
         instancingData_[i].WVP = modelData_.meshes[0].rootNode.localMatrix * camera.GetWvp(t);
         instancingData_[i].world = modelData_.meshes[0].rootNode.localMatrix * Affine(t);
+        instancingData_[i].color = color[i];
     }
-
-    SetColor(color);
 
     commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     commandList->SetGraphicsRootConstantBufferView(0, materialResource->GetGPUVirtualAddress());

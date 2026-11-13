@@ -111,3 +111,7 @@ void EmpEngine::RebindRenderTarget() {
 float EmpEngine::DeltaTime() {
 	return EmpSystems::GetInstance()->DeltaTime();
 }
+
+std::mt19937& EmpEngine::GetRandom() {
+	return EmpSystems::GetInstance()->GetRandom();
+}

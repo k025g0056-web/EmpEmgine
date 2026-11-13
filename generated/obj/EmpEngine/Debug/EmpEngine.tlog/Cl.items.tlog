@@ -5,6 +5,11 @@ C:\myApp\CG2\Project\externals\imgui\imgui_impl_dx12.cpp;C:\myApp\CG2\generated\
 C:\myApp\CG2\Project\externals\imgui\imgui_impl_win32.cpp;C:\myApp\CG2\generated\obj\EmpEngine\Debug\imgui_impl_win32.obj
 C:\myApp\CG2\Project\externals\imgui\imgui_tables.cpp;C:\myApp\CG2\generated\obj\EmpEngine\Debug\imgui_tables.obj
 C:\myApp\CG2\Project\externals\imgui\imgui_widgets.cpp;C:\myApp\CG2\generated\obj\EmpEngine\Debug\imgui_widgets.obj
+C:\myApp\CG2\Project\src\appObj\Particle\Particle.cpp;C:\myApp\CG2\generated\obj\EmpEngine\Debug\Particle.obj
+C:\myApp\CG2\Project\src\DataModel\Matrix3x3.cpp;C:\myApp\CG2\generated\obj\EmpEngine\Debug\Matrix3x3.obj
+C:\myApp\CG2\Project\src\DataModel\Matrix4x4.cpp;C:\myApp\CG2\generated\obj\EmpEngine\Debug\Matrix4x4.obj
+C:\myApp\CG2\Project\src\DataModel\Vector3.cpp;C:\myApp\CG2\generated\obj\EmpEngine\Debug\Vector3.obj
+C:\myApp\CG2\Project\src\DataModel\Vertex42d.cpp;C:\myApp\CG2\generated\obj\EmpEngine\Debug\Vertex42d.obj
 C:\myApp\CG2\Project\src\Internal\PipelineContainer\PipelineContainer.cpp;C:\myApp\CG2\generated\obj\EmpEngine\Debug\PipelineContainer.obj
 C:\myApp\CG2\Project\src\Internal\PipeLineFactory\PipelineFactory.cpp;C:\myApp\CG2\generated\obj\EmpEngine\Debug\PipelineFactory.obj
 C:\myApp\CG2\Project\src\Internal\ShaderCompiler\ShaderCompiler.cpp;C:\myApp\CG2\generated\obj\EmpEngine\Debug\ShaderCompiler.obj
@@ -14,10 +19,6 @@ C:\myApp\CG2\Project\src\appObj\Light\ManagementLighting.cpp;C:\myApp\CG2\genera
 C:\myApp\CG2\Project\src\ClashHandler\CrashHandler.cpp;C:\myApp\CG2\generated\obj\EmpEngine\Debug\CrashHandler.obj
 C:\myApp\CG2\Project\src\core\internal\EmpSystems.cpp;C:\myApp\CG2\generated\obj\EmpEngine\Debug\EmpSystems.obj
 C:\myApp\CG2\Project\src\core\wrapper\EmpEngine.cpp;C:\myApp\CG2\generated\obj\EmpEngine\Debug\EmpEngine.obj
-C:\myApp\CG2\Project\src\DataModel\Matrix3x3.cpp;C:\myApp\CG2\generated\obj\EmpEngine\Debug\Matrix3x3.obj
-C:\myApp\CG2\Project\src\DataModel\Matrix4x4.cpp;C:\myApp\CG2\generated\obj\EmpEngine\Debug\Matrix4x4.obj
-C:\myApp\CG2\Project\src\DataModel\Vector3.cpp;C:\myApp\CG2\generated\obj\EmpEngine\Debug\Vector3.obj
-C:\myApp\CG2\Project\src\DataModel\Vertex42d.cpp;C:\myApp\CG2\generated\obj\EmpEngine\Debug\Vertex42d.obj
 C:\myApp\CG2\Project\src\interaction\Draw\DoubleTriangle\DoubleTriangle.cpp;C:\myApp\CG2\generated\obj\EmpEngine\Debug\DoubleTriangle.obj
 C:\myApp\CG2\Project\src\interaction\Draw\Manager\DrawManager.cpp;C:\myApp\CG2\generated\obj\EmpEngine\Debug\DrawManager.obj
 C:\myApp\CG2\Project\src\interaction\Draw\Model\Model.cpp;C:\myApp\CG2\generated\obj\EmpEngine\Debug\Model.obj
