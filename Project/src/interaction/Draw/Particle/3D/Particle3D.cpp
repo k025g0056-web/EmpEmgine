@@ -76,8 +76,11 @@ void Particle3D::Draw(
     const Camera3d& camera,
     const Transform3d& transform,
     D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU,
-    const Vector4& color, int SpawnCount)
-{
+    const Vector4& color, int SpawnCount){
+
+    commandList->SetGraphicsRootSignature(pipeline_->GetRootSignature());
+    commandList->SetPipelineState(pipeline_->GetPSO(kBlendModeNone));
+
     SpawnCount = std::min<int>(SpawnCount, kMaxInstance);
 
     for (int i = 0; i < SpawnCount;++i) {

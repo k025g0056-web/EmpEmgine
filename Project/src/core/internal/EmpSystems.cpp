@@ -51,6 +51,7 @@ void EmpSystems::Initialize(int kWindowWidth, int kWindowHeight) {
 	framerate_.Initialize();
 	Particle3D::SetSrvHeap(managementDescriptHeap_.GetSrvDescriptorHeap());
 	pipelinecontainer_.Initialize(managementDevice_.GetDevice());
+	Particle3D::SetPipeline(&pipelinecontainer_.GetPartoclePipe());
 }
 
 int EmpSystems::ProcessMessage() {
@@ -156,8 +157,8 @@ void EmpSystems::PostDraw() {
 	managementCommand_.SetRSViewPort(managementViewPort_.GetViewPort());
 	managementCommand_.SetRSScissorRects(managementViewPort_.GetScissorRect());
 	//ここは後々変更する
-	managementCommand_.SetRootSignature(pipelinecontainer_.GetPartoclePipe().GetRootSignature());
-	managementCommand_.SetPipelineState(pipelinecontainer_.GetPartoclePipe().GetPSO(kBlendModeNone));
+	managementCommand_.SetRootSignature(pipelinecontainer_.GetObjectPipe().GetRootSignature());
+	managementCommand_.SetPipelineState(pipelinecontainer_.GetObjectPipe().GetPSO(kBlendModeNone));
 
 	managementCommand_.SetDescriptorHeaps(managementDescriptHeap_.GetSrvDescriptorHeap());
 	managementLighting_.DrawCall(managementCommand_.GetCommandList());

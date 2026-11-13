@@ -6,6 +6,8 @@
 #include <algorithm>
 #include <vector>
 #include<wrl.h>
+#include"DataModel/PipelineSet.h"
+
 class Particle3D :public Shape{
 
     ModelData   modelData_;
@@ -26,6 +28,7 @@ class Particle3D :public Shape{
     TransformationMatrix* instancingData_ = nullptr;
     D3D12_GPU_DESCRIPTOR_HANDLE instancingSrvGpu_{};
 
+    inline static Pipeline* pipeline_ = nullptr;
 public:
     void SetModel(ModelData modelData) { modelData_ = modelData; }
 
@@ -46,5 +49,6 @@ public:
     }
 
     static void SetSrvHeap(ID3D12DescriptorHeap* heap) { srvHeap_ = heap; }
+    static void SetPipeline(Pipeline* pipeline) { pipeline_ = pipeline; }
 };
 
