@@ -48,8 +48,10 @@ void GameManager::GeneParticle() {
     int count = parthicleCount - static_cast<int>(transform_.size());
 
     for (int i = 0; i < parthicleCount;i++) {
-        transform_[i].scale = { 1.0f,1.0f,1.0f };
-        transform_[i].rotate = { 0.0f,0.0f,0.0f };
-        transform_[i].translate = { i * 0.1f,i * 0.1f,i * 0.1f };
+        Transform3d transform;
+        transform.scale = { 1.0f,1.0f,1.0f };
+        transform.rotate = { 0.0f,0.0f,0.0f };
+        transform.translate = { i * 0.1f,i * 0.1f,i * 0.1f };
+        transform_.push_back(transform);
     }
 }
