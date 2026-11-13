@@ -10,26 +10,24 @@ void Particle::Initialize(int count) {
 void Particle::Update() {
     GUI();
 
+    Erase();
     GeneParticle(count_);
     PositionUpdate();
 }
 
-void Particle::Draw(ModelData model, D3D12_GPU_DESCRIPTOR_HANDLE handle) {
+void Particle::Draw(const ModelData& model, D3D12_GPU_DESCRIPTOR_HANDLE handle) {
 	std::vector<Transform3d>transform;
     std::vector<Vector4> colo;
-    int numInstance = 0;
-
+    transform.reserve(particle_.size());
+    colo.reserve(particle_.size());
+   
 	for (int i = 0; i < particle_.size();i++) {
-        if (particle_[i].lifeTime<=particle_[i].currentTime) {
-            continue;
-        }
         particle_[i].currentTime += EmpEngine::DeltaTime();
 		transform.push_back(particle_[i].transform);
         colo.push_back(particle_[i].color);
-        ++numInstance;
 	}
 
-	EmpEngine::Draw().DrawModel<Particle3D>(model, transform, handle,colo,numInstance);
+	EmpEngine::Draw().DrawModel<Particle3D>(model, transform, handle,colo, static_cast<int>(transform.size()));
 }
 
 void Particle::GeneParticle(int count) {
@@ -38,6 +36,7 @@ void Particle::GeneParticle(int count) {
     
     std::uniform_real_distribution<float> distribution(-1.0f, 1.0f);
     std::uniform_real_distribution<float> distTime(1.0f, 3.0f);
+    std::uniform_real_distribution<float> distColor(0.0f, 1.0f);
 
     for (int i = 0; i < countI; i++) {
         Transform3d transform{};
@@ -45,13 +44,15 @@ void Particle::GeneParticle(int count) {
         transform.rotate = { 0.0f,0.0f,0.0f };
         transform.translate = { distribution(EmpEngine::GetRandom()),distribution(EmpEngine::GetRandom()) ,distribution(EmpEngine::GetRandom()) };
         Vector3 velo = { distribution(EmpEngine::GetRandom()),distribution(EmpEngine::GetRandom()) ,distribution(EmpEngine::GetRandom()) };
-        Vector4 col= { distribution(EmpEngine::GetRandom()),distribution(EmpEngine::GetRandom()) ,distribution(EmpEngine::GetRandom()),1.0f };
+        Vector4 col= { distColor(EmpEngine::GetRandom()),distColor(EmpEngine::GetRandom()) ,distColor(EmpEngine::GetRandom()),1.0f };
         particle_.push_back({ transform ,velo,col,distTime(EmpEngine::GetRandom()),0.0f});
     }
 }
 
 void Particle::PositionUpdate() {
     for (int i = 0; i < particle_.size(); i++) {
+        particle_[i].currentTime += EmpEngine::DeltaTime();
+        particle_[i].color.w = 1.0f - particle_[i].currentTime / particle_[i].lifeTime;
         particle_[i].transform.translate += particle_[i].velocity * EmpEngine::DeltaTime();
     }
 }
@@ -62,4 +63,11 @@ void Particle::GUI() {
     ImGui::SliderInt("Count", &count_, 1, 100000);
     ImGui::End();
 #endif // USE_IMGUI
+}
+
+void Particle::Erase() {
+    particle_.erase(
+        std::remove_if(particle_.begin(), particle_.end(),
+            [](const ParticleSet& p) {return p.lifeTime <= p.currentTime; })
+        , particle_.end());
 }

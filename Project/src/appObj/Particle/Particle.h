@@ -12,11 +12,12 @@ class Particle{
 	void GUI();
 	void PositionUpdate();
 	void GeneParticle(int count);
+	void Erase();
 public:
 	void Initialize(int count);
 
 	void Update();
 
-	void Draw(ModelData model, D3D12_GPU_DESCRIPTOR_HANDLE handle);
+	void Draw(const ModelData& model, D3D12_GPU_DESCRIPTOR_HANDLE handle);
 };
 

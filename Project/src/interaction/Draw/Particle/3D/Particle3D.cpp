@@ -79,7 +79,7 @@ void Particle3D::Draw(
     const std::vector<Vector4>& color, int SpawnCount){
 
     commandList->SetGraphicsRootSignature(pipeline_->GetRootSignature());
-    commandList->SetPipelineState(pipeline_->GetPSO(kBlendModeNone));
+    commandList->SetPipelineState(pipeline_->GetPSO(kBlendModeNormal));
 
     SpawnCount = std::min<int>(SpawnCount, kMaxInstance);
 
