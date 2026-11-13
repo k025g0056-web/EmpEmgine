@@ -21,6 +21,7 @@
 #include"Internal/ImGui/Render/RenderTexture.h"
 #include"Internal/Loader/Manager/LoaderManager.h"
 #include"Internal/FrameRate/ManagementFrameRate.h"
+#include"internal/PipelineContainer/PipelineContainer.h"
 
 class EmpSystems {
 	void ResizeWindow();
@@ -74,6 +75,7 @@ private:
 	RenderTexture renderTexture_;
 	LoaderManager loader_;
 	ManagementFrameRate framerate_;
+	PipelineContainer pipelinecontainer_;
 
 	//------------------------------------------------------//
 };

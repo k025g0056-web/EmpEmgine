@@ -5,6 +5,9 @@ C:\myApp\CG2\Project\externals\imgui\imgui_impl_dx12.cpp;C:\myApp\CG2\generated\
 C:\myApp\CG2\Project\externals\imgui\imgui_impl_win32.cpp;C:\myApp\CG2\generated\obj\EmpEngine\Debug\imgui_impl_win32.obj
 C:\myApp\CG2\Project\externals\imgui\imgui_tables.cpp;C:\myApp\CG2\generated\obj\EmpEngine\Debug\imgui_tables.obj
 C:\myApp\CG2\Project\externals\imgui\imgui_widgets.cpp;C:\myApp\CG2\generated\obj\EmpEngine\Debug\imgui_widgets.obj
+C:\myApp\CG2\Project\src\Internal\PipelineContainer\PipelineContainer.cpp;C:\myApp\CG2\generated\obj\EmpEngine\Debug\PipelineContainer.obj
+C:\myApp\CG2\Project\src\Internal\PipeLineFactory\PipelineFactory.cpp;C:\myApp\CG2\generated\obj\EmpEngine\Debug\PipelineFactory.obj
+C:\myApp\CG2\Project\src\Internal\ShaderCompiler\ShaderCompiler.cpp;C:\myApp\CG2\generated\obj\EmpEngine\Debug\ShaderCompiler.obj
 C:\myApp\CG2\Project\src\appObj\Camera\Camera3d\Camera3d.cpp;C:\myApp\CG2\generated\obj\EmpEngine\Debug\Camera3d.obj
 C:\myApp\CG2\Project\src\appObj\Camera\Controller\CameraController.cpp;C:\myApp\CG2\generated\obj\EmpEngine\Debug\CameraController.obj
 C:\myApp\CG2\Project\src\appObj\Light\ManagementLighting.cpp;C:\myApp\CG2\generated\obj\EmpEngine\Debug\ManagementLighting.obj

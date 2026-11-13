@@ -18,10 +18,18 @@ class Particle3D :public Shape{
 
     std::vector<D3D12_GPU_DESCRIPTOR_HANDLE> meshTextureHandles_;
 
+    uint32_t kMaxInstance = 100000;//後々10Bまで増やす
+
+    static constexpr uint32_t kInstanceSrvIndex = 126;//SRVヒープの空き番号
+    inline static ID3D12DescriptorHeap* srvHeap_ = nullptr;
+    Microsoft::WRL::ComPtr<ID3D12Resource> instancingResource_;
+    TransformationMatrix* instancingData_ = nullptr;
+    D3D12_GPU_DESCRIPTOR_HANDLE instancingSrvGpu_{};
+
 public:
     void SetModel(ModelData modelData) { modelData_ = modelData; }
 
-    void Initialize(ID3D12Device* device, const ModelData& modelData,uint64_t kNumInstance);
+    void Initialize(ID3D12Device* device, const ModelData& modelData);
     void Draw(
         ID3D12GraphicsCommandList* commandList,
         const Camera3d& camera,
@@ -35,7 +43,8 @@ public:
         }
 
         vertexResources_.clear();
-
     }
+
+    static void SetSrvHeap(ID3D12DescriptorHeap* heap) { srvHeap_ = heap; }
 };
 

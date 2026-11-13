@@ -189,18 +189,3 @@ D3D12_STATIC_SAMPLER_DESC PipelineFactory::MakeDefaultSampler() {
 	sampler.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 	return sampler;
 }
-
-void i(){
-	D3D12_DESCRIPTOR_RANGE descriptorForInstancing[1] = {};
-	descriptorForInstancing[0].BaseShaderRegister = 0;//0から始まる
-	descriptorForInstancing[0].NumDescriptors = 1;//数は一つ
-	descriptorForInstancing[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;//SRVを使う
-	descriptorForInstancing[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
-
-	D3D12_ROOT_PARAMETER rootParameters[4] = {};
-	rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
-	rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;//VertexShaderを使う
-	rootParameters[1].DescriptorTable.pDescriptorRanges = descriptorForInstancing;//Tableの中身の配列を指定
-	rootParameters[1].DescriptorTable.NumDescriptorRanges = _countof(descriptorForInstancing);//Tableで利用する数
-
-}
