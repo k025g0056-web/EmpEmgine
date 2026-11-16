@@ -22,6 +22,6 @@ public:
 
 	void Update();
 
-	void Draw(const ModelData& model);
+	void Draw(const int& model);
 };
 

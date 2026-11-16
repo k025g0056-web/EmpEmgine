@@ -45,7 +45,7 @@ class Model : public Shape {
 public:
     void SetModel(ModelData modelData) { modelData_ = modelData; }
 
-    void Initialize(ID3D12Device* device, const ModelData& modelData);
+    void Initialize(ID3D12Device* device, const int& modelData);
     void StartCompress(const CompressConfig& config);
     bool IsFinished() const { return compressionT_ >= 1.0f; }
     void Update(float dt);

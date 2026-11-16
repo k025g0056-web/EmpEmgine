@@ -5,10 +5,10 @@
 #include <cmath>
 #include <algorithm>
 
-void Particle3D::Initialize(ID3D12Device* device, const ModelData& modelData) {
+void Particle3D::Initialize(ID3D12Device* device, const int& modelData) {
     Shape::Initialize(device, true);
-    modelData_ = modelData;
-    workVertices_ = modelData;
+    modelData_ = ResolveModel(modelData);
+    workVertices_ = ResolveModel(modelData);
     size_t meshCount = modelData_.meshes.size();
 
     // ← デバッグ用に追加

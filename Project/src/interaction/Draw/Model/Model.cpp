@@ -5,10 +5,10 @@
 #include <cmath>
 #include <algorithm>
 
-void Model::Initialize(ID3D12Device* device, const ModelData& modelData) {
+void Model::Initialize(ID3D12Device* device, const int& modelData) {
     Shape::Initialize(device, true);
-    modelData_ = modelData;
-    workVertices_ = modelData;
+    modelData_ = ResolveModel(modelData);
+    workVertices_ = ResolveModel(modelData);
     timer_ = 0.0f;
     compressionT_ = 0.0f;
     isCompressing_ = false;

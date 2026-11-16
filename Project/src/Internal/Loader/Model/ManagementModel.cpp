@@ -6,7 +6,7 @@
 #include<Windows.h>
 #include "core/wrapper/EmpEngine.h"
 
-ModelData ManagementModel::LoadObjFile(const std::string& directoryPath, const std::string& filename) {
+int ManagementModel::LoadObjFile(const std::string& directoryPath, const std::string& filename) {
 	ModelData modelData;
 	Assimp::Importer importer;
 	std::string objPath = "./resources/3dObject/" + directoryPath + "/" + filename;
@@ -61,7 +61,8 @@ ModelData ManagementModel::LoadObjFile(const std::string& directoryPath, const s
 		}
 	}
 
-	return modelData;
+	modelData_.push_back(modelData); 
+	return static_cast<int>(modelData_.size() - 1);
 }
 
 std::vector<MaterialData> ManagementModel::LoadMaterialTemplateFile(const std::string& directoryPath, const std::string& filename) {

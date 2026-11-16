@@ -117,3 +117,7 @@ D3D12_GPU_DESCRIPTOR_HANDLE Shape::ResolveTexture(int textureId) const {
 
 	return EmpEngine::Resource().Texture().GetHandle(textureId);
 }
+
+ModelData Shape::ResolveModel(int modelId) const{
+	return EmpEngine::Resource().Model().GetModel(modelId);
+}

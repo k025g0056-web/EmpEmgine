@@ -18,7 +18,7 @@ void Particle::Update() {
     PositionUpdate();
 }
 
-void Particle::Draw(const ModelData& model) {
+void Particle::Draw(const int& model) {
 	std::vector<Transform3d>transform;
     std::vector<Vector4> colo;
     transform.reserve(particle_.size());

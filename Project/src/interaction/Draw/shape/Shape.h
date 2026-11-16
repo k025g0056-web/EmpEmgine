@@ -53,6 +53,7 @@ protected:
 		D3D12_VERTEX_BUFFER_VIEW vertexBufferView, int vertex, int spawnCount);
 
 	D3D12_GPU_DESCRIPTOR_HANDLE ResolveTexture(int textureId) const;
+	ModelData ResolveModel(int modelId)const;
 public:
 	void Initialize(ID3D12Device* device,bool enableLighting);
 	void Release();

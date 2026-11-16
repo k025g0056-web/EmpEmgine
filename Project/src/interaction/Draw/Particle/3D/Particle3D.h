@@ -33,7 +33,7 @@ class Particle3D :public Shape{
 public:
     void SetModel(ModelData modelData) { modelData_ = modelData; }
 
-    void Initialize(ID3D12Device* device, const ModelData& modelData);
+    void Initialize(ID3D12Device* device, const int& modelData);
     void Draw(
         ID3D12GraphicsCommandList* commandList,
         const Camera3d& camera,
