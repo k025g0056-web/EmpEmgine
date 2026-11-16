@@ -23,6 +23,7 @@ ModelData ManagementModel::LoadObjFile(const std::string& directoryPath, const s
 	modelData.materials.resize(scene->mNumMaterials);
 	for (uint32_t meshIndex = 0; meshIndex < scene->mNumMeshes;++meshIndex) {
 		aiMesh* mesh = scene->mMeshes[meshIndex];
+		modelData.meshes[meshIndex].materialIndex = mesh->mMaterialIndex;
 		//modelData.meshes.emplace_back();
 		assert(mesh->HasNormals());
 		assert(mesh->HasTextureCoords(0));
@@ -55,8 +56,8 @@ ModelData ManagementModel::LoadObjFile(const std::string& directoryPath, const s
 			aiString textureFilePath;
 			material->GetTexture(aiTextureType_DIFFUSE, 0, &textureFilePath);
 			modelData.materials[materialIndex].textureFile = "./resources/3dObject/" + directoryPath + "/" + textureFilePath.C_Str();
-		
-			modelData.texHandle = EmpEngine::Resource().Texture().Load(modelData.materials[materialIndex].textureFile);
+			modelData.materials[materialIndex].hasTexture = true;
+			modelData.materials[materialIndex].texHandle = EmpEngine::Resource().Texture().Load(modelData.materials[materialIndex].textureFile);
 		}
 	}
 

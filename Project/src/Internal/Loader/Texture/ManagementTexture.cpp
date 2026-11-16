@@ -32,8 +32,11 @@ DirectX::ScratchImage ManagementTexture::LoadTextureFile(const std::string& file
 
 
 	DirectX::ScratchImage image{};
-	std::wstring filePathW = ManagementLog::ConvertString("resources/Image/" + filepath);
-
+	std::string path = filepath;
+	if (path.find('/') == std::string::npos && path.find('\\') == std::string::npos) {
+		path = "resources/Image/" + path;
+	}
+	std::wstring filePathW = ManagementLog::ConvertString(path);
 	// 拡張子を取得する
 	std::wstring ext = filePathW.substr(filePathW.find_last_of(L'.'));
 	// 小文字に変換する

@@ -6,5 +6,4 @@
 struct ModelData{
 	std::vector<MeshData> meshes;
 	std::vector<MaterialData>materials;
-	int texHandle;
 };

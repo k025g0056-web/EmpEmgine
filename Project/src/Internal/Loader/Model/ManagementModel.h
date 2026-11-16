@@ -15,7 +15,4 @@ class ManagementModel {
 	Node ReadNode(aiNode* node);
 public:
 	ModelData LoadObjFile(const std::string& directoryPath, const std::string& filename);
-
-
-
 };

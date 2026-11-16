@@ -93,10 +93,11 @@ void Particle3D::Draw(
     commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     commandList->SetGraphicsRootConstantBufferView(0, materialResource->GetGPUVirtualAddress());
     commandList->SetGraphicsRootDescriptorTable(1, instancingSrvGpu_);
-    commandList->SetGraphicsRootDescriptorTable(2, ResolveTexture(modelData_.texHandle));
-
+   
     for (size_t i = 0; i < modelData_.meshes.size(); ++i) {
-
+        int mat = modelData_.meshes[i].materialIndex;
+        int tex = modelData_.materials[mat].texHandle;
+        commandList->SetGraphicsRootDescriptorTable(2, ResolveTexture(tex));
         DrawCallVertexOnly(commandList, vertexBufferViews_[i],
             static_cast<int>(modelData_.meshes[i].vertices.size()), SpawnCount);
     }

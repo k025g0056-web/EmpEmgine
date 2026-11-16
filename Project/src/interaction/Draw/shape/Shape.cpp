@@ -106,5 +106,10 @@ void Shape::DrawCallVertexOnly(ID3D12GraphicsCommandList* commandList,
 }
 
 D3D12_GPU_DESCRIPTOR_HANDLE Shape::ResolveTexture(int textureId) const {
+
+	if (textureId<0) {
+		textureId = EmpEngine::GetWhite1x1();
+	}
+
 	return EmpEngine::Resource().Texture().GetHandle(textureId);
 }

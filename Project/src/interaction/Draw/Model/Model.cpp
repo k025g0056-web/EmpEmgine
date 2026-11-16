@@ -178,28 +178,12 @@ void Model::Draw(
 
     SetColor(color);
 
-    SetUpCommonDrawState(commandList, modelData_.texHandle);
-
-    OutputDebugStringA(
-        ("meshes.size = " +
-            std::to_string(modelData_.meshes.size()) + "\n").c_str()
-    );
-
-    OutputDebugStringA(
-        ("vertexBufferViews.size = " +
-            std::to_string(vertexBufferViews_.size()) + "\n").c_str()
-    );
+    SetUpCommonDrawState(commandList,0);
 
     for (size_t i = 0; i < modelData_.meshes.size(); ++i) {
-
-        OutputDebugStringA(
-            ("Draw mesh " +
-                std::to_string(i) +
-                " vertexCount = " +
-                std::to_string(modelData_.meshes[i].vertices.size()) +
-                "\n").c_str()
-        );
-
+        int mat = modelData_.meshes[i].materialIndex;
+        int tex = modelData_.materials[mat].texHandle;
+        commandList->SetGraphicsRootDescriptorTable(2, ResolveTexture(tex));
         DrawCallVertexOnly(commandList, vertexBufferViews_[i],
             static_cast<int>(modelData_.meshes[i].vertices.size()),1);
     }
