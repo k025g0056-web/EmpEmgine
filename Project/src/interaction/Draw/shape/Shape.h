@@ -8,6 +8,7 @@
 #include"DataModel/TransformationMatrix.h"
 #include"DataModel/Matrix3x3.h"
 #include<wrl.h>
+#include"DataModel/ModelData.h"
 
 //図形のクラス。いい感じに作りたい
 class Shape {
