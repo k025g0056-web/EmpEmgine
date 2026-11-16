@@ -13,12 +13,12 @@
 
 class GameManager :public Scene {
 	ModelData ItemModel_{};
-	D3D12_GPU_DESCRIPTOR_HANDLE ItemTextureHandle_;
+	int ItemTextureHandle_;
 	ModelData plane_{};
-	D3D12_GPU_DESCRIPTOR_HANDLE myCharactorHandle_;
+	int myCharactorHandle_;
 	ModelData goalModel_{};
 	ModelData playerModel_{};
-	D3D12_GPU_DESCRIPTOR_HANDLE playerHandle_;
+	int playerHandle_;
 	std::vector<Transform3d> transform_{};
 	std::vector<Vector3> velo_{};
 	int parthicleCount = 10;

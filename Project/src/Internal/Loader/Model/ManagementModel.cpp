@@ -4,6 +4,7 @@
 #include<cassert>
 #include<algorithm>
 #include<Windows.h>
+#include "core/wrapper/EmpEngine.h"
 
 ModelData ManagementModel::LoadObjFile(const std::string& directoryPath, const std::string& filename) {
 	ModelData modelData;
@@ -54,6 +55,8 @@ ModelData ManagementModel::LoadObjFile(const std::string& directoryPath, const s
 			aiString textureFilePath;
 			material->GetTexture(aiTextureType_DIFFUSE, 0, &textureFilePath);
 			modelData.materials[materialIndex].textureFile = "./resources/3dObject/" + directoryPath + "/" + textureFilePath.C_Str();
+		
+			modelData.texHandle = EmpEngine::Resource().Texture().Load(modelData.materials[materialIndex].textureFile);
 		}
 	}
 

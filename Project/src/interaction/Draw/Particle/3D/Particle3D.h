@@ -38,7 +38,6 @@ public:
         ID3D12GraphicsCommandList* commandList,
         const Camera3d& camera,
         const std::vector<Transform3d>& transform,
-        D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU,
         const std::vector<Vector4>& color,int SpawnCount);
 
     void ReleaseModel() {

@@ -14,7 +14,7 @@ void Sphere::Initialize(ID3D12Device* device) {
 }
 
 void Sphere::Draw(ID3D12GraphicsCommandList* commandList, const Camera3d& camera,
-	const Transform3d& transform, const Vector4& color,D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU) {
+	const Transform3d& transform, const Vector4& color,int id) {
 	transform3d_ = transform;
 	wvpData->WVP = camera.GetWvp(transform3d_);
 	wvpData->world = Affine(transform3d_);
@@ -87,5 +87,5 @@ void Sphere::Draw(ID3D12GraphicsCommandList* commandList, const Camera3d& camera
 	}
 
 	vertexResource->Unmap(0, nullptr);
-	DrawCallIndex(commandList,indexBufferView_, vertexBufferView_, textureSrvHandleGPU, kSubdivision * kSubdivision * 6,1);
+	DrawCallIndex(commandList,indexBufferView_, vertexBufferView_,id, kSubdivision * kSubdivision * 6,1);
 }

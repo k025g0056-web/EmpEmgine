@@ -13,7 +13,7 @@
 class Shape {
 private:
 	void SetUpDrawCall(ID3D12GraphicsCommandList* commandList,
-		D3D12_VERTEX_BUFFER_VIEW vertexBufferView, D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU);
+		D3D12_VERTEX_BUFFER_VIEW vertexBufferView, int id);
 protected:
 	Microsoft::WRL::ComPtr<ID3D12Resource> materialResource = nullptr;
 	Material* materialData = nullptr;
@@ -35,10 +35,10 @@ protected:
 	void GenerateWvpResource(ID3D12Device* device);
 	void DrawCallVertex(ID3D12GraphicsCommandList* commandList,
 		D3D12_VERTEX_BUFFER_VIEW vetexBufferView, 
-		D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU, int vertex,int SpawnCount);
+		int id, int vertex,int SpawnCount);
 	void DrawCallIndex(ID3D12GraphicsCommandList* commandList,
 		D3D12_INDEX_BUFFER_VIEW indexBufferView, D3D12_VERTEX_BUFFER_VIEW vertexBufferView,
-		D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU, int index, int SpawnCount);
+		int id, int index, int SpawnCount);
 
 	void SetColor(const Vector4& color);
 	void ChangeTransform(const Transform3d& transform);
@@ -46,10 +46,11 @@ protected:
 		Matrix4x4 uvTransformMatrix = Affine3D22D(uvTransform);
 		materialData->uvTransform = uvTransformMatrix; }
 	void SetUpCommonDrawState(ID3D12GraphicsCommandList* commandList,
-		D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU);
+		int id);
 	void DrawCallVertexOnly(ID3D12GraphicsCommandList* commandList,
 		D3D12_VERTEX_BUFFER_VIEW vertexBufferView, int vertex, int spawnCount);
 
+	D3D12_GPU_DESCRIPTOR_HANDLE ResolveTexture(int textureId) const;
 public:
 	void Initialize(ID3D12Device* device,bool enableLighting);
 	void Release();

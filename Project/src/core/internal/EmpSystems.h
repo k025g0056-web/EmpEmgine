@@ -44,7 +44,7 @@ public:
 	DrawManager& Draw() { return drawManager_; }
 	ID3D12Device* GetDevice() { return managementDevice_.GetDevice(); }
 	float DeltaTime() { return framerate_.GetDeltaTime(); }
-	D3D12_GPU_DESCRIPTOR_HANDLE GetWhite1x1() { return white1x1; }
+	int GetWhite1x1() { return white1x1; }
 	void RebindRenderTarget();
 	std::mt19937& GetRandom() { return randomEngine_; }
 
@@ -60,7 +60,7 @@ private:
 	ManagementDebug managementDebug_;
 	ManagementViewPort managementViewPort_;
 	MymGui mymGui_;
-	D3D12_GPU_DESCRIPTOR_HANDLE white1x1{};
+	int white1x1{};
 	DrawManager drawManager_;
 	ManagementLighting managementLighting_;
 	RenderTexture renderTexture_;

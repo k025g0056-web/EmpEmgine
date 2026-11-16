@@ -3,6 +3,7 @@
 #include"Log/ManagementLog.h"
 #include"Internal/DX12Mechanics/DX12Mechanics.h"
 #include"externals//DirectXTex/d3dx12.h"
+#include<cassert>
 
 void ManagementTexture::Initialize(ID3D12Device* device,ID3D12GraphicsCommandList* commandList,
 	ID3D12CommandQueue* commandQueue,ID3D12CommandAllocator* commandAllocator,HANDLE fenceEvent,
@@ -141,7 +142,7 @@ ID3D12Resource* ManagementTexture::UploadTextureData(ID3D12Resource* texture, co
 	return intermediateResource;
 }
 
-D3D12_GPU_DESCRIPTOR_HANDLE ManagementTexture::Load( const std::string& filePath) {
+int ManagementTexture::Load( const std::string& filePath) {
 	DirectX::ScratchImage mipImages;
 	DirectX::TexMetadata metadata;
 	Microsoft::WRL::ComPtr<ID3D12Resource> textureResource = nullptr;
@@ -189,7 +190,7 @@ D3D12_GPU_DESCRIPTOR_HANDLE ManagementTexture::Load( const std::string& filePath
 	textureData.srvHandleCPU = handleCPU;
 	textureData.srvHandleGPU = handleGPU;
 	textures_.push_back(textureData);
-	return handleGPU;
+	return static_cast<int>(textures_.size() - 1);
 }
 
 D3D12_CPU_DESCRIPTOR_HANDLE ManagementTexture::GetCPUDescriptorHandle(ID3D12DescriptorHeap* descriptorheap, uint32_t descriptorSize, uint32_t index) {
@@ -224,4 +225,9 @@ void ManagementTexture::Release() {
 
 	textures_.clear();
 	nextTextureIndex_ = 1;
+}
+
+D3D12_GPU_DESCRIPTOR_HANDLE ManagementTexture::GetHandle(int id)const {
+	assert(id >= 0 && id < static_cast<int>(textures_.size()));
+	return textures_[id].srvHandleGPU;
 }

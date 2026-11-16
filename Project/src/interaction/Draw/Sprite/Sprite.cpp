@@ -11,7 +11,7 @@ void Sprite::Initialize(ID3D12Device* device) {
 
 void Sprite::Draw(ID3D12GraphicsCommandList* commandList, const Camera3d& camera, const Transform3d& transform,
 	const Vector2& v0, const Vector2& v1, const Vector2& v2, const Vector2& v3,
-	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU, const Vector4& color,const Transform3d& uvTransform) {
+	int id, const Vector4& color,const Transform3d& uvTransform) {
 	
 	transform3d_ = transform;
 	wvpData->WVP = camera.GetWvpSprite(transform3d_);
@@ -53,6 +53,6 @@ void Sprite::Draw(ID3D12GraphicsCommandList* commandList, const Camera3d& camera
 
 	SetColor(color);
 
-	DrawCallIndex(commandList,indexBufferView_, vertexBufferView_, textureSrvHandleGPU, 6,1);
+	DrawCallIndex(commandList,indexBufferView_, vertexBufferView_,id, 6,1);
 
 }

@@ -75,7 +75,6 @@ void Particle3D::Draw(
     ID3D12GraphicsCommandList* commandList,
     const Camera3d& camera,
     const std::vector<Transform3d>& transform,
-    D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU,
     const std::vector<Vector4>& color, int SpawnCount){
 
     commandList->SetGraphicsRootSignature(pipeline_->GetRootSignature());
@@ -94,7 +93,7 @@ void Particle3D::Draw(
     commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     commandList->SetGraphicsRootConstantBufferView(0, materialResource->GetGPUVirtualAddress());
     commandList->SetGraphicsRootDescriptorTable(1, instancingSrvGpu_);
-    commandList->SetGraphicsRootDescriptorTable(2, textureSrvHandleGPU);
+    commandList->SetGraphicsRootDescriptorTable(2, ResolveTexture(modelData_.texHandle));
 
     for (size_t i = 0; i < modelData_.meshes.size(); ++i) {
 

@@ -164,9 +164,7 @@ void Model::UpdateVertices()
 void Model::Draw(
     ID3D12GraphicsCommandList* commandList,
     const Camera3d& camera,
-    const Transform3d& transform,
-    D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU,
-    const Vector4& color)
+    const Transform3d& transform,const Vector4& color)
 {
     ChangeTransform(transform); // isTransformDirty_ 更新
 
@@ -180,7 +178,7 @@ void Model::Draw(
 
     SetColor(color);
 
-    SetUpCommonDrawState(commandList, textureSrvHandleGPU);
+    SetUpCommonDrawState(commandList, modelData_.texHandle);
 
     OutputDebugStringA(
         ("meshes.size = " +

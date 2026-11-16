@@ -1,7 +1,7 @@
 #include"DoubleTriangle.h"
 #include"Internal/DX12Mechanics/DX12Mechanics.h"
 void DoubleTriangle::Draw(ID3D12GraphicsCommandList* commandList, const Camera3d& camera, 
-	const Transform3d&transform,D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU) {
+	const Transform3d&transform,int id) {
 	ChangeTransform(transform);
 	if (isTransformDirty_) {
 		transform3d_ = transform;
@@ -45,7 +45,7 @@ void DoubleTriangle::Draw(ID3D12GraphicsCommandList* commandList, const Camera3d
 
 	vertexResource->Unmap(0, nullptr);
 
-	DrawCallVertex(commandList, vertexBufferView_, textureSrvHandleGPU, 6,1);
+	DrawCallVertex(commandList, vertexBufferView_,id, 6,1);
 }
 
 void DoubleTriangle::Initialize(ID3D12Device* device) {

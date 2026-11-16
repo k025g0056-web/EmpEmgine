@@ -59,7 +59,7 @@ void EmpEngine::DrawLight() {
 
 ID3D12Device* EmpEngine::GetDevice() { return EmpSystems::GetInstance()->GetDevice(); }
 
-D3D12_GPU_DESCRIPTOR_HANDLE EmpEngine::GetWhite1x1() {
+int EmpEngine::GetWhite1x1() {
 	return EmpSystems::GetInstance()->GetWhite1x1();
 }
 

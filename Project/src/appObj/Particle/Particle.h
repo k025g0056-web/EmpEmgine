@@ -22,6 +22,6 @@ public:
 
 	void Update();
 
-	void Draw(const ModelData& model, D3D12_GPU_DESCRIPTOR_HANDLE handle);
+	void Draw(const ModelData& model);
 };
 

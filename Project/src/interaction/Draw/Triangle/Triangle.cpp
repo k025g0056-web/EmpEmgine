@@ -2,7 +2,7 @@
 #include"Internal/DX12Mechanics/DX12Mechanics.h"
 
 void Triangle::DrawTriangle(const Vector3& v0, const Vector3& v1, const Vector3& v2, ID3D12GraphicsCommandList* commandList,
-	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU,const Vector4& color) {
+	int id,const Vector4& color) {
 	ChangeVertex(v0, v1, v2);
 	SetColor(color);
 	if (isVertexDirty_) {
@@ -29,13 +29,13 @@ void Triangle::DrawTriangle(const Vector3& v0, const Vector3& v1, const Vector3&
 
 	}
 
-	DrawCallVertex(commandList, vertexBufferView_, textureSrvHandleGPU,3,1);
+	DrawCallVertex(commandList, vertexBufferView_, id,3,1);
 
 }
 
 void Triangle::Draw(ID3D12GraphicsCommandList* commandList, const Camera3d& camera,
 	const Transform3d& transform, const Vector3& v0, const Vector3& v1, const Vector3& v2, 
-	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU, const Vector4& color) {
+	int id, const Vector4& color) {
 	ChangeTransform(transform);
 	if (isTransformDirty_) {
 		transform3d_ = transform;
@@ -44,7 +44,7 @@ void Triangle::Draw(ID3D12GraphicsCommandList* commandList, const Camera3d& came
 		isTransformDirty_ = false;
 	}
 
-	DrawTriangle(v0, v1, v2, commandList, textureSrvHandleGPU, color);
+	DrawTriangle(v0, v1, v2, commandList, id, color);
 }
 
 void Triangle::ChangeVertex(const Vector3& v0, const Vector3& v1, const Vector3& v2) {

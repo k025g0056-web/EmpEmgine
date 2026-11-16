@@ -9,7 +9,7 @@ public:
 	void Initialize(ID3D12Device* device);
 
 	void Draw(ID3D12GraphicsCommandList* commandList, const Camera3d& camera, const Transform3d& transform,
-		D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU);
+		int id);
 
 	bool GetEnableLight() { return enableLight; }
 	void SetEnableLight(bool enable) { enableLight = enable; }
