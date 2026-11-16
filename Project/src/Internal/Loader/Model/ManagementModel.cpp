@@ -4,8 +4,9 @@
 #include<cassert>
 #include<algorithm>
 #include<Windows.h>
+#include "core/wrapper/EmpEngine.h"
 
-ModelData ManagementModel::LoadObjFile(const std::string& directoryPath, const std::string& filename) {
+int ManagementModel::LoadObjFile(const std::string& directoryPath, const std::string& filename) {
 	ModelData modelData;
 	Assimp::Importer importer;
 	std::string objPath = "./resources/3dObject/" + directoryPath + "/" + filename;
@@ -22,6 +23,7 @@ ModelData ManagementModel::LoadObjFile(const std::string& directoryPath, const s
 	modelData.materials.resize(scene->mNumMaterials);
 	for (uint32_t meshIndex = 0; meshIndex < scene->mNumMeshes;++meshIndex) {
 		aiMesh* mesh = scene->mMeshes[meshIndex];
+		modelData.meshes[meshIndex].materialIndex = mesh->mMaterialIndex;
 		//modelData.meshes.emplace_back();
 		assert(mesh->HasNormals());
 		assert(mesh->HasTextureCoords(0));
@@ -54,10 +56,13 @@ ModelData ManagementModel::LoadObjFile(const std::string& directoryPath, const s
 			aiString textureFilePath;
 			material->GetTexture(aiTextureType_DIFFUSE, 0, &textureFilePath);
 			modelData.materials[materialIndex].textureFile = "./resources/3dObject/" + directoryPath + "/" + textureFilePath.C_Str();
+			modelData.materials[materialIndex].hasTexture = true;
+			modelData.materials[materialIndex].texHandle = EmpEngine::Resource().Texture().Load(modelData.materials[materialIndex].textureFile);
 		}
 	}
 
-	return modelData;
+	modelData_.push_back(modelData); 
+	return static_cast<int>(modelData_.size() - 1);
 }
 
 std::vector<MaterialData> ManagementModel::LoadMaterialTemplateFile(const std::string& directoryPath, const std::string& filename) {

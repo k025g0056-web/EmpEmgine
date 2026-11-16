@@ -5,10 +5,10 @@
 #include <cmath>
 #include <algorithm>
 
-void Model::Initialize(ID3D12Device* device, const ModelData& modelData) {
+void Model::Initialize(ID3D12Device* device, const int& modelData) {
     Shape::Initialize(device, true);
-    modelData_ = modelData;
-    workVertices_ = modelData;
+    modelData_ = ResolveModel(modelData);
+    workVertices_ = ResolveModel(modelData);
     timer_ = 0.0f;
     compressionT_ = 0.0f;
     isCompressing_ = false;
@@ -164,9 +164,7 @@ void Model::UpdateVertices()
 void Model::Draw(
     ID3D12GraphicsCommandList* commandList,
     const Camera3d& camera,
-    const Transform3d& transform,
-    D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU,
-    const Vector4& color)
+    const Transform3d& transform,const Vector4& color)
 {
     ChangeTransform(transform); // isTransformDirty_ 更新
 
@@ -180,28 +178,12 @@ void Model::Draw(
 
     SetColor(color);
 
-    SetUpCommonDrawState(commandList, textureSrvHandleGPU);
-
-    OutputDebugStringA(
-        ("meshes.size = " +
-            std::to_string(modelData_.meshes.size()) + "\n").c_str()
-    );
-
-    OutputDebugStringA(
-        ("vertexBufferViews.size = " +
-            std::to_string(vertexBufferViews_.size()) + "\n").c_str()
-    );
+    SetUpCommonDrawState(commandList);
 
     for (size_t i = 0; i < modelData_.meshes.size(); ++i) {
-
-        OutputDebugStringA(
-            ("Draw mesh " +
-                std::to_string(i) +
-                " vertexCount = " +
-                std::to_string(modelData_.meshes[i].vertices.size()) +
-                "\n").c_str()
-        );
-
+        int mat = modelData_.meshes[i].materialIndex;
+        int tex = modelData_.materials[mat].texHandle;
+        commandList->SetGraphicsRootDescriptorTable(2, ResolveTexture(tex));
         DrawCallVertexOnly(commandList, vertexBufferViews_[i],
             static_cast<int>(modelData_.meshes[i].vertices.size()),1);
     }

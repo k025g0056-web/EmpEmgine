@@ -5,10 +5,10 @@
 #include <cmath>
 #include <algorithm>
 
-void Particle3D::Initialize(ID3D12Device* device, const ModelData& modelData) {
+void Particle3D::Initialize(ID3D12Device* device, const int& modelData) {
     Shape::Initialize(device, true);
-    modelData_ = modelData;
-    workVertices_ = modelData;
+    modelData_ = ResolveModel(modelData);
+    workVertices_ = ResolveModel(modelData);
     size_t meshCount = modelData_.meshes.size();
 
     // ← デバッグ用に追加
@@ -75,7 +75,6 @@ void Particle3D::Draw(
     ID3D12GraphicsCommandList* commandList,
     const Camera3d& camera,
     const std::vector<Transform3d>& transform,
-    D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU,
     const std::vector<Vector4>& color, int SpawnCount){
 
     commandList->SetGraphicsRootSignature(pipeline_->GetRootSignature());
@@ -94,10 +93,11 @@ void Particle3D::Draw(
     commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     commandList->SetGraphicsRootConstantBufferView(0, materialResource->GetGPUVirtualAddress());
     commandList->SetGraphicsRootDescriptorTable(1, instancingSrvGpu_);
-    commandList->SetGraphicsRootDescriptorTable(2, textureSrvHandleGPU);
-
+   
     for (size_t i = 0; i < modelData_.meshes.size(); ++i) {
-
+        int mat = modelData_.meshes[i].materialIndex;
+        int tex = modelData_.materials[mat].texHandle;
+        commandList->SetGraphicsRootDescriptorTable(2, ResolveTexture(tex));
         DrawCallVertexOnly(commandList, vertexBufferViews_[i],
             static_cast<int>(modelData_.meshes[i].vertices.size()), SpawnCount);
     }

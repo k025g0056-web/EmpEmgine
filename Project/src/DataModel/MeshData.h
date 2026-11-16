@@ -9,4 +9,5 @@ struct MeshData {
 	std::string materialName;
 	std::vector<VertexData> vertices;
 	Node rootNode;
+	int materialIndex = 0;
 };

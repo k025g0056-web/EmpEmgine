@@ -31,6 +31,6 @@ void GameManager::Update() {
 } 
 
 void GameManager::Draw() {
-    particle_.Draw(plane_,myCharactorHandle_);
+    particle_.Draw(plane_);
     EmpEngine::DrawLight();
 }

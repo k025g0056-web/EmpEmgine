@@ -12,13 +12,8 @@
 #include"DataModel/Vector2.h"
 
 class GameManager :public Scene {
-	ModelData ItemModel_{};
-	D3D12_GPU_DESCRIPTOR_HANDLE ItemTextureHandle_;
-	ModelData plane_{};
-	D3D12_GPU_DESCRIPTOR_HANDLE myCharactorHandle_;
-	ModelData goalModel_{};
-	ModelData playerModel_{};
-	D3D12_GPU_DESCRIPTOR_HANDLE playerHandle_;
+	int plane_{};
+	int myCharactorHandle_;
 	std::vector<Transform3d> transform_{};
 	std::vector<Vector3> velo_{};
 	int parthicleCount = 10;

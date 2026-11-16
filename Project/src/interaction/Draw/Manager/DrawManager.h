@@ -63,7 +63,7 @@ public:
 	}
 
 	template<typename T,typename... Args>
-	void DrawModel(const ModelData& modelData, Args&&... args) {
+	void DrawModel(const int& modelData, Args&&... args) {
 		int idx = Add<T>(modelData);
 		if (postDrawFunc_) {
 			postDrawFunc_();

@@ -5,6 +5,8 @@
 #include<vector>
 #include<wrl.h>
 
+class Shape;
+
 struct TextureData {
 	Microsoft::WRL::ComPtr<ID3D12Resource> resource = nullptr;
 	DirectX::TexMetadata metadata{};
@@ -13,6 +15,7 @@ struct TextureData {
 };
 
 class ManagementTexture {
+	friend class Shape;
 public:
 	void Initialize(ID3D12Device* device,
 	ID3D12GraphicsCommandList* commandList,
@@ -22,7 +25,7 @@ public:
 	uint64_t fenceValue,
 	ID3D12Fence* fence,
 	ID3D12DescriptorHeap* srvDescriptorHeap);
-	D3D12_GPU_DESCRIPTOR_HANDLE Load(const std::string& filePath);
+	int Load(const std::string& filePath);
 	void Release();
 private:
 	ID3D12Device* device_ = nullptr;
@@ -33,6 +36,8 @@ private:
 	uint64_t fenceValue_{};
 	ID3D12Fence* fence_ = nullptr;
 	ID3D12DescriptorHeap* srvDescriptorHeap_ = nullptr;
+
+	D3D12_GPU_DESCRIPTOR_HANDLE GetHandle(int id)const;
 
 	void BuildResourceDesc(D3D12_RESOURCE_DESC& resourceDesc,const DirectX::TexMetadata& metadata);
 	void SettingHeap(D3D12_HEAP_PROPERTIES& heapProperties);

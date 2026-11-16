@@ -18,7 +18,7 @@ void Particle::Update() {
     PositionUpdate();
 }
 
-void Particle::Draw(const ModelData& model, D3D12_GPU_DESCRIPTOR_HANDLE handle) {
+void Particle::Draw(const int& model) {
 	std::vector<Transform3d>transform;
     std::vector<Vector4> colo;
     transform.reserve(particle_.size());
@@ -29,7 +29,7 @@ void Particle::Draw(const ModelData& model, D3D12_GPU_DESCRIPTOR_HANDLE handle) 
         colo.push_back(particle_[i].color);
 	}
 
-	EmpEngine::Draw().DrawModel<Particle3D>(model, transform, handle,colo, static_cast<int>(transform.size()));
+	EmpEngine::Draw().DrawModel<Particle3D>(model, transform,colo, static_cast<int>(transform.size()));
 }
 
 void Particle::GeneParticle(int count) {

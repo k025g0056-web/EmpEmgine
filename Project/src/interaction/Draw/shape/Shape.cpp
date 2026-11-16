@@ -2,6 +2,7 @@
 #include"Internal/DX12Mechanics/DX12Mechanics.h"
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
+#include "core/wrapper/EmpEngine.h"
 
 void Shape::Initialize(ID3D12Device* device,bool enableLighting) {
 	GenerateWvpResource(device);
@@ -35,17 +36,17 @@ void Shape::GenerateWvpResource(ID3D12Device * device) {
 }
 
 void Shape::DrawCallVertex(ID3D12GraphicsCommandList* commandList,
-	D3D12_VERTEX_BUFFER_VIEW vertexBufferView, D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU,int vertex, int spawnCount) {
-	SetUpDrawCall(commandList, vertexBufferView, textureSrvHandleGPU);
+	D3D12_VERTEX_BUFFER_VIEW vertexBufferView,int id,int vertex, int spawnCount) {
+	SetUpDrawCall(commandList, vertexBufferView,id);
 	//描画！（DrawCall/ドローコール）。3頂点で１つのインスタンス。インスタンスについては今後
 	commandList->DrawInstanced(vertex, spawnCount, 0, 0);
 }
 
 void Shape::DrawCallIndex(ID3D12GraphicsCommandList* commandList,
 	D3D12_INDEX_BUFFER_VIEW indexBufferView, D3D12_VERTEX_BUFFER_VIEW vertexBufferView,
-	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU, int index, int spawnCount) {
+	int id, int index, int spawnCount) {
 	commandList->IASetIndexBuffer(&indexBufferView);//IBVを設定
-	SetUpDrawCall(commandList, vertexBufferView, textureSrvHandleGPU);
+	SetUpDrawCall(commandList, vertexBufferView,id);
 	commandList->DrawIndexedInstanced(index, spawnCount, 0, 0,0);
 }
 
@@ -80,22 +81,26 @@ void Shape::ChangeTransform(const Transform3d& transform) {
 }
 
 void Shape::SetUpDrawCall(ID3D12GraphicsCommandList* commandList,
-	D3D12_VERTEX_BUFFER_VIEW vertexBufferView, D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU) {
+	D3D12_VERTEX_BUFFER_VIEW vertexBufferView, int id) {
 	commandList->IASetVertexBuffers(0, 1, &vertexBufferView);//VBVを設定
 	//形状を設定。PSOに設定しているものとはまた別。同じ物を設定すると考えて置けば良い
 	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	//マテリアルCBufferの場所を設定
 	commandList->SetGraphicsRootConstantBufferView(0, materialResource->GetGPUVirtualAddress());
 	commandList->SetGraphicsRootConstantBufferView(1, wvpResource->GetGPUVirtualAddress());
-	commandList->SetGraphicsRootDescriptorTable(2, textureSrvHandleGPU);
+	commandList->SetGraphicsRootDescriptorTable(2, ResolveTexture(id));
 }
 
 void Shape::SetUpCommonDrawState(ID3D12GraphicsCommandList* commandList,
-	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU) {
+	int id) {
+	SetUpCommonDrawState(commandList);
+	commandList->SetGraphicsRootDescriptorTable(2, ResolveTexture(id));
+}
+
+void Shape::SetUpCommonDrawState(ID3D12GraphicsCommandList* commandList) {
 	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	commandList->SetGraphicsRootConstantBufferView(0, materialResource->GetGPUVirtualAddress());
 	commandList->SetGraphicsRootConstantBufferView(1, wvpResource->GetGPUVirtualAddress());
-	commandList->SetGraphicsRootDescriptorTable(2, textureSrvHandleGPU);
 }
 
 void Shape::DrawCallVertexOnly(ID3D12GraphicsCommandList* commandList,
@@ -104,3 +109,15 @@ void Shape::DrawCallVertexOnly(ID3D12GraphicsCommandList* commandList,
 	commandList->DrawInstanced(vertex, spawnCount, 0, 0);
 }
 
+D3D12_GPU_DESCRIPTOR_HANDLE Shape::ResolveTexture(int textureId) const {
+
+	if (textureId<0) {
+		textureId = EmpEngine::GetWhite1x1();
+	}
+
+	return EmpEngine::Resource().Texture().GetHandle(textureId);
+}
+
+ModelData Shape::ResolveModel(int modelId) const{
+	return EmpEngine::Resource().Model().GetModel(modelId);
+}
