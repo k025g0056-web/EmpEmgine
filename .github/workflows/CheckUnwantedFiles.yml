@@ -1,0 +1,73 @@
+# リポジトリ内の不要なファイルを検出するGitHub Action
+name: CheckUnwantedFiles
+
+on:
+  # GitHubのActionタブから手動実行
+  workflow_dispatch:
+
+  # masterブランチへのプッシュで実行
+  push:
+    branches:
+      - master
+
+# 検出対象のパターン
+env:
+  # ファイル名のパターン
+  UNWANTED_FILE_PATTERNS: "*.pdb *.ilk *.user *.ncb *.suo *.log *.dmp *.zip imgui.ini desktop.ini dxcompiler.dll dxil.dll"
+
+  # ディレクトリ名のパターン
+  UNWANTED_DIR_PATTERNS: "generated x64 win32 arm64 .vs bin ipch logs Dump"
+
+jobs:
+  check-files:
+    name: 不要なファイルを検索
+    runs-on: ubuntu-latest
+
+    steps:
+      # リポジトリをチェックアウト
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v6
+
+      # 不要なファイルとディレクトリを検索
+      - name: 不要なファイルとディレクトリを検索
+        shell: bash
+        run: |
+          # パターンを配列に変換
+          read -r -a FILE_PATTERNS <<< "$UNWANTED_FILE_PATTERNS"
+          read -r -a DIR_PATTERNS <<< "$UNWANTED_DIR_PATTERNS"
+
+          # find用の条件配列を構築
+          FILE_CONDITIONS=()
+          for pattern in "${FILE_PATTERNS[@]}"; do
+            if [[ ${#FILE_CONDITIONS[@]} -gt 0 ]]; then
+              FILE_CONDITIONS+=(-o)
+            fi
+
+            FILE_CONDITIONS+=(-iname "$pattern")
+          done
+
+          DIR_CONDITIONS=()
+          for pattern in "${DIR_PATTERNS[@]}"; do
+            if [[ ${#DIR_CONDITIONS[@]} -gt 0 ]]; then
+              DIR_CONDITIONS+=(-o)
+            fi
+
+            DIR_CONDITIONS+=(-iname "$pattern")
+          done
+
+          # 不要なファイル・ディレクトリを検索
+          UNWANTED_LIST=$(find . \
+            -path './.git' -prune -o \
+            \( -type d \( "${DIR_CONDITIONS[@]}" \) -prune -print \) -o \
+            \( -type f \( "${FILE_CONDITIONS[@]}" \) -print \))
+
+          # 検出結果の確認
+          if [[ -n "$UNWANTED_LIST" ]]; then
+            echo "::error::不要なファイルまたはディレクトリが見つかりました！"
+
+            echo "$UNWANTED_LIST"
+
+            exit 1
+          fi
+
+          echo "リポジトリはクリーンです。"
