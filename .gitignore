@@ -27,7 +27,6 @@ x86/
 bld/
 [Bb]in/
 #[Oo]bj/
-[Ll]og/
 [Ll]ogs/
 
 # Visual Studio 2015/2017 cache/options directory
@@ -359,7 +358,7 @@ DirectXGame/imgui.ini
 
 # DirectXTex Compiled Shaders
 **/DirectXTex/Shaders/Compiled/
-Dumps/
+Project/Dumps/
 
 imgui.ini
 generated/

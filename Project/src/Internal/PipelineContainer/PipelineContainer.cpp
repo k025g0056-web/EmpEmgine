@@ -24,6 +24,7 @@ void PipelineContainer::MakeParticleShaderPipeline(ID3D12Device* device) {
 	desc.vsPath = L"Particle.VS.hlsl";
 	desc.psPath = L"Particle.PS.hlsl";
 	PipelineFactory::SetDefaultDesc(desc);
+	desc.rootParam[1] = { RootParam::Type::SRVTABLE, 0, D3D12_SHADER_VISIBILITY_VERTEX, 1 };
 	desc.cullMode = D3D12_CULL_MODE_FRONT;
 	desc.depth.writeMask = D3D12_DEPTH_WRITE_MASK_ZERO;
 
