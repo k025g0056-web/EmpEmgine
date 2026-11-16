@@ -59,42 +59,6 @@ void EmpEngine::DrawLight() {
 
 ID3D12Device* EmpEngine::GetDevice() { return EmpSystems::GetInstance()->GetDevice(); }
 
-void EmpEngine::GeneratePSO() {
-	EmpSystems::GetInstance()->GeneratePSO();
-}
-
-void EmpEngine::SetBlendMode(BlendMode blendMode) {
-	EmpSystems::GetInstance()->SetBlendMode(blendMode);
-}
-
-void EmpEngine::SetRasterizer(D3D12_CULL_MODE cullMode, D3D12_FILL_MODE fillMode) {
-	EmpSystems::GetInstance()->SetRasterizer(cullMode, fillMode);
-}
-
-void EmpEngine::SetDepthStencil(bool depthEnable, D3D12_DEPTH_WRITE_MASK DepthWriteMask, D3D12_COMPARISON_FUNC comparisonFunc) {
-	EmpSystems::GetInstance()->SetDepthStencil(depthEnable, DepthWriteMask, comparisonFunc);
-}
-
-void EmpEngine::SetPosition(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset) {
-	EmpSystems::GetInstance()->SetPosition(name, index, format, offset);
-}
-
-void EmpEngine::SetTexCoord(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset) {
-	EmpSystems::GetInstance()->SetTexCoord(name, index, format, offset);
-}
-
-void EmpEngine::SetNormal(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset) {
-	EmpSystems::GetInstance()->SetNormal(name, index, format, offset);
-}
-
-void EmpEngine::SetVertexShader(const std::wstring& filePath) {
-	EmpSystems::GetInstance()->SetVertexShader(filePath);
-}
-
-void EmpEngine::SetPixelShader(const std::wstring& filePath) {
-	EmpSystems::GetInstance()->SetPixelShader(filePath);
-}
-
 D3D12_GPU_DESCRIPTOR_HANDLE EmpEngine::GetWhite1x1() {
 	return EmpSystems::GetInstance()->GetWhite1x1();
 }

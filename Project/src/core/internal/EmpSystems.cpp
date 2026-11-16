@@ -29,7 +29,6 @@ void EmpSystems::Initialize(int kWindowWidth, int kWindowHeight) {
 	managementSwapChain_.Initialize(kWindowWidth, kWindowHeight, managementCommand_.GetCommandQueue(), managementWindow_.GetHwnd(0), managementDXGIFactory_.GetDXGIFactory());
 	managementViewPort_.Initialize(managementDevice_.GetDevice(), kWindowWidth, kWindowHeight);
 	managementDescriptHeap_.Initialize(managementDevice_.GetDevice(), managementSwapChain_.GetSwapChain(),managementViewPort_.GetDepthStencilResource());
-	managementDXC_.Initialize(managementDevice_.GetDevice());
 #ifdef USE_IMGUI
 	mymGui_.Initialize(managementWindow_.GetHwnd(0), managementDevice_.GetDevice(),
 		managementSwapChain_.GetSwapChainDesc(), managementDescriptHeap_.GetRtvDesc(),
@@ -144,7 +143,6 @@ void EmpSystems::Release() {
 	managementLighting_.Release();
 	loader_.Release();
 	managementViewPort_.Release();
-	managementDXC_.Release();
 	managementDescriptHeap_.Release();
 	managementSwapChain_.Release();
 	managementCommand_.FenceRelease();
@@ -179,42 +177,6 @@ void EmpSystems::DrawLight() {
 	drawManager_.Draw<Sphere>(
 		Transform3d{ {0.05f,0.05f,0.05f},{0.0f,0.0f,0.0f},managementLighting_.GetDirection() },
 		Vector4{ 1.0f,1.0f,1.0f,1.0f }, white1x1);
-}
-
-void EmpSystems::GeneratePSO() {
-	//
-}
-
-void EmpSystems::SetBlendMode(BlendMode blendMode) {
-	managementDXC_.SetBlendMode(blendMode);
-}
-
-void EmpSystems::SetRasterizer(D3D12_CULL_MODE cullMode, D3D12_FILL_MODE fillMode) {
-	managementDXC_.SetRasterizer(cullMode, fillMode);
-}
-
-void EmpSystems::SetDepthStencil(bool depthEnable, D3D12_DEPTH_WRITE_MASK DepthWriteMask, D3D12_COMPARISON_FUNC comparisonFunc) {
-	managementDXC_.SetDepthStencil(depthEnable, DepthWriteMask, comparisonFunc);
-}
-
-void EmpSystems::SetPosition(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset) {
-	managementDXC_.SetPosition(name, index, format, offset);
-}
-
-void EmpSystems::SetTexCoord(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset) {
-	managementDXC_.SetTexCoord(name, index, format, offset);
-}
-
-void EmpSystems::SetNormal(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset) {
-	managementDXC_.SetNormal(name, index, format, offset);
-}
-
-void EmpSystems::SetVertexShader(const std::wstring& filePath) {
-	managementDXC_.SetVertexShader(filePath);
-}
-
-void EmpSystems::SetPixelShader(const std::wstring& filePath) {
-	managementDXC_.SetPixelShader(filePath);
 }
 
 void EmpSystems::RebindRenderTarget() {

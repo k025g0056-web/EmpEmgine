@@ -7,7 +7,6 @@
 #include"Internal/swapChain/ManagementSwapChain.h"
 #include"Internal/descriptorHeap/ManagementDescriptorHeap.h"
 #include"Internal/debug/ManagementDebug.h"
-#include"Internal/DXC/ManagementDXC.h"
 #include"Internal/viewPort/ManagementViewPort.h"
 #include"appObj/Camera/Camera3d/Camera3d.h"
 #include"Internal/ImGui/mine/MymGui.h"
@@ -43,16 +42,6 @@ public:
 
 	LoaderManager& Resource() { return loader_; }
 	DrawManager& Draw() { return drawManager_; }
-
-	void GeneratePSO();
-	void SetBlendMode(BlendMode blendMode);
-	void SetRasterizer(D3D12_CULL_MODE cullMode, D3D12_FILL_MODE fillMode);
-	void SetDepthStencil(bool depthEnable, D3D12_DEPTH_WRITE_MASK DepthWriteMask, D3D12_COMPARISON_FUNC comparisonFunc);
-	void SetPosition(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset);
-	void SetTexCoord(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset);
-	void SetNormal(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset);
-	void SetVertexShader(const std::wstring& filePath);
-	void SetPixelShader(const std::wstring& filePath);
 	ID3D12Device* GetDevice() { return managementDevice_.GetDevice(); }
 	float DeltaTime() { return framerate_.GetDeltaTime(); }
 	D3D12_GPU_DESCRIPTOR_HANDLE GetWhite1x1() { return white1x1; }
@@ -69,7 +58,6 @@ private:
 	ManagementSwapChain managementSwapChain_;
 	ManagementDescriptorHeap managementDescriptHeap_;
 	ManagementDebug managementDebug_;
-	ManagementDXC managementDXC_;
 	ManagementViewPort managementViewPort_;
 	MymGui mymGui_;
 	D3D12_GPU_DESCRIPTOR_HANDLE white1x1{};

@@ -28,15 +28,6 @@ public:
 	static void DrawLight();
 	// EmpEngine 経由で呼べるようにするなの
 	static ID3D12Device* GetDevice();
-	static void GeneratePSO();
-	static void SetBlendMode(BlendMode blendMode);
-	static void SetRasterizer(D3D12_CULL_MODE cullMode, D3D12_FILL_MODE fillMode);
-	static void SetDepthStencil(bool depthEnable, D3D12_DEPTH_WRITE_MASK DepthWriteMask, D3D12_COMPARISON_FUNC comparisonFunc);
-	static void SetPosition(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset);
-	static void SetTexCoord(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset);
-	static void SetNormal(const char* name, unsigned int index, DXGI_FORMAT format, UINT offset);
-	static void SetVertexShader(const std::wstring& filePath);
-	static void SetPixelShader(const std::wstring& filePath);
 	static D3D12_GPU_DESCRIPTOR_HANDLE GetWhite1x1();
 	static void RebindRenderTarget();
 	static float DeltaTime();

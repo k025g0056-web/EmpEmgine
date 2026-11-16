@@ -222,12 +222,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="src\Internal\DescriptorHeap\ManagementDescriptorHeap.cpp" />
     <ClCompile Include="src\Internal\Device\ManagementDevice.cpp" />
     <ClCompile Include="src\Internal\DX12Mechanics\DX12Mechanics.cpp" />
-    <ClCompile Include="src\Internal\DXC\ManagementDXC.cpp" />
     <ClCompile Include="src\Internal\DXGI\ManagementDXGIFactory.cpp" />
     <ClCompile Include="src\Internal\FrameRate\ManagementFrameRate.cpp" />
     <ClCompile Include="src\Internal\ImGui\mine\MymGui.cpp" />
     <ClCompile Include="src\Internal\ImGui\render\RenderTexture.cpp" />
-    <ClCompile Include="src\Internal\ImGui\SetRender\SetRenderGui.cpp" />
     <ClCompile Include="src\Internal\Loader\Audio\ManagementAudio.cpp" />
     <ClCompile Include="src\Internal\Loader\Manager\LoaderManager.cpp" />
     <ClCompile Include="src\Internal\Loader\Model\ManagementModel.cpp" />
@@ -308,12 +306,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="src\Internal\DescriptorHeap\ManagementDescriptorHeap.h" />
     <ClInclude Include="src\Internal\Device\ManagementDevice.h" />
     <ClInclude Include="src\Internal\DX12Mechanics\DX12Mechanics.h" />
-    <ClInclude Include="src\Internal\DXC\ManagementDXC.h" />
     <ClInclude Include="src\Internal\DXGI\ManagementDXGIFactory.h" />
     <ClInclude Include="src\Internal\FrameRate\ManagementFrameRate.h" />
     <ClInclude Include="src\Internal\ImGui\mine\MymGui.h" />
     <ClInclude Include="src\Internal\ImGui\render\RenderTexture.h" />
-    <ClInclude Include="src\Internal\ImGui\SetRender\SetRenderGui.h" />
     <ClInclude Include="src\Internal\Loader\Audio\ManagementAudio.h" />
     <ClInclude Include="src\Internal\Loader\Manager\LoaderManager.h" />
     <ClInclude Include="src\Internal\Loader\Model\ManagementModel.h" />

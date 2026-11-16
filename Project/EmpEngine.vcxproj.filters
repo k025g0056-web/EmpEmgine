@@ -58,9 +58,6 @@
     <ClCompile Include="src\Internal\DX12Mechanics\DX12Mechanics.cpp">
       <Filter>Engine\Management\DX12Mech</Filter>
     </ClCompile>
-    <ClCompile Include="src\Internal\DXC\ManagementDXC.cpp">
-      <Filter>Engine\Management\DXC</Filter>
-    </ClCompile>
     <ClCompile Include="src\Internal\DXGI\ManagementDXGIFactory.cpp">
       <Filter>Engine\Management\DXGI</Filter>
     </ClCompile>
@@ -114,9 +111,6 @@
     </ClCompile>
     <ClCompile Include="externals\imgui\imgui_widgets.cpp">
       <Filter>Engine\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Internal\ImGui\SetRender\SetRenderGui.cpp">
-      <Filter>Engine\Management\ImGui\SetRender</Filter>
     </ClCompile>
     <ClCompile Include="src\interaction\Draw\Sprite\Sprite.cpp">
       <Filter>Engine\Draw\Sprite</Filter>
@@ -425,9 +419,6 @@
     <ClInclude Include="src\Internal\DX12Mechanics\DX12Mechanics.h">
       <Filter>Engine\Management\DX12Mech</Filter>
     </ClInclude>
-    <ClInclude Include="src\Internal\DXC\ManagementDXC.h">
-      <Filter>Engine\Management\DXC</Filter>
-    </ClInclude>
     <ClInclude Include="src\Internal\DXGI\ManagementDXGIFactory.h">
       <Filter>Engine\Management\DXGI</Filter>
     </ClInclude>
@@ -487,9 +478,6 @@
     </ClInclude>
     <ClInclude Include="externals\imgui\imstb_truetype.h">
       <Filter>Engine\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Internal\ImGui\SetRender\SetRenderGui.h">
-      <Filter>Engine\Management\ImGui\SetRender</Filter>
     </ClInclude>
     <ClInclude Include="src\interaction\Draw\Sprite\Sprite.h">
       <Filter>Engine\Draw\Sprite</Filter>
