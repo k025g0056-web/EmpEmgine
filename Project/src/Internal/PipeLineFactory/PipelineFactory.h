@@ -15,5 +15,6 @@ public:
 	static void GeneratePSO(Pipeline& pipeline, const PipelineDesc& desc,ShaderCompiler& compier, ID3D12Device* device);
 	static D3D12_BLEND_DESC MakeBlendDesc(BlendMode blendMode);
 	static D3D12_STATIC_SAMPLER_DESC MakeDefaultSampler();
+	static void SetDefaultDesc(PipelineDesc& desc);
 };
 
