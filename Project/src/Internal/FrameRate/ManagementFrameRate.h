@@ -8,6 +8,7 @@ class ManagementFrameRate{
 	float maxFPS = 60.0f;
 	float FPSOffset = 5.0f;
 	bool isVsnc_ = true;
+	float deltaTime = 0.0f;
 
 public:
 	bool GetIsVsnc() { return isVsnc_; }
@@ -18,6 +19,8 @@ public:
 
 	//エンジンの進み具合で設定に切り替える
 	void GUI();
+
+	float GetDeltaTime() { return deltaTime; }
 };
 
 

@@ -45,48 +45,58 @@ void Particle3D::Initialize(ID3D12Device* device, const ModelData& modelData) {
             sizeof(VertexData) * vertexCount);
     }
 
+    instancingResource_.Attach(DX12Mechanics::CreateBufferResource(device,
+        sizeof(ParticleForGPU)*kMaxInstance));
+    instancingResource_->Map(0, nullptr, reinterpret_cast<void**>(&instancingData_));
+    for (uint32_t i = 0; i < kMaxInstance;++i) {
+        instancingData_[i].WVP = MakeIdentity4x4();
+        instancingData_[i].world = MakeIdentity4x4();
+    }
+
+    //SRV
+    const UINT size = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+    D3D12_CPU_DESCRIPTOR_HANDLE cpu = srvHeap_->GetCPUDescriptorHandleForHeapStart();
+    cpu.ptr += size * kInstanceSrvIndex;
+    instancingSrvGpu_ = srvHeap_->GetGPUDescriptorHandleForHeapStart();
+    instancingSrvGpu_.ptr += size * kInstanceSrvIndex;
+
+    D3D12_SHADER_RESOURCE_VIEW_DESC srv{};
+    srv.Format = DXGI_FORMAT_UNKNOWN;
+    srv.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
+    srv.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+    srv.Buffer.FirstElement = 0;
+    srv.Buffer.NumElements = kMaxInstance;
+    srv.Buffer.StructureByteStride = sizeof(ParticleForGPU);
+    srv.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
+    device->CreateShaderResourceView(instancingResource_.Get(), &srv, cpu);
 }
 
 void Particle3D::Draw(
     ID3D12GraphicsCommandList* commandList,
     const Camera3d& camera,
-    const Transform3d& transform,
+    const std::vector<Transform3d>& transform,
     D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU,
-    const Vector4& color, int SpawnCount)
-{
-    ChangeTransform(transform); // isTransformDirty_ 更新
+    const std::vector<Vector4>& color, int SpawnCount){
 
-    if (isTransformDirty_ || camera.IsDirty()) {
-        for (int i = 0; i < modelData_.meshes.size(); i++) {
-            wvpData->WVP = modelData_.meshes[i].rootNode.localMatrix * camera.GetWvp(transform3d_);
-            wvpData->world = modelData_.meshes[i].rootNode.localMatrix * Affine(transform3d_);
-            isTransformDirty_ = false;
-        }
+    commandList->SetGraphicsRootSignature(pipeline_->GetRootSignature());
+    commandList->SetPipelineState(pipeline_->GetPSO(kBlendModeAdd));
+
+    SpawnCount = std::min<int>(SpawnCount, kMaxInstance);
+
+    for (int i = 0; i < SpawnCount;++i) {
+        Transform3d t = transform[i];
+
+        instancingData_[i].WVP = modelData_.meshes[0].rootNode.localMatrix * camera.GetWvp(t);
+        instancingData_[i].world = modelData_.meshes[0].rootNode.localMatrix * Affine(t);
+        instancingData_[i].color = color[i];
     }
 
-    SetColor(color);
-
-    SetUpCommonDrawState(commandList, textureSrvHandleGPU);
-
-    OutputDebugStringA(
-        ("meshes.size = " +
-            std::to_string(modelData_.meshes.size()) + "\n").c_str()
-    );
-
-    OutputDebugStringA(
-        ("vertexBufferViews.size = " +
-            std::to_string(vertexBufferViews_.size()) + "\n").c_str()
-    );
+    commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    commandList->SetGraphicsRootConstantBufferView(0, materialResource->GetGPUVirtualAddress());
+    commandList->SetGraphicsRootDescriptorTable(1, instancingSrvGpu_);
+    commandList->SetGraphicsRootDescriptorTable(2, textureSrvHandleGPU);
 
     for (size_t i = 0; i < modelData_.meshes.size(); ++i) {
-
-        OutputDebugStringA(
-            ("Draw mesh " +
-                std::to_string(i) +
-                " vertexCount = " +
-                std::to_string(modelData_.meshes[i].vertices.size()) +
-                "\n").c_str()
-        );
 
         DrawCallVertexOnly(commandList, vertexBufferViews_[i],
             static_cast<int>(modelData_.meshes[i].vertices.size()), SpawnCount);

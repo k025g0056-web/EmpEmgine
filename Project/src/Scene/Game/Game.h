@@ -4,6 +4,7 @@
 #include<d3d12.h>
 #include"GameScene.h"
 #include"appObj/Camera/Controller/CameraController.h"
+#include"appObj/Particle/Particle.h"
 #include"DataModel/TransForm3d.h"
 #include"DataModel/Vector4.h"
 #include"DataModel/ModelData.h"
@@ -13,13 +14,15 @@
 class GameManager :public Scene {
 	ModelData ItemModel_{};
 	D3D12_GPU_DESCRIPTOR_HANDLE ItemTextureHandle_;
-	ModelData blockModel_{};
-	D3D12_GPU_DESCRIPTOR_HANDLE blockHandle_;
+	ModelData plane_{};
+	D3D12_GPU_DESCRIPTOR_HANDLE myCharactorHandle_;
 	ModelData goalModel_{};
 	ModelData playerModel_{};
 	D3D12_GPU_DESCRIPTOR_HANDLE playerHandle_;
-	Transform3d transform_{ {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
-
+	std::vector<Transform3d> transform_{};
+	std::vector<Vector3> velo_{};
+	int parthicleCount = 10;
+	Particle particle_;
 public:
 
 	void Initialize() override;

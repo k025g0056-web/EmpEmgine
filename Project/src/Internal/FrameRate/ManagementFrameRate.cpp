@@ -1,6 +1,8 @@
+#define NOMINMAX
 #include "ManagementFrameRate.h"
 #include"externals/imgui/imgui.h"
 #include <thread>
+#include<algorithm>
 
 void ManagementFrameRate::Initialize() {
 	//現在の時間を真っ先に記録しておく
@@ -28,8 +30,11 @@ void ManagementFrameRate::Update() {
 		}
 
 	}
-
-	reference_ = std::chrono::steady_clock::now();
+	
+	auto end = std::chrono::steady_clock::now();
+	deltaTime = std::chrono::duration<float>(end - reference_).count();
+	reference_ = end;
+	deltaTime = std::min(deltaTime, 0.1f);
 }
 
 void ManagementFrameRate::GUI() {

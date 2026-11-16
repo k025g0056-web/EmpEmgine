@@ -16,13 +16,13 @@ void GameManager::Initialize() {
     debugCamera_.Initialize(
         SceneSystem::GetCamera()->GetCameraPosition(),
         SceneSystem::GetCamera()->GetCameraRotate());
-    blockModel_ = EmpEngine::Resource().Model().LoadObjFile("plane", "plane.obj");
-    blockHandle_ = EmpEngine::Resource().Texture().Load("oirano.jpg");
+    plane_ = EmpEngine::Resource().Model().LoadObjFile("plane", "plane.obj");
+    myCharactorHandle_ = EmpEngine::Resource().Texture().Load("circle.png");
+    particle_.Initialize(parthicleCount);
 }
-
+                       
 void GameManager::Update() {
- 
-
+    particle_.Update();
     debugCamera_.Update();
     SceneSystem::GetCamera()->SetCameraPosition(debugCamera_.GetTranslate());
     SceneSystem::GetCamera()->SetCameraRotate(debugCamera_.GetRotate());
@@ -31,6 +31,6 @@ void GameManager::Update() {
 } 
 
 void GameManager::Draw() {
-    EmpEngine::Draw().DrawModel<Particle3D>(blockModel_, transform_,blockHandle_, Vector4{1.0f,1.0f,1.0f,1.0f},30000);
+    particle_.Draw(plane_,myCharactorHandle_);
     EmpEngine::DrawLight();
 }
