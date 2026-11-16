@@ -178,7 +178,7 @@ void Model::Draw(
 
     SetColor(color);
 
-    SetUpCommonDrawState(commandList,0);
+    SetUpCommonDrawState(commandList);
 
     for (size_t i = 0; i < modelData_.meshes.size(); ++i) {
         int mat = modelData_.meshes[i].materialIndex;

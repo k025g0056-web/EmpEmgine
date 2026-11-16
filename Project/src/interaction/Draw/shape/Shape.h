@@ -47,6 +47,8 @@ protected:
 		materialData->uvTransform = uvTransformMatrix; }
 	void SetUpCommonDrawState(ID3D12GraphicsCommandList* commandList,
 		int id);
+	void SetUpCommonDrawState(ID3D12GraphicsCommandList* commandList);
+
 	void DrawCallVertexOnly(ID3D12GraphicsCommandList* commandList,
 		D3D12_VERTEX_BUFFER_VIEW vertexBufferView, int vertex, int spawnCount);
 

@@ -93,10 +93,14 @@ void Shape::SetUpDrawCall(ID3D12GraphicsCommandList* commandList,
 
 void Shape::SetUpCommonDrawState(ID3D12GraphicsCommandList* commandList,
 	int id) {
+	SetUpCommonDrawState(commandList);
+	commandList->SetGraphicsRootDescriptorTable(2, ResolveTexture(id));
+}
+
+void Shape::SetUpCommonDrawState(ID3D12GraphicsCommandList* commandList) {
 	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	commandList->SetGraphicsRootConstantBufferView(0, materialResource->GetGPUVirtualAddress());
 	commandList->SetGraphicsRootConstantBufferView(1, wvpResource->GetGPUVirtualAddress());
-	commandList->SetGraphicsRootDescriptorTable(2, ResolveTexture(id));
 }
 
 void Shape::DrawCallVertexOnly(ID3D12GraphicsCommandList* commandList,
