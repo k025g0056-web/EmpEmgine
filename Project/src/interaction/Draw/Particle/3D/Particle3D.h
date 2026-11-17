@@ -23,7 +23,7 @@ class Particle3D :public Shape{
 
     uint32_t kMaxInstance = 100000;//後々10Bまで増やす
 
-    static constexpr uint32_t kInstanceSrvIndex = 126;//SRVヒープの空き番号
+    static uint32_t kInstanceSrvIndex_;//SRVヒープの空き番号
     inline static ID3D12DescriptorHeap* srvHeap_ = nullptr;
     Microsoft::WRL::ComPtr<ID3D12Resource> instancingResource_;
     ParticleForGPU* instancingData_ = nullptr;

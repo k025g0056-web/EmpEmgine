@@ -4,13 +4,14 @@
 #include "DataModel/Matrix4x4.h"
 #include <cmath>
 #include <algorithm>
+#include"core/internal/EmpSystems.h"
 
 void Particle3D::Initialize(ID3D12Device* device, const int& modelData) {
     Shape::Initialize(device, true);
     modelData_ = ResolveModel(modelData);
     workVertices_ = ResolveModel(modelData);
     size_t meshCount = modelData_.meshes.size();
-
+    kInstanceSrvIndex_ = EmpSystems::GetInstance()->GetHeapId();
     // ← デバッグ用に追加
     char buf[256];
     sprintf_s(buf, "MeshCount=%zu\n", meshCount);
@@ -56,9 +57,9 @@ void Particle3D::Initialize(ID3D12Device* device, const int& modelData) {
     //SRV
     const UINT size = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
     D3D12_CPU_DESCRIPTOR_HANDLE cpu = srvHeap_->GetCPUDescriptorHandleForHeapStart();
-    cpu.ptr += size * kInstanceSrvIndex;
+    cpu.ptr += size * kInstanceSrvIndex_;
     instancingSrvGpu_ = srvHeap_->GetGPUDescriptorHandleForHeapStart();
-    instancingSrvGpu_.ptr += size * kInstanceSrvIndex;
+    instancingSrvGpu_.ptr += size * kInstanceSrvIndex_;
 
     D3D12_SHADER_RESOURCE_VIEW_DESC srv{};
     srv.Format = DXGI_FORMAT_UNKNOWN;

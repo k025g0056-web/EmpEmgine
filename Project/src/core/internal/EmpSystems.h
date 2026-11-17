@@ -47,6 +47,7 @@ public:
 	int GetWhite1x1() { return white1x1; }
 	void RebindRenderTarget();
 	std::mt19937& GetRandom() { return randomEngine_; }
+	uint64_t GetHeapId() { return managementDescriptHeap_.GetHeapId(managementDevice_.GetDevice()); }
 
 private:
 	//エンジンの変数

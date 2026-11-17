@@ -50,5 +50,5 @@ private:
 	D3D12_CPU_DESCRIPTOR_HANDLE GetCPUDescriptorHandle(ID3D12DescriptorHeap* descriptorheap, uint32_t descriptorSize, uint32_t index);
 	D3D12_GPU_DESCRIPTOR_HANDLE GetGPUDescriptorHandle(ID3D12DescriptorHeap* descriptorheap, uint32_t descriptorSize, uint32_t index);
 	std::vector<TextureData> textures_;
-	uint32_t nextTextureIndex_ = 1; // 0番はImGui用に空ける
+
 };

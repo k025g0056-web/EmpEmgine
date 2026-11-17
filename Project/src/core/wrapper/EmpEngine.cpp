@@ -58,8 +58,6 @@ void EmpEngine::DrawLight() {
 	EmpSystems::GetInstance()->DrawLight();
 }
 
-ID3D12Device* EmpEngine::GetDevice() { return EmpSystems::GetInstance()->GetDevice(); }
-
 int EmpEngine::GetWhite1x1() {
 	return EmpSystems::GetInstance()->GetWhite1x1();
 }

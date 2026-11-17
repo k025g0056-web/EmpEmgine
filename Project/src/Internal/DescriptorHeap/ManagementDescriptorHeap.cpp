@@ -79,13 +79,13 @@ void ManagementDescriptorHeap::GenerateDsvDesc(ID3D12Device*device,ID3D12Resourc
 
 D3D12_CPU_DESCRIPTOR_HANDLE ManagementDescriptorHeap::GetRenderTextureSrvHandleCPU() const {
 	D3D12_CPU_DESCRIPTOR_HANDLE handle = srvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart();
-	handle.ptr += srvDescriptorSize_ * 127;
+	handle.ptr += srvDescriptorSize_ * nowHeap_;
 	return handle;
 }
 
 D3D12_GPU_DESCRIPTOR_HANDLE ManagementDescriptorHeap::GetRenderTextureSrvHandleGPU() const {
 	D3D12_GPU_DESCRIPTOR_HANDLE handle = srvDescriptorHeap_->GetGPUDescriptorHandleForHeapStart();
-	handle.ptr += srvDescriptorSize_ * 127;
+	handle.ptr += srvDescriptorSize_ * nowHeap_;
 	return handle;
 }
 
@@ -124,4 +124,12 @@ void ManagementDescriptorHeap::RecreateSwapChainBuffers(ID3D12Device* device, ID
 
 void ManagementDescriptorHeap::UpdateDsv(ID3D12Device* device,ID3D12Resource* depthStencilResource) {
 	GenerateDsvDesc(device, depthStencilResource);
+}
+
+uint64_t ManagementDescriptorHeap::GetHeapId(ID3D12Device* device) {
+	if (nowHeap_>=heap) {
+		heap *= 2;
+		srvDescriptorHeap_ = CreateDescriptorHeap(device, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, heap, true);
+	}
+	return nowHeap_++;
 }

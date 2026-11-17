@@ -4,6 +4,7 @@
 #include"Internal/DX12Mechanics/DX12Mechanics.h"
 #include"externals//DirectXTex/d3dx12.h"
 #include<cassert>
+#include"core/Internal/EmpSystems.h"
 
 void ManagementTexture::Initialize(ID3D12Device* device,ID3D12GraphicsCommandList* commandList,
 	ID3D12CommandQueue* commandQueue,ID3D12CommandAllocator* commandAllocator,HANDLE fenceEvent,
@@ -159,10 +160,10 @@ int ManagementTexture::Load( const std::string& filePath) {
 	const uint32_t descriptorSizeSRV = device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 	const uint32_t descriptorSizeRTV = device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 	const uint32_t descriptorSizeDSV = device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
-	D3D12_CPU_DESCRIPTOR_HANDLE handleCPU = GetCPUDescriptorHandle(srvDescriptorHeap_, descriptorSizeSRV, nextTextureIndex_);
-	D3D12_GPU_DESCRIPTOR_HANDLE handleGPU = GetGPUDescriptorHandle(srvDescriptorHeap_, descriptorSizeSRV, nextTextureIndex_);
+	uint64_t index = EmpSystems::GetInstance()->GetHeapId();
+	D3D12_CPU_DESCRIPTOR_HANDLE handleCPU = GetCPUDescriptorHandle(srvDescriptorHeap_, descriptorSizeSRV, index);
+	D3D12_GPU_DESCRIPTOR_HANDLE handleGPU = GetGPUDescriptorHandle(srvDescriptorHeap_, descriptorSizeSRV, index);
 	device_->CreateShaderResourceView(textureResource.Get(), &srvDesc, handleCPU);
-	nextTextureIndex_++;
 
 	//リストを閉じる
 	commandList_->Close();
@@ -227,7 +228,6 @@ void ManagementTexture::Release() {
 	}
 
 	textures_.clear();
-	nextTextureIndex_ = 1;
 }
 
 D3D12_GPU_DESCRIPTOR_HANDLE ManagementTexture::GetHandle(int id)const {

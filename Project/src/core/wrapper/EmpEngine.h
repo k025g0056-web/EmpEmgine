@@ -27,7 +27,6 @@ public:
 	static void SetWindowColor(Vector4 color);
 	static void DrawLight();
 	// EmpEngine 経由で呼べるようにするなの
-	static ID3D12Device* GetDevice();
 	static int GetWhite1x1();
 	static void RebindRenderTarget();
 	static float DeltaTime();
