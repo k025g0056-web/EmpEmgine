@@ -13,6 +13,8 @@ enum class SceneName {
 
 class SceneManager {
 	std::unique_ptr<Scene> scene_;
+	SceneName now_ = SceneName::Title;
+	SceneName next_;
 	std::unique_ptr<Camera3d> camera_;
 	int sceneName_ = 1;
 	const char* table[4]{
@@ -44,7 +46,9 @@ public:
 
 	void Draw();
 
-	void SetScene(SceneName scene);
+	void BookingScene(SceneName scene);
+
+	void SetScene();
 
 	SceneManager(const SceneManager&) = delete;
 	SceneManager& operator=(const SceneManager&) = delete;

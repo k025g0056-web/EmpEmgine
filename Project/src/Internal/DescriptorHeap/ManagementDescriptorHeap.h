@@ -10,7 +10,7 @@ class ManagementDescriptorHeap {
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> srvDescriptorHeap_;
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> dsvDescriptorHeap_;
 	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc_{};
-
+	int heap = 128;
 
 	//RTVを二つ作るのでディスクリプタを二つ用意
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles_[2]{};

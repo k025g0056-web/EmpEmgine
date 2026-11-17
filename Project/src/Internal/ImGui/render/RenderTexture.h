@@ -32,6 +32,8 @@ public:
 
     void Resize(ID3D12Device* device, UINT width, UINT height);
 
+    void Release();
+
 private:
 
     ComPtr<ID3D12Resource> texture_;

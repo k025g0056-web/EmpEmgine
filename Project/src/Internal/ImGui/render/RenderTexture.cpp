@@ -213,3 +213,10 @@ void RenderTexture::Resize(ID3D12Device* device, UINT width, UINT height) {
         &srvDesc,
         srvCPU_);
 }
+
+void RenderTexture::Release() {
+    if (texture_) {
+        texture_.Reset();
+        texture_ = nullptr;
+    }
+}

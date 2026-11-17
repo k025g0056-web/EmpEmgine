@@ -20,6 +20,7 @@ void EmpEngine::SetWindowSize(unsigned int index,int windowWidth,int windowHeigh
 }
 
 void EmpEngine::Begin() {
+	SceneManager::GetInstance()->SetScene();
 	EmpSystems::GetInstance()->Begin();
 }
 

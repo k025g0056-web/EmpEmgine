@@ -17,6 +17,7 @@ class ShaderCompiler{
 	Microsoft::WRL::ComPtr<IDxcIncludeHandler> includeHandler_;
 
 public:
+	void Release();
 	Microsoft::WRL::ComPtr<IDxcBlob> CompileShader(const std::wstring& filePath, const wchar_t* profile);
 	void Initialize();
 };

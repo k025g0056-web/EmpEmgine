@@ -22,7 +22,7 @@ void SceneManager::Initialize(int windowWidth, int windowHeight, SceneName scene
 	windowWidth_ = windowWidth;
 	windowHeight_ = windowHeight;
 	camera_->Initialize();
-	SetScene(scene);
+	BookingScene(scene);
 }
 
 void SceneManager::Update() {
@@ -42,11 +42,30 @@ bool SceneManager::EndManagement() {
 	return (Input::GetInstance()->GetKeyBoard()->IsReleaseVk(MDK_ESCAPE));
 }
 
-void SceneManager::SetScene(SceneName scene) {
+void SceneManager::BookingScene(SceneName scene) {
+	next_ = scene;
+}
 
-	sceneName_ = static_cast<int>(scene);
+void SceneManager::Gui() {
+#ifdef USE_IMGUI
+	ImGui::Begin("SceneChange");
 
-	switch (scene) {
+	if (ImGui::Combo("Scene", &sceneName_, table, 4)) {
+		BookingScene(static_cast<SceneName>(sceneName_));
+	}
+
+	ImGui::End();
+#endif
+}
+
+void SceneManager::SetScene() {
+	if (now_==next_) {
+		return;
+	}
+
+	now_ = next_;
+	sceneName_ = static_cast<int>(now_);
+	switch (now_) {
 	case SceneName::Title:
 		scene_ = std::make_unique<Title>();
 		ManagementLog::Log("Title");
@@ -72,16 +91,4 @@ void SceneManager::SetScene(SceneName scene) {
 	scene_->Initialize();
 	EmpEngine::RebindRenderTarget();
 	ManagementLog::Log("Online");
-}
-
-void SceneManager::Gui() {
-#ifdef USE_IMGUI
-	ImGui::Begin("SceneChange");
-
-	if (ImGui::Combo("Scene", &sceneName_, table, 4)) {
-		SetScene(static_cast<SceneName>(sceneName_));
-	}
-
-	ImGui::End();
-#endif
 }

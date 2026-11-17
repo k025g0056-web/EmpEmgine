@@ -151,6 +151,8 @@ void EmpSystems::Release() {
 	managementDXGIFactory_.Release();
 	managementDebug_.Release();
 	managementWindow_.Release();
+	pipelinecontainer_.Release();
+	renderTexture_.Release();
 }
 
 

@@ -95,3 +95,21 @@ void ShaderCompiler::SettingHandler() {
 	HRESULT hr = dxcUtils_->CreateDefaultIncludeHandler(&includeHandler_);
 	assert(SUCCEEDED(hr));
 }
+
+void ShaderCompiler::Release() {
+	if (dxcCompiler_) {
+		dxcCompiler_.Reset();
+		dxcCompiler_ = nullptr;
+	}
+
+	if (dxcUtils_) {
+		dxcUtils_.Reset();
+		dxcUtils_ = nullptr;
+	}
+
+	if (includeHandler_) {
+		includeHandler_.Reset();
+		includeHandler_ = nullptr;
+	}
+
+}

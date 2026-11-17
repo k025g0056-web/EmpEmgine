@@ -2,7 +2,7 @@
 #include "Scene/Manager/SceneManager.h"
 
 void SceneSystem::Set(SceneName name) {
-	SceneManager::GetInstance()->SetScene(name);
+	SceneManager::GetInstance()->BookingScene(name);
 }
 
 Camera3d* SceneSystem::GetCamera() {

@@ -14,6 +14,7 @@ class PipelineContainer{
 
 public:
 	void Initialize(ID3D12Device* device);
+	void Release();
 
 	Pipeline& GetObjectPipe() { return object; }
 	Pipeline& GetPartoclePipe() { return particle; }

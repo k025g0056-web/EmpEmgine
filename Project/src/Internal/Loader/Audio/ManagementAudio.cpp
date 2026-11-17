@@ -12,7 +12,7 @@ void ManagementAudio::Initialize() {
 
 }
 
-SoundData ManagementAudio::SoundLoadWave(const char* filename) {
+int ManagementAudio::SoundLoadWave(const char* filename) {
 	
 	//ファイル入力ストリームのインスタンス
 	std::ifstream file;
@@ -76,29 +76,29 @@ SoundData ManagementAudio::SoundLoadWave(const char* filename) {
 	soundData.pBuffer = reinterpret_cast<BYTE*>(pBuffer);
 	soundData.bufferSize = data.size;
 
-	return soundData;
+	soundDatas_.push_back(soundData);
+	return static_cast<int>(soundDatas_.size() - 1);
 }
 
-void ManagementAudio::SoundUnload(SoundData* soundData) {
-	delete[]soundData->pBuffer;
-
-	soundData->pBuffer = 0;
-	soundData->bufferSize = 0;
-	soundData->wfex = {};
+void ManagementAudio::SoundUnload(int soundData) {
+	delete[]soundDatas_[soundData].pBuffer;
+	soundDatas_[soundData].pBuffer = 0;
+	soundDatas_[soundData].bufferSize = 0;
+	soundDatas_[soundData].wfex = {};
 }
 
-void ManagementAudio::SoundPlayWave(const SoundData& soundData) {
+void ManagementAudio::SoundPlayWave(const int& soundData) {
 	HRESULT result;
 
 	//波形フォーマットを元にSourceVoiceを生成する
 	IXAudio2SourceVoice* pSourceVoice = nullptr;
-	result = xAudio2.Get()->CreateSourceVoice(&pSourceVoice, &soundData.wfex);
+	result = xAudio2.Get()->CreateSourceVoice(&pSourceVoice, &soundDatas_[soundData].wfex);
 	assert(SUCCEEDED(result));
 
 	XAUDIO2_BUFFER buf{};
 
-	buf.pAudioData = soundData.pBuffer;
-	buf.AudioBytes = soundData.bufferSize;
+	buf.pAudioData = soundDatas_[soundData].pBuffer;
+	buf.AudioBytes = soundDatas_[soundData].bufferSize;
 	buf.Flags = XAUDIO2_END_OF_STREAM;
 
 	result = pSourceVoice->SubmitSourceBuffer(&buf);
@@ -107,4 +107,5 @@ void ManagementAudio::SoundPlayWave(const SoundData& soundData) {
 
 void ManagementAudio::Release() {
 	xAudio2.Reset();
+	soundDatas_.clear();
 }

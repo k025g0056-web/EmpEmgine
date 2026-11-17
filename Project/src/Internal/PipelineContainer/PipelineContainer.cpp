@@ -7,6 +7,10 @@ void PipelineContainer::Initialize(ID3D12Device* device) {
 	MakeParticleShaderPipeline(device);
 }
 
+void PipelineContainer::Release() {
+	shaderCompiler_.Release();
+}
+
 void PipelineContainer::MakeObjectShaderPipeline(ID3D12Device* device) {
 
 	PipelineDesc desc;
