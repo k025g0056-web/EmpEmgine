@@ -158,14 +158,30 @@
       <Filter>Engine\Management\FrameRate</Filter>
     </ClCompile>
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Internal\ShaderCompiler\ShaderCompiler.cpp" />
-    <ClCompile Include="src\Internal\PipeLineFactory\PipelineFactory.cpp" />
-    <ClCompile Include="src\Internal\PipelineContainer\PipelineContainer.cpp" />
-    <ClCompile Include="src\DataModel\Matrix3x3.cpp" />
-    <ClCompile Include="src\DataModel\Matrix4x4.cpp" />
-    <ClCompile Include="src\DataModel\Vector3.cpp" />
-    <ClCompile Include="src\DataModel\Vertex42d.cpp" />
-    <ClCompile Include="src\appObj\Particle\Particle.cpp" />
+    <ClCompile Include="src\DataModel\Matrix3x3.cpp">
+      <Filter>Engine\DataModel\Matrix\3x3</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DataModel\Matrix4x4.cpp">
+      <Filter>Engine\DataModel\Matrix\4x4</Filter>
+    </ClCompile>
+    <ClCompile Include="src\appObj\Particle\Particle.cpp">
+      <Filter>Engine\AppObj\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Internal\PipelineContainer\PipelineContainer.cpp">
+      <Filter>Engine\Management\PipelineContainer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Internal\PipeLineFactory\PipelineFactory.cpp">
+      <Filter>Engine\Management\PipelineFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DataModel\Vertex42d.cpp">
+      <Filter>Engine\DataModel\Vertex4\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Internal\ShaderCompiler\ShaderCompiler.cpp">
+      <Filter>Engine\Management\shaderCompiler</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DataModel\Vector3.cpp">
+      <Filter>Engine\DataModel\Vector\3</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -251,9 +267,6 @@
     </Filter>
     <Filter Include="Engine\Management\DX12Mech">
       <UniqueIdentifier>{af12a83d-5ff9-4f4c-8cad-0d27fa46073e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Management\DXC">
-      <UniqueIdentifier>{b4c391b2-699c-4cb1-b26c-6576002712d3}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Management\DXGI">
       <UniqueIdentifier>{33f0062f-fc21-4d08-b7a8-bb5b38a74fc8}</UniqueIdentifier>
@@ -368,6 +381,18 @@
     </Filter>
     <Filter Include="Engine\Management\FrameRate">
       <UniqueIdentifier>{d4dc3e50-4ce3-4eb0-91cb-76b1092726bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\AppObj\particle">
+      <UniqueIdentifier>{2b6340d6-41e7-4bca-a203-99605b742e51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Management\PipelineContainer">
+      <UniqueIdentifier>{f7d64de9-6e67-4b50-8231-4b6e3d364348}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Management\PipelineFactory">
+      <UniqueIdentifier>{0689c1fb-6805-4065-8916-6f2406277abf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Management\shaderCompiler">
+      <UniqueIdentifier>{f5a1bfda-60a3-4e93-8e10-d1b5872dcae4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -536,33 +561,87 @@
     <ClInclude Include="src\Internal\FrameRate\ManagementFrameRate.h">
       <Filter>Engine\Management\FrameRate</Filter>
     </ClInclude>
-    <ClInclude Include="src\Internal\ShaderCompiler\ShaderCompiler.h" />
-    <ClInclude Include="src\Internal\PipeLineFactory\PipelineFactory.h" />
-    <ClInclude Include="src\Internal\PipelineContainer\PipelineContainer.h" />
-    <ClInclude Include="src\DataModel\ParticleSet.h" />
-    <ClInclude Include="src\DataModel\BlendMode.h" />
-    <ClInclude Include="src\DataModel\DrawMode.h" />
-    <ClInclude Include="src\DataModel\FillMode.h" />
-    <ClInclude Include="src\DataModel\Material.h" />
-    <ClInclude Include="src\DataModel\MaterialData.h" />
-    <ClInclude Include="src\DataModel\Matrix2x2.h" />
-    <ClInclude Include="src\DataModel\Matrix3x3.h" />
-    <ClInclude Include="src\DataModel\Matrix4x4.h" />
-    <ClInclude Include="src\DataModel\MeshData.h" />
-    <ClInclude Include="src\DataModel\ModelData.h" />
-    <ClInclude Include="src\DataModel\Node.h" />
-    <ClInclude Include="src\DataModel\PipelineSet.h" />
-    <ClInclude Include="src\DataModel\SoundData.h" />
-    <ClInclude Include="src\DataModel\TransForm3d.h" />
-    <ClInclude Include="src\DataModel\TransformationMatrix.h" />
-    <ClInclude Include="src\DataModel\Vector2.h" />
-    <ClInclude Include="src\DataModel\Vector3.h" />
-    <ClInclude Include="src\DataModel\Vector4.h" />
-    <ClInclude Include="src\DataModel\Vertex42d.h" />
-    <ClInclude Include="src\DataModel\VertexData.h" />
-    <ClInclude Include="src\DataModel\Emitter.h" />
-    <ClInclude Include="src\appObj\Particle\Particle.h" />
-    <ClInclude Include="src\DataModel\ParticleForGPU.h" />
+    <ClInclude Include="src\DataModel\BlendMode.h">
+      <Filter>Engine\DataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataModel\DrawMode.h">
+      <Filter>Engine\DataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataModel\Emitter.h">
+      <Filter>Engine\DataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataModel\Material.h">
+      <Filter>Engine\DataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataModel\MaterialData.h">
+      <Filter>Engine\DataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataModel\Matrix3x3.h">
+      <Filter>Engine\DataModel\Matrix\3x3</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataModel\Matrix4x4.h">
+      <Filter>Engine\DataModel\Matrix\4x4</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataModel\MeshData.h">
+      <Filter>Engine\DataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataModel\ModelData.h">
+      <Filter>Engine\DataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataModel\Node.h">
+      <Filter>Engine\DataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataModel\Matrix2x2.h">
+      <Filter>Engine\DataModel\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="src\appObj\Particle\Particle.h">
+      <Filter>Engine\AppObj\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataModel\ParticleForGPU.h">
+      <Filter>Engine\DataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataModel\ParticleSet.h">
+      <Filter>Engine\DataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataModel\SoundData.h">
+      <Filter>Engine\DataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Internal\PipelineContainer\PipelineContainer.h">
+      <Filter>Engine\Management\PipelineContainer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Internal\PipeLineFactory\PipelineFactory.h">
+      <Filter>Engine\Management\PipelineFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataModel\PipelineSet.h">
+      <Filter>Engine\DataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataModel\TransForm3d.h">
+      <Filter>Engine\DataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataModel\TransformationMatrix.h">
+      <Filter>Engine\DataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataModel\Vertex42d.h">
+      <Filter>Engine\DataModel\Vertex4\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Internal\ShaderCompiler\ShaderCompiler.h">
+      <Filter>Engine\Management\shaderCompiler</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataModel\Vector2.h">
+      <Filter>Engine\DataModel\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataModel\Vector3.h">
+      <Filter>Engine\DataModel\Vector\3</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataModel\Vector4.h">
+      <Filter>Engine\DataModel\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataModel\FillMode.h">
+      <Filter>Engine\DataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataModel\VertexData.h">
+      <Filter>Engine\DataModel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt">
