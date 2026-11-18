@@ -6,6 +6,8 @@
 #include <algorithm>
 #include"core/internal/EmpSystems.h"
 
+uint32_t Particle3D::kInstanceSrvIndex_ = 0;
+
 void Particle3D::Initialize(ID3D12Device* device, const int& modelData) {
     Shape::Initialize(device, true);
     modelData_ = ResolveModel(modelData);
