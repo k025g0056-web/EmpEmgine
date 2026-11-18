@@ -42,14 +42,13 @@ void EmpSystems::Initialize(int kWindowWidth, int kWindowHeight) {
 		managementDescriptHeap_.GetRenderTextureRtvHandle(),
 		srv.cpu,
 		srv.gpu);
-	loader_.Initialize(managementDevice_.GetDevice(),managementCommand_.GetCommandList(),managementCommand_.GetCommandQueue(),managementCommand_.GetCommandAllocator(),managementCommand_.GetFenceEvent(),managementCommand_.GetFenceValue(),managementCommand_.GetFence(),managementDescriptHeap_.GetSrvDescriptorHeap());
+	loader_.Initialize(managementDevice_.GetDevice(),managementCommand_.GetCommandList(),managementCommand_.GetCommandQueue(),managementCommand_.GetCommandAllocator(),managementCommand_.GetFenceEvent(),managementCommand_.GetFenceValue(),managementCommand_.GetFence());
 	white1x1 = loader_.Texture().Load("white1x1.png");
 
 	managementLighting_.Initialize(managementDevice_.GetDevice());
 	drawManager_.Initialize(managementDevice_.GetDevice());
 	drawManager_.SetPostDrawFunc([this]() {PostDraw(); });
 	framerate_.Initialize();
-	Particle3D::SetSrvHeap(managementDescriptHeap_.GetSrvDescriptorHeap());
 	pipelinecontainer_.Initialize(managementDevice_.GetDevice());
 	Particle3D::SetPipeline(&pipelinecontainer_.GetPartoclePipe());
 	std::random_device seedGenerator;

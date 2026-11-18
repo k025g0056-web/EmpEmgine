@@ -6,8 +6,6 @@
 #include <algorithm>
 #include"core/internal/EmpSystems.h"
 
-uint32_t Particle3D::kInstanceSrvIndex_ = 0;
-
 void Particle3D::Initialize(ID3D12Device* device, const int& modelData) {
     Shape::Initialize(device, true);
     modelData_ = ResolveModel(modelData);
@@ -57,11 +55,8 @@ void Particle3D::Initialize(ID3D12Device* device, const int& modelData) {
     }
 
     //SRV
-    const UINT size = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-    D3D12_CPU_DESCRIPTOR_HANDLE cpu = srvHeap_->GetCPUDescriptorHandleForHeapStart();
-    cpu.ptr += size * kInstanceSrvIndex_;
-    instancingSrvGpu_ = srvHeap_->GetGPUDescriptorHandleForHeapStart();
-    instancingSrvGpu_.ptr += size * kInstanceSrvIndex_;
+    D3D12_CPU_DESCRIPTOR_HANDLE cpu = EmpSystems::GetInstance()->GetCPUPtr(kInstanceSrvIndex_);
+    instancingSrvGpu_= EmpSystems::GetInstance()->GetGPUPtr(kInstanceSrvIndex_);
 
     D3D12_SHADER_RESOURCE_VIEW_DESC srv{};
     srv.Format = DXGI_FORMAT_UNKNOWN;

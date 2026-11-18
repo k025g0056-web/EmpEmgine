@@ -48,6 +48,8 @@ public:
 	void RebindRenderTarget();
 	std::mt19937& GetRandom() { return randomEngine_; }
 	SrvSlot GetHeapId() { return managementDescriptHeap_.AllocateSrv(); }
+	D3D12_CPU_DESCRIPTOR_HANDLE GetCPUPtr(UINT index) { return managementDescriptHeap_.GetCPUPtr(index); }
+	D3D12_GPU_DESCRIPTOR_HANDLE GetGPUPtr(UINT index) { return managementDescriptHeap_.GetGPUPtr(index); }
 
 private:
 	//エンジンの変数

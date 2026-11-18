@@ -58,4 +58,6 @@ public:
 	void ReleaseSwapChainBuffers();
 	void RecreateSwapChainBuffers(ID3D12Device* device, IDXGISwapChain4* swapChain);
 	void UpdateDsv(ID3D12Device* device, ID3D12Resource* depthStencilResource);
+	D3D12_CPU_DESCRIPTOR_HANDLE GetCPUPtr(UINT index);
+	D3D12_GPU_DESCRIPTOR_HANDLE GetGPUPtr(UINT index);
 };

@@ -21,8 +21,7 @@ public:
 		ID3D12CommandAllocator* commandAllocator,
 		HANDLE fenceEvent,
 		uint64_t fenceValue,
-		ID3D12Fence* fence,
-		ID3D12DescriptorHeap* srvDescriptorHeap);
+		ID3D12Fence* fence);
 	ManagementTexture& Texture() { return managementTexture_; }
 	ManagementAudio& Audio() { return managementAudio_; }
 	ManagementModel& Model() { return managementModel_; }

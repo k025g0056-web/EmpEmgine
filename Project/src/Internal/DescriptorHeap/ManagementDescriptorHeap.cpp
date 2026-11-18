@@ -143,3 +143,15 @@ SrvSlot ManagementDescriptorHeap::AllocateSrv() {
 
 	return { index,cpu,gpu };
 }
+
+D3D12_CPU_DESCRIPTOR_HANDLE ManagementDescriptorHeap::GetCPUPtr(UINT index) {
+	D3D12_CPU_DESCRIPTOR_HANDLE cpuHan = srvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart();
+	cpuHan.ptr += srvDescriptorSize_ * index;
+	return cpuHan;
+}
+
+D3D12_GPU_DESCRIPTOR_HANDLE ManagementDescriptorHeap::GetGPUPtr(UINT index) {
+	D3D12_GPU_DESCRIPTOR_HANDLE gpuHan = srvDescriptorHeap_->GetGPUDescriptorHandleForHeapStart();
+	gpuHan.ptr += srvDescriptorSize_ * index;
+	return gpuHan;
+}

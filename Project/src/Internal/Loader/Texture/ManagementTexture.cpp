@@ -8,7 +8,7 @@
 
 void ManagementTexture::Initialize(ID3D12Device* device,ID3D12GraphicsCommandList* commandList,
 	ID3D12CommandQueue* commandQueue,ID3D12CommandAllocator* commandAllocator,HANDLE fenceEvent,
-	uint64_t fenceValue,ID3D12Fence* fence,ID3D12DescriptorHeap* srvDescriptorHeap) {
+	uint64_t fenceValue,ID3D12Fence* fence) {
 	device_ = device;
 	commandList_ = commandList;
 	commandQueue_ = commandQueue;
@@ -16,7 +16,6 @@ void ManagementTexture::Initialize(ID3D12Device* device,ID3D12GraphicsCommandLis
 	fenceEvent_ = fenceEvent;
 	fence_ = fence;
 	fenceValue_ = fenceValue;
-	srvDescriptorHeap_ = srvDescriptorHeap;
 }
 
 DirectX::ScratchImage ManagementTexture::LoadTextureFile(const std::string& filepath) {
@@ -157,12 +156,9 @@ int ManagementTexture::Load( const std::string& filePath) {
 	ID3D12Resource* intermediateResource=UploadTextureData(textureResource.Get(), mipImages);
 	
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = BuildSrvDesc(metadata);
-	const uint32_t descriptorSizeSRV = device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-	const uint32_t descriptorSizeRTV = device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-	const uint32_t descriptorSizeDSV = device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
 	UINT index = EmpSystems::GetInstance()->GetHeapId().index;
-	D3D12_CPU_DESCRIPTOR_HANDLE handleCPU = GetCPUDescriptorHandle(srvDescriptorHeap_, descriptorSizeSRV, index);
-	D3D12_GPU_DESCRIPTOR_HANDLE handleGPU = GetGPUDescriptorHandle(srvDescriptorHeap_, descriptorSizeSRV, index);
+	D3D12_CPU_DESCRIPTOR_HANDLE handleCPU = EmpSystems::GetInstance()->GetCPUPtr(index);
+	D3D12_GPU_DESCRIPTOR_HANDLE handleGPU = EmpSystems::GetInstance()->GetGPUPtr(index);
 	device_->CreateShaderResourceView(textureResource.Get(), &srvDesc, handleCPU);
 
 	//リストを閉じる
@@ -193,20 +189,9 @@ int ManagementTexture::Load( const std::string& filePath) {
 	textureData.metadata = metadata;
 	textureData.srvHandleCPU = handleCPU;
 	textureData.srvHandleGPU = handleGPU;
+	textureData.srvNumber = index;
 	textures_.push_back(textureData);
 	return static_cast<int>(textures_.size() - 1);
-}
-
-D3D12_CPU_DESCRIPTOR_HANDLE ManagementTexture::GetCPUDescriptorHandle(ID3D12DescriptorHeap* descriptorheap, uint32_t descriptorSize, uint32_t index) {
-	D3D12_CPU_DESCRIPTOR_HANDLE handleCPU = descriptorheap->GetCPUDescriptorHandleForHeapStart();
-	handleCPU.ptr += (descriptorSize * index);
-	return handleCPU;
-}
-
-D3D12_GPU_DESCRIPTOR_HANDLE ManagementTexture::GetGPUDescriptorHandle(ID3D12DescriptorHeap* descriptorheap, uint32_t descriptorSize, uint32_t index) {
-	D3D12_GPU_DESCRIPTOR_HANDLE handleGPU = descriptorheap->GetGPUDescriptorHandleForHeapStart();
-	handleGPU.ptr += (descriptorSize * index);
-	return handleGPU;
 }
 
 D3D12_SHADER_RESOURCE_VIEW_DESC ManagementTexture::BuildSrvDesc(DirectX::TexMetadata metadata) {
