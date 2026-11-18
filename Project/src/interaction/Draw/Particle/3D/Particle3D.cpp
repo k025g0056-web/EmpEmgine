@@ -11,7 +11,7 @@ void Particle3D::Initialize(ID3D12Device* device, const int& modelData) {
     modelData_ = ResolveModel(modelData);
     workVertices_ = ResolveModel(modelData);
     size_t meshCount = modelData_.meshes.size();
-    kInstanceSrvIndex_ = EmpSystems::GetInstance()->GetHeapId();
+    kInstanceSrvIndex_ = EmpSystems::GetInstance()->GetHeapId().index;
     // ← デバッグ用に追加
     char buf[256];
     sprintf_s(buf, "MeshCount=%zu\n", meshCount);

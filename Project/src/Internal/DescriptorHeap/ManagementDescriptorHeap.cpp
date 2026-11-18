@@ -2,6 +2,7 @@
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
 #include<cassert>
+#include <stdexcept>
 
 void ManagementDescriptorHeap::Initialize(ID3D12Device* device, IDXGISwapChain4* swapChain, ID3D12Resource* depthStencilResource) {
 	GenerateRtvDescriptorHeap(device);
@@ -126,10 +127,19 @@ void ManagementDescriptorHeap::UpdateDsv(ID3D12Device* device,ID3D12Resource* de
 	GenerateDsvDesc(device, depthStencilResource);
 }
 
-uint64_t ManagementDescriptorHeap::GetHeapId(ID3D12Device* device) {
+SrvSlot ManagementDescriptorHeap::AllocateSrv() {
 	if (nowHeap_>=heap) {
-		heap *= 2;
-		srvDescriptorHeap_ = CreateDescriptorHeap(device, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, heap, true);
+		//後々増やす用の隙間
+		throw std::runtime_error("SRV full");
 	}
-	return nowHeap_++;
+
+	UINT index = nowHeap_++;
+
+	auto cpu = srvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart();
+	auto gpu = srvDescriptorHeap_->GetGPUDescriptorHandleForHeapStart();
+
+	cpu.ptr += srvDescriptorSize_ * index;
+	gpu.ptr += srvDescriptorSize_ * index;
+
+	return { index,cpu,gpu };
 }

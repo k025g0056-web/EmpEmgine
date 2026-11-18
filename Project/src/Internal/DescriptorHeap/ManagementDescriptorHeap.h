@@ -3,6 +3,13 @@
 #include<dxgi1_6.h>
 #include<wrl.h>
 #include<cstdint>
+
+struct SrvSlot{
+	UINT index;
+	D3D12_CPU_DESCRIPTOR_HANDLE cpu;
+	D3D12_GPU_DESCRIPTOR_HANDLE gpu;
+};
+
 class ManagementDescriptorHeap {
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> rtvDescriptorHeap_;
 	D3D12_DESCRIPTOR_HEAP_DESC rtvDescriptorHeapDesc_{};
@@ -11,9 +18,9 @@ class ManagementDescriptorHeap {
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> srvDescriptorHeap_;
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> dsvDescriptorHeap_;
 	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc_{};
-	uint64_t heap = 128;
+	UINT heap = 128;
 
-	uint64_t nowHeap_ = 0;
+	UINT nowHeap_ = 1;//0番はImGuiように開けましょう
 
 	//RTVを二つ作るのでディスクリプタを二つ用意
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles_[2]{};
@@ -47,9 +54,7 @@ public:
 	ID3D12DescriptorHeap* GetSrvDescriptorHeap() { return srvDescriptorHeap_.Get(); }
 	ID3D12DescriptorHeap* GetDsvDescriptorHeap() { return dsvDescriptorHeap_.Get(); }
 	void Release();
-
-	uint64_t GetHeapId(ID3D12Device* device);
-
+	SrvSlot AllocateSrv();
 	void ReleaseSwapChainBuffers();
 	void RecreateSwapChainBuffers(ID3D12Device* device, IDXGISwapChain4* swapChain);
 	void UpdateDsv(ID3D12Device* device, ID3D12Resource* depthStencilResource);
