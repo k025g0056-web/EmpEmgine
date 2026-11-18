@@ -34,13 +34,14 @@ void EmpSystems::Initialize(int kWindowWidth, int kWindowHeight) {
 		managementSwapChain_.GetSwapChainDesc(), managementDescriptHeap_.GetRtvDesc(),
 		managementDescriptHeap_.GetSrvDescriptorHeap());
 #endif // USE_IMGUI
+	SrvSlot srv = managementDescriptHeap_.AllocateSrv();
 	renderTexture_.Initialize(
 		managementDevice_.GetDevice(),
 		kWindowWidth,
 		kWindowHeight,
 		managementDescriptHeap_.GetRenderTextureRtvHandle(),
-		managementDescriptHeap_.GetRenderTextureSrvHandleCPU(),
-		managementDescriptHeap_.GetRenderTextureSrvHandleGPU());
+		srv.cpu,
+		srv.gpu);
 	loader_.Initialize(managementDevice_.GetDevice(),managementCommand_.GetCommandList(),managementCommand_.GetCommandQueue(),managementCommand_.GetCommandAllocator(),managementCommand_.GetFenceEvent(),managementCommand_.GetFenceValue(),managementCommand_.GetFence(),managementDescriptHeap_.GetSrvDescriptorHeap());
 	white1x1 = loader_.Texture().Load("white1x1.png");
 

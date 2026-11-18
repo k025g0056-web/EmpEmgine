@@ -20,7 +20,7 @@ class ManagementDescriptorHeap {
 	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc_{};
 	UINT heap = 128;
 
-	UINT nowHeap_ = 2;//0番はImGuiように開けましょう
+	UINT nowHeap_ = 1;//0番はImGuiように開けましょう
 
 	//RTVを二つ作るのでディスクリプタを二つ用意
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles_[2]{};
