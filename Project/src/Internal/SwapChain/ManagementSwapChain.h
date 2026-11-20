@@ -19,6 +19,6 @@ public:
 	Microsoft::WRL::ComPtr<IDXGISwapChain4>GetSwapChainComPtr() { return swapChain_; }
 	DXGI_SWAP_CHAIN_DESC1 GetSwapChainDesc() { return swapChainDesc_; }
 	void Resize(UINT width, UINT height);
-	std::array<Microsoft::WRL::ComPtr<ID3D12Resource>, 2> GetSwapChainResources() { return swapChainResources_; }
+	const std::array<Microsoft::WRL::ComPtr<ID3D12Resource>, 2>& GetSwapChainResources() { return swapChainResources_; }
 	void PullTheSwapChain();
 };

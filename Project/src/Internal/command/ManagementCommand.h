@@ -28,12 +28,12 @@ class ManagementCommand {
 	void GenerateCommandQueue(ID3D12Device* device);
 	void GenerateCommandAllocator(ID3D12Device* device);
 	void GenerateCommandList(ID3D12Device* device);
-	void PutUpABarrier(SCR swapChainResources, unsigned int index);
+	void PutUpABarrier(const SCR& swapChainResources, unsigned int index);
 	void PutUpReBarrier();
 	void GenerateFence(ID3D12Device* device);
 	void SendSignal();
 	void WaitingGPU();
-	void SettingDsvHandle(ID3D12DescriptorHeap* dsvDescriptorHeap, D3D12_CPU_DESCRIPTOR_HANDLE* rtvHandle, UINT backBufferIndex);
+	void SettingDsvHandle(ID3D12DescriptorHeap* dsvDescriptorHeap, const D3D12_CPU_DESCRIPTOR_HANDLE*& rtvHandle, UINT backBufferIndex);
 public:
 
 	void Initialize(ID3D12Device* device);
@@ -43,7 +43,7 @@ public:
 	HANDLE GetFenceEvent() { return fenceEvent_; }
 	uint64_t& GetFenceValue() { return fenceValue_; }
 	ID3D12Fence* GetFence() { return fence_.Get(); }
-	void LoadCommand(IDXGISwapChain4* swapChain, RTV rtvHandles, SCR swapChainResources,ID3D12DescriptorHeap* dsvDescriptorHeap);
+	void LoadCommand(IDXGISwapChain4* swapChain, const RTV& rtvHandles, const SCR& swapChainResources,ID3D12DescriptorHeap* dsvDescriptorHeap);
 	void SetRenderTarget(D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle, D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle);
 	void KickCommand(IDXGISwapChain4* swapChain);
 	void FenceRelease();

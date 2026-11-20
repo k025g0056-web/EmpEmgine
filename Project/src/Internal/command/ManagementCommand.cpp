@@ -33,7 +33,7 @@ void ManagementCommand::GenerateCommandList(ID3D12Device* device) {
 	assert(SUCCEEDED(hr_));
 }
 
-void ManagementCommand::LoadCommand(IDXGISwapChain4* swapChain, RTV rtvHandles, SCR swapChainResources, ID3D12DescriptorHeap* dsvDescriptorHeap) {
+void ManagementCommand::LoadCommand(IDXGISwapChain4* swapChain, const RTV& rtvHandles, const SCR& swapChainResources, ID3D12DescriptorHeap* dsvDescriptorHeap) {
 	
 	//これから書き込むバックバッファのインデックスを取得
 	UINT backBufferIndex = swapChain->GetCurrentBackBufferIndex();
@@ -76,7 +76,7 @@ void ManagementCommand::KickCommand(IDXGISwapChain4* swapChain) {
 	assert(SUCCEEDED(hr));
 }
 
-void ManagementCommand::PutUpABarrier(SCR swapChainResources, unsigned int index) {
+void ManagementCommand::PutUpABarrier(const SCR& swapChainResources, unsigned int index) {
 	//今回のバリアはTransition
 	barrier_.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
 	//Noneにしておく
@@ -138,7 +138,7 @@ void ManagementCommand::CommandRelease() {
 	commandQueue_.Reset();
 }
 
-void ManagementCommand::SettingDsvHandle(ID3D12DescriptorHeap* dsvDescriptorHeap, D3D12_CPU_DESCRIPTOR_HANDLE* rtvHandle,UINT backBufferIndex) {
+void ManagementCommand::SettingDsvHandle(ID3D12DescriptorHeap* dsvDescriptorHeap, const D3D12_CPU_DESCRIPTOR_HANDLE* &rtvHandle,UINT backBufferIndex) {
 	dsvHandle_ = dsvDescriptorHeap->GetCPUDescriptorHandleForHeapStart();
 	commandList_->OMSetRenderTargets(1, &rtvHandle[backBufferIndex], false, &dsvHandle_);
 }
