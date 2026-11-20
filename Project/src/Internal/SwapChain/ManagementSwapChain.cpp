@@ -14,9 +14,12 @@ void ManagementSwapChain::Initialize(int windowWidth, int windowHeight, ID3D12Co
 		commandQueue, hwnd, &swapChainDesc_, nullptr,
 		nullptr, reinterpret_cast<IDXGISwapChain1**>(swapChain_.GetAddressOf()));
 	assert(SUCCEEDED(hr));
+
+	PullTheSwapChain();
 }
 
 void ManagementSwapChain::Release() {
+	ReleaseSwapChainBuffers();
 	swapChain_.Reset();
 	swapChain_ = nullptr;
 }
