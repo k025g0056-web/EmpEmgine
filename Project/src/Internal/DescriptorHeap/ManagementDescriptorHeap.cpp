@@ -4,7 +4,7 @@
 #include<cassert>
 #include <stdexcept>
 
-void ManagementDescriptorHeap::Initialize(ID3D12Device* device, IDXGISwapChain4* swapChain, ID3D12Resource* depthStencilResource, std::array<Microsoft::WRL::ComPtr<ID3D12Resource>, 2> swapChainResorces) {
+void ManagementDescriptorHeap::Initialize(ID3D12Device* device, ID3D12Resource* depthStencilResource, std::array<Microsoft::WRL::ComPtr<ID3D12Resource>, 2> swapChainResorces) {
 	GenerateRtvDescriptorHeap(device);
 	GenerateRTV(device,swapChainResorces);
 	GenerateSrvDescriptorHeap(device);

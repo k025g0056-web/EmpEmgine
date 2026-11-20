@@ -34,7 +34,7 @@ class ManagementDescriptorHeap {
 	void GenerateRTV(ID3D12Device* device,std::array<Microsoft::WRL::ComPtr<ID3D12Resource>,2> swapChainResorces);
 	void GenerateDsvDesc(ID3D12Device* device, ID3D12Resource* depthStencilResource);
 public:
-	void Initialize(ID3D12Device* device, IDXGISwapChain4* swapChain, ID3D12Resource* depthStencilResource, std::array<Microsoft::WRL::ComPtr<ID3D12Resource>, 2> swapChainResorces);
+	void Initialize(ID3D12Device* device, ID3D12Resource* depthStencilResource, std::array<Microsoft::WRL::ComPtr<ID3D12Resource>, 2> swapChainResorces);
 	static ID3D12DescriptorHeap* CreateDescriptorHeap(ID3D12Device* device,
 		D3D12_DESCRIPTOR_HEAP_TYPE heapType, UINT numDescriptors, bool shaderVisible);
 
