@@ -117,3 +117,11 @@ D3D12_GPU_DESCRIPTOR_HANDLE ManagementDescriptorHeap::GetGPUPtr(UINT index) {
 	gpuHan.ptr += srvDescriptorSize_ * index;
 	return gpuHan;
 }
+
+void ManagementDescriptorHeap::RecreateRTV(ID3D12Device* device, std::array<Microsoft::WRL::ComPtr<ID3D12Resource>, 2> swapChainResources) {
+	device->CreateRenderTargetView(
+		swapChainResources[0].Get(), &rtvDesc_, rtvHandles_[0]);
+
+	device->CreateRenderTargetView(
+		swapChainResources[1].Get(), &rtvDesc_, rtvHandles_[1]);
+}

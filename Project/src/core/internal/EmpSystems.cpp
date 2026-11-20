@@ -217,7 +217,8 @@ void EmpSystems::ResizeWindow() {
 
 	managementSwapChain_.ReleaseSwapChainBuffers();
 	managementSwapChain_.Resize(width, height);
-	managementSwapChain_.RecreateSwapChainBuffers(managementDevice_.GetDevice(),managementDescriptHeap_.GetRtvDesc(),managementDescriptHeap_.GetRtvHandles());
+	managementSwapChain_.PullTheSwapChain();
+	managementDescriptHeap_.RecreateRTV(managementDevice_.GetDevice(), managementSwapChain_.GetSwapChainResources());
 	managementViewPort_.Resize(managementDevice_.GetDevice(), width, height);
 	managementDescriptHeap_.UpdateDsv(managementDevice_.GetDevice(),managementViewPort_.GetDepthStencilResource());
 	renderTexture_.Resize(managementDevice_.GetDevice(), width, height);

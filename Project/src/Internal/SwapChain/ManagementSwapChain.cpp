@@ -45,24 +45,6 @@ void ManagementSwapChain::PullTheSwapChain() {
 	hr = swapChain_->GetBuffer(1, IID_PPV_ARGS(&swapChainResources_[1]));
 	assert(SUCCEEDED(hr));
 }
-
-void ManagementSwapChain::RecreateSwapChainBuffers(ID3D12Device* device, D3D12_RENDER_TARGET_VIEW_DESC rtvDesc, std::array<D3D12_CPU_DESCRIPTOR_HANDLE,2>rtvHandles) {
-
-	HRESULT hr = swapChain_->GetBuffer(
-		0, IID_PPV_ARGS(&swapChainResources_[0]));
-	assert(SUCCEEDED(hr));
-
-	hr = swapChain_->GetBuffer(
-		1, IID_PPV_ARGS(&swapChainResources_[1]));
-	assert(SUCCEEDED(hr));
-
-	device->CreateRenderTargetView(
-		swapChainResources_[0].Get(), &rtvDesc, rtvHandles[0]);
-
-	device->CreateRenderTargetView(
-		swapChainResources_[1].Get(), &rtvDesc, rtvHandles[1]);
-}
-
  
 void ManagementSwapChain::ReleaseSwapChainBuffers() {
 	if (swapChainResources_[0]) {

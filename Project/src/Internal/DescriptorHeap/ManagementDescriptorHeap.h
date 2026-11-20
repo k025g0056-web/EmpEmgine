@@ -54,4 +54,5 @@ public:
 	D3D12_CPU_DESCRIPTOR_HANDLE GetCPUPtr(UINT index);
 	D3D12_GPU_DESCRIPTOR_HANDLE GetGPUPtr(UINT index);
 	std::array<D3D12_CPU_DESCRIPTOR_HANDLE, 2> GetRtvHandles() { return rtvHandles_; }
+	void RecreateRTV(ID3D12Device* device, std::array<Microsoft::WRL::ComPtr<ID3D12Resource>, 2> swapChainResorces);
 };
