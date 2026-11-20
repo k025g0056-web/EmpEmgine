@@ -28,7 +28,7 @@ void EmpSystems::Initialize(int kWindowWidth, int kWindowHeight) {
 	managementCommand_.Initialize(managementDevice_.GetDevice());
 	managementSwapChain_.Initialize(kWindowWidth, kWindowHeight, managementCommand_.GetCommandQueue(), managementWindow_.GetHwnd(0), managementDXGIFactory_.GetDXGIFactory());
 	managementViewPort_.Initialize(managementDevice_.GetDevice(), kWindowWidth, kWindowHeight);
-	managementDescriptHeap_.Initialize(managementDevice_.GetDevice(), managementSwapChain_.GetSwapChain(),managementViewPort_.GetDepthStencilResource(),managementSwapChain_.GetSwapChainResources_());
+	managementDescriptHeap_.Initialize(managementDevice_.GetDevice(), managementSwapChain_.GetSwapChain(),managementViewPort_.GetDepthStencilResource(),managementSwapChain_.GetSwapChainResources());
 #ifdef USE_IMGUI
 	mymGui_.Initialize(managementWindow_.GetHwnd(0), managementDevice_.GetDevice(),
 		managementSwapChain_.GetSwapChainDesc(), managementDescriptHeap_.GetRtvDesc(),
@@ -87,7 +87,7 @@ void EmpSystems::Begin() {
 	managementCommand_.LoadCommand(
 		managementSwapChain_.GetSwapChain(), 
 		managementDescriptHeap_.GetRtvHandles(),
-		managementSwapChain_.GetSwapChainResources_(),
+		managementSwapChain_.GetSwapChainResources(),
 		managementDescriptHeap_.GetDsvDescriptorHeap());
 
 #ifdef USE_IMGUI
@@ -107,7 +107,7 @@ void EmpSystems::End() {
 
 	UINT backBufferIndex = managementSwapChain_.GetSwapChain()->GetCurrentBackBufferIndex();
 	managementCommand_.SetRenderTarget(
-		managementDescriptHeap_.GetRtvHandles(backBufferIndex),
+		managementDescriptHeap_.GetRtvHandles()[backBufferIndex],
 		managementDescriptHeap_.GetDsvHandle());
 	ImGuiViewport* viewport = ImGui::GetMainViewport();
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));

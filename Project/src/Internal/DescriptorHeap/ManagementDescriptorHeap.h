@@ -42,7 +42,6 @@ public:
 	D3D12_DESCRIPTOR_HEAP_DESC GetRtvDescriptorHeapDesc() const { return rtvDescriptorHeapDesc_; }
 	D3D12_RENDER_TARGET_VIEW_DESC GetRtvDesc()const { return rtvDesc_; }
 	D3D12_CPU_DESCRIPTOR_HANDLE GetRtvStartHandle()const { return rtvStartHandle_; }
-	D3D12_CPU_DESCRIPTOR_HANDLE GetRtvHandles(int i)const { if (i > 1 || 0 > i) { return {}; } return rtvHandles_[i]; }
 	D3D12_CPU_DESCRIPTOR_HANDLE GetRenderTextureRtvHandle() const { return renderTextureRtvHandle_; }
 	D3D12_CPU_DESCRIPTOR_HANDLE GetRenderTextureSrvHandleCPU() const;
 	D3D12_GPU_DESCRIPTOR_HANDLE GetRenderTextureSrvHandleGPU() const;
