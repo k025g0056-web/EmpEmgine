@@ -28,7 +28,7 @@ void EmpSystems::Initialize(int kWindowWidth, int kWindowHeight) {
 	managementCommand_.Initialize(managementDevice_.GetDevice());
 	managementSwapChain_.Initialize(kWindowWidth, kWindowHeight, managementCommand_.GetCommandQueue(), managementWindow_.GetHwnd(0), managementDXGIFactory_.GetDXGIFactory());
 	managementViewPort_.Initialize(managementDevice_.GetDevice(), kWindowWidth, kWindowHeight);
-	managementDescriptHeap_.Initialize(managementDevice_.GetDevice(), managementSwapChain_.GetSwapChain(),managementViewPort_.GetDepthStencilResource());
+	managementDescriptHeap_.Initialize(managementDevice_.GetDevice(), managementSwapChain_.GetSwapChain(),managementViewPort_.GetDepthStencilResource(),managementSwapChain_.GetSwapChainResources_());
 #ifdef USE_IMGUI
 	mymGui_.Initialize(managementWindow_.GetHwnd(0), managementDevice_.GetDevice(),
 		managementSwapChain_.GetSwapChainDesc(), managementDescriptHeap_.GetRtvDesc(),
@@ -83,15 +83,11 @@ void EmpSystems::SetWindowSize(unsigned int index, int windowWidth, int windowHe
 void EmpSystems::Begin() {
 	Input::GetInstance()->InputAllUpdate();
 	ResizeWindow();
-	ID3D12Resource* resources[] = {
-	managementDescriptHeap_.GetSwapChainResources(0),
-	managementDescriptHeap_.GetSwapChainResources(1)
-	};
 	drawManager_.ResetUsedCount();
 	managementCommand_.LoadCommand(
 		managementSwapChain_.GetSwapChain(), 
 		managementDescriptHeap_.GetRtvHandles(),
-		resources,
+		managementSwapChain_.GetSwapChainResources_(),
 		managementDescriptHeap_.GetDsvDescriptorHeap());
 
 #ifdef USE_IMGUI
@@ -219,9 +215,9 @@ void EmpSystems::ResizeWindow() {
 
 	managementCommand_.WaitForGPU();
 
-	managementDescriptHeap_.ReleaseSwapChainBuffers();
+	managementSwapChain_.ReleaseSwapChainBuffers();
 	managementSwapChain_.Resize(width, height);
-	managementDescriptHeap_.RecreateSwapChainBuffers(managementDevice_.GetDevice(),managementSwapChain_.GetSwapChain());
+	managementSwapChain_.RecreateSwapChainBuffers(managementDevice_.GetDevice(),managementDescriptHeap_.GetRtvDesc(),managementDescriptHeap_.GetRtvHandles());
 	managementViewPort_.Resize(managementDevice_.GetDevice(), width, height);
 	managementDescriptHeap_.UpdateDsv(managementDevice_.GetDevice(),managementViewPort_.GetDepthStencilResource());
 	renderTexture_.Resize(managementDevice_.GetDevice(), width, height);

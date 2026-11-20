@@ -3,6 +3,7 @@
 #include<dxgi1_6.h>
 #include<wrl.h>
 #include<cstdint>
+#include<array>
 
 struct SrvSlot{
 	UINT index;
@@ -23,20 +24,17 @@ class ManagementDescriptorHeap {
 	UINT nowHeap_ = 1;//0番はImGuiように開けましょう
 
 	//RTVを二つ作るのでディスクリプタを二つ用意
-	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles_[2]{};
+	std::array<D3D12_CPU_DESCRIPTOR_HANDLE,2> rtvHandles_{};
 	D3D12_CPU_DESCRIPTOR_HANDLE renderTextureRtvHandle_{};
 	UINT srvDescriptorSize_ = 0;
-
-	Microsoft::WRL::ComPtr<ID3D12Resource> swapChainResources_[2] = { nullptr };
 
 	void GenerateRtvDescriptorHeap(ID3D12Device* device);
 	void GenerateSrvDescriptorHeap(ID3D12Device* device);
 	void GenerateDsvDescriptorHeap(ID3D12Device* device);
-	void PullTheSwapChain(IDXGISwapChain4* swapChain);
-	void GenerateRTV(ID3D12Device* device);
+	void GenerateRTV(ID3D12Device* device,std::array<Microsoft::WRL::ComPtr<ID3D12Resource>,2> swapChainResorces);
 	void GenerateDsvDesc(ID3D12Device* device, ID3D12Resource* depthStencilResource);
 public:
-	void Initialize(ID3D12Device* device, IDXGISwapChain4* swapChain, ID3D12Resource* depthStencilResource);
+	void Initialize(ID3D12Device* device, IDXGISwapChain4* swapChain, ID3D12Resource* depthStencilResource, std::array<Microsoft::WRL::ComPtr<ID3D12Resource>, 2> swapChainResorces);
 	static ID3D12DescriptorHeap* CreateDescriptorHeap(ID3D12Device* device,
 		D3D12_DESCRIPTOR_HEAP_TYPE heapType, UINT numDescriptors, bool shaderVisible);
 
@@ -45,19 +43,16 @@ public:
 	D3D12_RENDER_TARGET_VIEW_DESC GetRtvDesc()const { return rtvDesc_; }
 	D3D12_CPU_DESCRIPTOR_HANDLE GetRtvStartHandle()const { return rtvStartHandle_; }
 	D3D12_CPU_DESCRIPTOR_HANDLE GetRtvHandles(int i)const { if (i > 1 || 0 > i) { return {}; } return rtvHandles_[i]; }
-	D3D12_CPU_DESCRIPTOR_HANDLE* GetRtvHandles() { return rtvHandles_; }
 	D3D12_CPU_DESCRIPTOR_HANDLE GetRenderTextureRtvHandle() const { return renderTextureRtvHandle_; }
 	D3D12_CPU_DESCRIPTOR_HANDLE GetRenderTextureSrvHandleCPU() const;
 	D3D12_GPU_DESCRIPTOR_HANDLE GetRenderTextureSrvHandleGPU() const;
 	D3D12_CPU_DESCRIPTOR_HANDLE GetDsvHandle() const;
-	ID3D12Resource* GetSwapChainResources(int i)const { if (i > 1 || 0 > i) { return {}; }return swapChainResources_[i].Get(); }
 	ID3D12DescriptorHeap* GetSrvDescriptorHeap() { return srvDescriptorHeap_.Get(); }
 	ID3D12DescriptorHeap* GetDsvDescriptorHeap() { return dsvDescriptorHeap_.Get(); }
 	void Release();
 	SrvSlot AllocateSrv();
-	void ReleaseSwapChainBuffers();
-	void RecreateSwapChainBuffers(ID3D12Device* device, IDXGISwapChain4* swapChain);
 	void UpdateDsv(ID3D12Device* device, ID3D12Resource* depthStencilResource);
 	D3D12_CPU_DESCRIPTOR_HANDLE GetCPUPtr(UINT index);
 	D3D12_GPU_DESCRIPTOR_HANDLE GetGPUPtr(UINT index);
+	std::array<D3D12_CPU_DESCRIPTOR_HANDLE, 2> GetRtvHandles() { return rtvHandles_; }
 };

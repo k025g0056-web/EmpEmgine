@@ -4,10 +4,9 @@
 #include<cassert>
 #include <stdexcept>
 
-void ManagementDescriptorHeap::Initialize(ID3D12Device* device, IDXGISwapChain4* swapChain, ID3D12Resource* depthStencilResource) {
+void ManagementDescriptorHeap::Initialize(ID3D12Device* device, IDXGISwapChain4* swapChain, ID3D12Resource* depthStencilResource, std::array<Microsoft::WRL::ComPtr<ID3D12Resource>, 2> swapChainResorces) {
 	GenerateRtvDescriptorHeap(device);
-	PullTheSwapChain(swapChain);
-	GenerateRTV(device);
+	GenerateRTV(device,swapChainResorces);
 	GenerateSrvDescriptorHeap(device);
 	GenerateDsvDescriptorHeap(device);
 	GenerateDsvDesc(device, depthStencilResource);
@@ -17,36 +16,28 @@ void ManagementDescriptorHeap::GenerateRtvDescriptorHeap(ID3D12Device* device) {
 	rtvDescriptorHeap_ = CreateDescriptorHeap(device, D3D12_DESCRIPTOR_HEAP_TYPE_RTV, 3, false);
 }
 
-void ManagementDescriptorHeap::PullTheSwapChain(IDXGISwapChain4* swapChain) {
-	HRESULT hr = swapChain->GetBuffer(0, IID_PPV_ARGS(&swapChainResources_[0]));
-	//上手く取得出来なければ起動できない
-	assert(SUCCEEDED(hr));
-	hr = swapChain->GetBuffer(1, IID_PPV_ARGS(&swapChainResources_[1]));
-	assert(SUCCEEDED(hr));
-}
-
-void ManagementDescriptorHeap::GenerateRTV(ID3D12Device* device) {
+void ManagementDescriptorHeap::GenerateRTV(ID3D12Device* device, std::array<Microsoft::WRL::ComPtr<ID3D12Resource>, 2> swapChainResources) {
 	rtvDesc_.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;//出力結果をSRGBに書き込む
 	rtvDesc_.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;//2dテクスチャとして書き込む
 	//ディスクリプタを取得する
 	rtvStartHandle_ = rtvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart();
 	//まず一つ目を作る。一つ目は最初のところに作る。作る場所を指定してあげる必要がある
 	rtvHandles_[0] = rtvStartHandle_;
-	device->CreateRenderTargetView(swapChainResources_[0].Get(), &rtvDesc_, rtvHandles_[0]);
+	device->CreateRenderTargetView(swapChainResources[0].Get(), &rtvDesc_, rtvHandles_[0]);
 	//二つ目のディスクリプタハンドルを得る（自力で）
 	rtvHandles_[1].ptr = rtvHandles_[0].ptr + device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 	//二つ目を作る
-	device->CreateRenderTargetView(swapChainResources_[1].Get(), &rtvDesc_, rtvHandles_[1]);
+	device->CreateRenderTargetView(swapChainResources[1].Get(), &rtvDesc_, rtvHandles_[1]);
 	renderTextureRtvHandle_.ptr = rtvHandles_[1].ptr + device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 	
 }
 
 void ManagementDescriptorHeap::Release() {
-	rtvDescriptorHeap_.Reset();
-	swapChainResources_[0].Reset();
-	swapChainResources_[0] = nullptr;
-	swapChainResources_[1].Reset();
-	swapChainResources_[1] = nullptr;
+	if (rtvDescriptorHeap_) {
+		rtvDescriptorHeap_.Reset();
+		rtvDescriptorHeap_ = nullptr;
+	}
+	
 }
 
 ID3D12DescriptorHeap* ManagementDescriptorHeap::CreateDescriptorHeap(ID3D12Device* device, 
@@ -92,35 +83,6 @@ D3D12_GPU_DESCRIPTOR_HANDLE ManagementDescriptorHeap::GetRenderTextureSrvHandleG
 
 D3D12_CPU_DESCRIPTOR_HANDLE ManagementDescriptorHeap::GetDsvHandle() const {
 	return dsvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart();
-}
-
-void ManagementDescriptorHeap::ReleaseSwapChainBuffers() {
-	if (swapChainResources_[0]) {
-		swapChainResources_[0].Reset();
-		swapChainResources_[0] = nullptr;
-	}
-
-	if (swapChainResources_[1]) {
-		swapChainResources_[1].Reset();
-		swapChainResources_[1] = nullptr;
-	}
-}
-
-void ManagementDescriptorHeap::RecreateSwapChainBuffers(ID3D12Device* device, IDXGISwapChain4* swapChain) {
-
-	HRESULT hr = swapChain->GetBuffer(
-		0, IID_PPV_ARGS(&swapChainResources_[0]));
-	assert(SUCCEEDED(hr));
-
-	hr = swapChain->GetBuffer(
-		1, IID_PPV_ARGS(&swapChainResources_[1]));
-	assert(SUCCEEDED(hr));
-
-	device->CreateRenderTargetView(
-		swapChainResources_[0].Get(), &rtvDesc_, rtvHandles_[0]);
-
-	device->CreateRenderTargetView(
-		swapChainResources_[1].Get(), &rtvDesc_, rtvHandles_[1]);
 }
 
 void ManagementDescriptorHeap::UpdateDsv(ID3D12Device* device,ID3D12Resource* depthStencilResource) {

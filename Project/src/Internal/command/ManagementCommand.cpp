@@ -33,14 +33,15 @@ void ManagementCommand::GenerateCommandList(ID3D12Device* device) {
 	assert(SUCCEEDED(hr_));
 }
 
-void ManagementCommand::LoadCommand(IDXGISwapChain4* swapChain,D3D12_CPU_DESCRIPTOR_HANDLE* rtvHandles, ID3D12Resource** swapChainResources_, ID3D12DescriptorHeap* dsvDescriptorHeap) {
+void ManagementCommand::LoadCommand(IDXGISwapChain4* swapChain, RTV rtvHandles, SCR swapChainResources, ID3D12DescriptorHeap* dsvDescriptorHeap) {
 	
 	//これから書き込むバックバッファのインデックスを取得
 	UINT backBufferIndex = swapChain->GetCurrentBackBufferIndex();
 	//バリアを張る
-	PutUpABarrier(swapChainResources_, backBufferIndex);
 
-	SettingDsvHandle(dsvDescriptorHeap, rtvHandles, backBufferIndex);
+	PutUpABarrier(swapChainResources, backBufferIndex);
+
+	SettingDsvHandle(dsvDescriptorHeap, rtvHandles.data(), backBufferIndex);
 
 	commandList_->ClearDepthStencilView(dsvHandle_, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
@@ -75,13 +76,13 @@ void ManagementCommand::KickCommand(IDXGISwapChain4* swapChain) {
 	assert(SUCCEEDED(hr));
 }
 
-void ManagementCommand::PutUpABarrier(ID3D12Resource* swapChainResources_[], unsigned int index) {
+void ManagementCommand::PutUpABarrier(SCR swapChainResources, unsigned int index) {
 	//今回のバリアはTransition
 	barrier_.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
 	//Noneにしておく
 	barrier_.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
 	//バリアを張る対象のリソース。現在のバックバッファに対して行う
-	barrier_.Transition.pResource = swapChainResources_[index];
+	barrier_.Transition.pResource = swapChainResources[index].Get();
 	//遷移前（現在）のResourceState
 	barrier_.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
 	//遷移後のResource

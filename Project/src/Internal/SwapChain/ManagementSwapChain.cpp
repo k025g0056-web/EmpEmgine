@@ -34,3 +34,41 @@ void ManagementSwapChain::Resize(UINT width, UINT height) {
 	swapChainDesc_.Width = width;
 	swapChainDesc_.Height = height;
 }
+
+void ManagementSwapChain::PullTheSwapChain() {
+	HRESULT hr = swapChain_->GetBuffer(0, IID_PPV_ARGS(&swapChainResources_[0]));
+	//上手く取得出来なければ起動できない
+	assert(SUCCEEDED(hr));
+	hr = swapChain_->GetBuffer(1, IID_PPV_ARGS(&swapChainResources_[1]));
+	assert(SUCCEEDED(hr));
+}
+
+void ManagementSwapChain::RecreateSwapChainBuffers(ID3D12Device* device, D3D12_RENDER_TARGET_VIEW_DESC rtvDesc, std::array<D3D12_CPU_DESCRIPTOR_HANDLE,2>rtvHandles) {
+
+	HRESULT hr = swapChain_->GetBuffer(
+		0, IID_PPV_ARGS(&swapChainResources_[0]));
+	assert(SUCCEEDED(hr));
+
+	hr = swapChain_->GetBuffer(
+		1, IID_PPV_ARGS(&swapChainResources_[1]));
+	assert(SUCCEEDED(hr));
+
+	device->CreateRenderTargetView(
+		swapChainResources_[0].Get(), &rtvDesc, rtvHandles[0]);
+
+	device->CreateRenderTargetView(
+		swapChainResources_[1].Get(), &rtvDesc, rtvHandles[1]);
+}
+
+ 
+void ManagementSwapChain::ReleaseSwapChainBuffers() {
+	if (swapChainResources_[0]) {
+		swapChainResources_[0].Reset();
+		swapChainResources_[0] = nullptr;
+	}
+
+	if (swapChainResources_[1]) {
+		swapChainResources_[1].Reset();
+		swapChainResources_[1] = nullptr;
+	}
+}
