@@ -41,7 +41,7 @@ void ManagementCommand::LoadCommand(IDXGISwapChain4* swapChain, const RTV& rtvHa
 
 	PutUpABarrier(swapChainResources, backBufferIndex);
 
-	SettingDsvHandle(dsvDescriptorHeap, rtvHandles.data(), backBufferIndex);
+	SettingDsvHandle(dsvDescriptorHeap, rtvHandles, backBufferIndex);
 
 	commandList_->ClearDepthStencilView(dsvHandle_, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
@@ -138,7 +138,7 @@ void ManagementCommand::CommandRelease() {
 	commandQueue_.Reset();
 }
 
-void ManagementCommand::SettingDsvHandle(ID3D12DescriptorHeap* dsvDescriptorHeap, const D3D12_CPU_DESCRIPTOR_HANDLE* &rtvHandle,UINT backBufferIndex) {
+void ManagementCommand::SettingDsvHandle(ID3D12DescriptorHeap* dsvDescriptorHeap, const RTV&rtvHandle,UINT backBufferIndex) {
 	dsvHandle_ = dsvDescriptorHeap->GetCPUDescriptorHandleForHeapStart();
 	commandList_->OMSetRenderTargets(1, &rtvHandle[backBufferIndex], false, &dsvHandle_);
 }

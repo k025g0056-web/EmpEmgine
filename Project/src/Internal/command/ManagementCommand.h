@@ -33,7 +33,7 @@ class ManagementCommand {
 	void GenerateFence(ID3D12Device* device);
 	void SendSignal();
 	void WaitingGPU();
-	void SettingDsvHandle(ID3D12DescriptorHeap* dsvDescriptorHeap, const D3D12_CPU_DESCRIPTOR_HANDLE*& rtvHandle, UINT backBufferIndex);
+	void SettingDsvHandle(ID3D12DescriptorHeap* dsvDescriptorHeap, const RTV& rtvHandle, UINT backBufferIndex);
 public:
 
 	void Initialize(ID3D12Device* device);
